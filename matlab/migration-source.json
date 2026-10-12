@@ -1,0 +1,496 @@
+{
+  "repository": "ze-gois/paper_con2phys",
+  "commit": "7d5a437b1b552b0c4c9bd3bb49b90edfab3e39f8",
+  "files": [
+    {
+      "source": "arsenal/METHODS.tsv",
+      "destination": "matlab/METHODS.tsv",
+      "sha256": "d368e36b93048ac359a60563c1c643bdb5ab9cf10321d40c631528a5d01511b5"
+    },
+    {
+      "source": "arsenal/README.md",
+      "destination": "matlab/README.md",
+      "sha256": "47baaf205aeb4e4c43531da5989e5ef68d2cea9f49b724ed3a7e6a0c5c9fc488"
+    },
+    {
+      "source": "arsenal/path/analytic_phase.m",
+      "destination": "matlab/path/analytic_phase.m",
+      "sha256": "3693b3f0a4ab3794946586ec6621ac79ef21bdc467a57554e4dc1d4745e9d77e"
+    },
+    {
+      "source": "arsenal/path/aperiodic_slope.m",
+      "destination": "matlab/path/aperiodic_slope.m",
+      "sha256": "50154ce4c00f02acebb39ffc88cb349d66e768715843413247a2d0fe18f1d1bb"
+    },
+    {
+      "source": "arsenal/path/assembly_expression.m",
+      "destination": "matlab/path/assembly_expression.m",
+      "sha256": "59e3935b9255d63b83f121543eb1a0e3ff8435c65acd8e462c2927a88bb45893"
+    },
+    {
+      "source": "arsenal/path/assembly_pca.m",
+      "destination": "matlab/path/assembly_pca.m",
+      "sha256": "6c20083bf53d9421a58431e095aceafb130b1fafcab2e50c074b8e9df3554a44"
+    },
+    {
+      "source": "arsenal/path/autocorrelogram.m",
+      "destination": "matlab/path/autocorrelogram.m",
+      "sha256": "420addd0f58c55972c16eea6a4b47d5ca586659fa91dc2c353427f54d1f46814"
+    },
+    {
+      "source": "arsenal/path/bandpass_lfp.m",
+      "destination": "matlab/path/bandpass_lfp.m",
+      "sha256": "6c6bcb0ea7f765d90217747b883f5f5e126273944b6e0b0033be4fb11ba8f31a"
+    },
+    {
+      "source": "arsenal/path/bipolar_reference_lfp.m",
+      "destination": "matlab/path/bipolar_reference_lfp.m",
+      "sha256": "02e908528d75a167ef5492b364b1701571a6791ddcf185710a7f341cd0193645"
+    },
+    {
+      "source": "arsenal/path/bootstrap_percentile.m",
+      "destination": "matlab/path/bootstrap_percentile.m",
+      "sha256": "8dd65c3e867d5029e4eaf8d3c05fa6f52aa79fa8cecd43d0094ee7c0f0b369ea"
+    },
+    {
+      "source": "arsenal/path/bosc_detect.m",
+      "destination": "matlab/path/bosc_detect.m",
+      "sha256": "60f5477734b28645b5ab6bad28c7e270ba4e0279b0cdcd3ca56b2b5f1f3841cd"
+    },
+    {
+      "source": "arsenal/path/circular_mean.m",
+      "destination": "matlab/path/circular_mean.m",
+      "sha256": "b4dafbf390e12f8d20b1fed3af3777dc1e5a568a0eb98e1edeb1b26a80031f39"
+    },
+    {
+      "source": "arsenal/path/circular_shift_surrogate.m",
+      "destination": "matlab/path/circular_shift_surrogate.m",
+      "sha256": "4a4d41fdf5a6485d03f20b796f0e271990824b7fa1b9ad67479c6f75f7106cf3"
+    },
+    {
+      "source": "arsenal/path/coherence_spectrum.m",
+      "destination": "matlab/path/coherence_spectrum.m",
+      "sha256": "56c1d9dd012715a8d31b6f264ef1e7fefd8c6e1fd5985507d3e1170c8a924d84"
+    },
+    {
+      "source": "arsenal/path/common_median_reference.m",
+      "destination": "matlab/path/common_median_reference.m",
+      "sha256": "371c562c926ea4ab0185e26d2f4c52e47bc81a247be1e1889875bea8b02c7692"
+    },
+    {
+      "source": "arsenal/path/communication_subspace_projection.m",
+      "destination": "matlab/path/communication_subspace_projection.m",
+      "sha256": "1666e9013d60a9d6c072aed1f85262df17d5841b946c8a4994b08bb3c1e214de"
+    },
+    {
+      "source": "arsenal/path/condition_marginalization.m",
+      "destination": "matlab/path/condition_marginalization.m",
+      "sha256": "c8505316302071e4604b54dc2eb2df7dcebb8511984d7559317dee8537097d82"
+    },
+    {
+      "source": "arsenal/path/coupling_filters.m",
+      "destination": "matlab/path/coupling_filters.m",
+      "sha256": "173a9bbefae5539e6413661db3fbc6218d6f2b7da4a9f05e89be05e5a984571a"
+    },
+    {
+      "source": "arsenal/path/crosscorrelogram.m",
+      "destination": "matlab/path/crosscorrelogram.m",
+      "sha256": "e74926424791d6f9218c17b88605e1587a47dc4253b708c751910e902dd55048"
+    },
+    {
+      "source": "arsenal/path/crossvalidated_ridge_decoder.m",
+      "destination": "matlab/path/crossvalidated_ridge_decoder.m",
+      "sha256": "25d0cb3c9f886bc699f156910e6d23d9e134fe89b86e55a9125401cb1a9e85ee"
+    },
+    {
+      "source": "arsenal/path/current_source_density.m",
+      "destination": "matlab/path/current_source_density.m",
+      "sha256": "8781d6e9644163acb21df79bcbd170b42cf25d802e89de03dd671b4d34390015"
+    },
+    {
+      "source": "arsenal/path/cycle_by_cycle.m",
+      "destination": "matlab/path/cycle_by_cycle.m",
+      "sha256": "cff0aaf1d09fe1d15f071e4f5ace1be71b4d4a3b89b8fec58c66893c61ec2c8d"
+    },
+    {
+      "source": "arsenal/path/eigenspectrum_powerlaw.m",
+      "destination": "matlab/path/eigenspectrum_powerlaw.m",
+      "sha256": "d8ef1e3ac473931f61c750a3d940cc067b3aec82eaf8d34dd7d293774c235f44"
+    },
+    {
+      "source": "arsenal/path/empirical_mode_decomposition.m",
+      "destination": "matlab/path/empirical_mode_decomposition.m",
+      "sha256": "3bc0ed5396356c8a5a0f6485ca46105f05044c621402488054f5b25e99be6cb9"
+    },
+    {
+      "source": "arsenal/path/ensemble_empirical_mode_decomposition.m",
+      "destination": "matlab/path/ensemble_empirical_mode_decomposition.m",
+      "sha256": "81417fbb2c66296ce0cc146300cef6cc08e044eba469b2bae91801f970dd6623"
+    },
+    {
+      "source": "arsenal/path/field_potential_forward.m",
+      "destination": "matlab/path/field_potential_forward.m",
+      "sha256": "114b11cb9cf3ddb08f9701990a3d49fab3ce9de3df592731f063986c8b2da88d"
+    },
+    {
+      "source": "arsenal/path/field_potential_inverse_tikhonov.m",
+      "destination": "matlab/path/field_potential_inverse_tikhonov.m",
+      "sha256": "30768e28c36271a651cf22a0b90d79050d2431b1ddf645f56a540783be90aa63"
+    },
+    {
+      "source": "arsenal/path/firing_rate.m",
+      "destination": "matlab/path/firing_rate.m",
+      "sha256": "4bcedd09ab722e46023ca34e295acab68063bdf5ed6617db56b202947c4a03ef"
+    },
+    {
+      "source": "arsenal/path/gaussian_process_smoothing.m",
+      "destination": "matlab/path/gaussian_process_smoothing.m",
+      "sha256": "5f1dff564be9b1fc04fafb80757d1e6409a3ce8109abe02777b82d0eb392ac2d"
+    },
+    {
+      "source": "arsenal/path/granger_causality.m",
+      "destination": "matlab/path/granger_causality.m",
+      "sha256": "e08251e259e001df43141aa1845fb262ef4bdde12caa80af7656bbfb15385ab6"
+    },
+    {
+      "source": "arsenal/path/interspike_intervals.m",
+      "destination": "matlab/path/interspike_intervals.m",
+      "sha256": "9c19a83066d430e5df99008ec641b01de9cb1c9fd1796c0599a1b832dad84953"
+    },
+    {
+      "source": "arsenal/path/irasa_decomposition.m",
+      "destination": "matlab/path/irasa_decomposition.m",
+      "sha256": "20a388325ee9f50f428633935ee293c7bc15aa9afd4f1924db3c10d426694844"
+    },
+    {
+      "source": "arsenal/path/jitter_spike_surrogate.m",
+      "destination": "matlab/path/jitter_spike_surrogate.m",
+      "sha256": "c41e4fb0cbc801125fa9c9bf20142c4157f94205b6c4a69e71ec5f58ddfbf272"
+    },
+    {
+      "source": "arsenal/path/jpca_dynamics.m",
+      "destination": "matlab/path/jpca_dynamics.m",
+      "sha256": "6c2a08385e3e9dd4affbe5bb540cf217d2e7d2a659ed82301a2d34cac1cefc8f"
+    },
+    {
+      "source": "arsenal/path/linear_discriminability.m",
+      "destination": "matlab/path/linear_discriminability.m",
+      "sha256": "7a23ab36919fe3fb070f5cd1d86523843b7dc7c000384083837636fad5ec164d"
+    },
+    {
+      "source": "arsenal/path/modulation_index.m",
+      "destination": "matlab/path/modulation_index.m",
+      "sha256": "867d8ea86ad4309f9074b6382218b8e2aa9e3be7722d28d90f64f0ad8dfe2dd3"
+    },
+    {
+      "source": "arsenal/path/morlet_wavelet.m",
+      "destination": "matlab/path/morlet_wavelet.m",
+      "sha256": "ed3bb8fc71e7109919759d8d2a2dfa7991d3447eaa06660be10dd811e5696f65"
+    },
+    {
+      "source": "arsenal/path/multitaper_coherence.m",
+      "destination": "matlab/path/multitaper_coherence.m",
+      "sha256": "0ab3761055543898b340b211567cf46320b46dc1c2264c8d82ea69ec5916c406"
+    },
+    {
+      "source": "arsenal/path/multitaper_psd.m",
+      "destination": "matlab/path/multitaper_psd.m",
+      "sha256": "cb56bb4f46960a4945f0c9784c2f508caf1dd8577670b107c2f5e93c4bbc3f25"
+    },
+    {
+      "source": "arsenal/path/mutual_information.m",
+      "destination": "matlab/path/mutual_information.m",
+      "sha256": "9b95dfc30d26075cc10118271d7ecb4a7a843ccc27f590c8d9624861b9ccd941"
+    },
+    {
+      "source": "arsenal/path/noise_correlation.m",
+      "destination": "matlab/path/noise_correlation.m",
+      "sha256": "ee5db9cb954b3881c0e94dcbf6221854d78069c397702443f37c2811f568d3c0"
+    },
+    {
+      "source": "arsenal/path/oscillation_episode.m",
+      "destination": "matlab/path/oscillation_episode.m",
+      "sha256": "006ecfb16388086fed7039d1505f52d9c96ad2a07c606f34e1b974ff6c1a28c0"
+    },
+    {
+      "source": "arsenal/path/pac_mean_vector_length.m",
+      "destination": "matlab/path/pac_mean_vector_length.m",
+      "sha256": "eff4138841171311f29124d761c9b986670cd4306179571217229cae098ba407"
+    },
+    {
+      "source": "arsenal/path/paired_signflip_test.m",
+      "destination": "matlab/path/paired_signflip_test.m",
+      "sha256": "637c18a8408ebcf7c2a97eb278e9b3f6f082aa14eacc9ba59ef790bc11abb64b"
+    },
+    {
+      "source": "arsenal/path/pairwise_phase_consistency.m",
+      "destination": "matlab/path/pairwise_phase_consistency.m",
+      "sha256": "928af6373057317b4096a745fa28319537d2c7d2e077c213d3decc4b12510e80"
+    },
+    {
+      "source": "arsenal/path/participation_ratio.m",
+      "destination": "matlab/path/participation_ratio.m",
+      "sha256": "4b5ed46dfd07a71a06de0e66bfd88203675e76a3bb4d2d7e971ad72bf45b302b"
+    },
+    {
+      "source": "arsenal/path/peri_event_histogram.m",
+      "destination": "matlab/path/peri_event_histogram.m",
+      "sha256": "694ac7732a2998c5bfe523ba263f00aef181493b0462bb553b154146ccac8f69"
+    },
+    {
+      "source": "arsenal/path/permutation_entropy.m",
+      "destination": "matlab/path/permutation_entropy.m",
+      "sha256": "48fbbaaf8fa02650ba0027c1fbeb15f29c959a0c557db869df0d8d142697fd26"
+    },
+    {
+      "source": "arsenal/path/phase_lag_index.m",
+      "destination": "matlab/path/phase_lag_index.m",
+      "sha256": "a3b10cfb50ef2c4c9e59dc8e25e96b40c9278f82f4fe828f61a2e882a70e7e02"
+    },
+    {
+      "source": "arsenal/path/phase_locking_value.m",
+      "destination": "matlab/path/phase_locking_value.m",
+      "sha256": "984ac2e9699319997a3c08bc2b675ec20f6e82ec689e3c53f3b54cf84d34b942"
+    },
+    {
+      "source": "arsenal/path/phase_randomized_surrogate.m",
+      "destination": "matlab/path/phase_randomized_surrogate.m",
+      "sha256": "87487fb321cdddb7875211729c2fda95b28c898849512d881eab18bfb704cbc7"
+    },
+    {
+      "source": "arsenal/path/phase_slope_index.m",
+      "destination": "matlab/path/phase_slope_index.m",
+      "sha256": "da5eb2374e90e476fd9404bd4e39e920fa17179e657b52e74f1e15d7a04c5ab3"
+    },
+    {
+      "source": "arsenal/path/poisson_spike_glm.m",
+      "destination": "matlab/path/poisson_spike_glm.m",
+      "sha256": "d1363263716038415ac6665733c32be5605bd62723505b7ad04a904aa3a1cf89"
+    },
+    {
+      "source": "arsenal/path/population_dimension_scaling.m",
+      "destination": "matlab/path/population_dimension_scaling.m",
+      "sha256": "43833337c4bcfbc7d20579d75e231407195825af1c70ac55102264b217b85231"
+    },
+    {
+      "source": "arsenal/path/population_pca.m",
+      "destination": "matlab/path/population_pca.m",
+      "sha256": "e621ce752284f29a6d0e6bbfe82efbb57f3b54b6ddab36c760adb3af23f35c06"
+    },
+    {
+      "source": "arsenal/path/rayleigh_test.m",
+      "destination": "matlab/path/rayleigh_test.m",
+      "sha256": "9043d6b42fae34798d27d1c00e8abb891491e3eee1b6cda9e517ae6a85cd47db"
+    },
+    {
+      "source": "arsenal/path/reduced_rank_regression.m",
+      "destination": "matlab/path/reduced_rank_regression.m",
+      "sha256": "a9c977d9b13d45e3f9445c4ac83385b4ed1f173f7b9ca1b0562a576903436a23"
+    },
+    {
+      "source": "arsenal/path/ripple_candidate_events.m",
+      "destination": "matlab/path/ripple_candidate_events.m",
+      "sha256": "3ee12506e80ea9fe19dbc3f97d8da4f5abf55178acbabfcdc877d80ad4e7c914"
+    },
+    {
+      "source": "arsenal/path/spectral_entropy.m",
+      "destination": "matlab/path/spectral_entropy.m",
+      "sha256": "d251bf6a4605e8347457d1e007033ad4c1662272caa506e8b03e4459a3e2b969"
+    },
+    {
+      "source": "arsenal/path/spectral_peak_candidates.m",
+      "destination": "matlab/path/spectral_peak_candidates.m",
+      "sha256": "cf8be79ffd8cd2d6e905a09862d4bafb6938eb7fe7ccac69260c173fe42f3589"
+    },
+    {
+      "source": "arsenal/path/spike_bin_counts.m",
+      "destination": "matlab/path/spike_bin_counts.m",
+      "sha256": "4839f6c4e63b3664a0f7190eb587552220ee31fcf27c99c696fc25ff3a1ae49f"
+    },
+    {
+      "source": "arsenal/path/spike_count_fano.m",
+      "destination": "matlab/path/spike_count_fano.m",
+      "sha256": "db1fae4aba331f158b7772c1f6c40bb99b94537a3fd2a6b2ad03760f776fe72a"
+    },
+    {
+      "source": "arsenal/path/spike_counts_edges.m",
+      "destination": "matlab/path/spike_counts_edges.m",
+      "sha256": "67098c8d07faf9f888fa3a1254267fd1b96902e6c88eea0103a999e93b900e55"
+    },
+    {
+      "source": "arsenal/path/spike_field_coherence.m",
+      "destination": "matlab/path/spike_field_coherence.m",
+      "sha256": "816e2b9c1e3e435ecd6b1634f78c9f1473046fd005a841b3429bdf27674c5fef"
+    },
+    {
+      "source": "arsenal/path/spike_field_ppc.m",
+      "destination": "matlab/path/spike_field_ppc.m",
+      "sha256": "3f4698f4ac485f448dd953c7e27bd12224470a61612a29ebdd390205f0a27d8a"
+    },
+    {
+      "source": "arsenal/path/spike_history_design.m",
+      "destination": "matlab/path/spike_history_design.m",
+      "sha256": "d7d5e11177f18bc4cdf6d885c46cbe62e5d9a21edf1682805bca99d7d2225821"
+    },
+    {
+      "source": "arsenal/path/spike_presence_ratio.m",
+      "destination": "matlab/path/spike_presence_ratio.m",
+      "sha256": "27209dc04eb46ef5914a26ded46a44804818198211e669b146fd6aec7b60c986"
+    },
+    {
+      "source": "arsenal/path/spike_refractory_violations.m",
+      "destination": "matlab/path/spike_refractory_violations.m",
+      "sha256": "bf1e2f8be88de4eb77021579a9116671e815fbda7b5246be93e850c5c863c5da"
+    },
+    {
+      "source": "arsenal/path/spike_sorting_agreement.m",
+      "destination": "matlab/path/spike_sorting_agreement.m",
+      "sha256": "e2b8e881ccf8e4939bf79766d6f247b3e10efff1e6cbddbd94814c1cf8d5c2b8"
+    },
+    {
+      "source": "arsenal/path/spike_threshold_detection.m",
+      "destination": "matlab/path/spike_threshold_detection.m",
+      "sha256": "97764dbce5cdf4856fb043914cd2d52cd69fb9ff2168d3013f21709dba7bc7e3"
+    },
+    {
+      "source": "arsenal/path/spike_triggered_average.m",
+      "destination": "matlab/path/spike_triggered_average.m",
+      "sha256": "5d080393d205ed9d1765e814c5931d2a14364a0da56cfdd7dd9e1ba31390f3be"
+    },
+    {
+      "source": "arsenal/path/spike_waveform_average.m",
+      "destination": "matlab/path/spike_waveform_average.m",
+      "sha256": "565955c3145ecc0059fd42139b78c896dd3376ddb3a21ea9ad0e278834cd9dc2"
+    },
+    {
+      "source": "arsenal/path/spike_waveform_extraction.m",
+      "destination": "matlab/path/spike_waveform_extraction.m",
+      "sha256": "8b7d4b2528dc609efd282945a722262c2282f85920da8f9f0e80254ad70edbba"
+    },
+    {
+      "source": "arsenal/path/spike_waveform_pca.m",
+      "destination": "matlab/path/spike_waveform_pca.m",
+      "sha256": "eafe8e16487c649792c61d9895f38ecded39a50fea6c47b71fbe1b94beffe2c0"
+    },
+    {
+      "source": "arsenal/path/spike_waveform_snr.m",
+      "destination": "matlab/path/spike_waveform_snr.m",
+      "sha256": "d1e3ee595724b7bfbf2a4f343c8acfe4b8947de58e2050ddddd7b51434a0529a"
+    },
+    {
+      "source": "arsenal/path/targeted_dimensionality_reduction.m",
+      "destination": "matlab/path/targeted_dimensionality_reduction.m",
+      "sha256": "24e969983056f652b8ea1f86b7af7b05f6402ce35a33512cb02d83459e452ccb"
+    },
+    {
+      "source": "arsenal/path/template_match_waveforms.m",
+      "destination": "matlab/path/template_match_waveforms.m",
+      "sha256": "90260a88db758fe97c7800cb9407417e7dc4c2387c429b1bcfd38e938708c339"
+    },
+    {
+      "source": "arsenal/path/tensor_cp_als.m",
+      "destination": "matlab/path/tensor_cp_als.m",
+      "sha256": "2b95f0fb214c6cee0c031665c1a1ef79b10d3dca83a67fc6396ae193c98fa62a"
+    },
+    {
+      "source": "arsenal/path/transfer_entropy.m",
+      "destination": "matlab/path/transfer_entropy.m",
+      "sha256": "11e65a50c37211e39def68c8e30bed1b66d6fa75617071ab1fe16e8756f8b917"
+    },
+    {
+      "source": "arsenal/path/victor_purpura_distance.m",
+      "destination": "matlab/path/victor_purpura_distance.m",
+      "sha256": "67bc6e0d74e829aabc0265c7ce9059e36d037fb19dd3c35ef3100c86dc20da9e"
+    },
+    {
+      "source": "arsenal/path/waveform_trough_to_peak.m",
+      "destination": "matlab/path/waveform_trough_to_peak.m",
+      "sha256": "884ca13a0f48b31d69d7ae6450286bd492e5173a8b72a640e11262716e1a991d"
+    },
+    {
+      "source": "arsenal/path/wavelet_coherence.m",
+      "destination": "matlab/path/wavelet_coherence.m",
+      "sha256": "6b31adab8243896790b340d022e776e823b0f255dac3133a25b2525fb8c40212"
+    },
+    {
+      "source": "arsenal/path/weighted_phase_lag_index.m",
+      "destination": "matlab/path/weighted_phase_lag_index.m",
+      "sha256": "519da6e0a449328346ac784304f2f2b0e450d9eef3c91809803ed5660e2011ef"
+    },
+    {
+      "source": "arsenal/path/welch_psd.m",
+      "destination": "matlab/path/welch_psd.m",
+      "sha256": "75aa087f48de7ab1bb7f9181066b608b9c232bf0909d7634a722b3f8af3633f0"
+    },
+    {
+      "source": "arsenal/references/bosc_circular_glm.bib",
+      "destination": "matlab/references/bosc_circular_glm.bib",
+      "sha256": "b6309e9e7349efc1d8f4860f71285096caa7700625f7b7768569ee9ab3cd29a8"
+    },
+    {
+      "source": "arsenal/references/consensus_verified.bib",
+      "destination": "matlab/references/consensus_verified.bib",
+      "sha256": "d8c674f563e71314b0e9a60e941a55ce36543b51f7c1532d27db1b67ad442904"
+    },
+    {
+      "source": "arsenal/references/large_scale_ephys.bib",
+      "destination": "matlab/references/large_scale_ephys.bib",
+      "sha256": "85edfbdd60ce5350cd7eb93a251ad4a734134bfa7dee18273320ec31388eb628"
+    },
+    {
+      "source": "arsenal/references/population_geometry.bib",
+      "destination": "matlab/references/population_geometry.bib",
+      "sha256": "7a638e4ed179d670e045ba927936b0febc1835366337c0c7908b5b231c5302f9"
+    },
+    {
+      "source": "arsenal/research/consensus_citation_index.tsv",
+      "destination": "matlab/research/consensus_citation_index.tsv",
+      "sha256": "27f35dcc340cb00449fc57d557a3122f9b1ca40cd0136581659e573278d1b832"
+    },
+    {
+      "source": "arsenal/research/consensus_methodological_review.md",
+      "destination": "matlab/research/consensus_methodological_review.md",
+      "sha256": "4a2895d2b2861829ee11e4c62df18158937dfe43ac17c16330c6d8bcc8ead23f"
+    },
+    {
+      "source": "arsenal/resources.tsv",
+      "destination": "matlab/resources.tsv",
+      "sha256": "1a7fd26ef536395a21b267454d7ed5479c6a48c66ef170e71c80dc6e891e8fdc"
+    },
+    {
+      "source": "arsenal/searches.tsv",
+      "destination": "matlab/searches.tsv",
+      "sha256": "0f17eb278c73d4b9451e785c55640e6eadce3b204f86321841f8ce01e310cf6a"
+    },
+    {
+      "source": "arsenal/tests/smoke_arsenal.m",
+      "destination": "matlab/tests/smoke_arsenal.m",
+      "sha256": "125b6396f709ed705b937f215611833ee6bf2472559e9080946686228efb8a28"
+    },
+    {
+      "source": "arsenal/tests/smoke_bosc_circ_glm.m",
+      "destination": "matlab/tests/smoke_bosc_circ_glm.m",
+      "sha256": "fa0a881fee5cdcdb860ea622d650a0640329c2fd2f357c2b280d39277a524495"
+    },
+    {
+      "source": "arsenal/tests/smoke_consensus_methods.m",
+      "destination": "matlab/tests/smoke_consensus_methods.m",
+      "sha256": "fd3f04ea3d49cfc2e955a2cff789350961f459a5e52d2c3a1352bd8338fd6ee8"
+    },
+    {
+      "source": "arsenal/tests/smoke_ephys_methods.m",
+      "destination": "matlab/tests/smoke_ephys_methods.m",
+      "sha256": "2db7b3e536ae8ec6507481d035aaba4e69895a85d44e15d552e6e1a559abb3c5"
+    },
+    {
+      "source": "arsenal/tests/smoke_population.m",
+      "destination": "matlab/tests/smoke_population.m",
+      "sha256": "0772728ac81909838c155cb007edcbf6e428991b52256fdc272213224c7b6415"
+    }
+  ],
+  "additional_bibliography": {
+    "source": "arsenal/references/all.bib",
+    "commit": "97e1375116ab9281457f0fc74cdf045a863b58b0",
+    "sha256": "137a18a85171e994f92dc7c8731238f65fa28678b655ec1b22d2cdb25906de8a"
+  }
+}

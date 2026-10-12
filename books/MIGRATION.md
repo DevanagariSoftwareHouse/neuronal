@@ -13,10 +13,12 @@ registries, Lean sources and lockfile, MATLAB/Lean examples, build tooling and C
 Generated `.lake/` files and build outputs are deliberately excluded. Lean module
 names remain `Con2physFormal` to preserve declaration identifiers and evidence.
 
-The MATLAB arsenal and questionnaire analysis stay in `paper_con2phys`. References
-to `arsenal/`, `path/` and questionnaire scripts in the manuscripts refer to that
-external companion; they are not neuronal Python/Rust APIs. The books build without
-a checkout of paper_con2phys. The separate MATLAB and Lean editorial roles remain.
+The reusable MATLAB arsenal now lives in `neuronal/matlab/`, including its
+methods catalogue, references, research notes and tests. Its original file hashes
+are recorded in `matlab/migration-source.json`. The latest editorial bibliography
+is retained too. Questionnaire-specific scripts remain in `paper_con2phys`, whose
+startup loads `neuronal/matlab/path` from a sibling checkout or `NEURONAL_ROOT`.
+The separate MATLAB and Lean editorial roles remain.
 
 Import neuronal first, then merge the source-repository retirement PR. Do not
 continue editing the old manuscript branch after that cutover.
@@ -33,3 +35,16 @@ English-source fingerprint drift for LOGIC-001 through LOGIC-005. The imported
 logic chapter was expanded after its recorded verification. Fingerprints and
 verification evidence are preserved, so CI continues to report the discrepancy
 until the correspondence is reviewed. This is not a successful full Lean gate.
+
+## MATLAB directory migration
+
+All 82 method function files are byte-for-byte identical to the source main
+revision recorded in `matlab/migration-source.json`. Only the MATLAB README
+and one smoke-test invocation comment were adapted among the original 97 files.
+A startup script and original license notice were added; the later editorial
+`all.bib` was also preserved. MATLAB is unavailable here, so the updated
+questionnaire integration test has not been executed.
+
+The import preserves empty final TSV fields and the original bibliography
+whitespace; these trigger `git diff --check` whitespace warnings in imported
+data files. Edited source and documentation pass whitespace checks.

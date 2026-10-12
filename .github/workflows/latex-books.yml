@@ -2,9 +2,9 @@ name: Build neuronal books
 on:
   push:
     branches: [main]
-    paths: ["books/**", "latex/**", "mathematics/**", "formal/lean/**", "examples/matlab/**", ".github/workflows/latex-books.yml"]
+    paths: ["books/**", "latex/**", "mathematics/**", "formal/lean/**", "examples/matlab/**", "matlab/**", ".github/workflows/latex-books.yml"]
   pull_request:
-    paths: ["books/**", "latex/**", "mathematics/**", "formal/lean/**", "examples/matlab/**", ".github/workflows/latex-books.yml"]
+    paths: ["books/**", "latex/**", "mathematics/**", "formal/lean/**", "examples/matlab/**", "matlab/**", ".github/workflows/latex-books.yml"]
 
 jobs:
   books:

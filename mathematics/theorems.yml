@@ -18,4 +18,4 @@ theorems:
     exposition: books/formal_foundations/chapters/05_signals/03_spectral_estimation.tex
     analysis: books/electrophysiology/chapters/08_foundational_nine.tex
     lean: null
-    matlab: https://github.com/ze-gois/paper_con2phys/blob/97e1375116ab9281457f0fc74cdf045a863b58b0/arsenal/path/welch_psd.m
+    matlab: matlab/path/welch_psd.m

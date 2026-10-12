@@ -82,3 +82,9 @@ Os [dois livros](books/README.md) pertencem a este projeto: eletrofisiologia
 computacional com exemplos MATLAB e fundamentos matemáticos com Lean 4/Mathlib.
 Fontes em `books/`, provas em `formal/lean/` e registros em `mathematics/`.
 Compile com `make -C books all`; veja a [proveniência da migração](books/MIGRATION.md).
+
+## Métodos MATLAB
+
+O antigo `paper_con2phys/arsenal` está em [matlab/](matlab/README.md),
+com funções em `matlab/path/`, catálogo, referências e testes.
+Execute `run('matlab/neuronal_startup.m')` na raiz deste repositório.

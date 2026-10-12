@@ -27,7 +27,7 @@ The legacy commands `make -C latex all`, `make -C latex theorems`, and `make -C 
 ## Shared registry and code paths
 
 - [mathematics/theorems.yml](../mathematics/theorems.yml) is a seed registry for stable theorem identifiers; it does not claim all catalogue entries are formally proved.
-- The MATLAB method libraries remain in [paper_con2phys](https://github.com/ze-gois/paper_con2phys/tree/97e1375116ab9281457f0fc74cdf045a863b58b0/arsenal/path). Manuscript references to `arsenal/`, `path/`, and questionnaire scripts describe that external companion repository.
+- The reusable MATLAB methods live in [matlab/path](../matlab/path); questionnaire-specific scripts remain in paper_con2phys.
 - [formal/lean](../formal/lean) contains the pinned Lean/Mathlib project and verified logic pilot; [formal_registry.json](../mathematics/formal_registry.json) and [audit_formal.py](../mathematics/audit_formal.py) track the correspondence and pending work.
 - [examples/matlab](../examples/matlab) is the designated place for future reproducible textbook demonstrations.
 - [examples/lean](../examples/lean) is reserved for future verified examples.

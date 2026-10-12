@@ -23,7 +23,7 @@ The separately maintained theorem catalogue at `../../main.tex` covers more adva
 
 - The proofs assume the indicated mathematical object classes. They do not establish stationarity, physiological connectivity, identifiability, or calibration of experimental measurements.
 - Sampling and DFT results distinguish *finite sequences* from *continuous signals*.
-- `arsenal/path/` files are exploratory functions with individual implementation status documented in `arsenal/METHODS.tsv`.
+- `matlab/path/` files are exploratory functions with individual implementation status documented in `matlab/METHODS.tsv`.
 
 ## Build
 
