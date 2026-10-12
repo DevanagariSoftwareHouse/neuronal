@@ -1,0 +1,177 @@
+\chapter{Counting processes, spike trains, and information}
+A spike train is a set of event times or, more generally, a random
+locally finite counting measure. Write $N((a,b])$ for the number of
+events in an interval. A conditional intensity $\lambda(t\mid
+\mathcal H_t)$ describes the conditional instantaneous event rate
+given the preceding history $\mathcal H_t$, if such a predictable
+intensity exists.
+
+\entry{71}{Kolmogorov extension theorem}
+{A consistent collection of finite-dimensional probability distributions
+defines a stochastic process on a suitable product measurable space.}
+{Build process models from their joint laws across finite time sets.}
+\entry{72}{Campbell's theorem}
+{For a point process with mean measure $\Lambda$ and nonnegative
+measurable $h$, $\E[\sum_{t_i} h(t_i)]=\int h\,d\Lambda$;
+signed integrable variants require absolute integrability.}
+{Compute expected spike-triggered sums and event statistics.}
+\entry{73}{Poisson superposition and thinning}
+{Independent Poisson processes superpose to a Poisson process with
+the sum intensity; independent thinning with valid retention
+probability yields the corresponding Poisson intensity.}
+{Generate spike-train simulation benchmarks and control models.}
+\entry{74}{Doob--Meyer decomposition}
+{A suitable integrable counting submartingale admits a
+predictable compensator $A(t)$, and $N(t)-A(t)$ is a martingale;
+when absolutely continuous, $A(t)=\int_0^t\lambda(s)\,ds$.}
+{Connect conditional intensity estimation and martingale residuals.}
+\entry{75}{Time-rescaling theorem}
+{Under a correctly specified continuous conditional intensity and
+regularity of event times, transformed inter-event compensator
+increments are iid $\operatorname{Exp}(1)$ (with standard caveats
+for boundaries and conditioning).}
+{Construct goodness-of-fit diagnostics for spike-train GLMs.}
+\entry{76}{Conditional point-process likelihood}
+{For a simple point process with conditional intensity $\lambda$
+on a finite observation interval, under standard domination
+assumptions its log-likelihood, up to reference terms, is
+$\sum_i\log\lambda(t_i)-\int\lambda(t)\,dt$.}
+{Derive maximum-likelihood fitting for spiking models.}
+\entry{77}{Palm theory and Slivnyak's theorem}
+{For homogeneous Poisson processes, a reduced Palm process at a
+specified event has the law of the original process; more
+general Palm laws need not have this property.}
+{Understand event-centered descriptions and null spike correlations.}
+\entry{78}{Gibbs' inequality}
+{For probability measures $P,Q$ with $P\ll Q$,
+$\KL(P\|Q)\geq0$, with equality if $P=Q$ almost everywhere.}
+{Understand KL-based divergence estimators and likelihood objectives.}
+\entry{79}{Data-processing inequality}
+{For Markov chain $X\to Y\to Z$,
+$I(X;Z)\leq I(X;Y)$ whenever mutual information is defined.}
+{Characterize information lost through feature extraction or decoding.}
+\entry{80}{Fano's inequality}
+{For a discrete class variable with $K\geq2$ classes,
+entropy and classification error obey
+$H(X\mid\widehat X)\leq h_2(P_e)+P_e\log(K-1)$,
+with a consistent logarithm base.}
+{Relate decoder error to information; do not confuse with the
+spike-count Fano \emph{factor}.}
+
+\begin{example}[Count likelihood and binning]
+With constant intensity $\lambda$ on interval length $\Delta$,
+$N_\Delta\sim\Poisson(\lambda\Delta)$.
+Then
+$\log p(n\mid\lambda)=n\log(\lambda\Delta)
+-\lambda\Delta-\log(n!)$.
+A binned GLM approximates continuous-time spiking only relative
+to its chosen bin width and assumptions about multiple spikes per bin.
+\end{example}
+\begin{caution}
+A time-rescaling test diagnoses discrepancies from the hypothesized
+conditional intensity; a passed test is not proof of a unique
+physiological mechanism. Model misspecification can also arise from
+latent common drive or refractory dynamics.
+\end{caution}
+% --- expanded edition (October 2026) ---
+\section{Proofs of selected point-process results}
+\begin{proof}[Proof of Result 72 for simple functions and Poisson processes]
+Let $N$ be a Poisson process with mean measure $\Lambda$ and
+$h=\sum_jc_j\ind_{B_j}$ with disjoint bounded sets $B_j$. Then
+$\sum_ih(t_i)=\sum_jc_jN(B_j)$ and
+$\E\sum_ih(t_i)=\sum_jc_j\Lambda(B_j)=\int h\,d\Lambda$. A nonnegative
+measurable $h$ is an increasing limit of such simple functions, and
+monotone convergence (Result 22) extends the identity. The same proof
+works for any point process with mean measure $\Lambda$, since only
+$\E N(B)=\Lambda(B)$ was used.
+\end{proof}
+For Poisson processes the \emph{variance} is equally explicit:
+$\Var\sum_ih(t_i)=\int h^2\,d\Lambda$. Applied to a spike-triggered
+sum $y(t)=\sum_ik(t-t_i)$ (shot noise), Campbell's theorem gives
+$\E y=\lambda\int k$ and $\Var y=\lambda\int k^2$ for rate $\lambda$:
+the mean grows with rate, and the coefficient of variation falls as
+$\lambda^{-1/2}$. This is Campbell's original application to
+vacuum-tube noise, and the basis of shot-noise LFP models.
+
+\begin{proof}[Proof of Result 73 (superposition)]
+If $N_1,N_2$ are independent Poisson processes with intensities
+$\lambda_1,\lambda_2$, then for disjoint sets the counts of
+$N=N_1+N_2$ are sums of independent Poisson variables, hence Poisson
+with means $\Lambda_1(B)+\Lambda_2(B)$, and independent across disjoint
+sets because each summand is. These are the defining properties of a
+Poisson process with intensity $\lambda_1+\lambda_2$.
+\end{proof}
+Superposition explains why multi-unit activity summed over many weakly
+dependent neurons is often closer to Poisson than any single unit; the
+Palm--Khintchine theorem makes this precise for superpositions of many
+sparse independent renewal processes.
+
+\section{Deriving the point-process likelihood}
+Partition $[0,T]$ into bins of width $\Delta$ and approximate the
+conditional probability of a spike in bin $k$ by
+$\lambda_k\Delta$, where $\lambda_k=\lambda(t_k\mid\mathcal H_{t_k})$.
+By the chain rule of conditional probability, the probability of the
+observed binary sequence $(y_k)$ is
+\[
+\prod_k(\lambda_k\Delta)^{y_k}(1-\lambda_k\Delta)^{1-y_k}.
+\]
+Taking logarithms and using $\log(1-\lambda_k\Delta)=-\lambda_k\Delta+O(\Delta^2)$,
+\[
+\sum_ky_k\log\lambda_k+n\log\Delta-\sum_k\lambda_k\Delta+O(\Delta).
+\]
+The term $n\log\Delta$ does not depend on the model. As $\Delta\to0$,
+$\sum_ky_k\log\lambda_k\to\sum_i\log\lambda(t_i)$ and
+$\sum_k\lambda_k\Delta\to\int_0^T\lambda(t)\,dt$, which is Result 76.
+The derivation exposes the approximation made by a binned GLM: it is
+accurate when $\lambda_k\Delta\ll1$ and when at most one spike falls in
+a bin. At 1\,ms bins and 100\,spikes/s, $\lambda\Delta=0.1$ and the
+neglected terms are no longer negligible.
+
+\section{Information inequalities}
+\begin{proof}[Proof of Result 78 (Gibbs), discrete case]
+With $p_i>0$ only where $q_i>0$, Jensen's inequality for the concave
+logarithm gives
+$-\KL(p\|q)=\sum_ip_i\log(q_i/p_i)\le\log\sum_ip_i(q_i/p_i)\le\log1=0$.
+Equality in Jensen requires $q_i/p_i$ constant on the support of $p$,
+which together with normalization gives $p=q$.
+\end{proof}
+\begin{proof}[Proof of Result 79 (data processing)]
+By the chain rule of mutual information,
+$I(X;Y,Z)=I(X;Z)+I(X;Y\mid Z)=I(X;Y)+I(X;Z\mid Y)$. For a Markov chain
+$X\to Y\to Z$, $X$ and $Z$ are conditionally independent given $Y$, so
+$I(X;Z\mid Y)=0$. Hence $I(X;Z)=I(X;Y)-I(X;Y\mid Z)\le I(X;Y)$.
+\end{proof}
+Every stage of an analysis pipeline (sorting, binning, smoothing,
+dimensionality reduction) is a processing step $Y\to Z$ that cannot
+increase the information about the stimulus $X$. A decoder applied to
+binned counts cannot outperform an optimal decoder applied to the raw
+spike times. Information ``gained'' by a feature is information that a
+weaker decoder could not otherwise use, not information created.
+
+\begin{example}[Using Fano's inequality]
+A decoder classifies 8 movement directions from population activity
+with error rate $P_e=0.25$. Result 80 gives
+$H(X\mid\hat X)\le h_2(0.25)+0.25\log_2 7\approx0.811+0.702=1.51$\,bits.
+With uniform directions $H(X)=3$\,bits, so
+$I(X;\hat X)\ge3-1.51=1.49$\,bits, and by data processing the population
+activity carries at least that much information about direction.
+Decoding accuracy thus gives a \emph{lower} bound on information, not
+an estimate of it.
+\end{example}
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Prove the Poisson case of Campbell's variance formula
+$\Var\sum_ih(t_i)=\int h^2\,d\Lambda$ for simple functions.
+\end{exercise}
+\begin{exercise}
+Compute the mean and variance of shot noise with exponential kernel
+$k(t)=Ae^{-t/\tau}\ind_{t\ge0}$ driven by a rate-$\lambda$ Poisson process.
+\end{exercise}
+\begin{exercise}
+Show that the binned Bernoulli log-likelihood and the binned Poisson
+log-likelihood differ by $O(\sum_k\lambda_k^2\Delta^2)$.
+\end{exercise}
+\begin{exercise}
+Prove that $I(X;Y)\ge0$ from Gibbs' inequality.
+\end{exercise}

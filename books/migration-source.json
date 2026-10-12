@@ -1,0 +1,523 @@
+{
+  "repository": "https://github.com/ze-gois/paper_con2phys",
+  "commit": "97e1375116ab9281457f0fc74cdf045a863b58b0",
+  "branch": "feat/lean-formal-inventory-pilot",
+  "files": [
+    {
+      "path": "books/EDITORIAL_AUDIT_2026_10_12.md",
+      "sha256": "06833cc4cfa4098a6bf0ba6dfc960b4cc7590587ed0f916af32a17dbab9497d3"
+    },
+    {
+      "path": "books/EDITORIAL_CONTRACT.md",
+      "sha256": "70c01f63d133149910c51815aa86e24a3114340ec239307b3f0fdc9bbb754304"
+    },
+    {
+      "path": "books/Makefile",
+      "sha256": "2bb11edef67879986455ffa5c8013ea2ab9ede3c9ba83c80f8731f9b6881e197"
+    },
+    {
+      "path": "books/README.md",
+      "sha256": "022b53d71d3034aad4947eb13266a9e82802fefe75dd4444240e875470787ce4"
+    },
+    {
+      "path": "books/electrophysiology/.gitignore",
+      "sha256": "63ad99f20fd84789ede7f8ffa762a12a6a4deb0bbb72bc03f8d402c77130a20e"
+    },
+    {
+      "path": "books/electrophysiology/Makefile",
+      "sha256": "20d1c5c70f7304f0cdd2195e8340258c86bff263a5194c22df72459e89523210"
+    },
+    {
+      "path": "books/electrophysiology/README.md",
+      "sha256": "4f3ddcaab7f480b31cbd6004191476725a8191d522c83c461336ecd1934dbd50"
+    },
+    {
+      "path": "books/electrophysiology/REVISION_2026_10_GAP_ANALYSIS.md",
+      "sha256": "4e9a7228f5f0ece267af9a0b9159ada7063789daa0152c85bcf049c5b00582ff"
+    },
+    {
+      "path": "books/electrophysiology/chapters/00_guide.tex",
+      "sha256": "78806d362801ec3e86eda81015a0c3e7609f756da26ce7690d4ad53ba46ebef2"
+    },
+    {
+      "path": "books/electrophysiology/chapters/01_logic_sets.tex",
+      "sha256": "5fc814fd471cc746624ae0ec59fcd4b7b64e3cb0ef081942fd339cb74226951c"
+    },
+    {
+      "path": "books/electrophysiology/chapters/02_analysis.tex",
+      "sha256": "337c2b29984ef3dac4855d55990c9865a3a2ad371797bc3eb667487135240bd3"
+    },
+    {
+      "path": "books/electrophysiology/chapters/02b_measure_probability.tex",
+      "sha256": "674f054f553e11941c205eee617c149859fc72f72ea164bc9a4e817c0f12cf42"
+    },
+    {
+      "path": "books/electrophysiology/chapters/03_linear_algebra.tex",
+      "sha256": "33b1515e7225a2cb6bf50a4d3befb7a216556b312b5953cc2cd09be64dac472b"
+    },
+    {
+      "path": "books/electrophysiology/chapters/04_probability.tex",
+      "sha256": "81b7b304ab0c73dd4971b93e7a6ccf1a60606c4b7b73c026a4544371ec736e32"
+    },
+    {
+      "path": "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+      "sha256": "4cf1f701942a3d513403137744f452808f1e2c70a3244b2074f85582f7210262"
+    },
+    {
+      "path": "books/electrophysiology/chapters/05_harmonic_analysis.tex",
+      "sha256": "05bba726699ea126e216998870f21740df390ba98ed23b64a95947ac63661d9b"
+    },
+    {
+      "path": "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+      "sha256": "cec49d962b4b6b942e6b9f92d1e345c8fd1eea8fc8755f208972b10b0accdcc6"
+    },
+    {
+      "path": "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+      "sha256": "c0fa183a95f8d966bbb0e5a1f7f22e60a158482533ff7a09389927018d991dea"
+    },
+    {
+      "path": "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+      "sha256": "2e8ceffa2d7ef236b1fa9c8b893b143a640913107836b78f1ffd079a549bb06e"
+    },
+    {
+      "path": "books/electrophysiology/chapters/06_point_processes.tex",
+      "sha256": "e7333221f1bc6565c9926212fce282bd978433e7a1a16817cea71920463d7ebd"
+    },
+    {
+      "path": "books/electrophysiology/chapters/06a_glm_optimization.tex",
+      "sha256": "f364789f9d6775a1da466681d7067e49651ed0e161ec2bc37ed5d92c04ac91e1"
+    },
+    {
+      "path": "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex",
+      "sha256": "6384b0f785298338741dadac32122ae4ffef0376c5685fe62e7b03ee6a81bffc"
+    },
+    {
+      "path": "books/electrophysiology/chapters/07_dynamics.tex",
+      "sha256": "9f43c4f2bf42ffd5b173f1eb7022ebe5892a74c7b278b6d043598ef8e8a3115b"
+    },
+    {
+      "path": "books/electrophysiology/chapters/07a_population_geometry.tex",
+      "sha256": "b4940c963f102fb1c0ec43875f5b80e6eb3a14c734d70d98a67b94973c38e33f"
+    },
+    {
+      "path": "books/electrophysiology/chapters/07b_dependence_causality.tex",
+      "sha256": "1a54b547d55e6201c0381bc232fd688ddbda7e94a53c3ed106ed5cf8488c881d"
+    },
+    {
+      "path": "books/electrophysiology/chapters/07c_dynamics_oscillators.tex",
+      "sha256": "a2ebc6c22deec84862c8150a43c8e7d946b3de95cb25b82a736b953dc4916baf"
+    },
+    {
+      "path": "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+      "sha256": "6f9d4996ba10b5a9a8cf65509802706f838f224378420d72f9b2222b97ee1541"
+    },
+    {
+      "path": "books/electrophysiology/chapters/08_foundational_nine.tex",
+      "sha256": "b18e6366c38d010fda2f41e3a150fe9e65cb9383a593e57698c00de38befb456"
+    },
+    {
+      "path": "books/electrophysiology/chapters/09_proofs.tex",
+      "sha256": "d7d2bb718a451808d05b33f22ae1b282db7b134f46f1b532fe1f121f63af4edb"
+    },
+    {
+      "path": "books/electrophysiology/chapters/10_arsenal_crosswalk.tex",
+      "sha256": "d6f228ce9b386ceb27ba9bc393eb0e839799a917e8ce4334ed6cb78c0f623eca"
+    },
+    {
+      "path": "books/electrophysiology/chapters/11_exercises.tex",
+      "sha256": "784e8fff7d92252a8f2fae274411beb134666bfe37e14569aed72c0024590a1f"
+    },
+    {
+      "path": "books/electrophysiology/code/README.md",
+      "sha256": "95a7f12db954a55c3559aa58a158b2409b3b1d5840aa4fff8a23fd0bfd71b059"
+    },
+    {
+      "path": "books/electrophysiology/figures/generated/.gitignore",
+      "sha256": "240a3e0d37d2e86b614063f5347eb02d4f99ca6c254de6b82871ff8d95532a7d"
+    },
+    {
+      "path": "books/electrophysiology/main.tex",
+      "sha256": "dace4e8994f64cf66eb21a8e6bc49e1b80340bc5d49754fb43666101e90b0265"
+    },
+    {
+      "path": "books/electrophysiology/preamble/notation.tex",
+      "sha256": "1684cead8394dfa450371c881b44b1e31985d9b00e42bec1d7ab2aa675baa1aa"
+    },
+    {
+      "path": "books/electrophysiology/preamble/packages.tex",
+      "sha256": "d1b1316b1dcca3c97fcf47e2a322d89b16dfcc3a14da3c46214ed6bee195dc1e"
+    },
+    {
+      "path": "books/electrophysiology/refs/references.bib",
+      "sha256": "addba899259d313f6d620dc093f37359105e1a49ba714f7a6bfbe3c23ff0bf16"
+    },
+    {
+      "path": "books/formal_foundations/.gitignore",
+      "sha256": "c6135dfe024dc65f8f83b4ac010770847085671d3146d2a8373df81d2d0bb965"
+    },
+    {
+      "path": "books/formal_foundations/INTEGRATION.md",
+      "sha256": "fcdf79a2fe52892112b18c1fc1755d70a538a9429b0ad6332b37adfeef2a415f"
+    },
+    {
+      "path": "books/formal_foundations/Makefile",
+      "sha256": "e7177ec55bac2df77480f1d4738b13f6375f95d1d6576f9cad0113991fc30a6b"
+    },
+    {
+      "path": "books/formal_foundations/README.md",
+      "sha256": "6cf5ae1f128bc823fc26dc9d7c0ce35b94be1a84720c7d7ea7a4851327426904"
+    },
+    {
+      "path": "books/formal_foundations/appendices/arsenal_map_new.tex",
+      "sha256": "61f135964b36900d707d0368176caae4ebe7b6161e51857b2f64256ba1c5b212"
+    },
+    {
+      "path": "books/formal_foundations/appendices/bibliography.tex",
+      "sha256": "90881f078751fa77db626ed3a80a56ce6904ea5f181f438d551a52be7c205028"
+    },
+    {
+      "path": "books/formal_foundations/appendices/exercises_new.tex",
+      "sha256": "be840cc95ab4eaa679c907939c120a44bdb5c4852c48fbf62283b054ac1b938f"
+    },
+    {
+      "path": "books/formal_foundations/appendices/notation_new.tex",
+      "sha256": "7e810fce330feeb4d6a5d80a482789ed54d5b22e08fe74c346c7a706c6279c64"
+    },
+    {
+      "path": "books/formal_foundations/appendices/reader_guide.tex",
+      "sha256": "3cbc4a606de50661105445495b968ade1e5a193cd438e6e6f5e9ff2592f33a56"
+    },
+    {
+      "path": "books/formal_foundations/bridges/01_language_relations.tex",
+      "sha256": "5299b87bbadc84e0210d6d3b9e6d9b68ba9bf19287dceafbc746b8df0cc6d8b3"
+    },
+    {
+      "path": "books/formal_foundations/bridges/02_numbers.tex",
+      "sha256": "1a6b505777608c9f950be9c6bc75df6c9a34879eef25718b2271980d4ab81dfa"
+    },
+    {
+      "path": "books/formal_foundations/bridges/03_analysis.tex",
+      "sha256": "2633a7dd68032146f7df8192a6da943d2ddb856a9371068e1558f7a2f1c2ff02"
+    },
+    {
+      "path": "books/formal_foundations/bridges/04_linear_algebra.tex",
+      "sha256": "c4ebaecfdb4baac3f8876dd50c3b665aff74c2c67f6e79ef5ebf8a9f0456ba23"
+    },
+    {
+      "path": "books/formal_foundations/bridges/05_probability.tex",
+      "sha256": "533975662026eaa58c0998ac2ed7afdda95c0a4acc358ed1b4acb741ceb7f262"
+    },
+    {
+      "path": "books/formal_foundations/bridges/06_discrete_signals.tex",
+      "sha256": "976ab30050c14837d4ed497910a30bfa3d968d0db844738dda7d8da5c5361aec"
+    },
+    {
+      "path": "books/formal_foundations/bridges/README.md",
+      "sha256": "b4c40ac3fd3883b68fb58c168864b4c051ecffb60d8638b8c9460ea3c6557780"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/01_ordinary_language.tex",
+      "sha256": "23974eacd6755d0bc9ba8c4623b290d95675fee0e9b8fcd7989d5c76b1500145"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/02_logic.tex",
+      "sha256": "58db191b18497b2604b90bd5e6dd7245957aad8e8d334705855fff6bfa602ee0"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/03_proof.tex",
+      "sha256": "3ec2d741a50a397d50c1ad27ddecbf722959fd6d0d8176f971fd0fbda534a3c1"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/04_sets.tex",
+      "sha256": "419faffabbd7e71b9faa46e34c833d7cdd5db5d503ec373a36d8a85f0711af37"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/05_relations.tex",
+      "sha256": "93d738c5b374aaa116c2f7c9cefd204f8c84e0905d9a7c602e77a21ac4f4e83a"
+    },
+    {
+      "path": "books/formal_foundations/chapters/00_language/06_functions.tex",
+      "sha256": "f19d46588d460fa48ebf2cc91d77b6374a4436c7aa65a15487e3e7082405dc11"
+    },
+    {
+      "path": "books/formal_foundations/chapters/01_numbers/01_naturals.tex",
+      "sha256": "53dfc195f597d3af2960ee1e23291772a6c76e78bc1a32177c674e4640ce7810"
+    },
+    {
+      "path": "books/formal_foundations/chapters/01_numbers/02_integers.tex",
+      "sha256": "e4c2d3f9c6c737a3e0173be2f5996ee7c98743b437cb3e83498a3dae8ba998a0"
+    },
+    {
+      "path": "books/formal_foundations/chapters/01_numbers/03_rationals.tex",
+      "sha256": "35170658f1a0bc9e83566f6fd0357790e1317ce6fdc35b829e74a20c4a66c34b"
+    },
+    {
+      "path": "books/formal_foundations/chapters/01_numbers/04_reals.tex",
+      "sha256": "275bfc13dd2b723be8c569c5e3cd3a5e3a9a2fcaae130f63a868c2c09395bee8"
+    },
+    {
+      "path": "books/formal_foundations/chapters/01_numbers/05_complex.tex",
+      "sha256": "8a9a17111565134daf60757552fd504c8d3352d9099954a767eac1cb8cbcdf60"
+    },
+    {
+      "path": "books/formal_foundations/chapters/02_analysis/01_sequences.tex",
+      "sha256": "1979d0bee953046a9c7df45949123155d758f7160f86d5d6c7038a78804ea736"
+    },
+    {
+      "path": "books/formal_foundations/chapters/02_analysis/02_calculus.tex",
+      "sha256": "46eb8364c027cf76ff3e6fab70a8ef54f8b5726ae3aeeebba0077db6c4c179be"
+    },
+    {
+      "path": "books/formal_foundations/chapters/02_analysis/03_multivariable.tex",
+      "sha256": "cc61f1ee54dd00314f86ac31f756431e81920edf233795480fb696dfc666f0f8"
+    },
+    {
+      "path": "books/formal_foundations/chapters/02_analysis/04_integration.tex",
+      "sha256": "ef33938b1932f8611a9cfed93d9aa2d9ebf38bdabfa83dadba3cbffb21a13aa4"
+    },
+    {
+      "path": "books/formal_foundations/chapters/03_linear/01_vectors_matrices.tex",
+      "sha256": "746001aa82e056e33249e4ff0de46662ebd08237bc2b2ce15458fd03361b8fa1"
+    },
+    {
+      "path": "books/formal_foundations/chapters/03_linear/02_spectral.tex",
+      "sha256": "bc05db49bff2a680740d2ea4944395a93df5829ffeccfbef49049884e708b08b"
+    },
+    {
+      "path": "books/formal_foundations/chapters/03_linear/03_tensors_inverse.tex",
+      "sha256": "b11198c76920913076e393d69316ca3b6025edf2b4b11fd82b91b94c45e297d9"
+    },
+    {
+      "path": "books/formal_foundations/chapters/04_probability/01_probability.tex",
+      "sha256": "1d9ac43dbc87e7c182c06d6f78daf7f006bd3adeb8929a56bfec923e5ab949d7"
+    },
+    {
+      "path": "books/formal_foundations/chapters/04_probability/02_random_variables.tex",
+      "sha256": "443e0fb98a5f7035c329e0683f865c8329e9133a32d3558c04d4160d8716bdf7"
+    },
+    {
+      "path": "books/formal_foundations/chapters/04_probability/03_inference_stochastic.tex",
+      "sha256": "4be66ee1ced69cfc9d831a12bead5d8cdca28fb39adecb968abf6951bd439f8a"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/01_sampling.tex",
+      "sha256": "852863d9c0c15ce4e57835e7f97d4b18d72283ced53dc0196b686f290caadf96"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/02_fourier_filters.tex",
+      "sha256": "bed3cd815d2f8ff441be3fe6eec822987484d8ece5bcd795f13038fc673df7ac"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/03_spectral_estimation.tex",
+      "sha256": "6cd300c67f4f924e09db1992e87a24346250e7d14f8c35edfc3f726fd1d9e4ac"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/04_hilbert_circular_pac.tex",
+      "sha256": "2a1d3f29319a62fb186e8dd19c7f34a14a42daa829a70103ef70fb1c21883f07"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/05_connectivity.tex",
+      "sha256": "8cda13b7050ca6ac943e42439b1393af3c4a06edf13e9a78379e444b22f99b4b"
+    },
+    {
+      "path": "books/formal_foundations/chapters/05_signals/06_biophysics.tex",
+      "sha256": "d7ce8c8f42e6ba2b60527ce011ec6cb778075165ca4c108bd2bc4591c354e20e"
+    },
+    {
+      "path": "books/formal_foundations/chapters/06_spikes/01_point_process.tex",
+      "sha256": "1fc8e73c2986aa2f9ee6a0f2fb206350236f85e9250a68eeecaae66c6411d9d1"
+    },
+    {
+      "path": "books/formal_foundations/chapters/06_spikes/02_glm_jitter.tex",
+      "sha256": "90f089e2d7b4cef6e3010501b1c36d160fbb6dfaba1c04b6803b7d80e44f9c7a"
+    },
+    {
+      "path": "books/formal_foundations/chapters/07_population/01_population.tex",
+      "sha256": "98c34db83b65b467e834957ea03895e2076a3a501e60301ac68bda320b97a1be"
+    },
+    {
+      "path": "books/formal_foundations/chapters/07_population/02_dynamics_manifolds.tex",
+      "sha256": "44aa859e3b696db9ce28358c9695cbd65dc457ab78333782fb70c74b72a6f33f"
+    },
+    {
+      "path": "books/formal_foundations/chapters/08_inference/01_statistics.tex",
+      "sha256": "12035d6b5514dc26ee2a7d6ba7645ed45d85da74d1651eec25635770b6526ce1"
+    },
+    {
+      "path": "books/formal_foundations/chapters/08_inference/02_numerical.tex",
+      "sha256": "728657db5417f20693b7b7d12a0f6df55348285ed3e4b2c274df53d0d75f837e"
+    },
+    {
+      "path": "books/formal_foundations/chapters/09_projects/01_roadmap.tex",
+      "sha256": "27ccafe8d754bde227ed704216952b790b4a65edd862bba4639e0eba37228e7c"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_03_side_by_side.tex",
+      "sha256": "5e341f3c87b80c45202738a56053794bc27486af614c751a6e7ae7199701b5a0"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_04_side_by_side.tex",
+      "sha256": "81551f86d0dd749291f374cf8d7aa4ce9efba0578ec35757398f2ac9aa78568a"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_05_side_by_side.tex",
+      "sha256": "01ff4aba72d2ed5b1f59f8761008db3dd5cc39b62f71442b9cb53681b1524325"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_06_side_by_side.tex",
+      "sha256": "a4b0f2fc2d2210070569cdbff0545c8f3787f680014cb286cb629158b4ef0c42"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_07_side_by_side.tex",
+      "sha256": "ed96ef2118267d0e99436efa383554ce0270ee30315d2ea04034d4735cb37505"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_08_side_by_side.tex",
+      "sha256": "04352fbbf302353e868b01540b7a30221b4b788dc7a60503387847c17efa8a8d"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_09_side_by_side.tex",
+      "sha256": "9f9cfe9d935a226268b43c8123b8a5c7c2abc88c8f66c108dee9751cbf620838"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridge_10_side_by_side.tex",
+      "sha256": "3a82885e75ac9ab2e3241ab16a661ffb6117c29b9af9017f982327815966e6ce"
+    },
+    {
+      "path": "books/formal_foundations/formal/bridges_01_02_side_by_side.tex",
+      "sha256": "b6c35c60f883b28700325bfdbbe529ebc8ed6fb6b8ab853a6228b38f22134a10"
+    },
+    {
+      "path": "books/formal_foundations/formal/logic_side_by_side.tex",
+      "sha256": "f492febbeb145808726393a77fd2e09aef01c2392578b7daf1b7868982812d17"
+    },
+    {
+      "path": "books/formal_foundations/main.tex",
+      "sha256": "173212b24f624e5cc4526b70f7438b9e2e2ae24e0e838f3b6d65ef31adb0732a"
+    },
+    {
+      "path": "books/formal_foundations/references.bib",
+      "sha256": "56879bc0a8c8dc9286d62a846c81a5071b41d71546c15d5264c6168e9bef6bca"
+    },
+    {
+      "path": "books/tools/check_language_boundaries.py",
+      "sha256": "04c9ebbf12dde81d6102bedbaa7531c1368e735db297f64832bdeaa1de5ccb55"
+    },
+    {
+      "path": "books/tools/check_sources.py",
+      "sha256": "afd56d9c9816fbf16cb7e67fe2b341dd784606e6154013b651c12cccbd8fa31d"
+    },
+    {
+      "path": "examples/lean/README.md",
+      "sha256": "1790287248ac6dd6c04fe107ccddad3721c459ea36c6fd2aac1345201a5608a1"
+    },
+    {
+      "path": "examples/matlab/README.md",
+      "sha256": "f0871f0da8107cc1536f9ad22815abb11ff543e0b3b08b73fce8583e35dcdaa4"
+    },
+    {
+      "path": "examples/matlab/aliasing_demo.m",
+      "sha256": "938130ff0e9efbd9f6b91e3f86a41fb5d51d3d2d65d538df94a607ca8ed32f78"
+    },
+    {
+      "path": "formal/lean/Con2physFormal.lean",
+      "sha256": "6f35211392c423470081e19769dc316ac3d76d1423c415630fb35fe2334ffd45"
+    },
+    {
+      "path": "formal/lean/Con2physFormal/Bridges.lean",
+      "sha256": "1af72803dc1ce4ba66209e0b525ebe71a08c152dbdd76a5a54b4b009c4b46c3e"
+    },
+    {
+      "path": "formal/lean/Con2physFormal/BridgesNumbers.lean",
+      "sha256": "35bc6270455c2a15e388fcd1d9d77f772a64e0d6fc94ea890455990c1f24013f"
+    },
+    {
+      "path": "formal/lean/Con2physFormal/DependencyGraph.lean",
+      "sha256": "f2174729c31de4f6a5c3214a46aca298162a7928e1f519413887c22bc5613819"
+    },
+    {
+      "path": "formal/lean/Con2physFormal/Logic.lean",
+      "sha256": "76a3ecdc3fcb918b04346d97a4fd8ac420e909200180e706e2ac81340b883add"
+    },
+    {
+      "path": "formal/lean/Con2physFormal/TransitiveGraph.lean",
+      "sha256": "dc057960fa46bccdfeebf2ae64e6ebdf6f27a75f750c80d687010455a77443df"
+    },
+    {
+      "path": "formal/lean/README.md",
+      "sha256": "1018d21cc7cd71709906773a31cb38a401d26ca44aee7ce873ea0c5799c1ee72"
+    },
+    {
+      "path": "formal/lean/lake-manifest.json",
+      "sha256": "3cf317abb86dec1f04e73cfe1dd56a6bb31a69b4ee83c25659a3113ca7968d94"
+    },
+    {
+      "path": "formal/lean/lakefile.lean",
+      "sha256": "566e33f4ac5eba56583ee26c1da3beea9d05bbc07751fe355e2e41a1af1975cf"
+    },
+    {
+      "path": "formal/lean/lean-toolchain",
+      "sha256": "8733782dc070a99b312039cda424f601b80f3be6f6f512627da5ba25adc27632"
+    },
+    {
+      "path": "formal/lean/tools/dependency_graph.py",
+      "sha256": "3427da1546e4016249a2b1c43eb3a2bd1827f6c5a91414cf32f50e2f0ee911f8"
+    },
+    {
+      "path": "formal/lean/tools/transitive_graph.py",
+      "sha256": "e6f5ae7279f6c411b1e5faa51ff2ee15fb295609e18564f9bb8dff5f9a612a63"
+    },
+    {
+      "path": "latex/Makefile",
+      "sha256": "0dd070fa63ce1699b7aef45338dbc9c350b8012f4effaf725dfc3def2d587917"
+    },
+    {
+      "path": "latex/README.md",
+      "sha256": "0ec564bec667d11937ecc92a1ed7f39d80140414fc8102d5c51e392000f4312b"
+    },
+    {
+      "path": "mathematics/BRIDGES_01_08.md",
+      "sha256": "da77a221be38654e3ebb075d2d7158f6674b162451bf7249c9a3c5c938b891bc"
+    },
+    {
+      "path": "mathematics/GRAPHS.md",
+      "sha256": "6ab7133a9656f7fbb2295879f9e156ce1669f7348f863d1088368f406b7e8ee4"
+    },
+    {
+      "path": "mathematics/audit_formal.py",
+      "sha256": "c72e11a7eb987e8d4b3e828e90cbf31828fddabaa491c8146bb5f8c7bede1969"
+    },
+    {
+      "path": "mathematics/bridge_inventory.json",
+      "sha256": "bb9d168f1e02f6d36ffc4758f3c8ab044b4f11ddcd2c7a2563faa85b8b2231b0"
+    },
+    {
+      "path": "mathematics/build_concept_graphs.py",
+      "sha256": "64af9c30e099e1a7985365e8523462844fe25c2741413099022e3660371e6614"
+    },
+    {
+      "path": "mathematics/check_bridge_inventory.py",
+      "sha256": "7b147d70eb754089648fa5d506ca05cb7bd700365be54b6377a8ce4cbe9e0ac3"
+    },
+    {
+      "path": "mathematics/concept_dependencies.json",
+      "sha256": "3495b3df862c0b4564182340455690c0ab4be1f45ada592b4d9155b828c0004e"
+    },
+    {
+      "path": "mathematics/formal_registry.json",
+      "sha256": "8a340dd92dce9b849fe37e0aee19fe0b885b8251b11cbafc798ea9e5a8350ea8"
+    },
+    {
+      "path": "mathematics/numbers_bridge_inventory.json",
+      "sha256": "115fabbb5fea730e9e7d0de00a2dc80d09b29c59ba897a6a3a84008f1f04fd63"
+    },
+    {
+      "path": "mathematics/proof_dependencies.json",
+      "sha256": "e40ca718d6c417ec819f828b0d39afea1f00b275c7e78e37f029ec845088c47b"
+    },
+    {
+      "path": "mathematics/theorems.yml",
+      "sha256": "ad3b50094dccf0b48cda46ecc0f495ea2c02cd48826e63b87ee55524b4fa03a5"
+    }
+  ]
+}

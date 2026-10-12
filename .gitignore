@@ -10,3 +10,26 @@ __pycache__/
 .ipynb_checkpoints/
 /examples/results/
 /examples/data/
+
+# Book and Lean build products
+# Lean 4 / Lake
+**/.lake/
+
+# LaTeX
+**/build/
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# PDFs compilados
+latex/*.pdf
+
+mathematics/formal_inventory.json
+mathematics/mathematical_graph.json
+mathematics/pedagogical_graph.json

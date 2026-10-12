@@ -1,0 +1,172 @@
+\chapter[Dynamics and neural manifolds]{Dynamical systems, inverse problems, and neural manifolds}
+A state vector $x(t)$ represents a point in a state space.
+An ordinary differential equation (ODE) $\dot x=f(x,t)$ defines
+how that point moves, provided a solution exists. A vector of
+measured rates or LFP values is an observation of the state,
+not necessarily the complete physical state itself.
+
+\entry{81}{Picard--Lindelof existence and uniqueness}
+{If $f(t,x)$ is locally Lipschitz in $x$ and continuous in $t$
+on a suitable neighborhood, a unique local solution exists
+through a given initial condition.}
+{Determine when deterministic neural state equations define a
+well-posed trajectory.}
+\entry{82}{Gronwall's inequality}
+{A nonnegative function bounded by an integral inequality
+has an exponential comparison bound under its hypotheses.}
+{Quantify growth of perturbations to trajectories and models.}
+\entry{83}{Lyapunov stability theorems}
+{A differentiable positive-definite function with suitable
+nonpositive or negative orbital derivative implies stability
+or asymptotic stability under the corresponding assumptions.}
+{Assess recurrent-circuit attractors and locally stable activity.}
+\entry{84}{LaSalle's invariance principle}
+{In a compact positively invariant region with $\dot V\leq0$,
+trajectories approach the largest invariant set where
+$\dot V=0$, subject to standard hypotheses.}
+{Study convergence when strict energy decrease is unavailable.}
+\entry{85}{Hartman--Grobman theorem}
+{Near a hyperbolic equilibrium, a smooth autonomous system
+is locally topologically conjugate to its linearization.}
+{Interpret local fixed-point geometry while respecting nonlinear effects.}
+\entry{86}{Kalman observability rank test}
+{The linear time-invariant pair $(A,C)$ with $n$ states
+is observable exactly when
+$\rank[C^\top,(CA)^\top,\ldots,(CA^{n-1})^\top]^\top=n$.}
+{Assess recoverability of latent states from neural measurements.}
+\entry{87}{Kalman controllability rank test}
+{The linear time-invariant pair $(A,B)$ is controllable
+exactly when
+$\rank[B,AB,\ldots,A^{n-1}B]=n$.}
+{Characterize reachable states under modeled input interventions.}
+\entry{88}{Kalman filter optimality for linear-Gaussian models}
+{With known linear dynamics, Gaussian initial state and
+Gaussian white process/measurement noise, Gaussian conditioning
+yields recursive conditional means and covariances.}
+{Estimate trajectories from noisy population observations.}
+\entry{89}{Takens' delay-embedding theorem}
+{For a generic smooth observation of a compact $d$-dimensional
+manifold and generic diffeomorphism, sufficiently many delay
+coordinates (classically $2d+1$) embed its state manifold.}
+{Understand the idealized mathematical conditions for reconstructing
+dynamics from scalar time series.}
+\entry{90}{Whitney embedding theorem}
+{Every smooth $d$-dimensional manifold embeds smoothly into
+$\R^{2d}$ (with refinements and specific hypotheses).}
+{Motivate low-dimensional state representations, not neuronal sampling guarantees.}
+\entry{91}{Implicit function theorem}
+{If a differentiable constraint $F(x,y)=0$ has an invertible
+derivative in $y$ at a point, it defines $y$ locally as a
+differentiable function of $x$.}
+{Understand local tangent structure of constraint-defined manifolds.}
+\entry{92}{Tikhonov regularization convergence results}
+{For a bounded linear inverse problem in Hilbert spaces, with
+proper regularization conditions and parameter choice relative
+to noise, regularized estimates converge to an appropriate
+minimum-norm solution as noise vanishes.}
+{Describe what stable lead-field inversion can recover and when
+source nonuniqueness remains.}
+
+\begin{definition}
+A linear state-space model has
+\[
+x_{t+1}=Ax_t+Bu_t+w_t,\qquad y_t=Cx_t+v_t.
+\]
+The dimensions, covariance models, initial distribution, and
+observation mechanism must be declared before inferential conclusions.
+\end{definition}
+
+\begin{caution}
+Whitney and Takens do not guarantee that an arbitrary sparse neuron
+sample recovers the whole circuit manifold. Observability,
+measurement design, noise, and sampling density are independent concerns.
+Similarly, a regularized LFP inverse is not a unique physiological
+current reconstruction without additional constraints.
+\end{caution}
+% --- expanded edition (October 2026) ---
+\section{Proofs of selected dynamical results}
+\begin{proof}[Proof of Result 82 (Gronwall, integral form)]
+Let $u$ be continuous and nonnegative with
+$u(t)\le a+\int_0^tb\,u(s)\,ds$ for constants $a,b\ge0$. Set
+$U(t)=a+\int_0^tb\,u(s)\,ds$. Then $U'=bu\le bU$, so
+$(e^{-bt}U)'\le0$ and $U(t)\le ae^{bt}$. Hence $u(t)\le U(t)\le ae^{bt}$.
+\end{proof}
+\begin{proof}[Proof of Result 81 (Picard--Lindel\"of), global Lipschitz case]
+Suppose $|f(t,x)-f(t,y)|\le L|x-y|$. On $C([0,h])$ with the sup norm,
+define $(\Phi x)(t)=x_0+\int_0^tf(s,x(s))\,ds$. Then
+$\|\Phi x-\Phi y\|_\infty\le Lh\|x-y\|_\infty$, a contraction for $h<1/L$.
+By Banach's theorem (Result 24) there is a unique fixed point, which is
+the unique solution on $[0,h]$. Repeating from $t=h$ extends it.
+Uniqueness on the whole interval also follows from Gronwall: two
+solutions satisfy $|x(t)-y(t)|\le\int_0^tL|x-y|\,ds$, so $a=0$ forces
+$x=y$.
+\end{proof}
+Gronwall also quantifies sensitivity: if two initial conditions differ by
+$\delta$, the trajectories differ by at most $\delta e^{Lt}$. For a
+chaotic network this bound is nearly attained, and predictions of
+individual trajectories lose accuracy exponentially, though statistical
+properties may still be predictable.
+
+\section{Lyapunov functions for linear systems}
+\begin{theorem}
+For $\dot x=Ax$, the origin is asymptotically stable iff for some (and
+then every) $Q\succ0$ the Lyapunov equation $A^\top P+PA=-Q$ has a
+solution $P\succ0$.
+\end{theorem}
+\begin{proof}[Proof of sufficiency]
+Take $V(x)=x^\top Px>0$ for $x\ne0$. Along trajectories,
+$\dot V=x^\top(A^\top P+PA)x=-x^\top Qx<0$ for $x\ne0$. With
+$\lambda_{\min}(Q)\|x\|^2\le x^\top Qx$ and $V\le\lambda_{\max}(P)\|x\|^2$,
+$\dot V\le-cV$ with $c=\lambda_{\min}(Q)/\lambda_{\max}(P)$, so
+$V(t)\le V(0)e^{-ct}\to0$, which is Result 83 in quantitative form.
+\end{proof}
+For stable $A$, the solution is $P=\int_0^\infty e^{A^\top t}Qe^{At}\,dt$.
+The same equation with noise appears in stochastic models: for
+$dx=Ax\,dt+B\,dW$, the stationary covariance $\Sigma$ solves
+$A\Sigma+\Sigma A^\top+BB^\top=0$, which links the dynamics matrix fitted to
+neural data to the covariance of its fluctuations.
+
+\section{Observability and controllability proofs}
+\begin{proof}[Proof of Result 86]
+In discrete time, the noise-free outputs from $x_0$ are
+$y_k=CA^kx_0$. Stacking $k=0,\ldots,n-1$ gives $\mathcal Ox_0$ with the
+observability matrix $\mathcal O$. If $\rank\mathcal O=n$, $x_0$ is
+determined. Conversely, if $\mathcal Ox_0=0$ for some $x_0\ne0$, the
+Cayley--Hamilton theorem expresses every $A^k$, $k\ge n$, as a
+combination of $I,\ldots,A^{n-1}$, so $CA^kx_0=0$ for all $k$: the
+state $x_0$ is invisible forever.
+\end{proof}
+Controllability (Result 87) is the dual statement for the pair
+$(A^\top,B^\top)$. In a recorded population, a latent direction outside
+the observable subspace cannot be estimated from that population no
+matter how long one records; in a stimulation experiment, a direction
+outside the controllable subspace cannot be driven by that stimulus.
+
+\section{Delay embedding in practice}
+Takens' theorem (Result 89) guarantees that the map
+$x_t\mapsto(y_t,y_{t-\tau},\ldots,y_{t-(m-1)\tau})$ is an embedding for
+generic smooth observations when $m\ge2d+1$. Practice adds three
+obstacles absent from the theorem: noise, which blurs the reconstructed
+manifold at small scales; finite data, which may not cover the
+attractor; and the choice of $\tau$, for which common heuristics are the
+first zero of the autocorrelation or the first minimum of the mutual
+information. Methods that infer causality from embeddings (convergent
+cross mapping) assume deterministic dynamics and fail with strong
+stochastic forcing or synchrony between the variables.
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Show that $\dot x=x^{2/3}$, $x(0)=0$, has two solutions and identify
+which hypothesis of Result 81 fails.
+\end{exercise}
+\begin{exercise}
+Solve $A^\top P+PA=-I$ for $A=\diag(-1,-2)$ and verify $P\succ0$.
+\end{exercise}
+\begin{exercise}
+For $A=\begin{psmallmatrix}0&1\\0&0\end{psmallmatrix}$, determine which
+of $C=(1,0)$ and $C=(0,1)$ makes the pair observable.
+\end{exercise}
+\begin{exercise}
+Compute the stationary covariance of $dx=-x\,dt+dW$ from the Lyapunov
+equation and compare with the Ornstein--Uhlenbeck formula.
+\end{exercise}
