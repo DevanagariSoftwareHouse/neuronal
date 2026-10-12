@@ -12,7 +12,7 @@
       "id": "LOGIC-001",
       "name": "De Morgan conjunction",
       "english_source": "books/formal_foundations/chapters/00_language/02_logic.tex",
-      "lean_source": "formal/lean/Con2physFormal/Logic.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Logic.lean",
       "lean_declaration": "Con2physFormal.Logic.deMorganAnd",
       "status": "verified",
       "verification_evidence": {
@@ -34,14 +34,19 @@
       ],
       "english_source_fingerprint": "6b2fd5e6",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
-      "english_panel_fingerprint": "69b1c19b",
-      "lean_source_fingerprint": "13796c72"
+      "english_panel_fingerprint": "7e14424d",
+      "lean_source_fingerprint": "13796c72",
+      "layout_migration": {
+        "previous_english_panel_fingerprint": "69b1c19b",
+        "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
+        "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      }
     },
     {
       "id": "LOGIC-002",
       "name": "De Morgan disjunction",
       "english_source": "books/formal_foundations/chapters/00_language/02_logic.tex",
-      "lean_source": "formal/lean/Con2physFormal/Logic.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Logic.lean",
       "lean_declaration": "Con2physFormal.Logic.deMorganOr",
       "status": "verified",
       "verification_evidence": {
@@ -59,14 +64,19 @@
       "axiomatic_dependencies": [],
       "english_source_fingerprint": "6b2fd5e6",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
-      "english_panel_fingerprint": "69b1c19b",
-      "lean_source_fingerprint": "13796c72"
+      "english_panel_fingerprint": "7e14424d",
+      "lean_source_fingerprint": "13796c72",
+      "layout_migration": {
+        "previous_english_panel_fingerprint": "69b1c19b",
+        "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
+        "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      }
     },
     {
       "id": "LOGIC-003",
       "name": "Classical contraposition",
       "english_source": "books/formal_foundations/chapters/00_language/02_logic.tex",
-      "lean_source": "formal/lean/Con2physFormal/Logic.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Logic.lean",
       "lean_declaration": "Con2physFormal.Logic.contrapositive",
       "status": "verified",
       "verification_evidence": {
@@ -88,14 +98,19 @@
       ],
       "english_source_fingerprint": "6b2fd5e6",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
-      "english_panel_fingerprint": "69b1c19b",
-      "lean_source_fingerprint": "13796c72"
+      "english_panel_fingerprint": "7e14424d",
+      "lean_source_fingerprint": "13796c72",
+      "layout_migration": {
+        "previous_english_panel_fingerprint": "69b1c19b",
+        "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
+        "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      }
     },
     {
       "id": "LOGIC-004",
       "name": "Negated universal",
       "english_source": "books/formal_foundations/chapters/00_language/02_logic.tex",
-      "lean_source": "formal/lean/Con2physFormal/Logic.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Logic.lean",
       "lean_declaration": "Con2physFormal.Logic.notForall",
       "status": "verified",
       "verification_evidence": {
@@ -117,14 +132,19 @@
       ],
       "english_source_fingerprint": "6b2fd5e6",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
-      "english_panel_fingerprint": "69b1c19b",
-      "lean_source_fingerprint": "13796c72"
+      "english_panel_fingerprint": "7e14424d",
+      "lean_source_fingerprint": "13796c72",
+      "layout_migration": {
+        "previous_english_panel_fingerprint": "69b1c19b",
+        "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
+        "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      }
     },
     {
       "id": "LOGIC-005",
       "name": "Negated existential",
       "english_source": "books/formal_foundations/chapters/00_language/02_logic.tex",
-      "lean_source": "formal/lean/Con2physFormal/Logic.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Logic.lean",
       "lean_declaration": "Con2physFormal.Logic.notExists",
       "status": "verified",
       "verification_evidence": {
@@ -144,8 +164,13 @@
       ],
       "english_source_fingerprint": "6b2fd5e6",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
-      "english_panel_fingerprint": "69b1c19b",
-      "lean_source_fingerprint": "13796c72"
+      "english_panel_fingerprint": "7e14424d",
+      "lean_source_fingerprint": "13796c72",
+      "layout_migration": {
+        "previous_english_panel_fingerprint": "69b1c19b",
+        "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
+        "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      }
     }
   ]
 }

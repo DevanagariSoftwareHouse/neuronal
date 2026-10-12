@@ -8,4 +8,4 @@ The October 2026 expansion appends to every chapter a section of proofs and deri
 
 Build: `make -C books electrophysiology`; PDF: `books/electrophysiology/build/main.pdf`.
 
-Related: [Formal Foundations](../formal_foundations/README.md), [book index](../README.md), [shared registry](../../mathematics/theorems.yml).
+Related: [Formal Foundations](../formal_foundations/README.md), [book index](../README.md), [shared registry](../shared/theorems.yml).

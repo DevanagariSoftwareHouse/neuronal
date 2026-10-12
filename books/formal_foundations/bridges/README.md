@@ -27,4 +27,4 @@ The separately maintained theorem catalogue at `../../main.tex` covers more adva
 
 ## Build
 
-From repository root run `make -C latex foundations`, or from `latex/foundations/` run `make pdf`.
+From repository root run `make -C books formal_foundations`, or from `books/formal_foundations/` run `make pdf`.

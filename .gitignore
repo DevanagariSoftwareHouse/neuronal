@@ -27,9 +27,7 @@ __pycache__/
 *.fdb_latexmk
 *.fls
 
-# PDFs compilados
-latex/*.pdf
 
-mathematics/formal_inventory.json
-mathematics/mathematical_graph.json
-mathematics/pedagogical_graph.json
+books/formal_foundations/mathematics/formal_inventory.json
+books/formal_foundations/mathematics/mathematical_graph.json
+books/formal_foundations/mathematics/pedagogical_graph.json

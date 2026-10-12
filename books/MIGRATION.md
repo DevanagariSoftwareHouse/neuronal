@@ -30,7 +30,7 @@ continue editing the old manuscript branch after that cutover.
 and eight-bridge inventory checks passed. No MATLAB or Lean kernel execution
 was performed in this migration environment.
 
-Known inherited blocker: `python3 mathematics/audit_formal.py --check` reports
+Known inherited blocker: `python3 books/formal_foundations/mathematics/audit_formal.py --check` reports
 English-source fingerprint drift for LOGIC-001 through LOGIC-005. The imported
 logic chapter was expanded after its recorded verification. Fingerprints and
 verification evidence are preserved, so CI continues to report the discrepancy
@@ -48,3 +48,16 @@ questionnaire integration test has not been executed.
 The import preserves empty final TSV fields and the original bibliography
 whitespace; these trigger `git diff --check` whitespace warnings in imported
 data files. Edited source and documentation pass whitespace checks.
+
+## Editorial layout refactor
+
+Lean sources now live in `books/formal_foundations/lean/`, and proof inventories
+and audit scripts in `books/formal_foundations/mathematics/`. The shared theorem
+catalogue is `books/shared/theorems.yml`. Registry paths remain repository-relative.
+The legacy root `latex/` forwarding directory was removed; use `make -C books all`.
+Historical import manifests retain their original paths and hashes.
+
+Lean source files and lockfile are unchanged. The side-by-side logic panel only
+changes its listing and lakefile paths; its new fingerprint and prior fingerprint are recorded
+explicitly in `formal_registry.json`. The five already-stale chapter fingerprints
+remain unchanged, so the existing English-source audit failure remains visible.

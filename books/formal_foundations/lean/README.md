@@ -4,7 +4,7 @@ Pinned Lean: `leanprover/lean4:v4.34.0`.
 Pinned Mathlib: `5ed2965256430c3649e86755f9576b54eca72435` (Mathlib v4.34.0).
 
 ```sh
-cd formal/lean
+cd books/formal_foundations/lean
 lake update
 lake exe cache get
 lake build
@@ -13,7 +13,7 @@ lake env lean Con2physFormal/Logic.lean
 
 The pilot corresponds to the **logic chapter** of `books/formal_foundations`.
 It contains five declarations for De Morgan laws, contraposition and quantifier
-negation. All five passed the Lean kernel check in [this GitHub Actions run](https://github.com/ze-gois/paper_con2phys/actions/runs/38179132288); the [proof registry](../../../mathematics/formal_registry.json) records each declaration and its axioms.
+negation. All five passed the Lean kernel check in [this GitHub Actions run](https://github.com/ze-gois/paper_con2phys/actions/runs/38179132288); the [proof registry](../mathematics/formal_registry.json) records each declaration and its axioms.
 
 `#print axioms` reports underlying axiomatic assumptions; these are
 different from source imports and tactics. The proof scripts contain no

@@ -11,7 +11,7 @@
       "english_label": "bridge:extensionality",
       "original_statement_summary": "∀ A B : Set α, A = B ↔ A ⊆ B ∧ B ⊆ A",
       "lean_declaration": "Con2physFormal.Bridges.subset_antisymm_iff",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Set.Subset.antisymm",
@@ -49,7 +49,7 @@
       "english_label": "bridge:subset-order",
       "original_statement_summary": "⊆ is reflexive, transitive, antisymmetric on Set α",
       "lean_declaration": "Con2physFormal.Bridges.subset_reflexive",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Set.instPartialOrder"
@@ -89,7 +89,7 @@
       "english_label": "bridge:cartesian",
       "original_statement_summary": "(a,b) ∈ A ×ˢ B ↔ a ∈ A ∧ b ∈ B; A ×ˢ ∅ = ∅; ∅ ×ˢ B = ∅",
       "lean_declaration": "Con2physFormal.Bridges.cartesian_membership",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Set.mem_prod",
@@ -130,7 +130,7 @@
       "english_label": "bridge:relation-composition",
       "original_statement_summary": "(T ○ S) ○ R = T ○ (S ○ R) for composable typed relations",
       "lean_declaration": "Con2physFormal.Bridges.relation_composition_associative",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Relation.Comp.assoc",
@@ -168,7 +168,7 @@
       "english_label": "bridge:equivalence-partition",
       "original_statement_summary": "An equivalence relation on A produces covering classes, pairwise equal or disjoint",
       "lean_declaration": "Con2physFormal.Bridges.equivalence_class_cover",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Setoid"
@@ -205,7 +205,7 @@
       "english_label": "bridge:image-preimage",
       "original_statement_summary": "f '' (E ∪ F) = f '' E ∪ f '' F; f ⁻¹' (C ∩ D) = f ⁻¹' C ∩ f ⁻¹' D; f ⁻¹' (C ∪ D) = f ⁻¹' C ∪ f ⁻¹' D",
       "lean_declaration": "Con2physFormal.Bridges.image_union_bridge",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Set.image_union",
@@ -248,7 +248,7 @@
       "english_label": "bridge:inverse-functions",
       "original_statement_summary": "(∃ g : B → A, Function.LeftInverse g f ∧ Function.RightInverse g f) ↔ Function.Bijective f",
       "lean_declaration": "Con2physFormal.Bridges.inverse_iff_bijective",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "Function.bijective_iff_has_inverse",
@@ -287,7 +287,7 @@
       "english_label": "bridge:countable-pairs",
       "original_statement_summary": "Countable (ℕ × ℕ)",
       "lean_declaration": "Con2physFormal.Bridges.natural_pairs_countable",
-      "lean_source": "formal/lean/Con2physFormal/Bridges.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/Bridges.lean",
       "status": "verified",
       "mathlib_candidates_unverified": [
         "instCountableProd",

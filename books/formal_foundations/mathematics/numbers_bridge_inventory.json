@@ -10,7 +10,7 @@
       "english_source": "books/formal_foundations/bridges/02_numbers.tex",
       "english_label": "bridge:addition-induction",
       "original_statement_summary": "∀ a b c : ℕ, (a+b)+c=a+(b+c), by induction on c",
-      "lean_source": "formal/lean/Con2physFormal/BridgesNumbers.lean",
+      "lean_source": "books/formal_foundations/lean/Con2physFormal/BridgesNumbers.lean",
       "lean_declaration": "Con2physFormal.BridgesNumbers.add_assoc_induction",
       "status": "verified",
       "lean_candidates": [

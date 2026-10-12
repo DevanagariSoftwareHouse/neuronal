@@ -7,7 +7,7 @@ order, Cartesian product and empty factors, relation composition,
 equivalence classes, function image/preimage, two-sided inverses and
 countability of pairs of naturals.
 
-The indexed inventory is `mathematics/bridge_inventory.json`.
+The indexed inventory is `books/formal_foundations/mathematics/bridge_inventory.json`.
 Its `mathlib_candidates_unverified` entries are **search hints**, not
 confirmed theorem identities at the pinned Mathlib revision.
 

@@ -8,10 +8,10 @@ import argparse
 import json
 import sys
 
-ROOT = Path(__file__).resolve().parents[1]
-CURATED = ROOT / "mathematics" / "concept_dependencies.json"
-REGISTRY = ROOT / "mathematics" / "formal_registry.json"
-BRIDGES = ROOT / "mathematics" / "bridge_inventory.json"
+ROOT = Path(__file__).resolve().parents[3]
+CURATED = ROOT / "books" / "formal_foundations" / "mathematics" / "concept_dependencies.json"
+REGISTRY = ROOT / "books" / "formal_foundations" / "mathematics" / "formal_registry.json"
+BRIDGES = ROOT / "books" / "formal_foundations" / "mathematics" / "bridge_inventory.json"
 
 
 def render(entries, attribute):
@@ -64,7 +64,7 @@ def main():
     if opts.write:
         for key, filename in [("math_prerequisites", "mathematical_graph.json"),
                               ("pedagogical_prerequisites", "pedagogical_graph.json")]:
-            (ROOT / "mathematics" / filename).write_text(
+            (ROOT / "books" / "formal_foundations" / "mathematics" / filename).write_text(
                 json.dumps(render(data["entries"], key), indent=2) + "\n")
     print(f"Curated graph validation passed: {len(data['entries'])} mapped results (including {len(verified_bridges)} verified bridges)")
     return 0

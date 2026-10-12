@@ -22,13 +22,13 @@ make -C books formal_foundations
 
 Outputs: `books/electrophysiology/build/main.pdf` and `books/formal_foundations/build/main.pdf`.
 
-The legacy commands `make -C latex all`, `make -C latex theorems`, and `make -C latex foundations` forward to these targets for compatibility.
+Build commands are maintained exclusively in `books/`; the former `latex/` forwarding directory has been removed.
 
 ## Shared registry and code paths
 
-- [mathematics/theorems.yml](../mathematics/theorems.yml) is a seed registry for stable theorem identifiers; it does not claim all catalogue entries are formally proved.
+- [shared/theorems.yml](shared/theorems.yml) is a seed registry for stable theorem identifiers; it does not claim all catalogue entries are formally proved.
 - The reusable MATLAB methods live in [matlab/path](../matlab/path); questionnaire-specific scripts remain in paper_con2phys.
-- [formal/lean](../formal/lean) contains the pinned Lean/Mathlib project and verified logic pilot; [formal_registry.json](../mathematics/formal_registry.json) and [audit_formal.py](../mathematics/audit_formal.py) track the correspondence and pending work.
+- [formal_foundations/lean](formal_foundations/lean) contains the pinned Lean/Mathlib project and verified logic pilot; [formal_registry.json](formal_foundations/mathematics/formal_registry.json) and [audit_formal.py](formal_foundations/mathematics/audit_formal.py) track the correspondence and pending work.
 - [examples/matlab](../examples/matlab) is the designated place for future reproducible textbook demonstrations.
 - [examples/lean](../examples/lean) is reserved for future verified examples.
 
@@ -38,5 +38,5 @@ The original editorial text is preserved in each migrated book. Some historical 
 
 See [EDITORIAL_CONTRACT.md](EDITORIAL_CONTRACT.md). Computational
 Electrophysiology embeds MATLAB files from `examples/matlab/`, while
-Formal Foundations embeds Lean files from `formal/lean/`. A dedicated
+Formal Foundations embeds Lean files from `books/formal_foundations/lean/`. A dedicated
 source-boundary check runs before either PDF build.

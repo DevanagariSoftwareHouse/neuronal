@@ -4,7 +4,7 @@
 
 Este diretório contém funções MATLAB reutilizáveis extraídas das operações
 matemáticas relevantes para métodos publicados em eletrofisiologia. A unidade
-de implementação é **uma função pública por arquivo `.m`** em [path](path/).
+de implementação é **uma função pública por arquivo `.m`** em [path](path).
 O arquivo [METHODS.tsv](METHODS.tsv) registra 97 entradas bibliográficas (incluindo 2 referências excluídas por escopo)
 e associa artigos a primitivas, limitações e métodos ainda não reproduzidos.
 

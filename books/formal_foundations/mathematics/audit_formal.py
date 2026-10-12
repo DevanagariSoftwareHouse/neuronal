@@ -2,8 +2,8 @@
 """First-pass, source-linked inventory. Not a semantic theorem prover.
 
 Usage:
-  python3 mathematics/audit_formal.py --write
-  python3 mathematics/audit_formal.py --check
+  python3 books/formal_foundations/mathematics/audit_formal.py --write
+  python3 books/formal_foundations/mathematics/audit_formal.py --check
 The inventory includes ALL TeX files in formal_foundations. Explicit
 environments and displays are discovered mechanically; implicit reasoning
 is explicitly flagged for human review.
@@ -16,11 +16,11 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[3]
 BOOK = ROOT / "books" / "formal_foundations"
-FORMAL = ROOT / "formal" / "lean"
-REGISTRY = ROOT / "mathematics" / "formal_registry.json"
-INVENTORY = ROOT / "mathematics" / "formal_inventory.json"
+FORMAL = ROOT / "books" / "formal_foundations" / "lean"
+REGISTRY = ROOT / "books" / "formal_foundations" / "mathematics" / "formal_registry.json"
+INVENTORY = ROOT / "books" / "formal_foundations" / "mathematics" / "formal_inventory.json"
 BEGIN = re.compile(r"\\begin\{(theorem|lemma|proposition|corollary|definition|workedexample|proof|remark|readergoal)\}(?:\[([^\]]*)\])?")
 SECTION = re.compile(r"\\(?:chapter|section|subsection|subsubsection)\*?(?:\[[^\]]+\])?\{([^}]*)\}")
 BRIDGE = re.compile(r"\\bridgeentry\{([^}]+)\}\{([^}]+)\}")

@@ -2,8 +2,8 @@
 """Check manuscript anchors and evidence for the first eight bridges."""
 from pathlib import Path
 import json, re, sys
-root = Path(__file__).resolve().parents[1]
-data = json.loads((root / "mathematics/bridge_inventory.json").read_text())
+root = Path(__file__).resolve().parents[3]
+data = json.loads((root / "books/formal_foundations/mathematics/bridge_inventory.json").read_text())
 entries = data["entries"]
 errors = []
 if len(entries) != 8:

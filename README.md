@@ -80,7 +80,7 @@ no notebook e `python examples/panel.py` para execução no navegador.
 
 Os [dois livros](books/README.md) pertencem a este projeto: eletrofisiologia
 computacional com exemplos MATLAB e fundamentos matemáticos com Lean 4/Mathlib.
-Fontes em `books/`, provas em `formal/lean/` e registros em `mathematics/`.
+Fontes em `books/`, provas em `books/formal_foundations/lean/` e registros em `books/formal_foundations/mathematics/`.
 Compile com `make -C books all`; veja a [proveniência da migração](books/MIGRATION.md).
 
 ## Métodos MATLAB
