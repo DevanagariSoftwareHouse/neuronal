@@ -1,0 +1,185 @@
+\chapter[Arsenal I: counting and timing]{The mathematics of the arsenal I: counting, timing, scale, and differences}\label{ch:arsenal-counting}
+\begin{readergoal}For every elementary operation used in \texttt{matlab/path}, state the exact mathematical object it computes and prove the property the analysis silently relies on.\end{readergoal}
+
+\section*{How to read the arsenal chapters}
+The three arsenal chapters are organised by \emph{mathematical} family, not by file name. Each numbered result carries a stable identifier of the form \texttt{ARS-FAMILY-NNN}. The same identifier appears in \texttt{books/shared/theorems.yml} and in the method-specification chapter of \emph{Computational Electrophysiology}, which lists, for every MATLAB function, the identifiers it depends on. This volume never shows MATLAB source; the companion never shows Lean. The identifier is the only bridge.
+
+Three kinds of status are kept apart.
+\begin{enumerate}[leftmargin=2em]
+\item \textbf{Proved here.} A complete argument in ordinary mathematical English is given. None of the results in these chapters is yet machine-checked; the registry field \texttt{lean} stays \texttt{null} until a Lean file builds.
+\item \textbf{Proved under an idealisation.} The argument is complete for an idealised object (infinite sequences, exact arithmetic, exactly circular Gaussian coefficients). The idealisation is named in the statement.
+\item \textbf{Cited.} The result is stated with a reference and used, but not proved. These are marked \emph{(cited)}.
+\end{enumerate}
+A proof about an estimator is not a validation of a scientific conclusion. It tells us what the number \emph{is}; the electrophysiology volume discusses when that number means anything about a nervous system.
+
+\section{Half-open bins and counts}
+Let $t_1,\dots,t_N\in\R$ be event times (spike timestamps) and $e_0<e_1<\dots<e_B$ bin edges. Define the bin $I_b=[e_{b-1},e_b)$ and the count $c_b=\#\{i: t_i\in I_b\}$.
+
+\begin{theorem}[ARS-COUNT-001 --- Half-open bins partition the exposure]\label{ars:count-001}
+The sets $I_1,\dots,I_B$ are pairwise disjoint and their union is $[e_0,e_B)$. Consequently $\sum_{b=1}^B c_b=\#\{i:e_0\le t_i<e_B\}$: no event is counted twice and no event inside the exposure is lost. For equal widths $\Delta$, an event $t\in[e_0,e_B)$ lies in bin $b=\lfloor (t-e_0)/\Delta\rfloor+1$.
+\end{theorem}
+\begin{proof}
+If $t\in I_b\cap I_{b'}$ with $b<b'$ then $t<e_b\le e_{b'-1}\le t$, a contradiction. For $t\in[e_0,e_B)$ let $b$ be the least index with $t<e_b$; it exists because $t<e_B$, and $b\ge1$ because $t\ge e_0$. Minimality gives $e_{b-1}\le t$, so $t\in I_b$. Summing indicator functions over the partition gives the count identity. For equal widths, $e_{b-1}\le t<e_b$ is equivalent to $b-1\le (t-e_0)/\Delta<b$, i.e.\ $b-1=\lfloor (t-e_0)/\Delta\rfloor$.
+\end{proof}
+\begin{remark}
+Closed bins $[e_{b-1},e_b]$ double-count events on shared edges; open bins lose them. With timestamps quantised to a sampling grid, edges frequently coincide with events, so the convention is not cosmetic. The final index formula is also the bridge between timestamps and sample indices: if sample $n$ (counting from $1$) is taken at $(n-1)/f_s$, then the sample \emph{containing} time $t$ in the half-open sense is $\lfloor t f_s\rfloor+1$, whereas $\operatorname{round}(tf_s)+1$ is the \emph{nearest} sample. Both are legitimate; mixing them shifts events by up to one sample.
+\end{remark}
+
+\begin{theorem}[ARS-COUNT-002 --- Rate estimation for a homogeneous Poisson process]\label{ars:count-002}
+Let $N(T)$ be the number of events of a homogeneous Poisson process of rate $\lambda$ in an interval of length $T$. Then $\hat\lambda=N(T)/T$ is the maximum-likelihood estimator of $\lambda$, it is unbiased, and $\Var\hat\lambda=\lambda/T$. For an inhomogeneous process with intensity $\lambda(t)$ observed on $R$ independent trials, the trial-averaged count in bin $I_b$ divided by its width is an unbiased estimator of the bin-average intensity $|I_b|^{-1}\int_{I_b}\lambda(t)\,dt$.
+\end{theorem}
+\begin{proof}
+$N(T)\sim\Poisson(\lambda T)$, so the log-likelihood is $\ell(\lambda)=N\log(\lambda T)-\lambda T-\log N!$. Its derivative $N/\lambda-T$ vanishes at $\lambda=N/T$ and $\ell''=-N/\lambda^2\le0$, so this is the maximiser (for $N=0$ the supremum is approached at $\lambda=0$, which equals $N/T$). Unbiasedness and the variance follow from $\E N=\Var N=\lambda T$. For the inhomogeneous case the count in $I_b$ on trial $r$ is Poisson with mean $\int_{I_b}\lambda$; averaging $R$ trials and dividing by $|I_b|$ preserves the expectation.
+\end{proof}
+
+\begin{theorem}[ARS-COUNT-003 --- Fano factor and the law of total variance]\label{ars:count-003}
+If counts are Poisson, the Fano factor $F=\Var N/\E N$ equals $1$. If, conditionally on a latent nonnegative rate $\Lambda$, $N\sim\Poisson(\Lambda)$, then
+\[F=1+\frac{\Var\Lambda}{\E\Lambda}\ \ge 1,\]
+with equality if and only if $\Lambda$ is almost surely constant.
+\end{theorem}
+\begin{proof}
+For Poisson, $\Var N=\E N$. In the mixed case, $\E N=\E\,\E[N\mid\Lambda]=\E\Lambda$ and, by the law of total variance, $\Var N=\E\Var(N\mid\Lambda)+\Var\E(N\mid\Lambda)=\E\Lambda+\Var\Lambda$. Dividing gives the formula; $\Var\Lambda=0$ iff $\Lambda$ is a.s.\ constant.
+\end{proof}
+\begin{remark}
+The sample Fano factor is a ratio of the unbiased sample variance to the sample mean. A ratio of unbiased estimators is not unbiased; with few trials it fluctuates widely. A Fano factor above one may reflect trial-to-trial gain changes rather than any property of spike generation, exactly as the theorem predicts.
+\end{remark}
+
+\begin{theorem}[ARS-COUNT-004 --- Condition means split variability exactly]\label{ars:count-004}
+Let rows $x_1,\dots,x_n\in\R^p$ carry condition labels $g(i)\in\{1,\dots,K\}$ with group means $\bar x_k$ and grand mean $\bar x$. Put $r_i=x_i-\bar x_{g(i)}$. Then for every $k$, $\sum_{i:g(i)=k}r_i=0$, and
+\[\sum_{i}(x_i-\bar x)(x_i-\bar x)^\top=\sum_{k} n_k(\bar x_k-\bar x)(\bar x_k-\bar x)^\top+\sum_i r_ir_i^\top .\]
+\end{theorem}
+\begin{proof}
+$\sum_{g(i)=k}r_i=\sum_{g(i)=k}x_i-n_k\bar x_k=0$ by the definition of $\bar x_k$. Write $x_i-\bar x=(\bar x_{g(i)}-\bar x)+r_i$ and expand the outer product. Grouping by $k$, each cross term is $(\bar x_k-\bar x)\sum_{g(i)=k}r_i^\top=0$.
+\end{proof}
+This is the matrix analysis-of-variance identity. Correlations of the residuals $r_i$ are called \emph{noise correlations}; the identity says that they describe exactly the within-condition part of the covariance and nothing else.
+
+\begin{theorem}[ARS-COUNT-005 --- What a binned correlogram counts]\label{ars:count-005}
+Let $a_b$ and $c_b$ be the bin counts of two spike trains on a common grid of $B$ bins. The lagged sum $\Gamma(m)=\sum_{b}a_{b+m}c_b$ (over indices where both are defined) equals the number of ordered pairs of spikes $(i,j)$, $i$ from the first train and $j$ from the second, whose bin indices differ by exactly $m$. In particular the zero-lag value of an autocorrelogram is $\sum_b a_b^2\ge\sum_b a_b$, and the excess $\sum_b a_b(a_b-1)$ counts ordered pairs of \emph{distinct} spikes sharing a bin.
+\end{theorem}
+\begin{proof}
+$a_{b+m}c_b=\sum_{i}\ind[\beta(i)=b+m]\sum_j\ind[\beta'(j)=b]$, where $\beta,\beta'$ are bin indices. Summing over $b$ collapses to $\sum_{i,j}\ind[\beta(i)-\beta'(j)=m]$. For the autocorrelogram, $a_b^2=a_b+a_b(a_b-1)$, and $a_b\ge0$ is an integer, so $a_b^2\ge a_b$.
+\end{proof}
+Positive $m$ therefore means ``the first train's spike falls $m$ bins after the second's''. Lag direction is a convention that must be stated with every correlogram.
+
+\section{Interval statistics and quality metrics}
+\begin{theorem}[ARS-COUNT-006 --- Baselines for interval-based quality metrics]\label{ars:count-006}
+For a homogeneous Poisson process of rate $\lambda$:
+\begin{enumerate}[leftmargin=2em]
+\item inter-event intervals are i.i.d.\ exponential, so the probability that an interval is shorter than $r$ is $1-e^{-\lambda r}=\lambda r+O((\lambda r)^2)$;
+\item the probability that a bin of width $\Delta$ contains at least one event is $1-e^{-\lambda\Delta}$, so the expected \emph{presence ratio} over $B$ bins is $1-e^{-\lambda\Delta}$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The interval property is the defining renewal characterisation of the Poisson process; $\Prob(X<r)=1-e^{-\lambda r}$, and the Taylor expansion of $e^{-x}$ gives the approximation. A bin count is $\Poisson(\lambda\Delta)$, which is zero with probability $e^{-\lambda\Delta}$; linearity of expectation over bins gives the presence ratio.
+\end{proof}
+\begin{remark}
+These baselines show why a ``refractory violation fraction'' is not a contamination rate: even a perfectly isolated neuron firing as a Poisson process at $20$ Hz would show about $1-e^{-0.04}\approx 3.9\%$ intervals under $2$ ms, while a real refractory neuron shows none. A presence ratio below one can likewise be explained entirely by a low rate.
+\end{remark}
+
+\begin{theorem}[ARS-COUNT-007 --- Greedy tolerance matching is maximum]\label{ars:count-007}
+Let $a_1\le\dots\le a_m$ (reference events) and $b_1\le\dots\le b_n$ (detected events), and $\tau\ge0$. Call $(a_i,b_j)$ \emph{compatible} if $|a_i-b_j|\le\tau$. The two-pointer rule ``if the current pair is compatible, match it and advance both; otherwise advance the pointer of the smaller element'' produces a one-to-one matching of maximum cardinality.
+\end{theorem}
+\begin{proof}
+Induction on $m+n$; the empty case is trivial. Consider the first elements $a_1,b_1$.
+
+\emph{Case $a_1<b_1-\tau$.} Then $a_1<b_j-\tau$ for every $j$, so $a_1$ is compatible with nothing and can be discarded without changing the maximum. The case $b_1<a_1-\tau$ is symmetric. These are exactly the cases in which the rule advances the smaller pointer.
+
+\emph{Case $|a_1-b_1|\le\tau$.} We show that some maximum matching contains $(a_1,b_1)$. Let $M$ be maximum. If $a_1$ and $b_1$ are both unmatched in $M$, adding the pair contradicts maximality, so at least one is matched. If exactly one is matched, say $a_1$ to $b_j$, replace $(a_1,b_j)$ by $(a_1,b_1)$; cardinality is unchanged. If $a_1$ is matched to $b_j$ and $b_1$ to $a_i$, replace both pairs by $(a_1,b_1)$ and $(a_i,b_j)$. The new pair is compatible: $a_i\le b_1+\tau\le b_j+\tau$ and $b_j\le a_1+\tau\le a_i+\tau$, using $a_1\le a_i$ and $b_1\le b_j$. In every case a maximum matching containing $(a_1,b_1)$ exists, and the remainder is a maximum matching of the shorter sequences, which the rule finds by induction.
+\end{proof}
+Consequently, the counts $\mathrm{TP}$, $\mathrm{FP}=n-\mathrm{TP}$, $\mathrm{FN}=m-\mathrm{TP}$ reported by a spike-sorting benchmark are well defined: they do not depend on which maximum matching is used. The score $F_1=2\mathrm{TP}/(2\mathrm{TP}+\mathrm{FP}+\mathrm{FN})$ is the harmonic mean of precision and recall, as one checks by substituting their definitions.
+
+\section{Spike-train metrics}
+For finite sets $A,B\subset\R$ of spike times and $q\ge0$, the Victor--Purpura distance $D_q(A,B)$ is the least total cost of an edit sequence transforming $A$ into $B$, where deleting or inserting a spike costs $1$ and moving a spike from $s$ to $t$ costs $q|s-t|$.
+
+\begin{theorem}[ARS-COUNT-008 --- Victor--Purpura is a metric, computable by alignment]\label{ars:count-008}
+\begin{enumerate}[leftmargin=2em]
+\item For $q>0$, $D_q$ is a metric on finite subsets of $\R$. For $q=0$ it is a pseudometric equal to $\bigl||A|-|B|\bigr|$.
+\item If $a_1<a_2$ and $b_1<b_2$ then $|a_1-b_1|+|a_2-b_2|\le|a_1-b_2|+|a_2-b_1|$. Hence an optimal edit can be taken order-preserving (no two moves cross), and $D_q$ equals the value of the sequence-alignment recursion
+\[G_{i,j}=\min\{G_{i-1,j}+1,\ G_{i,j-1}+1,\ G_{i-1,j-1}+q|a_i-b_j|\},\quad G_{i,0}=i,\ G_{0,j}=j,\]
+evaluated on the sorted sequences.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(0) \emph{Reduction to matchings.} Successive moves of one spike, $s\to u\to t$, cost $q(|s-u|+|u-t|)\ge q|s-t|$ by the triangle inequality, and a spike inserted and later deleted costs $2$ for nothing. So some optimal edit moves each spike at most once and never deletes an inserted spike: it is described by a partial one-to-one matching between $A$ and $B$ (matched pairs are moved, unmatched spikes of $A$ deleted, unmatched spikes of $B$ inserted). There are finitely many matchings, so the minimum is attained.
+
+(1) Costs are nonnegative, so $D_q\ge0$. Every edit reverses into an edit of equal cost, giving symmetry. Concatenating an optimal edit $A\to B$ with an optimal edit $B\to C$ gives an edit $A\to C$, so $D_q(A,C)\le D_q(A,B)+D_q(B,C)$. If $q>0$ and $A\ne B$, every matching that turns $A$ into $B$ either leaves some spike unmatched (cost $\ge1$) or moves some spike by a positive distance (positive cost); since the minimum over the finitely many matchings is attained, $D_q(A,B)>0$. When $q=0$, moves are free: match $\min(|A|,|B|)$ spikes at no cost and insert or delete the rest.
+
+(2) Put $f(x)=|x|$; the inequality is the statement that $f(a_1-b_1)+f(a_2-b_2)\le f(a_1-b_2)+f(a_2-b_1)$. The four arguments satisfy $(a_1-b_2)\le\min(a_1-b_1,a_2-b_2)\le\max(a_1-b_1,a_2-b_2)\le(a_2-b_1)$ and $(a_1-b_1)+(a_2-b_2)=(a_1-b_2)+(a_2-b_1)$. For a convex $f$, moving two points apart while keeping their sum fixed cannot decrease $f(x)+f(y)$; this is the majorisation form of convexity. Therefore any crossing pair of moves can be uncrossed without increasing the cost, and repeating removes all crossings. An order-preserving edit is precisely an alignment of the two sorted sequences, whose optimal cost is computed by the recursion by the usual dynamic-programming argument: the last elements are either aligned to each other, or one of them is deleted or inserted.
+\end{proof}
+\begin{remark}
+A move is preferred to deletion plus insertion only when $q|s-t|<2$. The parameter $1/q$ is thus a time scale: spikes closer than $2/q$ are treated as displaced copies of each other.
+\end{remark}
+
+\section{Surrogates that preserve counts}
+\begin{theorem}[ARS-COUNT-009 --- Window jitter is an exact conditional null]\label{ars:count-009}
+Partition time into windows $W_k=[o+k\Delta,o+(k+1)\Delta)$. Replace each spike by an independent uniform time inside its own window. Then
+\begin{enumerate}[leftmargin=2em]
+\item the number of spikes in every window is unchanged;
+\item conditionally on these numbers, the surrogate spikes in each window are i.i.d.\ uniform on that window;
+\item if, under a null hypothesis $H_0$, the data have the same conditional law (uniform placement given window counts), then the observed spike train and independent surrogates are exchangeable, and the Monte Carlo $p$-value of ARS-PERM-001 is valid.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+A spike in $W_k$ is replaced by a point of $W_k$, so window counts are invariant. The replacement points are independent uniforms by construction, which is (2). Under $H_0$ the data, conditionally on the window counts, are themselves i.i.d.\ uniform within windows, so data and surrogates are i.i.d.\ draws from one conditional law and hence exchangeable.
+\end{proof}
+The null hypothesis is therefore precise: ``no structure finer than $\Delta$ beyond what the window counts carry''. It is not ``no synchrony''.
+
+\section{Robust scale and common-mode removal}
+\begin{theorem}[ARS-ROB-001 --- MAD is consistent for the Gaussian scale]\label{ars:rob-001}
+If $X\sim\Normal(\mu,\sigma^2)$, then $\operatorname{median}|X-\mu|=\sigma\,\Phi^{-1}(3/4)\approx0.67449\,\sigma$. Hence $\hat\sigma=\operatorname{MAD}/0.67449=1.4826\,\operatorname{MAD}$ estimates $\sigma$ consistently for i.i.d.\ Gaussian samples. The median and the MAD each have breakdown point $1/2$ \emph{(cited)}.
+\end{theorem}
+\begin{proof}
+$|X-\mu|/\sigma=|Z|$ with $Z$ standard normal. The median $m$ of $|Z|$ satisfies $\Prob(|Z|\le m)=2\Phi(m)-1=1/2$, so $m=\Phi^{-1}(3/4)$. Sample medians converge almost surely to population medians when the distribution function is continuous and strictly increasing at the median; apply this to $|X_i-\hat\mu|$, using consistency of the sample median $\hat\mu$.
+\end{proof}
+This is why threshold detectors set $k\hat\sigma$ with $\hat\sigma$ from the MAD: spikes occupy a small fraction of samples, inflate the standard deviation, and barely move the median. The constant presupposes Gaussian background noise.
+
+\begin{theorem}[ARS-ROB-002 --- What median and difference references remove]\label{ars:rob-002}
+Let a recording be $x_c(t)=s(t)+r_c(t)$ for channels $c=1,\dots,C$, with a common additive component $s$.
+\begin{enumerate}[leftmargin=2em]
+\item The common-median reference $x_c-\operatorname{median}_{c'}x_{c'}$ equals $r_c-\operatorname{median}_{c'}r_{c'}$: it is independent of $s$.
+\item The bipolar derivation $x_{c+1}-x_c=r_{c+1}-r_c$ is also independent of $s$.
+\item If channels sample a smooth potential at depths $z_c$ with spacing $h$, then $(\varphi(z_{c+1})-\varphi(z_c))/h=\varphi'(\bar z)+O(h^2)$ at the midpoint $\bar z$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The median is translation-equivariant: $\operatorname{median}(v+s\mathbf 1)=\operatorname{median}(v)+s$, because adding $s$ to every coordinate preserves their order. Subtraction then cancels $s$; the bipolar case is immediate. For (3), Taylor-expand $\varphi$ about $\bar z$ at $\bar z\pm h/2$: the even-order terms cancel, leaving $h\varphi'(\bar z)+\tfrac{h^3}{24}\varphi'''(\xi)$.
+\end{proof}
+\begin{remark}
+Neither operation can distinguish a contaminating common mode from genuinely shared neural activity: \emph{any} component common to all channels is removed. The median, unlike the mean, is nonlinear, so common-median referencing does not commute with filtering.
+\end{remark}
+
+\section{Sliding moments of envelopes}
+For a window of values $a_1,\dots,a_n$ write $m_k=\frac1n\sum_ia_i^k$ for raw moments, $\mu=m_1$, and $c_k=\frac1n\sum_i(a_i-\mu)^k$ for population central moments. Skewness is $c_3/c_2^{3/2}$ and excess kurtosis $c_4/c_2^2-3$.
+
+\begin{theorem}[ARS-MOM-001 --- Central moments from raw moments, and standardisation invariance]\label{ars:mom-001}
+\begin{enumerate}[leftmargin=2em]
+\item $c_2=m_2-m_1^2$, $c_3=m_3-3m_1m_2+2m_1^3$ and $c_4=m_4-4m_1m_3+6m_1^2m_2-3m_1^4$.
+\item If $z_i=(a_i-\ell)/s$ with $s>0$ and any $\ell$, then the window mean of $a$ is $\ell+s\,\bar z$, its central moments are $c_k(a)=s^kc_k(z)$, and skewness and excess kurtosis of $a$ and $z$ coincide.
+\item For a sequence $z$ with prefix sums $P_j=\sum_{i\le j}z_i^k$ ($P_0=0$), the $k$-th raw moment over samples $\ell,\dots,h$ with $h-\ell+1=n$ is $(P_h-P_{\ell-1})/n$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1) Expand $(a_i-\mu)^k$ by the binomial theorem, average over $i$, and use $m_1=\mu$; for instance $c_3=m_3-3\mu m_2+3\mu^2m_1-\mu^3=m_3-3m_1m_2+2m_1^3$, and $c_4$ is analogous. (2) $a_i=\ell+sz_i$, so the mean is $\ell+s\bar z$ and $a_i-\bar a=s(z_i-\bar z)$; raising to the power $k$ and averaging gives $s^kc_k(z)$. In the ratios the powers of $s$ cancel: $s^3/(s^2)^{3/2}=1$ and $s^4/(s^2)^2=1$. (3) Telescoping.
+\end{proof}
+Standardising a block by a common location and scale before forming prefix sums is therefore exact in real arithmetic and reduces cancellation in floating point, where $m_2-m_1^2$ can lose all significant digits when the variance is tiny relative to the mean. Population moments ($1/n$) are biased estimators of distributional moments, and overlapping windows produce strongly dependent values.
+
+\section{Finite differences: laminar CSD and trajectory velocities}
+In a homogeneous isotropic volume conductor of conductivity $\sigma$, the quasi-static current balance is $\nabla\cdot(\sigma\nabla\varphi)=-I_m$, where $I_m$ is the transmembrane current source density. If the potential varies only with depth $z$, this reduces to $I_m=-\sigma\,\varphi''(z)$.
+
+\begin{theorem}[ARS-FD-001 --- Consistency of the central differences]\label{ars:fd-001}
+Let $\varphi\in C^4$ and $h>0$. Then
+\[\frac{\varphi(z+h)-2\varphi(z)+\varphi(z-h)}{h^2}=\varphi''(z)+\frac{h^2}{12}\varphi^{(4)}(\xi)\]
+for some $\xi\in(z-h,z+h)$. For $x\in C^3$, $\dfrac{x(t+\delta)-x(t-\delta)}{2\delta}=x'(t)+\dfrac{\delta^2}{6}x'''(\eta)$ for some $\eta\in(t-\delta,t+\delta)$.
+\end{theorem}
+\begin{proof}
+Taylor's theorem with Lagrange remainder gives $\varphi(z\pm h)=\varphi\pm h\varphi'+\tfrac{h^2}{2}\varphi''\pm\tfrac{h^3}{6}\varphi'''+\tfrac{h^4}{24}\varphi^{(4)}(\xi_\pm)$. Adding the two expansions cancels the odd terms; the intermediate value theorem applied to $\varphi^{(4)}$ merges $\tfrac12(\varphi^{(4)}(\xi_+)+\varphi^{(4)}(\xi_-))$ into $\varphi^{(4)}(\xi)$. The first-derivative case subtracts instead of adding.
+\end{proof}
+The discrete laminar CSD $-\sigma(\varphi_{c+1}-2\varphi_c+\varphi_{c-1})/h^2$ is therefore a second-order accurate estimate of $-\sigma\varphi''$ \emph{at interior contacts}, provided the field is genuinely one-dimensional, $\sigma$ is constant, and contacts are equally spaced. The error term is also a warning: sharp laminar sources make $\varphi^{(4)}$ large and the estimate poor. Undersampled boundaries (the first and last contact) have no central difference at all.
+
+\begin{exercises}
+\item Show that closed bins $[e_{b-1},e_b]$ count an event at $e_b$ twice, and compute the double-counting probability when timestamps lie on a $1/f_s$ grid and edges are multiples of $1/f_s$.
+\item Compute the expected refractory-violation fraction for a Poisson neuron at $5$, $20$ and $80$ Hz with $r=1.5$ ms.
+\item Give two sequences for which the greedy matching rule would fail if the pointer of the \emph{larger} element were advanced instead.
+\item Show that $D_q(A,B)\le|A|+|B|$ and that $D_q$ is nondecreasing in $q$.
+\item Construct three channels for which common-median and common-average references give different outputs.
+\end{exercises}
