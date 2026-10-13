@@ -1,0 +1,227 @@
+\chapter[Arsenal III: linear models and inference]{The mathematics of the arsenal III: linear models, populations, likelihoods, and resampling}\label{ch:arsenal-linear}
+\begin{readergoal}Show which optimisation problem each population, regression and inference routine actually solves, prove that its solution has the claimed form, and separate the guarantee from the interpretation.\end{readergoal}
+
+Matrices have observations in rows. $\|\cdot\|$ is the Euclidean norm for vectors and the Frobenius norm for matrices; $A^\top$ is the transpose.
+
+\section{Regularised least squares and inverse problems}
+\begin{theorem}[ARS-LIN-001 --- Tikhonov regularisation: existence, uniqueness, spectral form]\label{ars:lin-001}
+Let $G\in\R^{m\times n}$, $y\in\R^m$ and $\lambda>0$. The function $J(x)=\|y-Gx\|^2+\lambda\|x\|^2$ has a unique minimiser
+\[x_\lambda=(G^\top G+\lambda I)^{-1}G^\top y=\sum_{i}\frac{\sigma_i}{\sigma_i^2+\lambda}(u_i^\top y)\,v_i,\]
+where $G=\sum_i\sigma_iu_iv_i^\top$ is a singular value decomposition. Moreover $\|x_\lambda\|$ is nonincreasing in $\lambda$, $x_\lambda$ lies in the row space of $G$, and $x_\lambda\to G^+y$ (the minimum-norm least-squares solution) as $\lambda\downarrow0$.
+\end{theorem}
+\begin{proof}
+$G^\top G+\lambda I$ is symmetric with $v^\top(G^\top G+\lambda I)v=\|Gv\|^2+\lambda\|v\|^2>0$ for $v\ne0$, hence positive definite and invertible. $J$ is a strictly convex quadratic with gradient $2(G^\top G+\lambda I)x-2G^\top y$, which vanishes only at $x_\lambda$. Writing $G^\top G=V\Sigma^2V^\top$ in the right-singular basis diagonalises the system and gives the sum; every term lies in $\operatorname{span}\{v_i:\sigma_i>0\}$, the row space. $\|x_\lambda\|^2=\sum_i\sigma_i^2(u_i^\top y)^2/(\sigma_i^2+\lambda)^2$ is a sum of nonincreasing functions of $\lambda$. As $\lambda\downarrow0$ each coefficient tends to $1/\sigma_i$ for $\sigma_i>0$, which is the pseudo-inverse.
+\end{proof}
+
+\begin{theorem}[ARS-LIN-002 --- Linear forward models are not injective on their null space]\label{ars:lin-002}
+For a linear forward map $y=Gs$ with $G\in\R^{m\times n}$ (potentials at $m$ electrodes from currents at $n$ source locations through a lead field), every $s+u$ with $Gu=0$ produces the same data. If $n>m$, then $\dim\ker G\ge n-m>0$. The Tikhonov estimate always lies in the row space of $G$ and is therefore blind to the null-space component of the true source.
+\end{theorem}
+\begin{proof}
+Linearity gives $G(s+u)=Gs$. By rank--nullity, $\dim\ker G=n-\rank G\ge n-m$. The row-space statement is part of ARS-LIN-001; null-space vectors are orthogonal to the row space and so never appear in $x_\lambda$.
+\end{proof}
+Regularisation chooses one answer; physics, anatomy and independent measurements must justify why that answer is the physiological one.
+
+\begin{theorem}[ARS-LIN-003 --- Gaussian-process smoothing is kernel ridge regression]\label{ars:lin-003}
+Let $K\in\R^{n\times n}$ be symmetric positive definite (a squared-exponential kernel at distinct times) and $s^2>0$. For data $y$, the posterior mean $m=K(K+s^2I)^{-1}y$ of a Gaussian process with covariance $K$ observed in white noise of variance $s^2$ is the unique minimiser of $\|y-f\|^2/s^2+f^\top K^{-1}f$.
+\end{theorem}
+\begin{proof}
+The objective is strictly convex with gradient $2(f-y)/s^2+2K^{-1}f$. Setting it to zero gives $(I+s^2K^{-1})f=y$, i.e.\ $f=(I+s^2K^{-1})^{-1}y=K(K+s^2I)^{-1}y$, using $(I+s^2K^{-1})^{-1}=K(K+s^2I)^{-1}$, which one verifies by multiplying out. The Gaussian conditioning formula gives the same expression for the posterior mean (Chapter~\ref{ch:moments} and its Gaussian-conditioning exercises). Because $K+s^2I$ is positive definite it has a Cholesky factorisation $LL^\top$ \emph{(cited)}, which is how the system is solved stably.
+\end{proof}
+The hyperparameters (length scale, signal and noise variances) fix the smoothness assumption; they are not estimated by this formula.
+
+\begin{theorem}[ARS-LIN-004 --- The pooled linear $d'^2$ is the best linear separation]\label{ars:lin-004}
+Let $\Delta\in\R^p$ be a difference of class means and $\Sigma$ a symmetric positive definite pooled covariance. Then
+\[\max_{w\ne0}\frac{(w^\top\Delta)^2}{w^\top\Sigma w}=\Delta^\top\Sigma^{-1}\Delta=:d'^2,\]
+attained exactly at $w\propto\Sigma^{-1}\Delta$. Adding $\epsilon I$ to $\Sigma$ ($\epsilon>0$) can only decrease $d'^2$.
+\end{theorem}
+\begin{proof}
+$\langle u,v\rangle_\Sigma=u^\top\Sigma v$ is an inner product. Write $w^\top\Delta=\langle w,\Sigma^{-1}\Delta\rangle_\Sigma$; Cauchy--Schwarz gives $(w^\top\Delta)^2\le(w^\top\Sigma w)(\Delta^\top\Sigma^{-1}\Delta)$ with equality iff $w\propto\Sigma^{-1}\Delta$. For the last claim, $\Sigma+\epsilon I\succeq\Sigma$ implies $(\Sigma+\epsilon I)^{-1}\preceq\Sigma^{-1}$ (operator monotonicity of inversion), hence the quadratic form in $\Delta$ decreases.
+\end{proof}
+An in-sample $d'^2$ is biased upward because $\Delta$ and $\Sigma$ are estimated from the same trials that are being separated; held-out estimates are required for comparison between conditions or populations.
+
+\section{Principal components, assemblies, and dimension}
+Let $X\in\R^{n\times p}$ have centred columns and thin singular value decomposition $X=USV^\top$ with $s_1\ge s_2\ge\dots\ge0$.
+
+\begin{theorem}[ARS-PCA-001 --- PCA by SVD]\label{ars:pca-001}
+The sample covariance is $C=X^\top X/(n-1)=V\,\frac{S^2}{n-1}V^\top$, so its eigenvalues are $\lambda_k=s_k^2/(n-1)$ with eigenvectors $v_k$ (loadings), and the scores $XV=US$ have uncorrelated columns with variances $\lambda_k$. The first loading maximises $w^\top Cw$ over unit vectors $w$, and the $k$-th maximises it subject to orthogonality to the first $k-1$. The best rank-$k$ approximation of $X$ in Frobenius norm is $\sum_{j\le k}s_ju_jv_j^\top$ \emph{(Eckart--Young; cited)}.
+\end{theorem}
+\begin{proof}
+$X^\top X=VSU^\top USV^\top=VS^2V^\top$ since $U^\top U=I$. Scores: $(US)^\top(US)=S^2$ is diagonal. For a unit $w=\sum_k\alpha_kv_k$, $w^\top Cw=\sum\lambda_k\alpha_k^2\le\lambda_1$ since $\sum\alpha_k^2=1$, with equality at $w=v_1$; the constrained cases repeat the argument on the orthogonal complement.
+\end{proof}
+Variance-optimal directions are optimal for variance, not for identifying biological sources; they change under rescaling of units, which is why z-scoring (assembly analysis) and raw counts (population PCA) give different loadings.
+
+\begin{theorem}[ARS-PCA-002 --- Participation ratio]\label{ars:pca-002}
+For eigenvalues $\lambda_1,\dots,\lambda_p\ge0$, not all zero, with $r$ of them positive,
+\[1\le\mathrm{PR}=\frac{(\sum\lambda_k)^2}{\sum\lambda_k^2}\le r\le p.\]
+$\mathrm{PR}=1$ iff exactly one eigenvalue is positive; $\mathrm{PR}=r$ iff all positive eigenvalues are equal. $\mathrm{PR}$ is unchanged by multiplying $X$ by a nonzero scalar or by an orthogonal matrix on the right (rotating the unit axes), but it changes in general under rescaling individual units. Using $s_k^2$ in place of $\lambda_k$ gives the same value.
+\end{theorem}
+\begin{proof}
+Upper bound: Cauchy--Schwarz on the $r$ positive values, $(\sum\lambda_k)^2\le r\sum\lambda_k^2$, with equality iff they are equal. Lower bound: $(\sum\lambda_k)^2=\sum\lambda_k^2+\sum_{j\ne k}\lambda_j\lambda_k\ge\sum\lambda_k^2$, with equality iff all cross products vanish, i.e.\ at most one is positive. PR is homogeneous of degree zero in $\lambda$, and $\lambda_k=s_k^2/(n-1)$. Right multiplication by an orthogonal $Q$ maps $X^\top X$ to $Q^\top X^\top XQ$, a similarity that preserves eigenvalues. A diagonal rescaling $D$ maps it to $DX^\top XD$, whose eigenvalues differ in general.
+\end{proof}
+\begin{remark}
+PR measures how evenly variance spreads over orthogonal directions of a \emph{linear} fit. It is not the dimension of a curved manifold (a circle embedded in many dimensions can have PR well above $1$), and subsampled populations give PR values that depend on the number of units sampled.
+\end{remark}
+
+\begin{theorem}[ARS-PCA-003 --- Assembly expression is the off-diagonal quadratic form]\label{ars:pca-003}
+For an activity vector $z\in\R^p$ and template $w\in\R^p$,
+\[(z^\top w)^2-\sum_iz_i^2w_i^2=\sum_{i\ne j}z_iz_jw_iw_j=z^\top\bigl(ww^\top-\diag(w\circ w)\bigr)z.\]
+If the coordinates of $z$ are uncorrelated with mean $0$ (z-scored independent units), its expectation is $0$.
+\end{theorem}
+\begin{proof}
+Expand $(\sum_iz_iw_i)^2=\sum_{i,j}z_iz_jw_iw_j$ and remove the diagonal $i=j$. The expectation of each off-diagonal term is $w_iw_j\E z_iz_j=0$.
+\end{proof}
+Removing the diagonal is what makes the score sensitive to \emph{coactivation}: a single unit firing strongly contributes nothing. Large values require at least two units with same-sign template weights to be active together.
+
+\begin{theorem}[ARS-PCA-004 --- Marchenko--Pastur edge (cited)]\label{ars:pca-004}
+If $X\in\R^{n\times p}$ has i.i.d.\ entries of mean $0$ and variance $1$ and $p/n\to\gamma\in(0,1]$, the largest eigenvalue of $X^\top X/n$ converges almost surely to $(1+\sqrt\gamma)^2$.
+\end{theorem}
+This is the classical threshold used to call an assembly eigenvalue ``significant''. It is an asymptotic statement for independent entries. Spike counts are temporally autocorrelated and z-scoring uses estimated means and variances, so the bound is a heuristic reference, not a calibrated test; circular-shift or other surrogates are needed for inference.
+
+\begin{proposition}[ARS-PCA-005 --- The dDR basis is orthonormal]\label{ars:pca-005}
+Let $s=\Delta/\|\Delta\|$ and let $v$ be a unit vector not parallel to $s$. Then $n=v-s(s^\top v)$ is nonzero, orthogonal to $s$, and $\{s,n/\|n\|\}$ is an orthonormal basis of $\operatorname{span}\{s,v\}$.
+\end{proposition}
+\begin{proof}
+$s^\top n=s^\top v-(s^\top s)(s^\top v)=0$. If $n=0$ then $v=s(s^\top v)$ would be parallel to $s$. The two vectors are orthogonal unit vectors in the span.
+\end{proof}
+
+\section{Community structure in weighted graphs}
+Let $W\in\R^{p\times p}$ be a symmetric nonnegative weight matrix (for example, absolute correlations between units) with total weight $s=\sum_{ij}W_{ij}>0$ and strengths $k_i=\sum_jW_{ij}$. The modularity matrix is $B=W-kk^\top/s$, and the modularity of a partition $g$ is $Q(g)=\frac1s\sum_{ij}B_{ij}\ind[g_i=g_j]$.
+
+\begin{theorem}[ARS-GRAPH-001 --- Merge gains and greedy agglomeration]\label{ars:graph-001}
+\begin{enumerate}[leftmargin=2em]
+\item Every row of $B$ sums to zero; hence the one-group partition has $Q=0$, and the all-singletons partition has $Q=\tr(B)/s$.
+\item Merging two groups $A$ and $C$ changes modularity by exactly $\frac2s\sum_{i\in A,\,j\in C}B_{ij}$.
+\item The rule ``merge the pair of groups with the largest positive gain, stop when no gain is positive'' produces a strictly increasing sequence of modularities, terminates after at most $p-1$ merges, and returns $Q$ of the final partition, which is locally maximal under single merges.
+\end{enumerate}
+Maximising $Q$ over all partitions is NP-hard \emph{(cited; Brandes et al.\ 2008)}, so the greedy value is a lower bound on the maximum, not the maximum.
+\end{theorem}
+\begin{proof}
+(1) $\sum_jB_{ij}=k_i-k_i\sum_jk_j/s=0$ because $\sum_jk_j=s$; for one group $Q=\frac1s\sum_{ij}B_{ij}=0$, and for singletons only diagonal terms survive. (2) After merging, the indicator gains exactly the pairs $(i,j)$ with $i\in A,j\in C$ or $i\in C,j\in A$; by symmetry of $B$ these contribute $\frac2s\sum_{i\in A,j\in C}B_{ij}$. (3) Each accepted merge has positive gain and reduces the number of groups by one; when no gain is positive, no single merge can raise $Q$.
+\end{proof}
+Modularity of correlation graphs depends on how weights are formed (signs discarded, thresholds, self-loops), and its null model $kk^\top/s$ is the configuration model of random graphs, not a null hypothesis about neural populations.
+
+\section{Low-rank regression and communication subspaces}
+\begin{theorem}[ARS-RRR-001 --- Reduced-rank regression]\label{ars:rrr-001}
+Let $X\in\R^{n\times p}$ have full column rank, $Y\in\R^{n\times q}$, $\hat B=(X^\top X)^{-1}X^\top Y$, and let $V_r$ hold the top $r$ right singular vectors of $\hat Y=X\hat B$. Then $B_r=\hat BV_rV_r^\top$ minimises $\|Y-XB\|^2$ over all $B$ with $\rank B\le r$.
+\end{theorem}
+\begin{proof}
+Because $Y-\hat Y$ is orthogonal to the column space of $X$, Pythagoras gives $\|Y-XB\|^2=\|Y-\hat Y\|^2+\|\hat Y-XB\|^2$. The first term does not depend on $B$. For $\rank B\le r$, $XB$ has rank at most $r$, so by Eckart--Young $\|\hat Y-XB\|^2\ge\|\hat Y-\hat YV_rV_r^\top\|^2$. The bound is attained by $B_r$, since $XB_r=\hat YV_rV_r^\top$ and $\rank B_r\le r$.
+\end{proof}
+\begin{remark}
+The proof uses the orthogonality of ordinary least-squares residuals. If $\hat B$ is replaced by a ridge estimate, $Y-X\hat B$ is no longer orthogonal to the column space, Pythagoras fails, and $\hat BV_rV_r^\top$ is a reasonable heuristic but not the exact minimiser of the penalised rank-constrained problem. The source-side ``communication axes'' are the left singular vectors of $B_r$; they live in the source space and are defined only up to rotation within their span.
+\end{remark}
+
+\section{Linear dynamics and tensors}
+\begin{theorem}[ARS-JPCA-001 --- Skew-symmetric fits generate rotations]\label{ars:jpca-001}
+The real skew-symmetric $k\times k$ matrices form a subspace of dimension $k(k-1)/2$ with basis $G_{ij}=e_ie_j^\top-e_je_i^\top$ ($i<j$). For data $(x_t,\dot x_t)$, minimising $\sum_t\|\dot x_t-M^\top x_t\|^2$ over skew $M$ is an ordinary least-squares problem in the $k(k-1)/2$ coordinates. Every eigenvalue of a real skew-symmetric matrix is purely imaginary, and $e^{tM}$ is orthogonal for all $t$; so the fitted flow $\dot x=M^\top x$ preserves $\|x\|$.
+\end{theorem}
+\begin{proof}
+$M^\top=-M$ forces zero diagonal and $M_{ji}=-M_{ij}$, so $M=\sum_{i<j}M_{ij}G_{ij}$ uniquely. The model is linear in the coefficients $M_{ij}$, so least squares applies. If $Mv=\mu v$ with $v\in\C^k$ nonzero, then $\mu\|v\|^2=v^*Mv$ and $\overline{v^*Mv}=v^*M^\top v=-v^*Mv$, so $\mu=-\bar\mu$. Finally $(e^{tM})^\top e^{tM}=e^{-tM}e^{tM}=I$, and $\frac{d}{dt}\|x\|^2=2x^\top M^\top x=0$.
+\end{proof}
+A good skew-symmetric fit shows that rotation \emph{describes} the trajectory well; it does not show that the circuit implements a rotation. Derivatives are central differences (ARS-FD-001), so smoothing and time step matter.
+
+\begin{theorem}[ARS-CP-001 --- Ridge CP-ALS decreases its objective monotonically]\label{ars:cp-001}
+For a three-way tensor $\mathcal X\in\R^{I\times J\times K}$, factor matrices $A,B,C$ with $R$ columns, and $\rho>0$, let
+\[F(A,B,C)=\Bigl\|\mathcal X-\sum_{r=1}^R a_r\circ b_r\circ c_r\Bigr\|^2+\rho(\|A\|^2+\|B\|^2+\|C\|^2).\]
+With $\odot$ the Khatri--Rao product and $X_{(1)}$ the mode-1 unfolding (mode-2 index varying fastest), $\sum_ra_r\circ b_r\circ c_r$ unfolds to $A(C\odot B)^\top$. The update $A\leftarrow X_{(1)}(C\odot B)\bigl((C\odot B)^\top(C\odot B)+\rho I\bigr)^{-1}$ is the exact minimiser of $F$ over $A$ with $B,C$ fixed, and similarly for $B$ and $C$. Hence $F$ is nonincreasing along the alternating iteration.
+\end{theorem}
+\begin{proof}
+Entry $(i,j+(k-1)J)$ of $A(C\odot B)^\top$ is $\sum_rA_{ir}B_{jr}C_{kr}$, the model entry. With $B,C$ fixed, $F$ in $A$ is $\|X_{(1)}-AZ^\top\|^2+\rho\|A\|^2+\text{const}$ with $Z=C\odot B$; each row of $A$ solves a ridge problem whose unique solution (ARS-LIN-001, transposed) is the stated update. Exact block minimisation cannot increase $F$.
+\end{proof}
+Monotone decrease does not imply convergence to a global minimum, and random initialisation can lead to different local solutions; repeated fits from several initialisations and a reported seed are part of a CP analysis. Factors are identified only up to permutation and rescaling across modes.
+
+\section{Likelihood models for spikes and predictive dependence}
+\begin{theorem}[ARS-GLM-001 --- Poisson log-link likelihood: concavity, Newton, separability]\label{ars:glm-001}
+For counts $y_t$, design rows $d_t$, bin width $\Delta$ and $\eta_t=d_t^\top\beta+\log\Delta$, the log-likelihood $\ell(\beta)=\sum_t(y_t\eta_t-e^{\eta_t})$ (up to constants) has gradient $D^\top(y-\mu)$ and Hessian $-D^\top\diag(\mu)D$, with $\mu_t=e^{\eta_t}$. It is concave; with a ridge penalty $\frac\rho2\beta^\top P\beta$ on a positive-definite block it is strictly concave there, and Newton's method coincides with iteratively reweighted least squares. If $U$ units are conditionally independent Poisson given a common design (their past counts), the joint conditional log-likelihood is $\sum_u\ell_u(\beta_u)$, so it is maximised by fitting each unit separately.
+\end{theorem}
+\begin{proof}
+Differentiate: $\partial\ell/\partial\beta=\sum_t(y_t-\mu_t)d_t$ and $\partial^2\ell/\partial\beta\partial\beta^\top=-\sum_t\mu_td_td_t^\top$, which is negative semidefinite because $\mu_t>0$. Adding $-\rho P$ makes it negative definite on the penalised directions. The Newton step $\beta+(D^\top WD+\rho P)^{-1}(D^\top(y-\mu)-\rho P\beta)$ with $W=\diag(\mu)$ is the solution of a weighted ridge least-squares problem with working response $\eta+W^{-1}(y-\mu)$, which is IRLS. Under conditional independence the joint likelihood is a product, the log-likelihood a sum of terms each involving only $\beta_u$.
+\end{proof}
+\begin{remark}
+Clipping $\eta_t$ to an interval for numerical safety replaces $\ell$ by a different function whose gradient vanishes in the clipped region; iterates that touch the clip no longer follow Newton on $\ell$. Concavity of $\ell$ guarantees a unique optimum of the \emph{model}, not that the binned Poisson model describes refractoriness, bursting, overdispersion or common unobserved input.
+\end{remark}
+
+\begin{proposition}[ARS-GLM-002 --- Lagged design rows are predictable]\label{ars:glm-002}
+If the design row for bin $t$ contains only counts from bins $t-1,\dots,t-L$, it is measurable with respect to the past $\mathcal F_{t-1}$. The conditional likelihood then factorises over bins as $\prod_t p(y_t\mid\mathcal F_{t-1})$, which is the discrete-time form of the point-process likelihood used by history-dependent GLMs.
+\end{proposition}
+\begin{proof}
+Measurability is immediate from the definition. The chain rule of probability writes the joint law of $(y_{L+1},\dots,y_T)$ given the first $L$ bins as a product of conditionals given the past; a model specifying $p(y_t\mid\mathcal F_{t-1})$ through the design row specifies each factor.
+\end{proof}
+Coefficients so obtained are conditional predictive effects. Without the absence of unobserved common inputs they do not identify synaptic connections.
+
+\begin{theorem}[ARS-VAR-001 --- The Granger log-variance ratio is nonnegative]\label{ars:var-001}
+Let a full least-squares regression of a target on lagged predictors contain, as a subset of its columns, the design of a reduced regression that omits the source lags. Then the residual mean squares satisfy $v_{\text{full}}\le v_{\text{reduced}}$, so $\log(v_{\text{reduced}}/v_{\text{full}})\ge0$ whenever $v_{\text{full}}>0$.
+\end{theorem}
+\begin{proof}
+Least-squares fitted values are orthogonal projections of the response onto the column space of the design. The reduced column space is contained in the full one, so the full projection is at least as close to the response.
+\end{proof}
+A positive ratio is guaranteed by geometry even when the source has no predictive value in the population; inference needs a sampling distribution (an $F$ test, or a permutation or surrogate null), and the Gaussian equivalence with transfer entropy is discussed with the information measures below.
+
+\section{Plug-in information measures}
+\begin{theorem}[ARS-INFO-002 --- Plug-in mutual information and transfer entropy]\label{ars:info-002}
+For discrete labelled samples with empirical joint distribution $\hat p$, the plug-in mutual information $\hat I(X;Y)=\KL(\hat p_{XY}\Vert\hat p_X\hat p_Y)\ge0$, with equality iff the empirical joint distribution factorises. For a target $Y_t$, its past $Y_{t-1}$ and a source past $S_{t-1}$,
+\[\hat H(Y_t,Y_{t-1})+\hat H(Y_{t-1},S_{t-1})-\hat H(Y_{t-1})-\hat H(Y_t,Y_{t-1},S_{t-1})=\hat I(Y_t;S_{t-1}\mid Y_{t-1})\ge0,\]
+which is the first-order plug-in transfer entropy from $S$ to $Y$. For independent $X,Y$ with $|X|$ and $|Y|$ categories observed $N$ times, $\E\hat I\approx(|X|-1)(|Y|-1)/(2N\ln2)$ bits \emph{(cited; Miller--Madow, Panzeri--Treves)}.
+\end{theorem}
+\begin{proof}
+Gibbs' inequality ($\KL\ge0$, with equality iff the distributions agree) is Jensen's inequality for the logarithm. For the identity, write each conditional mutual information through entropies: $I(A;B\mid C)=H(A,C)+H(B,C)-H(C)-H(A,B,C)$, which follows from $I(A;B\mid C)=H(A\mid C)-H(A\mid B,C)$ and $H(U\mid V)=H(U,V)-H(V)$. Nonnegativity holds because the conditional mutual information of the empirical distribution is an average of $\KL$ divergences.
+\end{proof}
+For jointly Gaussian processes, transfer entropy (in nats) equals half the Granger log-variance ratio; this equivalence is a statement about \emph{population} quantities of a specific model class, not about the outputs of a discretised plug-in estimator and a least-squares fit on the same finite data.
+
+\begin{theorem}[ARS-INFO-003 --- Data processing bounds decoded information]\label{ars:info-003}
+If $Y\to X\to\hat Y$ is a Markov chain (the prediction depends on the label only through the activity, for a decoder fixed independently of the test data), then $I(Y;\hat Y)\le I(Y;X)$. The plug-in mutual information between true and predicted labels is subject to the upward finite-sample bias of ARS-INFO-002, so a finite-sample decoded value can exceed $I(Y;\hat Y)$.
+\end{theorem}
+\begin{proof}
+By the chain rule, $I(Y;X,\hat Y)=I(Y;X)+I(Y;\hat Y\mid X)=I(Y;\hat Y)+I(Y;X\mid\hat Y)$. The Markov property gives $I(Y;\hat Y\mid X)=0$, and $I(Y;X\mid\hat Y)\ge0$, so $I(Y;X)\ge I(Y;\hat Y)$.
+\end{proof}
+
+\begin{theorem}[ARS-DEC-001 --- Balanced accuracy has chance level $1/K$]\label{ars:dec-001}
+For $K$ classes with per-class recalls $r_k=\Prob(\hat Y=k\mid Y=k)$, balanced accuracy is $\frac1K\sum_kr_k$. If predictions are independent of labels, with $\Prob(\hat Y=k)=q_k$, balanced accuracy equals $1/K$ whatever the class proportions; plain accuracy equals $\sum_k\pi_kq_k$, which can approach $\max_k\pi_k$.
+\end{theorem}
+\begin{proof}
+Independence gives $r_k=q_k$, so $\frac1K\sum_kq_k=\frac1K$. Plain accuracy is $\sum_k\Prob(Y=k)\Prob(\hat Y=k)=\sum_k\pi_kq_k$, maximised by predicting the majority class.
+\end{proof}
+Balanced accuracy is thus the natural score for unbalanced trial counts. Converting least-squares scores to a softmax produces numbers that sum to one, but they are not calibrated posterior probabilities.
+
+\section{Randomisation and resampling inference}
+\begin{theorem}[ARS-PERM-001 --- Monte Carlo randomisation $p$-values are valid]\label{ars:perm-001}
+Let $T_0$ be an observed statistic and $T_1,\dots,T_B$ statistics computed from randomised versions of the data. If, under $H_0$, the vector $(T_0,T_1,\dots,T_B)$ is exchangeable, then $p=(1+\#\{b\ge1:T_b\ge T_0\})/(B+1)$ satisfies $\Prob_{H_0}(p\le\alpha)\le\alpha$ for every $\alpha\in[0,1]$. For paired differences $\delta_i$ whose law is symmetric about $0$ under $H_0$, independently across pairs, random sign flips give such an exchangeable vector for $T=|\frac1n\sum s_i\delta_i|$.
+\end{theorem}
+\begin{proof}
+$p\le\alpha$ means that at most $\lfloor\alpha(B+1)\rfloor-1$ of the $T_b$ are $\ge T_0$, i.e.\ $T_0$ is among the $\lfloor\alpha(B+1)\rfloor$ largest values (ties counted against $T_0$). By exchangeability, $T_0$ is equally likely to occupy each rank among the $B+1$ values, and ties only make the event smaller, so its probability is at most $\lfloor\alpha(B+1)\rfloor/(B+1)\le\alpha$. For the sign-flip case, symmetry means $(s_i\delta_i)$ has the same law as $(\delta_i)$ for any fixed signs; conditionally on $(|\delta_i|)$, the observed signs and the random signs are i.i.d.\ uniform, so the statistics are exchangeable.
+\end{proof}
+Validity depends entirely on exchangeability. Trials that are temporally correlated, neurons recorded together, or segments sharing slow drifts violate it; the randomisation must then respect the dependence (blocks, hierarchies), or the $p$-value is anticonservative.
+
+\begin{proposition}[ARS-BOOT-001 --- Bootstrap moments of the mean]\label{ars:boot-001}
+Resampling $n$ values with replacement from $x_1,\dots,x_n$ gives a bootstrap mean $\bar x^*$ with $\E^*\bar x^*=\bar x$ and $\Var^*\bar x^*=\frac{1}{n}\cdot\frac1n\sum_i(x_i-\bar x)^2$. Consistency of percentile intervals for the mean of i.i.d.\ data with finite variance is \emph{(cited; Efron, Hall)}.
+\end{proposition}
+\begin{proof}
+Each draw is uniform on the sample, so it has mean $\bar x$ and variance $\frac1n\sum(x_i-\bar x)^2$; the $n$ draws are independent, so the mean of $n$ draws has that expectation and $1/n$ of that variance.
+\end{proof}
+The bootstrap reproduces sampling variability only if the resampled units are the independent units of the experiment. Resampling time bins of an autocorrelated signal understates uncertainty.
+
+\section{Decompositions with weak guarantees}
+\begin{proposition}[ARS-EMD-001 --- Sifting decompositions are complete by construction]\label{ars:emd-001}
+If $h_1,\dots,h_K$ are extracted successively by subtracting each from the current residual, starting from $x$, then $x=\sum_kh_k+r_K$ exactly, whatever the sifting rule. If an ensemble average $\bar h_k$ of such components is formed and the residual defined as $x-\sum_k\bar h_k$, the identity holds by definition.
+\end{proposition}
+\begin{proof}
+$r_0=x$ and $r_k=r_{k-1}-h_k$; the sum telescopes.
+\end{proof}
+This is the only general guarantee. Empirical mode decomposition has no general theorem stating that its components are narrowband, orthogonal, unique, or stable under small perturbations; endpoint treatment and stopping rules change the result, and in ensemble versions, independently added noise does not cancel exactly because sifting is nonlinear. Components should be treated as data-adaptive descriptions, not as physiological sources.
+
+\begin{proposition}[ARS-WAVE-001 --- Cosine template similarity]\label{ars:wave-001}
+For nonzero $x,t\in\R^m$, $\cos(x,t)=x^\top t/(\|x\|\|t\|)\in[-1,1]$, with $1$ iff $x=ct$ for some $c>0$. It is invariant to positive rescaling of either argument.
+\end{proposition}
+\begin{proof}
+Cauchy--Schwarz, with equality iff the vectors are parallel; the sign of $c$ gives the sign of the cosine. Positive scalars cancel between numerator and denominator.
+\end{proof}
+Amplitude invariance is a feature (drift in electrode gain) and a defect (two neurons with similar shapes but different amplitudes are indistinguishable). Zero-norm snippets have no cosine.
+
+\begin{exercises}
+\item Show that $\|Gx_\lambda\|$ is nondecreasing in $1/\lambda$ and draw the corresponding L-curve for a two-singular-value example.
+\item Give a $3\times3$ example in which PR computed on raw data and on z-scored data differ.
+\item Prove that the assembly expression of a template equals half the sum over unordered pairs $i<j$ of $2z_iz_jw_iw_j$, and interpret negative values.
+\item Construct a data set for which the ridge-then-project rank-1 regression differs from the exact rank-1 ridge solution.
+\item Show that the sign-flip test with $B$ random draws can never return $p<1/(B+1)$, and compute the minimum $B$ needed to report $p<0.001$.
+\item Show that the Granger ratio for a target regressed on an independent white-noise source is positive with probability one in finite samples.
+\end{exercises}

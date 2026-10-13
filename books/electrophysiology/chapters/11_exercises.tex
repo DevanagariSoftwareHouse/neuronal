@@ -1,0 +1,134 @@
+\chapter{Exercises, counterexamples, and research projects}
+The following problems are original exercises for the CON\textsuperscript{2}PHYS
+curriculum. The objective is to prove each mathematical claim first
+and only then write MATLAB experiments.
+
+\begin{exercise}[Relations and functions]
+Define $R\subseteq U\times T$ for two units firing at the same
+timestamp. Prove that $R$ need not be a function $U\to T$.
+Construct the corresponding function into $\mathcal P(T)$.
+\end{exercise}
+\begin{exercise}[Sampling failure]
+Sample a 90-Hz sine wave at 100 Hz and identify a lower-frequency
+sinusoid with the same samples. Explain why a digital filter applied
+after sampling cannot recover the true generating frequency.
+\end{exercise}
+\begin{exercise}[Hilbert envelope]
+Construct $x(t)=(1+0.3\cos 2\pi 2t)\cos 2\pi 40t$.
+Calculate the analytic envelope and compare against a signal
+whose envelope frequencies overlap its carrier spectrum.
+Explain when the Bedrosian assumption fails.
+\end{exercise}
+\begin{exercise}[Spectral concentration]
+Generate equal-length noisy signals with an off-bin sinusoid.
+Compare ordinary periodograms, Welch, and DPSS multitaper
+estimates using repeated simulations. Vary time-bandwidth
+product and report bias versus variance.
+\end{exercise}
+\begin{exercise}[Principal subspace perturbations]
+Generate a diagonal covariance with a controllable eigengap.
+Perturb it by symmetric noise, compute leading subspace angles,
+and compare their variation with the Davis--Kahan scaling.
+\end{exercise}
+\begin{exercise}[Random-matrix nulls]
+Simulate isotropic Gaussian matrices with independent samples,
+then introduce temporal autocorrelation and heterogeneous
+channel noise. Compare each empirical eigenvalue histogram with
+the corresponding idealized Marcenko--Pastur curve.
+\end{exercise}
+\begin{exercise}[Latent gain]
+Generate counts with $N\mid G\sim\Poisson(\mu G)$, where
+$G$ is a positive random variable of mean one.
+Verify the predicted quadratic mean--variance relation and
+test how a purely Poisson GLM misestimates uncertainty.
+\end{exercise}
+\begin{exercise}[Conditional point-process validation]
+Fit a simulated point-process intensity with and without spike-history
+effects. Examine rescaled inter-event intervals. Explain why
+correctly transformed residuals do not identify a unique mechanism.
+\end{exercise}
+\begin{exercise}[Shared-input Granger counterexample]
+Simulate an unobserved driver of two time series with different lags.
+Show that adding measurements of the common source can change
+inferred predictive direction or strength. Avoid interpreting
+this as proof of synaptic connectivity.
+\end{exercise}
+\begin{exercise}[Inverse problem]
+Construct a lead-field matrix with a nontrivial nullspace.
+Find two distinct current patterns with identical electrode
+predictions, then compare Tikhonov solutions for different
+regularization strengths.
+\end{exercise}
+
+\section{Suggested cumulative projects}
+Project I: from set membership to a reliable spike-count
+representation. Project II: from convolution to LFP spectral
+density and multitaper estimators. Project III: from covariance
+to PCA stability and manifold caveats. Project IV: from
+conditional probability to spike-train GLM validation.
+Project V: from state-space observability to limits of
+causal and mechanistic inference.
+% --- expanded edition (October 2026) ---
+\section{Further problems by chapter}
+\begin{exercise}[Partitions and sorting]
+Two spike-sorting runs on the same data give partitions $\mathcal P$ and
+$\mathcal Q$. Prove that the number of spike pairs placed together by
+both runs equals $\sum_{P,Q}\binom{|P\cap Q|}{2}$, and use this to define
+the Rand index.
+\end{exercise}
+\begin{exercise}[Contraction and recurrent rates]
+For $r=\tanh(wr+I)$, find the range of $w$ for which the fixed-point
+iteration is guaranteed to converge for every $I$.
+\end{exercise}
+\begin{exercise}[PCA of a random walk]
+Simulate 100 independent random walks of length 1000, compute the PCA
+across time, and compare the leading components with the
+Karhunen--Lo\`eve eigenfunctions of Brownian motion.
+\end{exercise}
+\begin{exercise}[Delta method for coherence]
+Using the Fisher transformation $\operatorname{atanh}|\hat c|$, derive an
+approximate confidence interval for coherence from $K$ tapers and
+compare it with a jackknife over tapers in simulation.
+\end{exercise}
+\begin{exercise}[GHK inversion]
+Given reversal potentials measured under two different extracellular
+sodium concentrations, show that the ratio $P_{\rm Na}/P_{\rm K}$ is
+identifiable from the GHK voltage equation, while the absolute
+permeabilities are not.
+\end{exercise}
+\begin{exercise}[Causal phase estimation]
+Fit an AR model to the past 500\,ms of an LFP and forecast 100\,ms ahead
+to estimate the current theta phase. Compare the error with that of a
+causal Butterworth filter and with the zero-phase reference.
+\end{exercise}
+\begin{exercise}[Hawkes overdispersion]
+Simulate a Hawkes process with exponential kernel and branching ratio
+$0.5$, and verify the long-window Fano factor $1/(1-\nu)^2$.
+\end{exercise}
+\begin{exercise}[Collider bias in event-triggered analysis]
+Simulate two independent Poisson neurons, define population events as
+bins where the summed count exceeds a threshold, and compute their
+correlation within and outside events.
+\end{exercise}
+\begin{exercise}[Spiked covariance]
+Plant a rank-one component of variance $1+\theta$ in $N=100$ isotropic
+Gaussian neurons. For $T\in\{50,100,400,1600\}$, estimate the leading
+sample eigenvalue and the squared alignment, and compare with the BBP
+predictions.
+\end{exercise}
+\begin{exercise}[Entrainment tongue]
+Drive a noisy phase oscillator with natural frequency 8\,Hz at
+frequencies from 6 to 10\,Hz and several intensities. Map the region in
+which the phase-locking value to the drive exceeds 0.8, and compare with
+the Adler prediction.
+\end{exercise}
+\begin{exercise}[Entropy bias]
+For a uniform distribution on $K=16$ symbols, estimate the plug-in
+entropy bias for $T=20,50,200$ by simulation and compare with
+$(K-1)/(2T)$.
+\end{exercise}
+\begin{exercise}[Time rescaling with a wrong model]
+Simulate an inhomogeneous Poisson process with sinusoidal rate, fit a
+constant-rate model, and show how the KS plot of rescaled intervals
+reveals the misspecification.
+\end{exercise}

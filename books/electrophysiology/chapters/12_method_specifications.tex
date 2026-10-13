@@ -1,0 +1,467 @@
+\chapter[Method specifications]{Method specifications for every function in \texttt{matlab/path}}\label{ch:method-specifications}
+This chapter gives, for each of the 88 functions in \path{matlab/path/}, three things: the mathematical object the code \emph{actually computes}, written as a formula; the results it depends on, by theorem identifier; and review notes recording conventions, assumptions and every place where the implementation departs from the idealised mathematics. Identifiers of the form \texttt{ARS-FAMILY-NNN} are proved in the arsenal chapters of \emph{Formal Foundations} and registered in \path{books/shared/theorems.yml}. This volume does not reproduce those proofs; it uses them.
+
+The entries were written from a line-by-line reading of the source on 12 October 2026, including the helpers consolidated from \texttt{paper\_con2phys} in commit \texttt{e9b4782}. A specification is a statement about the code, not a validation of the method: the review notes are the place where scientific caution starts.
+
+\paragraph{Shared conventions.} Unless stated otherwise: time is in seconds and frequency in hertz; matrices have observations (samples, bins, trials) in rows; spike times are timestamps measured from the same origin as sample $1$ of any accompanying signal, where sample $n$ is taken at $(n-1)/f_s$; intervals are half-open $[a,b)$ (\texttt{ARS-COUNT-001}).
+
+\paragraph{Reproducibility contract.} Functions that draw random numbers do not share one convention. \path{bootstrap_percentile}, \path{paired_signflip_test} and \path{population_dimension_scaling} build a private \texttt{RandStream} from a \texttt{seed} argument. \path{jitter_spike_surrogate}, \path{phase_randomized_surrogate}, \path{ensemble_empirical_mode_decomposition} and \path{tensor_cp_als} use the caller's global generator and must be seeded outside. A single contract (an explicit seed or stream argument everywhere) is recommended.
+
+\providecommand{\methodentry}[4]{%
+\par\medskip\noindent\textbf{\path{#1}}\par
+\noindent\textit{Computes.} #2\par
+\noindent\textit{Relies on.} #3\par
+\noindent\textit{Review.} #4\par}
+
+\section{Event counting, rates, and repeated-trial variability}
+\methodentry{firing_rate.m}
+{$\hat\lambda=\#\{i:a\le t_i<b\}/(b-a)$.}
+{\texttt{ARS-COUNT-001}, \texttt{ARS-COUNT-002}.}
+{Maximum-likelihood rate only for a homogeneous Poisson process; otherwise the average intensity over $[a,b)$.}
+
+\methodentry{spike_counts_edges.m}
+{$c_b=\#\{i:e_{b-1}\le t_i<e_b\}$ for arbitrary increasing edges; non-finite times are dropped.}
+{\texttt{ARS-COUNT-001}.}
+{Events at the final edge are removed \emph{before} counting, which makes the last bin half-open as well; this deliberately overrides the closed final bin of MATLAB's \texttt{histcounts}.}
+
+\methodentry{spike_bin_counts.m}
+{Equal-width counts on $B=\lfloor(b-a)/\Delta+10^{-9}\rfloor$ bins starting at $a$, last edge clamped to $\min(a+B\Delta,b)$, with centres.}
+{\texttt{ARS-COUNT-001}.}
+{The tolerance keeps a complete last bin when $(b-a)/\Delta$ is an integer up to round-off (e.g.\ $\Delta=0.1$); the clamp keeps $b$ itself excluded. A genuine partial tail $[a+B\Delta,b)$ is still dropped.}
+
+\methodentry{interspike_intervals.m}
+{Successive differences of sorted timestamps.}
+{\texttt{ARS-COUNT-006}.}
+{Zero intervals reveal duplicated timestamps; their rate should be compared with the timestamp resolution.}
+
+\methodentry{peri_event_histogram.m}
+{Trial-by-bin counts of $t_i-\tau_k$ in user edges and $\hat\lambda_b=\bar c_b/|I_b|$.}
+{\texttt{ARS-COUNT-001}, \texttt{ARS-COUNT-002}.}
+{Counts through \path{spike_counts_edges}, so every bin, including the last, is half-open; empty trains are valid and non-finite spike times are discarded. Unbiased for the bin-average trial-averaged intensity only if trials are exchangeable repeats; overlapping event windows reuse spikes across trials.}
+
+\methodentry{spike_bins.m}
+{Matrix of \path{spike_counts_edges} counts: bins $\times$ units, for a cell array of trains on shared edges.}
+{\texttt{ARS-COUNT-001}.}
+{Inherits half-open bins and the dropping of non-finite times.}
+
+\methodentry{trial_features.m}
+{Trial $\times$ unit rates $\#\{t\in[w_{k,1},w_{k,2})\}/(w_{k,2}-w_{k,1})$; invalid windows give \texttt{NaN}.}
+{\texttt{ARS-COUNT-001}, \texttt{ARS-COUNT-002}.}
+{Unequal window lengths give rates with unequal variances ($\lambda/T$); weighting downstream is the caller's job.}
+
+\methodentry{spike_count_fano.m}
+{Column-wise $s^2/\bar x$ (unbiased variance over trials); \texttt{NaN} where $\bar x=0$.}
+{\texttt{ARS-COUNT-003}.}
+{A ratio of estimators, biased for few trials. Values above $1$ are explained by latent gain variability as well as by spiking mechanisms.}
+
+\methodentry{noise_correlation.m}
+{Pearson correlation matrix of residuals $x_i-\bar x_{g(i)}$ after subtracting each condition mean.}
+{\texttt{ARS-COUNT-004}.}
+{Residual degrees of freedom are $n-K$, not $n$; correlations depend strongly on the counting window.}
+
+\methodentry{condition_marginalization.m}
+{Condition means $\bar x_k$, counts $n_k$, residuals $x_i-\bar x_{g(i)}$ and grand mean.}
+{\texttt{ARS-COUNT-004}.}
+{Exact analysis-of-variance split; it is a primitive of demixed methods, not demixed PCA.}
+
+\methodentry{autocorrelogram.m}
+{$\Gamma(m)=\sum_bc_{b+m}c_b$, $|m|\le M$, on a common bin grid.}
+{\texttt{ARS-COUNT-005}.}
+{$\Gamma(0)=\sum c_b^2$ includes the self-pairs $\sum c_b$; subtract them before reading a refractory trough.}
+
+\methodentry{crosscorrelogram.m}
+{$\Gamma(m)=\sum_ba_{b+m}c_b$ for trains $a$ (first) and $c$ (second).}
+{\texttt{ARS-COUNT-005}.}
+{Positive lag means the first train's spike follows the second's. No shift predictor or rate correction: shared stimulus locking appears as a broad peak.}
+
+\methodentry{lfp_envelope_moments.m}
+{For theta, beta and gamma: zero-phase fourth-order Butterworth bandpass, Hilbert envelope, then population mean, variance, skewness $c_3/c_2^{3/2}$ and excess kurtosis $c_4/c_2^2-3$ in complete sliding windows, via block-standardised prefix sums of powers.}
+{\texttt{ARS-MOM-001}, \texttt{ARS-FILT-001}, \texttt{ARS-FILT-002}.}
+{Block standardisation is exact in real arithmetic and limits cancellation; shape statistics are suppressed when the variance is at round-off level. Overlapping windows are dependent; edge windows are flagged, not removed. The envelope of filtered Gaussian noise is Rayleigh, so nonzero skewness and kurtosis are expected even without bursts.}
+
+\section{Spike detection, waveforms, and sorting quality}
+\methodentry{spike_threshold_detection.m}
+{Negative peaks of $x$ below $-k\hat\sigma$, $\hat\sigma=\operatorname{MAD}(x)/0.67449$, separated by at least the refractory distance; times $(n-1)/f_s$.}
+{\texttt{ARS-ROB-001}.}
+{The MAD constant assumes Gaussian background noise. Only negative-going events are detected; positive-going units are missed by design.}
+
+\methodentry{spike_waveform_extraction.m}
+{Snippets $x[:,\,n_k-B:n_k+A]$ for one-based sample indices $n_k$, discarding incomplete windows.}
+{Definitional; no theorem needed.}
+{Stores \texttt{single} precision. The returned \texttt{kept} indices must be used to realign any per-spike labels.}
+
+\methodentry{spike_waveform_average.m}
+{Channel-by-sample mean and standard error of the mean over spikes.}
+{Definitional; no theorem needed.}
+{The standard error assumes independent snippets; overlapping spikes and drift violate it.}
+
+\methodentry{spike_waveform_pca.m}
+{Scores and loadings of centred waveforms by SVD.}
+{\texttt{ARS-PCA-001}.}
+{Feature extraction only. Loadings change with alignment and channel scaling.}
+
+\methodentry{spike_waveform_snr.m}
+{$\max_c\bigl(\max_t|T_{c,t}|/\hat\sigma_c\bigr)$ with $\hat\sigma_c$ the MAD scale of baseline noise on channel $c$.}
+{\texttt{ARS-ROB-001}.}
+{Taking the maximum over channels is an optimistic selection; report the channel and the per-channel values.}
+
+\methodentry{waveform_trough_to_peak.m}
+{Time from the global minimum to the subsequent maximum, in milliseconds.}
+{Definitional; no theorem needed.}
+{Resolution is $1000/f_s$ ms. Requires the waveform sampling rate, not an LFP rate. Cell-type labels need validated, ground-truth-based thresholds.}
+
+\methodentry{template_match_waveforms.m}
+{Arg-max over templates of $\cos(x,t)$.}
+{\texttt{ARS-WAVE-001}.}
+{Amplitude-invariant; zero-norm waveforms produce \texttt{NaN}. A primitive, not a sorter.}
+
+\methodentry{spike_refractory_violations.m}
+{Fraction of sorted inter-spike intervals shorter than $r$.}
+{\texttt{ARS-COUNT-006}.}
+{Not a contamination rate: a Poisson baseline at the unit's rate gives a nonzero fraction.}
+
+\methodentry{spike_presence_ratio.m}
+{Fraction of equal-width bins with at least one spike; the unused tail length is reported.}
+{\texttt{ARS-COUNT-001}, \texttt{ARS-COUNT-006}.}
+{Expected value $1-e^{-\lambda\Delta}$ for a Poisson unit; a low ratio is ambiguous between drift and low rate.}
+
+\methodentry{spike_sorting_agreement.m}
+{Two-pointer matching under tolerance $\tau$; true positives, false positives, false negatives, precision, recall and $F_1$.}
+{\texttt{ARS-COUNT-007}.}
+{The greedy matching is provably maximum, so the counts do not depend on matching order. Single-unit comparison only.}
+
+\section{Spike-train distances and count-preserving surrogates}
+\methodentry{victor_purpura_distance.m}
+{Victor--Purpura cost $D_q$ by the alignment recursion on sorted trains.}
+{\texttt{ARS-COUNT-008}.}
+{A metric for $q>0$, a count difference for $q=0$. Memory is $O(\min(|A|,|B|))$ by swapping arguments, valid because the cost is symmetric.}
+
+\methodentry{jitter_spike_surrogate.m}
+{Each spike in $[o+k\Delta,o+(k+1)\Delta)$ is replaced by an independent uniform point of that window.}
+{\texttt{ARS-COUNT-009}, \texttt{ARS-PERM-001}.}
+{Exact conditional null: uniform placement given window counts. It is not a test of ``no synchrony''. Uses the global random generator.}
+
+\section{References, laminar fields, and forward and inverse models}
+\methodentry{common_median_reference.m}
+{$x_c(t)-\operatorname{median}_{c'}x_{c'}(t)$.}
+{\texttt{ARS-ROB-002}.}
+{Removes \emph{any} common additive component, including shared neural signal. Nonlinear, so it does not commute with filtering.}
+
+\methodentry{bipolar_reference_lfp.m}
+{Adjacent differences $x_{c+1}-x_c$ and midpoint depths.}
+{\texttt{ARS-ROB-002}.}
+{The output is a difference, not a derivative: divide by spacing $h$ to estimate $\varphi'$ at midpoints with $O(h^2)$ error.}
+
+\methodentry{current_source_density.m}
+{$-\sigma(\varphi_{c+1}-2\varphi_c+\varphi_{c-1})/h^2$ at interior contacts; \texttt{NaN} at the two boundaries.}
+{\texttt{ARS-FD-001}.}
+{Sign convention: sinks negative. Assumes a one-dimensional field, homogeneous $\sigma$ and equal spacing; the default $\sigma=1$ gives arbitrary units.}
+
+\methodentry{field_potential_forward.m}
+{$Y=GS$ for a supplied lead field $G$.}
+{\texttt{ARS-LIN-002}.}
+{Linear by construction; all physics is in $G$, which the function does not construct.}
+
+\methodentry{field_potential_inverse_tikhonov.m}
+{$\hat S=(G^\top G+\lambda I)^{-1}G^\top Y$ with fitted values and residuals.}
+{\texttt{ARS-LIN-001}, \texttt{ARS-LIN-002}.}
+{The estimate lives in the row space of $G$; null-space currents are invisible. $\lambda$ needs a principled choice (noise level, L-curve, cross-validation).}
+
+\section{Filtering, analytic signals, and adaptive decompositions}
+\methodentry{bandpass_lfp.m}
+{Butterworth bandpass of nominal order $m$ (so $2m$ poles) in second-order sections, applied forward and backward.}
+{\texttt{ARS-FILT-001}.}
+{Zero phase in the interior; magnitude squared, so $-6$ dB at design edges. Edge transients remain; the length check ($>\max(30,6m)$ samples) is a minimum, not a guarantee.}
+
+\methodentry{analytic_phase.m}
+{FFT-based analytic signal $z$, $|z|$, $\arg z$.}
+{\texttt{ARS-FILT-002}.}
+{Meaningful for narrowband input only; phase is undefined where $|z|\approx0$.}
+
+\methodentry{morlet_wavelet.m}
+{Convolution (\texttt{'same'}) with the admissible unit-energy Morlet kernel of $c$ cycles, truncated at $\pm3.5\sigma$.}
+{\texttt{ARS-FILT-003}, \texttt{ARS-FILT-004}.}
+{Phase increases with time, matching \path{analytic_phase}. The first and last $\approx3.5\sigma f_s$ samples are edge-affected.}
+
+\methodentry{empirical_mode_decomposition.m}
+{Sifting with PCHIP envelopes through extrema and both endpoints, Cauchy-type stopping $\|h_{k+1}-h_k\|^2/\|h_k\|^2<\epsilon$.}
+{\texttt{ARS-EMD-001}.}
+{Completeness $x=\sum h_k+r$ is the only guarantee. Both envelopes are pinned to the signal value at the endpoints, which forces the local mean there to equal the signal and biases the first and last samples of each mode.}
+
+\methodentry{ensemble_empirical_mode_decomposition.m}
+{Average over realisations of EMD of $x+\nu s\,\epsilon$; residual defined as $x-\sum\bar h_k$.}
+{\texttt{ARS-EMD-001}.}
+{Modes are aligned by extraction index; added noise does not cancel exactly because sifting is nonlinear. Uses the global random generator.}
+
+\methodentry{cycle_by_cycle.m}
+{Rising zero crossings $x_n\le0<x_{n+1}$; per-cycle onset, period, frequency and half peak-to-peak amplitude.}
+{\texttt{ARS-DET-002}.}
+{Period error below one sample for an ideal sinusoid. No burst or cycle-quality criteria.}
+
+\section{Power spectra and aperiodic structure}
+\methodentry{welch_psd.m}
+{One-sided Welch density with periodic Hann windows of length $n=\operatorname{round}(T_wf_s)$ for window duration $T_w$, overlap $\lfloor on\rfloor$ samples, and FFT length $\max(256,2^{\lceil\log_2 n\rceil})$.}
+{\texttt{ARS-SPEC-001}, \texttt{ARS-SPEC-002}.}
+{Zero-padding interpolates the spectrum; it does not improve resolution. Overlapping segments are not independent.}
+
+\methodentry{multitaper_psd.m}
+{Average of $K$ DPSS-tapered periodograms on the whole record, unit-energy tapers, equal weights.}
+{\texttt{ARS-SPEC-001}, \texttt{ARS-SPEC-002}.}
+{No adaptive weighting, so broadband leakage from strong low-frequency power is not suppressed. Bandwidth $W$ follows from $NW$ and record length.}
+
+\methodentry{aperiodic_slope.m}
+{Least-squares line of $\log_{10}P$ on $\log_{10}f$ over a band minus excluded peak bands; exponent $=-$slope.}
+{\texttt{ARS-SPEC-007}.}
+{Unequal weighting toward high frequencies on a linear grid; unexcluded peaks bias the exponent; no knee.}
+
+\methodentry{irasa_decomposition.m}
+{Median over $h$ of $\sqrt{P_{\uparrow h}P_{\downarrow h}}$ (resampled Welch spectra) as fractal power; oscillatory power $=\max(0,P-\text{fractal})$.}
+{\texttt{ARS-SPEC-008}.}
+{Valid only for $f<f_s/(2h_{\max})$ because compression low-pass filters; the function returns all frequencies up to Nyquist without masking that range. Exact only for a pure power law.}
+
+\methodentry{spectral_peak_candidates.m}
+{Peaks of $10\log_{10}P$ minus its running median (window $\approx$ \texttt{width\_hz}) with prominence at least the threshold.}
+{Definitional heuristic; no theorem claimed.}
+{The running median is a nonparametric background; candidate peaks are not tested against any null.}
+
+\methodentry{spectral_entropy.m}
+{$-\sum p_j\log p_j/\log M$ with $p=P/\sum P$ over $M$ bins.}
+{\texttt{ARS-INFO-001}.}
+{Depends on the band and grid; values from different $M$ or frequency ranges are not comparable.}
+
+\methodentry{permutation_entropy.m}
+{Entropy of ordinal patterns of order $d$ and delay $\tau$, normalised by $\log d!$; windows with ties are discarded.}
+{\texttt{ARS-INFO-001}.}
+{Discarding ties biases the estimate for quantised signals. Finite-sample bias is downward.}
+
+\section{Oscillation episodes and transient events}
+\methodentry{bosc_detect.m}
+{Morlet power per frequency (edges excluded); background $\exp(\text{line fit of }\log\bar P\text{ on }\log f)$; threshold $-\bar P_f\log(1-p)$; episodes of at least $c$ cycles.}
+{\texttt{ARS-DET-001}, \texttt{ARS-FILT-003}, \texttt{ARS-FILT-004}, \texttt{ARS-SPEC-007}.}
+{The background is fitted to mean power that includes oscillatory episodes, which raises the threshold exactly near the peak. The power threshold controls a per-sample rate; the episode-level false-positive rate is different and unreported.}
+
+\methodentry{oscillation_episode.m}
+{Maximal runs of a logical vector of length $\ge\lceil cf_s/f\rceil$ samples; start, stop, duration, cycles, mask, fraction.}
+{\texttt{ARS-DET-001}.}
+{Pure duration decision; any calibration comes from the threshold upstream.}
+
+\methodentry{ripple_candidate_events.m}
+{Envelope $a=|z|$ of a bandpassed signal, robust $z=(a-\operatorname{med}a)/(1.4826\operatorname{MAD})$; runs above onset of $25$--$150$ ms with peak above \texttt{peak\_z}, excluding runs touching the record edges.}
+{\texttt{ARS-ROB-001}, \texttt{ARS-FILT-001}, \texttt{ARS-FILT-002}.}
+{The envelope is not Gaussian, so the robust $z$ is a scale convention, not a probability. Default band requires $f_s>400$ Hz.}
+
+\section{Coupling between two signals}
+\methodentry{coherence_spectrum.m}
+{Welch magnitude-squared coherence with periodic Hann windows and $50\%$ overlap.}
+{\texttt{ARS-SPEC-003}.}
+{Bounded by Cauchy--Schwarz and biased upward for few segments; at least two windows are enforced. Undirected.}
+
+\methodentry{multitaper_coherence.m}
+{$|\sum X\bar Y|^2/(\sum|X|^2\sum|Y|^2)$ over DPSS tapers and $50\%$-overlapping segments, each segment demeaned.}
+{\texttt{ARS-SPEC-003}, \texttt{ARS-SPEC-002}.}
+{No jackknife or confidence bounds. Coherency phase is discarded.}
+
+\methodentry{wavelet_coherence.m}
+{Time-smoothed (moving mean) Morlet cross-power over the product of smoothed auto-powers, per frequency, edges set to \texttt{NaN}.}
+{\texttt{ARS-SPEC-003}, \texttt{ARS-FILT-003}.}
+{Without smoothing the ratio is identically $1$; the smoothing width is the effective number of averages and must be reported. No cross-scale smoothing.}
+
+\methodentry{phase_slope_index.m}
+{$\operatorname{Im}\sum_j\overline{C(f_j)}C(f_{j+1})$ over Welch coherency in a band.}
+{\texttt{ARS-SPEC-004}.}
+{Antisymmetric and blind to real coherency. Unnormalised, no jackknife. The sign convention of \texttt{cpsd} determines which signal ``leads'' and must be fixed by a known-delay test.}
+
+\methodentry{phase_locking_value.m}
+{$|\frac1n\sum e^{i(\phi_j-\psi_j)}|$ over finite pairs.}
+{\texttt{ARS-CIRC-001}, \texttt{ARS-CIRC-002}.}
+{Upward bias $(1-\rho^2)/n$ in the square; insensitive to, and therefore inflated by, common references.}
+
+\methodentry{phase_lag_index.m}
+{$|\frac1n\sum\operatorname{sgn}\sin\Delta_j|$.}
+{\texttt{ARS-CIRC-004}.}
+{Zero and antiphase terms contribute zero and remain in the denominator. The implementation sets $|\sin\Delta|\le10\,\mathrm{eps}$ to zero before taking signs, suppressing roundoff at multiples of $\pi$. Outside this tolerance the estimator remains discontinuous; a small consistent nonzero lag can give one. Nonfinite inputs are omitted and fewer than two finite samples give NaN.}
+
+\methodentry{weighted_phase_lag_index.m}
+{$|\sum\operatorname{Im}S_j|/\sum|\operatorname{Im}S_j|$ over per-segment cross-spectra.}
+{\texttt{ARS-CIRC-004}.}
+{Not the debiased estimator; input must be one cross-spectrum per independent segment or trial.}
+
+\methodentry{granger_causality.m}
+{$\log(v_{\text{red}}/v_{\text{full}})$ from least-squares VAR($L$) regressions of the target with and without the source lags, with intercept, conditional on all other variables.}
+{\texttt{ARS-VAR-001}, \texttt{ARS-INFO-002}.}
+{Nonnegative by geometry even under the null; no $F$ test or surrogate is provided. Temporal, not spectral.}
+
+\methodentry{mutual_information.m}
+{Plug-in $\hat I=\KL(\hat p_{XY}\Vert\hat p_X\hat p_Y)$ in bits over unique labels.}
+{\texttt{ARS-INFO-002}.}
+{Upward bias about $(|X|-1)(|Y|-1)/(2N\ln2)$ bits for independent variables. Continuous inputs become one category per distinct value.}
+
+\methodentry{transfer_entropy.m}
+{$\hat H(Y_t,Y_{t-1})+\hat H(Y_{t-1},S_{t-1})-\hat H(Y_{t-1})-\hat H(Y_t,Y_{t-1},S_{t-1})$ in bits.}
+{\texttt{ARS-INFO-002}.}
+{First-order history only. The final $\max(0,\cdot)$ only guards round-off: the plug-in conditional mutual information is already nonnegative.}
+
+\section{Phase statistics and phase--amplitude coupling}
+\methodentry{circular_mean.m}
+{$\arg\bar z$ and $R=|\bar z|$ for $\bar z=\sum a_je^{i\theta_j}/\sum a_j$; mean is \texttt{NaN} if $R<10^{-12}$.}
+{\texttt{ARS-CIRC-001}.}
+{Rotation-equivariant. The cut-off is numerical, not statistical.}
+
+\methodentry{rayleigh_test.m}
+{$z=nR^2$ and the corrected $p$-value $\exp(\sqrt{1+4n+4(n^2-R_n^2)}-(1+2n))$ with $R_n=nR$.}
+{\texttt{ARS-CIRC-003}.}
+{Valid for independent angles with a unimodal alternative; not for every-sample LFP phases.}
+
+\methodentry{pairwise_phase_consistency.m}
+{$(|\sum e^{i\theta_j}|^2-n)/(n(n-1))$.}
+{\texttt{ARS-CIRC-002}.}
+{Unbiased for $\rho^2$ under independence; can be negative in finite samples.}
+
+\methodentry{modulation_index.m}
+{Mean amplitude in $M$ equal phase bins on $[-\pi,\pi)$, normalised to $p$, and $1-H(p)/\log M$.}
+{\texttt{ARS-INFO-001}.}
+{\texttt{NaN} if any bin is empty. Depends on $M$. Non-sinusoidal waveforms and sharp transients create coupling without cross-frequency interaction.}
+
+\methodentry{pac_mean_vector_length.m}
+{Raw $|\frac1n\sum a_je^{i\theta_j}|$, normalised by $\bar a$, and preferred phase.}
+{\texttt{ARS-CIRC-001}.}
+{The raw value scales with amplitude; only the normalised value lies in $[0,1]$. Requires surrogates for inference.}
+
+\section{Spike--field relations}
+\methodentry{spike_triggered_average.m}
+{$\frac1K\sum_kx[n_k+\ell]$ for $\ell\in[-B,A]$, $n_k=\operatorname{round}(t_kf_s)+1$, skipping incomplete windows.}
+{\texttt{ARS-COUNT-001} (index conventions).}
+{Uses the \emph{nearest} sample, whereas \path{spike_field_coherence} uses the \emph{containing} sample $\lfloor t f_s\rfloor+1$; the two differ by up to one sample. Common stimulus locking is not removed.}
+
+\methodentry{spike_field_coherence.m}
+{Welch coherence between the LFP and a spike-count series binned at the LFP sampling rate.}
+{\texttt{ARS-SPEC-003}, \texttt{ARS-COUNT-001}.}
+{Coherence depends on firing rate; comparisons across units or conditions with different rates are confounded.}
+
+\methodentry{spike_field_ppc.m}
+{Analytic signal of a prefiltered LFP, linearly interpolated to spike times away from the edges; PPC of the resulting phases.}
+{\texttt{ARS-FILT-002}, \texttt{ARS-CIRC-002}.}
+{Interpolating complex values shrinks the modulus between samples but preserves phase well when $f_s\gg f$. Spikes in bursts are dependent, which reintroduces bias.}
+
+\section{Surrogates and resampling inference}
+\methodentry{circular_shift_surrogate.m}
+{Circular shift by an integer number of samples.}
+{\texttt{ARS-SPEC-006}.}
+{Preserves the marginal distribution and the circular autocorrelation; the wrap point creates one artificial discontinuity.}
+
+\methodentry{phase_randomized_surrogate.m}
+{Inverse FFT of $|X[k]|e^{i\theta_k}$ with Hermitian symmetry, DC and Nyquist bins unchanged.}
+{\texttt{ARS-SPEC-005}.}
+{Preserves mean, periodogram and circular autocovariance exactly. Uses the global random generator.}
+
+\methodentry{paired_signflip_test.m}
+{$p=(1+\#\{|\overline{s\delta}|\ge|\bar\delta|\})/(B+1)$ with random signs.}
+{\texttt{ARS-PERM-001}.}
+{Valid under symmetric, independent paired differences. The smallest attainable $p$ is $1/(B+1)$.}
+
+\methodentry{bootstrap_percentile.m}
+{Linearly interpolated percentile interval of $B$ bootstrap means.}
+{\texttt{ARS-BOOT-001}.}
+{Independent units only; time bins and units recorded together need block or hierarchical resampling.}
+
+\section{Point-process regression}
+\methodentry{spike_history_design.m}
+{Rows $t=L+1,\dots,T$ with columns $c_{t-\ell,u}$, unit-major then lag.}
+{\texttt{ARS-GLM-002}.}
+{Strictly lagged, hence predictable; no contemporaneous terms.}
+
+\methodentry{poisson_spike_glm.m}
+{Newton/IRLS for the Poisson log-link likelihood with offset $\log\Delta$, ridge on non-intercept coefficients, linear predictor clipped to $[-20,20]$.}
+{\texttt{ARS-GLM-001}.}
+{Clipping changes the objective whenever it is active, so the result may not maximise the stated likelihood. Convergence is not reported beyond the iteration count.}
+
+\methodentry{coupling_filters.m}
+{One ridge Poisson GLM per target unit on the shared lagged design; filters arranged as target $\times$ source $\times$ lag.}
+{\texttt{ARS-GLM-001} (separability), \texttt{ARS-GLM-002}.}
+{Fitting units separately is exact for conditionally independent units. Coefficients are conditional log-rate effects, not synapses.}
+
+\section{Population geometry, decoding, and dynamics}
+\methodentry{population_pca.m}
+{SVD of centred activity: loadings, scores, eigenvalues $s_k^2/(n-1)$, explained fractions.}
+{\texttt{ARS-PCA-001}.}
+{Loadings depend on unit scaling and on which observations (trials, time points) are included.}
+
+\methodentry{participation_ratio.m}
+{$(\sum s_k^2)^2/\sum s_k^4$ of centred activity.}
+{\texttt{ARS-PCA-002}.}
+{Between $1$ and the rank; rotation-invariant but not scale-invariant per unit; not a manifold dimension.}
+
+\methodentry{population_dimension_scaling.m}
+{Participation ratio of random unit subsets of each size, repeated with a seeded stream.}
+{\texttt{ARS-PCA-002}.}
+{Subsets are drawn without replacement within a repetition; repetitions overlap, so their spread is not a standard error.}
+
+\methodentry{eigenspectrum_powerlaw.m}
+{Least-squares line of $\log\lambda_r$ on $\log r$; exponent, intercept, $R^2$.}
+{\texttt{ARS-SPEC-007}.}
+{Many more high ranks than low ranks dominate the fit. Published exponents use cross-validated eigenspectra, which this function does not compute.}
+
+\methodentry{assembly_pca.m}
+{SVD of z-scored counts; templates, scores, eigenvalues and the bound $(1+\sqrt{p/n})^2$.}
+{\texttt{ARS-PCA-001}, \texttt{ARS-PCA-004}.}
+{The bound is an asymptotic i.i.d.\ reference; autocorrelated counts violate it. No ICA step.}
+
+\methodentry{assembly_expression.m}
+{$(z^\top w)^2-\sum z_i^2w_i^2$ per time bin and template.}
+{\texttt{ARS-PCA-003}.}
+{Off-diagonal quadratic form; requires the same unit order and normalisation as the fitted templates.}
+
+\methodentry{linear_discriminability.m}
+{$d'^2=\Delta^\top(\hat\Sigma_{\text{pooled}}+\epsilon I)^{-1}\Delta$ and the unit discriminant axis.}
+{\texttt{ARS-LIN-004}.}
+{Revisions before \texttt{e9b4782} used \texttt{size(b)} (a vector) in the pooled denominator, so the function failed for every input; any results computed with it should not exist. In-sample $d'^2$ is optimistic.}
+
+\methodentry{targeted_dimensionality_reduction.m}
+{Orthonormal basis of the mean-difference axis and the leading residual principal axis orthogonalised against it; scores.}
+{\texttt{ARS-PCA-005}, \texttt{ARS-PCA-001}, \texttt{ARS-COUNT-004}.}
+{Two conditions only. Fitting on held-out trials would leak information; fit on training data.}
+
+\methodentry{crossvalidated_ridge_decoder.m}
+{Per fold: standardise with training statistics, ridge least squares on $\pm1$ targets with unpenalised intercept, classify by the sign of the score.}
+{\texttt{ARS-LIN-001}.}
+{Folds are interleaved ($i\bmod k$); with temporally ordered trials neighbouring, correlated trials land in train and test, which inflates accuracy. Contiguous blocks are safer for autocorrelated data.}
+
+\methodentry{decode_trials.m}
+{Five contiguous folds; per fold, training-set standardisation, one-vs-rest ridge least squares (penalty $1$, unpenalised intercept), softmax of scores, arg-max prediction; score is balanced accuracy (mean per-class recall).}
+{\texttt{ARS-LIN-001}, \texttt{ARS-DEC-001}.}
+{Contiguous folds avoid the temporal leakage of interleaved folds, but a fold missing classes in training is skipped silently, leaving \texttt{NaN} predictions; the score is then \texttt{NaN} if a class loses all predictions. The softmax outputs are not calibrated probabilities. The \texttt{seed} argument is recorded but unused: the procedure is deterministic.}
+
+\methodentry{decoded_mi.m}
+{Plug-in mutual information in bits between true and predicted labels.}
+{\texttt{ARS-INFO-002}, \texttt{ARS-INFO-003}.}
+{A lower bound on label information in the activity only in the population; in finite samples the plug-in bias can exceed the gap.}
+
+\methodentry{greedy_modularity.m}
+{Agglomerative merging of groups by largest positive modularity gain on a weighted matrix; returns the final modularity $Q$ (not the partition).}
+{\texttt{ARS-GRAPH-001}.}
+{A lower bound on maximum modularity. Assumes a symmetric nonnegative $W$; negative weights break the configuration-model interpretation. $O(p^4)$ in the worst case.}
+
+\methodentry{reduced_rank_regression.m}
+{Ridge coefficients $\hat B$, projection onto the top $r$ right singular vectors of $X\hat B$, source axes from the SVD of the projected coefficients.}
+{\texttt{ARS-RRR-001}.}
+{Exact rank-constrained least squares only when the ridge is zero; with ridge it is a heuristic. Rank and ridge need cross-validation.}
+
+\methodentry{communication_subspace_projection.m}
+{$(X-\mathbf 1\mu^\top)A_r$ with source mean and axes from \path{reduced_rank_regression}.}
+{\texttt{ARS-RRR-001}.}
+{Axes are defined up to rotation within their span.}
+
+\methodentry{jpca_dynamics.m}
+{Least-squares skew-symmetric $M$ with $\dot x\approx M^\top x$, central-difference derivatives, eigenvalues and residual fraction.}
+{\texttt{ARS-JPCA-001}, \texttt{ARS-FD-001}.}
+{Eigenvalues are purely imaginary by construction; good fit describes rotation, it does not establish a rotational mechanism. The published method's preprocessing (PCA reduction, condition-mean subtraction) is the caller's responsibility.}
+
+\methodentry{tensor_cp_als.m}
+{Ridge CP-ALS for a three-way tensor from random initial factors; relative reconstruction error.}
+{\texttt{ARS-CP-001}.}
+{Monotone in the penalised objective, not globally convergent; global random initialisation, no restarts, no rank selection.}
+
+\methodentry{gaussian_process_smoothing.m}
+{$\mu+K(K+s^2I)^{-1}(x-\mu)$ per column with a squared-exponential kernel, by Cholesky.}
+{\texttt{ARS-LIN-003}.}
+{Hyperparameters are fixed inputs; $O(n^3)$ cost (capped at $2000$ bins). Not GPFA.}

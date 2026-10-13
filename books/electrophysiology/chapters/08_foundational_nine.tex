@@ -1,0 +1,200 @@
+\chapter[Classical sampling and random matrices]{Sampling, spectral concentration, and random-matrix theorems}
+\label{ch:classical-sampling}
+The following classical theorems connect continuous-time measurement,
+spectral estimation, and high-dimensional statistical models. They are
+presented here immediately after Fourier and spectral foundations rather
+than as a revision-history appendix; each requires its precise hypotheses.
+
+\section{Nyquist--Shannon sampling}
+\begin{theorem}[Classical bandlimited reconstruction]
+For a finite-energy continuous-time signal with Fourier support
+inside $[-B,B]$ Hz, an ideal uniform, noiseless sampling sequence at
+$F_s>2B$ determines the signal. With
+$\operatorname{sinc}(u)=\sin(\pi u)/(\pi u)$, reconstruction has the form
+\[
+x(t)=\sum_{n\in\Z}x(n/F_s)\operatorname{sinc}(F_st-n),
+\]
+in the suitable convergence sense.
+\end{theorem}
+\emph{Application:} set anti-aliasing and acquisition requirements.
+Real filters have finite rolloff; extracellular spikes are not
+literally compactly bandlimited.
+
+\section{Bedrosian's theorem}
+\begin{theorem}[A sufficient spectral-separation case]
+If $a$ has Fourier support in $[-A,A]$ and $c$ is supported
+outside $(-A,A)$, with the required transform and product
+hypotheses, then $\Hilbert(ac)=a\,\Hilbert(c)$.
+\end{theorem}
+For $c(t)=\cos(2\pi f_0t)$ with $f_0>A$, an ideal positive envelope
+$a(t)$ is recovered from the analytic signal of $a(t)c(t)$.
+The nonoverlap condition is sufficient, not a general necessary and
+sufficient criterion. PAC remains susceptible to waveform shape,
+transients, nonstationarity and filtering \cite{aru2015,cole2019}.
+
+\section{Wiener--Khinchin theorem}
+\begin{theorem}
+A weakly stationary second-order process has an autocovariance and
+a corresponding nonnegative spectral measure. When densities
+exist and inversion is justified,
+\[
+S_x(f)=\int_{\R}R_x(\tau)e^{-2\pi if\tau}\,d\tau,\qquad
+R_x(\tau)=\int_{\R}S_x(f)e^{2\pi if\tau}\,df.
+\]
+\end{theorem}
+This supports power spectral estimation; it does not guarantee a unique
+oscillatory/aperiodic decomposition \cite{donoghue2020,gerster2022}.
+
+\section{Slepian concentration and DPSS tapers}
+For a length-$N$ taper $v$ and normalized half-bandwidth $0<W<1/2$,
+define the concentration ratio
+\[
+\lambda(v)=
+\frac{\int_{-W}^W|\sum_{n=0}^{N-1}v_ne^{-2\pi ifn}|^2\,df}
+{\int_{-1/2}^{1/2}|\sum_{n=0}^{N-1}v_ne^{-2\pi ifn}|^2\,df}.
+\]
+\begin{theorem}
+Eigenvectors of the discrete spectral-concentration operator
+maximize this ratio successively under orthogonality constraints.
+Its eigenvalues lie in $[0,1]$.
+\end{theorem}
+\emph{Application:} \texttt{\detokenize{matlab/path/multitaper_psd.m}}
+uses MATLAB DPSS and averages tapered periodograms, without
+adaptive taper weighting.
+
+\section{Johnson--Lindenstrauss lemma}
+\begin{theorem}[Finite-set projection]
+A suitable normalized random linear map to dimension
+$m=O(\varepsilon^{-2}\log P)$ approximately preserves all
+pairwise Euclidean distances between $P$ fixed points with high
+probability; constants also depend on the desired failure probability.
+\end{theorem}
+A random dense projection is \emph{not} equivalent to sampling a random
+subset of neural coordinates. Coordinate sampling needs additional
+coherence, leverage and sampling assumptions. This theorem does not
+alone certify reconstruction of neural manifolds.
+
+\section{Marcenko--Pastur and Tracy--Widom}
+\begin{theorem}[Marcenko--Pastur law, standard isotropic model]
+For large sample covariance matrices from iid isotropic
+observations with ratio $N/T\to\gamma$, the continuous
+limiting spectrum is supported on
+$[\sigma^2(1-\sqrt\gamma)^2,\sigma^2(1+\sqrt\gamma)^2]$;
+when $\gamma>1$ there is also an atom at zero.
+\end{theorem}
+\begin{theorem}[Tracy--Widom edge fluctuation]
+For suitable real Wishart ensembles, correctly centered and scaled
+largest-eigenvalue fluctuations at the upper edge follow a
+Tracy--Widom limit.
+\end{theorem}
+Neither theorem provides an exact universal noise threshold
+for time-correlated, heteroscedastic, or preprocessed neural data.
+Edge fluctuations may occur on either side of the limiting edge.
+
+\section{Jensen's inequality}
+\begin{theorem}
+If $\phi$ is convex and the relevant expectations exist,
+$\phi(\E X)\leq\E[\phi(X)]$.
+\end{theorem}
+An elementary dimensionality bound follows instead directly from
+Cauchy--Schwarz:
+\[
+1\leq D_{\mathrm{PR}}=
+\frac{(\sum_{i=1}^r\lambda_i)^2}{\sum_{i=1}^r\lambda_i^2}\leq r,
+\quad \lambda_i>0.
+\]
+Jensen's more direct role in this textbook is the derivation of
+variational lower bounds and expectation-maximization, given in the
+GLM and optimization chapter. Inferring a structural biological
+dimensionality bound requires additional assumptions.
+
+\section{Schoenberg positive-definite radial kernels}
+\begin{theorem}[Powered exponential, all Euclidean dimensions]
+For $\alpha>0$, the kernel
+$k(x,y)=\exp(-\alpha\|x-y\|^q)$
+is positive definite on all Euclidean dimensions for
+$0<q\leq2$; this all-dimension guarantee does not hold
+for $q>2$.
+\end{theorem}
+This provides a covariance-valid kernel family for Gaussian processes,
+but not a proof that a particular model recovers physiological factors.
+Matern kernels are a different family with their own assumptions.
+
+\section{Tonelli and Fubini}
+\begin{theorem}[Tonelli]
+For nonnegative measurable $f$ over a product of sigma-finite measure
+spaces, iterated integrals can be interchanged, possibly with value
+$+\infty$.
+\end{theorem}
+\begin{theorem}[Fubini]
+For absolutely integrable measurable $f$ on a product of
+sigma-finite measure spaces, the integrals can be interchanged
+and have finite common value.
+\end{theorem}
+These theorems justify integrals used in spike-count expectations and
+latent-variable models only when their hypotheses apply.
+% --- expanded edition (October 2026) ---
+\section{The expected periodogram: Wiener--Khinchin in finite samples}
+Let $X_t$ be zero-mean stationary with absolutely summable autocovariance
+$\gamma$ and spectral density $S(f)=\sum_k\gamma(k)e^{-2\pi ifk}$ (unit
+sampling interval). For the periodogram
+$I_T(f)=T^{-1}|\sum_{t=0}^{T-1}X_te^{-2\pi ift}|^2$,
+\[
+\E I_T(f)=\sum_{|k|<T}\Bigl(1-\frac{|k|}T\Bigr)\gamma(k)e^{-2\pi ifk}
+=\int_{-1/2}^{1/2}F_T(f-\nu)S(\nu)\,d\nu,
+\]
+where $F_T(f)=T^{-1}\bigl(\sin(\pi Tf)/\sin(\pi f)\bigr)^2$ is the Fej\'er kernel.
+\begin{proof}
+Expand the squared modulus into a double sum over $s,t$ and take
+expectations: $\E X_s X_t=\gamma(s-t)$. Grouping by $k=s-t$ there are
+$T-|k|$ pairs with each lag, giving the first expression. The second
+follows by substituting $\gamma(k)=\int S(\nu)e^{2\pi i\nu k}d\nu$ and
+recognising $\sum_{|k|<T}(1-|k|/T)e^{2\pi i(\nu-f)k}=F_T(f-\nu)$.
+\end{proof}
+The periodogram is therefore an unbiased estimate not of $S(f)$ but of
+$S$ smoothed by the Fej\'er kernel, whose sidelobes decay only as
+$f^{-2}$. Where the spectrum has a large dynamic range, such as the steep
+$1/f^\chi$ LFP spectrum, leakage from low frequencies can dominate the
+expected periodogram at high frequencies. Tapering replaces $F_T$ by the
+squared transform of the taper, which is the rigorous reason that
+Slepian tapers reduce bias.
+
+\section{Johnson--Lindenstrauss in numbers}
+The lemma guarantees that $n$ points can be mapped linearly to
+$k=O(\varepsilon^{-2}\log n)$ dimensions with all pairwise distances
+preserved within a factor $1\pm\varepsilon$, and a random Gaussian matrix
+scaled by $1/\sqrt k$ achieves this with high probability. A commonly
+used explicit sufficient dimension is
+$k\ge4\log n/(\varepsilon^2/2-\varepsilon^3/3)$.
+\begin{example}[Random projections of population states]
+For $n=10^4$ time bins and $\varepsilon=0.2$, the bound gives
+$k\ge4\cdot9.21/(0.02-0.00267)\approx2126$. The number does not depend on
+the number of recorded neurons. The lemma is therefore a statement that
+\emph{distance geometry} of many points survives random compression,
+not that neural activity is low-dimensional: the required $k$ grows with
+the number of points, whatever the data.
+\end{example}
+
+\section{When Fubini fails}
+The hypotheses of Fubini's theorem are not decorative. On
+$[0,1]^2$, let $f(x,y)=(x^2-y^2)/(x^2+y^2)^2$. Then
+$\int_0^1\int_0^1f\,dy\,dx=\pi/4$ while
+$\int_0^1\int_0^1f\,dx\,dy=-\pi/4$, because $\int\!\!\int|f|=\infty$. In
+spike-train calculations the analogous failure arises when exchanging
+an expectation with an infinite sum over spikes whose contributions are
+not absolutely summable, for example in shot-noise models with heavy-tailed
+kernels.
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Show that $F_T(0)=T$ and $\int_{-1/2}^{1/2}F_T(f)\,df=1$.
+\end{exercise}
+\begin{exercise}
+For white noise, show that $\E I_T(f)=\gamma(0)$ exactly for every $T$.
+\end{exercise}
+\begin{exercise}
+Compute the JL dimension for $n=10^6$ and $\varepsilon=0.1$.
+\end{exercise}
+\begin{exercise}
+Verify the two iterated integrals in the Fubini counterexample.
+\end{exercise}

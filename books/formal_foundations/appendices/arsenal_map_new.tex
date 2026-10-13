@@ -1,0 +1,20 @@
+\chapter{Map from \texttt{matlab/path} families to arsenal theorems}\label{app:arsenal}
+This map is generated from the repository rather than guessed. Every function in \texttt{matlab/path} has a specification in the method-specification chapter of \emph{Computational Electrophysiology}, which cites the identifiers below; the identifiers are stated and proved in the three arsenal chapters of this volume (Part ``The mathematics of the arsenal''); and \texttt{books/shared/theorems.yml} records the correspondence. The command \texttt{python3 books/tools/arsenal\_registry.py --check} fails if a function, a specification, a theorem, or the registry falls out of step.
+\begin{longtable}{p{0.27\textwidth}p{0.30\textwidth}p{0.33\textwidth}}\toprule
+Method family & Theorem identifiers & What the theorems guarantee\\\midrule\endhead
+Counting, rates, correlograms, envelope moments & ARS-COUNT-001 to 005, ARS-MOM-001 & Exact partitions, Poisson rate MLE, Fano decomposition, ANOVA split, pair-counting identity, central moments from prefix sums\\
+Sorting quality and spike metrics & ARS-COUNT-006 to 008, ARS-ROB-001, ARS-WAVE-001 & Poisson baselines, maximum greedy matching, Victor--Purpura metric, MAD consistency\\
+Count-preserving surrogates & ARS-COUNT-009, ARS-PERM-001 & Exact conditional jitter null, valid Monte Carlo $p$-values\\
+References, CSD, forward/inverse & ARS-ROB-002, ARS-FD-001, ARS-LIN-001, 002 & Common-mode cancellation, $O(h^2)$ differences, Tikhonov uniqueness, null-space blindness\\
+Filtering, analytic signal, wavelets & ARS-FILT-001 to 004 & Zero phase with squared gain, exact analytic signal for bin-centred sinusoids, admissible unit-energy Morlet\\
+Spectra and backgrounds & ARS-SPEC-001, 002, 007, 008 & Unbiasedness for white noise, $\chi^2_{2K}$ averaging, exact power-law recovery, resampling invariance\\
+Coherence and directed indices & ARS-SPEC-003, 004, ARS-CIRC-004, ARS-VAR-001 & Coherence bounds and the $K=1$ triviality, PSI antisymmetry, zero-lag blindness, nonnegative Granger ratio\\
+Phase statistics and PAC & ARS-CIRC-001 to 003, ARS-INFO-001 & Resultant bounds, PPC unbiasedness, Rayleigh moments, entropy bounds\\
+Surrogates and resampling & ARS-SPEC-005, 006, ARS-PERM-001, ARS-BOOT-001 & Exact preservation of periodogram and autocovariance, validity of randomisation tests\\
+Oscillation detection & ARS-DET-001, 002 & Exponential power threshold, one-sample cycle accuracy\\
+Information measures & ARS-INFO-001 to 003 & Plug-in MI and TE as nonnegative divergences, cited bias, data-processing bound on decoded information\\
+Point-process GLMs & ARS-GLM-001, 002 & Concavity, Newton = IRLS, separability across units, predictable design\\
+Population geometry and decoding & ARS-PCA-001 to 005, ARS-LIN-003, 004, ARS-RRR-001, ARS-DEC-001, ARS-GRAPH-001 & PCA by SVD, participation-ratio bounds, assembly identity, GP as kernel ridge, optimal $d'^2$, exact RRR at zero ridge, balanced-accuracy chance level, modularity merge gains\\
+Dynamics and tensors & ARS-JPCA-001, ARS-CP-001, ARS-EMD-001 & Skew fits generate rotations, monotone CP-ALS, completeness of sifting\\
+\bottomrule\end{longtable}
+None of these results is yet machine-checked in Lean. The finite combinatorial identities (ARS-COUNT-001, 007, 008, ARS-CIRC-002, ARS-PCA-002, 003, ARS-INFO-001) are the natural first candidates for formalisation.

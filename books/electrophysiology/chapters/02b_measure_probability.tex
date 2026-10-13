@@ -1,0 +1,178 @@
+\chapter[Measure and probability vocabulary]{The measure-theoretic vocabulary behind probability}
+\label{ch:measure-vocabulary}
+A probability model is not merely a formula for averages. It states
+\emph{which outcomes exist}, \emph{which events can be assigned
+probabilities}, and \emph{which calculations are allowed}.
+This chapter provides the missing hypotheses for Results 21--24,
+40--46, and 71--76.
+
+\begin{definition}[Sigma-algebra and measure]
+For a set $\Omega$, a $\sigma$-algebra $\mathcal F$ is a family of
+subsets containing $\Omega$, closed under complements and countable
+unions. A measure $\mu:\mathcal F\to[0,\infty]$ satisfies
+$\mu(\varnothing)=0$ and countable additivity over disjoint events.
+A probability measure has $\mu(\Omega)=1$. A measure is
+\emph{$\sigma$-finite} if $\Omega$ is a countable union of
+measurable sets of finite measure.
+\end{definition}
+\begin{definition}[Random variable and expectation]
+A real-valued random variable $X$ is a measurable map
+$(\Omega,\mathcal F)\to(\mathbb R,\mathcal B(\mathbb R))$:
+for every Borel set $B$, its preimage $X^{-1}(B)$ is an event.
+If $\int|X|\,d\Prob<\infty$, define $\E X=\int X\,d\Prob$.
+The space $L^2$ consists of equivalence classes of variables with
+$\E|X|^2<\infty$; equality almost surely is identified.
+Its inner product is $\langle X,Y\rangle=\E[X\overline Y]$.
+A \emph{Hilbert space} is a complete inner-product space; $L^2$
+is one. Completeness is what makes orthogonal projection possible.
+\end{definition}
+\begin{proposition}[Conditional expectation is a projection]
+For $X\in L^2$ and a sub-$\sigma$-algebra $\mathcal G\subseteq
+\mathcal F$, the conditional expectation $\E[X\mid\mathcal G]$
+is characterized by being $\mathcal G$-measurable and satisfying
+$\E[(X-\E[X\mid\mathcal G])Z]=0$ for all bounded
+$\mathcal G$-measurable $Z$. It is the orthogonal projection of
+$X$ onto the closed subspace $L^2(\mathcal G)$.
+\end{proposition}
+\begin{proof}
+The defining conditional-expectation identity gives orthogonality
+for bounded $Z$. Truncation followed by $L^2$ approximation
+extends it to $Z\in L^2(\mathcal G)$.
+The projection theorem then characterizes the minimizer of
+$\E[(X-Z)^2]$ among such $Z$.
+\end{proof}
+This explains why a conditional firing-rate prediction is an
+optimal mean-square prediction \emph{relative to the variables
+conditioned upon}, not relative to every unobserved brain state.
+
+\begin{definition}[Stationarity, ergodicity, and predictability]
+A process $X_t$ is \emph{wide-sense stationary} if its mean is
+constant and $\Cov(X_t,X_s)$ depends only on $t-s$.
+It is \emph{strictly stationary} if all finite-dimensional
+joint laws are time-shift invariant. An invariant process is
+\emph{ergodic} when invariant events have probability zero or one.
+A predictable intensity $\lambda(t\mid\mathcal H_{t-})$ is
+measurable relative to information available \emph{just before}
+$t$; this forbids predicting a spike using its own occurrence.
+The time-integrated intensity is called its \emph{compensator}
+when the Doob--Meyer conditions are satisfied.
+For a regular parametric model $p_\theta$, the \emph{score} is
+$U_\theta=\nabla_\theta\log p_\theta(X)$ and
+\emph{Fisher information} is
+$\mathcal I(\theta)=\E_\theta[U_\theta U_\theta^\top]$,
+under assumptions justifying its finiteness and calculus.
+\end{definition}
+\begin{proposition}[Law of total variance revisited]
+For $X\in L^2$,
+\[
+\Var(X)=\E[\Var(X\mid\mathcal G)]
+ +\Var(\E[X\mid\mathcal G]).
+\]
+\end{proposition}
+\begin{proof}
+Write $X-\E X=(X-M)+(M-\E X)$ where
+$M=\E[X\mid\mathcal G]$. The cross term vanishes by
+orthogonality. Taking squared expectations yields the identity.
+\end{proof}
+\begin{example}[LFP recording versus ensemble]
+If a stationary and ergodic model describes a long LFP trace,
+its time average can estimate the ensemble mean under integrability.
+Stationarity alone does not justify equating those means, nor does
+increasing the sample rate create independent trials.
+\end{example}
+% --- expanded edition (October 2026) ---
+\section{Modes of convergence and their counterexamples}
+For random variables on one probability space, four modes of convergence
+are in common use:
+\begin{itemize}[leftmargin=2em]
+\item \emph{almost sure}: $\Prob(X_n\to X)=1$;
+\item \emph{in $L^p$}: $\E|X_n-X|^p\to0$;
+\item \emph{in probability}: $\Prob(|X_n-X|>\varepsilon)\to0$ for every $\varepsilon>0$;
+\item \emph{in distribution}: $\Prob(X_n\le x)\to\Prob(X\le x)$ at continuity points of the limit.
+\end{itemize}
+Almost sure convergence and $L^p$ convergence each imply convergence in
+probability, which implies convergence in distribution. No other
+implication holds in general.
+\begin{proposition}
+$L^p$ convergence implies convergence in probability.
+\end{proposition}
+\begin{proof}
+Markov's inequality applied to $|X_n-X|^p$ gives
+$\Prob(|X_n-X|>\varepsilon)\le\E|X_n-X|^p/\varepsilon^p\to0$.
+\end{proof}
+\begin{example}[Convergence without convergence of means]
+On $\Omega=(0,1)$ with Lebesgue measure let $X_n=n\ind_{(0,1/n)}$.
+Then $X_n\to0$ almost surely, but $\E X_n=1$ for all $n$. The
+spike-count analogue is a rare, large burst: it vanishes in probability
+but keeps a fixed contribution to the mean.
+\end{example}
+\begin{example}[Convergence in probability without almost sure convergence]
+Enumerate the dyadic intervals $[0,1],[0,\tfrac12],[\tfrac12,1],[0,\tfrac14],\ldots$
+and let $X_n$ be the indicator of the $n$th one. The lengths tend to
+zero, so $X_n\to0$ in probability, but every $\omega$ lies in
+infinitely many of the intervals, so $X_n(\omega)$ does not converge.
+\end{example}
+Consistency of an estimator is usually stated in probability; strong
+consistency is almost sure. A central limit theorem is a statement in
+distribution, and says nothing about any particular realization.
+
+\section{Product measures and independence}
+Independence of $X$ and $Y$ means that their joint law is the product
+of the marginals: $\Prob_{(X,Y)}=\Prob_X\otimes\Prob_Y$. For $\sigma$-finite
+measures the product measure is unique on the product $\sigma$-algebra,
+and the Tonelli and Fubini theorems (Chapter~\ref{ch:classical-sampling})
+license computing expectations of functions of independent variables
+by iterated integration. Independence of a whole family requires the
+product property for every finite subfamily.
+
+\section{Filtrations, stopping times, and martingales}
+A \emph{filtration} $(\mathcal F_t)$ is an increasing family of
+$\sigma$-algebras representing information available at time $t$.
+A process $M_t$ adapted to it, with $\E|M_t|<\infty$, is a
+\emph{martingale} if $\E[M_t\mid\mathcal F_s]=M_s$ for $s\le t$.
+\begin{example}[Counting-process martingale]
+For a homogeneous Poisson process of rate $\lambda$ with its natural
+filtration, $M_t=N(t)-\lambda t$ is a martingale: for $s<t$,
+$\E[N(t)-N(s)\mid\mathcal F_s]=\lambda(t-s)$ by independent
+increments. More generally $N(t)-\int_0^t\lambda(u\mid\mathcal H_{u-})\,du$
+is a (local) martingale for the conditional intensity, which is
+Result 74.
+\end{example}
+A \emph{stopping time} $\tau$ is a random time such that
+$\{\tau\le t\}\in\mathcal F_t$: whether it has happened is known from
+the past. The first spike after stimulus onset is a stopping time;
+``the spike that precedes the largest ripple of the session'' is not.
+\begin{theorem}[Optional stopping, bounded case]
+If $M$ is a martingale and $\tau$ a bounded stopping time, then
+$\E M_\tau=\E M_0$.
+\end{theorem}
+\begin{proof}[Proof in discrete time]
+If $\tau\le K$, write $M_\tau=M_0+\sum_{k=1}^K(M_k-M_{k-1})\ind_{\{\tau\ge k\}}$.
+The event $\{\tau\ge k\}=\{\tau\le k-1\}^c$ belongs to $\mathcal F_{k-1}$,
+so each term has expectation
+$\E[\ind_{\{\tau\ge k\}}\E(M_k-M_{k-1}\mid\mathcal F_{k-1})]=0$.
+\end{proof}
+Applied to $N(t)-\lambda t$, optional stopping gives
+$\E N(\tau)=\lambda\E\tau$ for bounded stopping times: the expected
+number of spikes before a history-dependent stopping rule equals the
+rate times the expected duration, as long as the rule does not look
+into the future. Analyses that end an epoch ``at the last spike'' violate
+this and are biased.
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Show that the intersection of two $\sigma$-algebras is a $\sigma$-algebra
+but their union need not be.
+\end{exercise}
+\begin{exercise}
+Show that convergence in distribution to a constant implies convergence
+in probability to that constant.
+\end{exercise}
+\begin{exercise}
+For a Poisson process, show that $(N(t)-\lambda t)^2-\lambda t$ is a
+martingale.
+\end{exercise}
+\begin{exercise}
+Decide whether ``the first time the LFP envelope exceeds five MADs'' and
+``the time of the session's largest envelope value'' are stopping times.
+\end{exercise}

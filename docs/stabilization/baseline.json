@@ -1,0 +1,13 @@
+{
+  "repository": "ze-gois/neuronal",
+  "date": "2026-10-13",
+  "main": "cee6ba547d45f45486fd48329a9fee729bd5c2ed",
+  "migration": "e9b47824e64c204deb1738cfed2208339511128e",
+  "feature": "939ad037e8dacdb93240283919fa6bc1be9ada51",
+  "consolidated_tree": "514433d9922fb3b2c4389634764d709feaaa3c4b",
+  "pr": 2,
+  "draft": true,
+  "baseline_blockers": ["Five chapter fingerprint discrepancies", "MATLAB execution pending", "Current Lean kernel execution pending", "Scientific derivation review pending"],
+  "recovery": "Retain feature and migration refs; revert stabilization commits in reverse order. Never rewrite main.",
+  "import_hash_records": ["books/BRANCH_REVIEW_2026_10_12.json", "books/BRANCH_REVIEW_2026_10_12.md"]
+}

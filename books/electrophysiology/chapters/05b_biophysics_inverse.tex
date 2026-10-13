@@ -1,0 +1,284 @@
+\chapter[Extracellular fields and inverse problems]{From membrane currents to extracellular electrodes}
+\label{ch:electrode-physics}
+An extracellular electrode does not measure a neuron's voltage
+in isolation. It measures a difference of electric potential
+created by spatially distributed ionic currents, tissue geometry,
+conductivity, referencing, and acquisition electronics
+\cite{buzsaki2012,einevoll2013}.
+
+\section{Electrochemical driving forces}
+For an ideal dilute permeant ion with valence $z\ne0$, equality
+of electrochemical potentials on the two sides of a membrane gives
+\[
+E_{\mathrm{ion}}=\frac{RT}{zF}
+  \log\frac{c_{\mathrm{out}}}{c_{\mathrm{in}}}.
+\]
+This is the Nernst equilibrium potential under its concentration
+and temperature assumptions. The Goldman--Hodgkin--Katz formula
+extends the constant-field model to multiple monovalent ionic
+species with permeability parameters; it is not equivalent to
+measuring those permeabilities from a single LFP.
+In the Hodgkin--Huxley description the sodium current is modeled
+as $I_{\mathrm{Na}}=\bar g_{\mathrm{Na}}m^3h(V-E_{\mathrm{Na}})$;
+gating variables obey voltage-dependent kinetic equations.
+The passive cable approximation has the schematic form
+\[
+c_m\partial_t V(x,t)=g_a\partial_{xx}V(x,t)
+   -g_m(V-E_L)+i_{\mathrm{ext}}(x,t),
+\]
+with coefficients per unit length and consistent units.
+Cable and membrane models determine transmembrane sources; they
+are not by themselves electrode forward models.
+
+\section{Quasistatic field equation}
+At electrophysiological frequencies and spatial scales where
+inductive effects are negligible, write $\mathbf E=-\nabla\phi$.
+Let impressed current $\mathbf J_p$ and Ohmic return current
+$-\boldsymbol\sigma\nabla\phi$ sum to a divergence-free total
+current. Current conservation implies
+\[
+\nabla\!\cdot(\boldsymbol\sigma\nabla\phi)
+       =\nabla\!\cdot\mathbf J_p,
+\quad\text{or}\quad
+-\nabla\!\cdot(\boldsymbol\sigma\nabla\phi)=q,
+\quad q=-\nabla\!\cdot\mathbf J_p.
+\]
+The tensor $\boldsymbol\sigma$ may be anisotropic and spatially
+inhomogeneous. To solve the equation, the domain, conductivity,
+boundary conditions and electrode reference must be specified.
+For an infinite isotropic medium, a point source of strength $I$
+located at $\mathbf r_0$ gives, away from that point,
+\[
+\phi(\mathbf r)=\frac{I}{4\pi\sigma
+  |\mathbf r-\mathbf r_0|}.
+\]
+Superposition yields a discrete source model $\mathbf v=G\mathbf s$
+when the forward physics is linear, with lead-field entries obtained
+by integrating the Green kernel over chosen source basis functions.
+A dipole arises as the leading far-field contribution when net
+source current cancels; line-source models integrate along a dendrite.
+
+\begin{proposition}[Uniqueness for fixed Dirichlet conditions]
+Let $\Omega$ be a bounded connected region and
+$\boldsymbol\sigma$ uniformly positive definite. If two weak
+solutions of the same elliptic equation have equal Dirichlet
+boundary values, they agree (almost everywhere).
+\end{proposition}
+\begin{proof}
+Their difference $w$ satisfies the homogeneous equation and
+zero boundary values. Multiply by $w$, integrate by parts,
+and use the boundary condition:
+$\int_\Omega\nabla w\cdot\boldsymbol\sigma\nabla w\,dx=0$.
+Positivity implies $\nabla w=0$; the boundary forces $w=0$.
+For pure Neumann conditions, uniqueness holds only up to an
+additive constant, with a compatibility condition on source flux.
+\end{proof}
+
+\section{Why the inverse need not be unique}
+Suppose an electrode array measures $\mathbf v=G\mathbf s$.
+If $G\mathbf h=0$ for nonzero $\mathbf h$, then
+$G(\mathbf s+\mathbf h)=G\mathbf s$. This is exact
+finite-dimensional nonidentifiability. In the continuum, smoothing
+operators can also be ill-conditioned or compact, so tiny
+measurement errors may cause enormous source errors even when
+uniqueness holds in a restricted model.
+\emph{Hadamard well-posedness} requires existence, uniqueness
+and continuous dependence of solutions on data. A linear operator
+is \emph{compact} if it maps bounded sets into sets with compact
+closure; its singular values in infinite-dimensional inverse problems
+can converge to zero.
+For singular system $Gv_j=\sigma_j u_j$ and data $b$,
+the formal inverse contains $\langle b,u_j\rangle/\sigma_j$
+and magnifies noise when
+$\sigma_j\to0$. A classical Picard-type condition controls the
+squared normalized coefficients for compatible data.
+Tikhonov regularization instead solves
+\[
+\widehat{\mathbf s}_\lambda
+=\arg\min_{\mathbf s}
+\{\|G\mathbf s-\mathbf v\|_2^2
+ +\lambda\|\mathbf s\|_2^2\}
+=(G^\top G+\lambda I)^{-1}G^\top\mathbf v.
+\]
+\begin{example}[MATLAB and interpretation]\sloppy
+\path{field_potential_forward.m} receives $G$;
+it does \emph{not} compute tissue conductivity or the Green kernel.
+\path{field_potential_inverse_tikhonov.m}
+returns one regularized source estimate, not a unique membrane-current
+pattern. \path{current_source_density.m} needs
+spatial geometry and differentiated potentials; references and
+volume conduction remain crucial.
+\end{example}
+% --- expanded edition (October 2026) ---
+\section{The Goldman--Hodgkin--Katz equations}
+The constant-field model assumes that the electric field is uniform
+across a membrane of thickness $d$, that ions cross independently, and
+that the flux of each species obeys the Nernst--Planck equation
+$J=-D(\partial_xc+\frac{zF}{RT}c\,\partial_x\phi)$. With
+$u=zFV/(RT)$ and permeability $P=D\beta/d$ ($\beta$ a partition
+coefficient), integrating across the membrane gives the
+\emph{GHK current equation}
+\[
+I=P z^2\frac{F^2V}{RT}\;\frac{c_{\rm in}-c_{\rm out}e^{-u}}{1-e^{-u}}.
+\]
+The current vanishes at $c_{\rm in}=c_{\rm out}e^{-u}$, i.e.\ at the
+Nernst potential, and is a nonlinear (rectifying) function of $V$ when
+concentrations differ. Setting the \emph{total} current of K$^+$,
+Na$^+$ and Cl$^-$ to zero gives the \emph{GHK voltage equation}
+\[
+V_{\rm rest}=\frac{RT}{F}\log\frac{P_{\rm K}[K]_{\rm o}+P_{\rm Na}[Na]_{\rm o}+P_{\rm Cl}[Cl]_{\rm i}}{P_{\rm K}[K]_{\rm i}+P_{\rm Na}[Na]_{\rm i}+P_{\rm Cl}[Cl]_{\rm o}}.
+\]
+\begin{example}[Resting potential]
+With $[K]_{\rm o}=4$, $[K]_{\rm i}=140$, $[Na]_{\rm o}=145$,
+$[Na]_{\rm i}=12$, $[Cl]_{\rm o}=120$, $[Cl]_{\rm i}=10$\,mM, relative
+permeabilities $1:0.04:0.45$ and $RT/F\approx26.7$\,mV at
+$37^\circ$C, the numerator is $4+5.8+4.5=14.3$ and the denominator
+$140+0.48+54=194.5$, giving $V_{\rm rest}\approx26.7\ln(0.0735)\approx-70$\,mV.
+The potassium Nernst potential is $26.7\ln(4/140)\approx-95$\,mV. The
+rest is depolarized relative to $E_{\rm K}$ because of the sodium and
+chloride terms.
+\end{example}
+The GHK equations are a model, not a law: they fail when channels are
+multiply occupied, when ions interact, or when the field is not uniform.
+Their ratio form also shows that only \emph{relative} permeabilities
+are determined by a reversal potential, so a single measured reversal
+cannot fix three permeabilities.
+
+\section{The Hodgkin--Huxley system}
+The complete space-clamped model is
+\[
+\begin{aligned}
+C_m\dot V&=-\bar g_{\rm Na}m^3h(V-E_{\rm Na})-\bar g_{\rm K}n^4(V-E_{\rm K})-g_L(V-E_L)+I_{\rm ext},\\
+\dot x&=\alpha_x(V)(1-x)-\beta_x(V)x,\qquad x\in\{m,h,n\}.
+\end{aligned}
+\]
+Each gate relaxes to $x_\infty(V)=\alpha_x/(\alpha_x+\beta_x)$ with time
+constant $\tau_x(V)=1/(\alpha_x+\beta_x)$. Sodium activation $m$ is fast,
+inactivation $h$ and potassium activation $n$ are slow. The spike arises
+because $m$ jumps quickly after a depolarization, giving positive
+feedback through $E_{\rm Na}$, while the slower decrease of $h$ and
+increase of $n$ terminate it. Reducing the model by setting
+$m=m_\infty(V)$ and exploiting the approximate relation $h+n\approx0.8$
+yields a two-dimensional system whose phase plane resembles
+FitzHugh--Nagumo; repetitive firing begins at a Hopf bifurcation of
+its equilibrium (Chapter~\ref{ch:oscillator-foundations}).
+
+For extracellular recording the essential output is the sum of
+transmembrane currents per unit area,
+$i_m=C_m\dot V+i_{\rm ion}$. By charge conservation along a neuron, the
+integral of $i_m$ over the whole cell surface is zero at every instant:
+a neuron has no net monopole source, and its far field is at least
+dipolar.
+
+\section{Cable equation: space and time constants}
+Write $r_m$ for membrane resistance times length (units $\Omega\,\mathrm m$),
+$c_m$ for membrane capacitance per length ($\mathrm F/\mathrm m$), and
+$r_a$ for axial resistance per length ($\Omega/\mathrm m$). Thus a segment
+of length $dx$ has membrane resistance $r_m/dx$, capacitance $c_m dx$,
+and axial resistance $r_a dx$. The passive cable equation is
+$\lambda^2\partial_{xx}V-\tau\partial_tV-V=-r_m i_{\rm ext}$,
+where $i_{\rm ext}$ is injected current per length,
+$\lambda=\sqrt{r_m/r_a}$ has units of length and $\tau=r_mc_m$ has units
+of time. For a point injection at $x=0$ in an infinite passive cable,
+the steady solution is $V(x)=V(0)e^{-|x|/\lambda}$.
+
+For the convention $V(x,t)=\Re\{\widehat V(x)e^{i\omega t}\}$, away
+from the injection the equation gives
+\[
+\widehat V''=\kappa^2\widehat V,\qquad
+\kappa=\frac{\sqrt{1+i\omega\tau}}{\lambda},\quad\Re\kappa>0,
+\qquad \widehat V(x)=\widehat V(0)e^{-\kappa|x|}.
+\]
+The complex length is $1/\kappa$; the real amplitude attenuation length is
+\[
+\lambda_\omega=\frac1{\Re\kappa}
+=\lambda\sqrt{\frac{2}{1+\sqrt{1+\omega^2\tau^2}}}.
+\]
+The imaginary part of $\kappa$ gives spatial phase lag. At zero frequency
+$\lambda_\omega=\lambda$; for $|\omega\tau|\gg1$,
+$\lambda_\omega\sim\lambda\sqrt{2/|\omega\tau|}$.
+These conclusions assume a passive, uniform infinite cable; branches,
+finite boundary conditions and active channels change the transfer function.
+The MATLAB derivation regression compares this solution to a converging
+finite-difference cable calculation, not to a fitted biological neuron.
+
+\section{The Picard condition and regularization parameter choice}
+Let the discretized forward operator have SVD $G=\sum_j\sigma_ju_jv_j^\top$
+and data $\mathbf v=G\mathbf s_{\rm true}+\boldsymbol\epsilon$. The
+\emph{discrete Picard condition} requires that the coefficients
+$|u_j^\top\mathbf v|$ decay, on average, faster than $\sigma_j$ until they
+reach the noise level. Plotting $\sigma_j$, $|u_j^\top\mathbf v|$ and
+their ratio on a logarithmic scale (a \emph{Picard plot}) shows which
+components are informative: beyond the index where
+$|u_j^\top\mathbf v|$ levels off at the noise floor, the ratio grows
+and those components should be filtered. The Tikhonov estimate has
+filter factors $\sigma_j^2/(\sigma_j^2+\lambda)$; common choices of
+$\lambda$ are:
+\begin{itemize}[leftmargin=2em]
+\item the \emph{discrepancy principle}: choose $\lambda$ so that
+$\|G\hat{\mathbf s}_\lambda-\mathbf v\|\approx\|\boldsymbol\epsilon\|$,
+which requires an estimate of the noise level;
+\item the \emph{L-curve}: plot $\log\|\hat{\mathbf s}_\lambda\|$ against
+$\log\|G\hat{\mathbf s}_\lambda-\mathbf v\|$ and choose the corner;
+\item \emph{generalized cross-validation}, which minimizes
+$\|G\hat{\mathbf s}_\lambda-\mathbf v\|^2/\tr(I-A_\lambda)^2$ with
+influence matrix $A_\lambda=G(G^\top G+\lambda I)^{-1}G^\top$.
+\end{itemize}
+Each criterion is a statistical decision with known failure modes: the
+L-curve can lack a corner, GCV can undersmooth with correlated noise,
+and the discrepancy principle depends on a noise estimate.
+
+\section{Line sources and laminar forward models}
+Assume an infinite homogeneous isotropic conductor with conductivity
+$\sigma>0$. A straight segment from $\mathbf r_1$ to $\mathbf r_2$ has
+length $\ell>0$ and direction $\mathbf u=(\mathbf r_2-\mathbf r_1)/\ell$.
+Let $z=(\mathbf r-\mathbf r_1)\cdot\mathbf u$ and
+$\rho=\|\mathbf r-\mathbf r_1-z\mathbf u\|>0$.
+For total current $I$ distributed uniformly along the segment,
+positive outward into the conductor, integrating the point-source kernel gives
+\[
+\begin{aligned}
+\phi(\mathbf r)
+&=\frac{I}{4\pi\sigma\ell}\int_0^\ell
+ \frac{ds}{\sqrt{\rho^2+(z-s)^2}}\\
+&=\frac{I}{4\pi\sigma\ell}
+ \left[\operatorname{asinh}\frac{\ell-z}{\rho}
+       +\operatorname{asinh}\frac{z}{\rho}\right].
+\end{aligned}
+\]
+With $h=-z$ and $l=\ell-z=h+\ell$, this equals
+$\frac{I}{4\pi\sigma\ell}
+\log\frac{\sqrt{l^2+\rho^2}+l}{\sqrt{h^2+\rho^2}+h}$.
+All distances are in metres, $I$ in amperes and $\sigma$ in siemens per
+metre, yielding volts. Reversing the segment endpoints leaves the potential
+unchanged. Holding total current fixed and shrinking a centred segment
+recovers $I/(4\pi\sigma r)$ away from the source.
+
+The ideal zero-radius line still has a logarithmic singularity as
+$\rho\to0$ inside the segment; finite-radius or electrode-averaging models
+are needed there. It does not eliminate all near-source singularities.
+At distances large compared with $\ell$, the isolated segment behaves as
+a point source; dipolar cancellation requires the return-current geometry.
+The supplied MATLAB forward operator only multiplies a user-provided
+lead field; it does not construct this geometry automatically.
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+For equal concentrations $c_{\rm in}=c_{\rm out}=c$, simplify the
+GHK current equation, taking the removable limit at $V=0$, and show
+that $I=Pz^2F^2cV/(RT)$. Explain why unequal concentrations
+usually yield a voltage-dependent effective conductance and why a
+local linearization about a reversal potential is not a global Ohmic law.
+\end{exercise}
+\begin{exercise}
+Compute the potassium, sodium and chloride Nernst potentials for the
+example concentrations.
+\end{exercise}
+\begin{exercise}
+For $\tau=20$\,ms, compute $\lambda_\omega/\lambda$ at $1$, $10$ and
+$100$\,Hz.
+\end{exercise}
+\begin{exercise}
+Derive the line-source formula by integrating
+$I\,ds/(4\pi\sigma\ell|\mathbf r-\mathbf r(s)|)$ along the segment.
+\end{exercise}

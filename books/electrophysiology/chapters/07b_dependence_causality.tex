@@ -1,0 +1,214 @@
+\chapter[Dependent inference and causality]{Dependent observations, selective inference, and causality}
+\label{ch:dependent-inference}
+Time bins from one animal are typically correlated.
+Repeating a test at many channels, lags and frequency bands
+also creates selection effects. A valid mathematical result
+must state which dependence and selection operations it covers.
+
+\section{Variance of a time-series average}
+For a zero-mean weakly stationary time series with
+$\gamma(k)=\Cov(X_t,X_{t+k})$, direct expansion gives
+\[
+\Var(\bar X_T)=\frac{1}{T}
+\left[\gamma(0)+2\sum_{k=1}^{T-1}
+\left(1-\frac{k}{T}\right)\gamma(k)\right].
+\]
+This \emph{finite-sample identity} needs no central limit theorem.
+When $\sum_k|\gamma(k)|<\infty$, the asymptotic variance is
+$[\gamma(0)+2\sum_{k\ge1}\gamma(k)]/T$.
+For normalized autocorrelation $\rho(k)$, an approximate effective
+sample size is
+$T_{\mathrm{eff}}=T/[1+2\sum_{k\ge1}\rho(k)]$,
+provided that series is meaningful. Negative correlations can make
+this heuristic exceed $T$; it must not be blindly clipped or treated
+as an exact count of independent animals.
+
+\section{HAC and resampling under dependence}
+A heteroskedasticity-and-autocorrelation-consistent (HAC)
+variance estimator uses weighted autocovariances, for example
+\[
+\widehat\Omega=\widehat\gamma(0)
+ +2\sum_{k=1}^{L}\left(1-\frac{k}{L+1}\right)
+ \widehat\gamma(k).
+\]
+This is a Bartlett-window Newey--West form in a scalar,
+mean-estimation setting. Consistency requires hypotheses on
+stationarity, weak dependence, moments and bandwidth growth;
+finite samples and nonstationary trials require scrutiny.
+Block bootstrap preserves within-block temporal structure
+but is only justified under suitable dependence assumptions
+and a suitable block length. Randomly permuting every LFP
+sample is generally \emph{not} an exchangeable null.
+
+\section{Multiple comparisons and post-selection}
+Holm's step-down procedure controls family-wise error under
+valid marginal $p$-values without an independence assumption.
+Benjamini--Yekutieli controls FDR under arbitrary dependence
+using the harmonic correction $c_m=\sum_{j=1}^m1/j$
+in its standard formulation; it may be conservative.
+A maximum-statistic permutation test controls a family of tests
+if the randomization acts on the units exchangeable under the
+joint null. Cluster-permutation procedures use adjacency
+and a cluster-level statistic; rejection does not locate the
+exact significant onset, offset, or single electrode.
+After selecting the largest spectral peak and testing it
+on the same data, ordinary unadjusted $p$-values generally
+fail to reflect that selection. Sample splitting, independent
+replication or mathematically justified selective inference
+are possible remedies.
+
+\section{Observational dependence versus intervention}
+A directed acyclic graph (DAG) encodes a collection of
+conditional-independence relations under the Markov property.
+Paths are blocked or unblocked according to \emph{d-separation}.
+If $Z$ is an appropriate backdoor adjustment set for a proposed
+causal effect $X\to Y$, under causal sufficiency assumptions
+relative to the DAG and positivity,
+\[
+p(y\mid\operatorname{do}(x))
+=\int p(y\mid x,z)p(z)\,dz.
+\]
+The formula fails for invalid adjustment sets, unmeasured
+confounding, or violated structural assumptions. In particular,
+a lagged correlation does not supply the DAG.
+Faithfulness is an additional assumption (and can fail by
+parameter cancellation); the common-cause principle motivates
+but does not uniquely identify latent confounders.
+
+\section{Transfer entropy and Gaussian Granger}
+Transfer entropy from $X$ to $Y$, conditional on selected
+histories $Y^-$ and $Z^-$, is a conditional mutual information:
+$TE=I(Y_t;X^-\mid Y^-,Z^-)$.
+For jointly Gaussian variables, with unrestricted correct
+linear conditional predictors and covariance determinants
+specified consistently,
+\[
+TE_{X\to Y\mid Z}=\tfrac12
+\log\frac{\det\Sigma_{\mathrm{reduced}}}
+                {\det\Sigma_{\mathrm{full}}}
+\quad\text{(nats)}.
+\]
+This Gaussian equivalence is established in \cite{barnett2009}.
+A common multivariate Granger measure is the full log ratio;
+therefore it equals $2TE$ in this Gaussian setting.
+This is a theorem about \emph{predictive distributions}, not an
+identification theorem for causal interventions.
+Spectral Granger additionally requires consistent VAR transfer
+functions or spectral factorization (e.g., Wilson methods) and
+model residual checks. The present
+\path{granger_causality.m} computes a temporal
+log-variance ratio, not spectral Granger; the existing
+\path{transfer_entropy.m} is a first-order,
+discrete plug-in conditional-information estimator.
+\begin{caution}The two MATLAB primitives are exploratory and do not by themselves establish causal identifiability.\end{caution}
+% --- expanded edition (October 2026) ---
+\section{Holm's procedure controls the family-wise error}
+\begin{proposition}
+Let $p_{(1)}\le\cdots\le p_{(m)}$ be ordered $p$-values with hypotheses
+$H_{(i)}$. Reject $H_{(1)},\ldots,H_{(k-1)}$ where $k$ is the first index
+with $p_{(k)}>\alpha/(m-k+1)$. If every null $p$-value is valid
+($\Prob(p\le u)\le u$), then $\Prob(\text{any true null rejected})\le\alpha$,
+whatever the dependence.
+\end{proposition}
+\begin{proof}
+Let $I_0$ be the set of $m_0$ true nulls and $E$ the event that every
+$p_i$ with $i\in I_0$ exceeds $\alpha/m_0$. By the union bound,
+$\Prob(E^c)\le m_0\cdot\alpha/m_0=\alpha$. On $E$, consider the first true
+null in the ordered list, at position $j$. At most $m-m_0$ hypotheses
+precede it, so $j\le m-m_0+1$ and its threshold is
+$\alpha/(m-j+1)\le\alpha/m_0$, which its $p$-value exceeds. The procedure
+stops there or earlier and rejects no true null.
+\end{proof}
+
+\section{d-separation by example}
+Three elementary configurations determine whether a path between $X$
+and $Y$ transmits association:
+\begin{itemize}[leftmargin=2em]
+\item a \emph{chain} $X\to M\to Y$ and a \emph{fork} $X\leftarrow C\to Y$
+are open unless the middle node is conditioned on;
+\item a \emph{collider} $X\to K\leftarrow Y$ is closed unless $K$ or one of
+its descendants is conditioned on.
+\end{itemize}
+A path is blocked by a conditioning set $Z$ if it contains a non-collider
+in $Z$ or a collider with neither it nor any descendant in $Z$.
+\begin{example}[Conditioning on a detected event]
+Let $X$ and $Y$ be the activities of two independent neurons, and let a
+``population event'' $K$ be detected when the summed activity crosses a
+threshold. Analysing only event-triggered epochs conditions on $K$, a
+collider: within events, the two neurons become negatively associated
+(if one is quiet, the other must have been active to trigger the event).
+Event-triggered correlations therefore cannot be compared with
+unconditional ones without modelling the selection.
+\end{example}
+\begin{example}[Behaviour as a common cause]
+If running speed $C$ modulates both an LFP band $X$ and a unit's rate $Y$,
+the fork $X\leftarrow C\to Y$ produces spike--field correlations.
+Adjusting for $C$ (the backdoor formula of this chapter) blocks the
+path. If speed is measured noisily, adjustment is incomplete, and
+residual association persists: measurement error in confounders is a
+common reason why ``controlling for behaviour'' fails.
+\end{example}
+
+\section{Spectral factorization and Wilson's method}
+Assume a zero-mean, finite-variance, purely nondeterministic stationary
+process with an absolutely continuous spectral density matrix $S(f)$.
+For a full-rank factorization require $S(f)$ Hermitian positive definite
+almost everywhere and $\int_{-1/2}^{1/2}\log\det S(f)\,df>-\infty$.
+Under these conditions the normalized causal outer factor gives
+\[
+S(f)=H(f)\Sigma H(f)^\ast,\qquad
+H(f)=I+\sum_{k\ge1}H_ke^{-2\pi ifk},\qquad \Sigma\succ0.
+\]
+The normalization $H_0=I$ identifies the innovation covariance.
+``Minimum phase'' refers here to the outer causal factor; absolute
+summability of both the filter and its inverse requires stronger regularity
+than stationarity alone (for example a stable invertible rational model).
+Singular spectra and deterministic spectral lines require separate treatment.
+
+For a scalar positive spectrum with integrable logarithm, in units of
+cycles per sample, the Kolmogorov--Szeg\H{o} formula is
+$\log\sigma^2=\int_{-1/2}^{1/2}\log S(f)\,df$.
+For the multivariate normalized factor it determines
+$\log\det\Sigma=\int_{-1/2}^{1/2}\log\det S(f)\,df$, not each entry
+of $\Sigma$. The scalar AR(1) calculation below illustrates this identity;
+it is not a proof of the general matrix factorization theorem.
+
+Wilson's iterative factorization targets the causal outer factor on a
+frequency grid (Wilson, 1972, DOI: \texttt{10.1137/0123044}). In a numerical
+implementation check Hermitian symmetry and positive eigenvalues, specify
+initialization and normalization, and report a reconstruction residual and
+convergence tolerance. Near-singular estimated spectra can require
+regularization, which changes the spectrum being factorized. A finite grid
+and finite iterations do not by themselves certify minimum phase or
+convergence. The factor may feed a spectral Granger calculation, subject to
+the assumptions and uncertainty of the spectral estimate. This manuscript
+does not claim a verified Wilson implementation in the current arsenal.
+
+\begin{proposition}[Kolmogorov--Szeg\H{o} for AR(1)]
+For $X_t=aX_{t-1}+\varepsilon_t$ with $|a|<1$ and innovation variance
+$\sigma^2$, $\int_{-1/2}^{1/2}\log S(f)\,df=\log\sigma^2$.
+\end{proposition}
+\begin{proof}
+$S(f)=\sigma^2/|1-ae^{-2\pi if}|^2$, so the integral is
+$\log\sigma^2-2\Re\int\log(1-ae^{-2\pi if})\,df$. Expanding
+$\log(1-az)=-\sum_{k\ge1}a^kz^k/k$ and integrating term by term over the
+unit circle, every term vanishes.
+\end{proof}
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Apply Holm and Bonferroni to five $p$-values of your choice and find a
+case where Holm rejects more hypotheses.
+\end{exercise}
+\begin{exercise}
+For the DAG $C\to X\to Y$, $C\to Y$, show that $\{C\}$ is a valid
+backdoor adjustment set and that $\varnothing$ is not.
+\end{exercise}
+\begin{exercise}
+Simulate two independent Gaussian sequences, select samples where their
+sum exceeds 2, and compute their correlation within the selection.
+\end{exercise}
+\begin{exercise}
+Compute the effective sample size of an AR(1) series with $a=0.8$ and
+$T=500$.
+\end{exercise}
