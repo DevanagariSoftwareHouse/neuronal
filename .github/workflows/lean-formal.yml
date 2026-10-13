@@ -2,9 +2,7 @@ name: Formal Lean
 on:
   push:
     branches: [main]
-    paths: ["books/formal_foundations/**", ".github/workflows/lean-formal.yml"]
   pull_request:
-    paths: ["books/formal_foundations/**", ".github/workflows/lean-formal.yml"]
 jobs:
   lean:
     runs-on: ubuntu-latest
@@ -25,8 +23,8 @@ jobs:
       - name: Resolve pinned Mathlib and download proof cache
         working-directory: books/formal_foundations/lean
         run: |
-          lake update
           lake exe cache get
+          git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.lean
       - name: Kernel-check Lean project
         working-directory: books/formal_foundations/lean
         run: |
