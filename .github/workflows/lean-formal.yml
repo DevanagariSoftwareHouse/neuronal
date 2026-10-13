@@ -3,12 +3,22 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   lean:
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
+    runs-on: [self-hosted, linux, x64, dell]
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - name: Verify persistent Lean toolchain on Dell G15
+        run: |
+          test -x "$HOME/.elan/bin/lake"
+          test -x "$HOME/.elan/bin/lean"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          cat books/formal_foundations/lean/lean-toolchain
       - name: Audit English mathematics and Lean links
         run: |
           python3 books/formal_foundations/mathematics/audit_formal.py --write
@@ -16,13 +26,10 @@ jobs:
           python3 books/formal_foundations/mathematics/build_concept_graphs.py --check
           python3 books/formal_foundations/mathematics/check_bridge_inventory.py
           python3 books/formal_foundations/mathematics/build_concept_graphs.py --write
-      - name: Install elan using the pinned toolchain
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Resolve pinned Mathlib and download proof cache
+      - name: Resolve pinned Mathlib and proof cache
         working-directory: books/formal_foundations/lean
         run: |
+          lake --version
           lake exe cache get
           git diff --exit-code -- lake-manifest.json lean-toolchain lakefile.lean
       - name: Kernel-check Lean project
