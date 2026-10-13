@@ -29,6 +29,7 @@ Build commands are maintained exclusively in `books/`; the former `latex/` forwa
 - [shared/theorems.yml](shared/theorems.yml) is a seed registry for stable theorem identifiers; it does not claim all catalogue entries are formally proved.
 - The reusable MATLAB methods live in [matlab/path](../matlab/path); questionnaire-specific scripts remain in paper_con2phys.
 - [formal_foundations/lean](formal_foundations/lean) contains the pinned Lean/Mathlib project and verified logic pilot; [formal_registry.json](formal_foundations/mathematics/formal_registry.json) and [audit_formal.py](formal_foundations/mathematics/audit_formal.py) track the correspondence and pending work.
+- Every function in [matlab/path](../matlab/path) is specified in [12_method_specifications.tex](electrophysiology/chapters/12_method_specifications.tex) and depends on `ARS-*` results proved in [formal_foundations/chapters/10_arsenal](formal_foundations/chapters/10_arsenal). `python3 tools/arsenal_registry.py --check` (part of `make check`) keeps functions, specifications, theorems and `shared/theorems.yml` in step; `--write` regenerates the registry block.
 - [examples/matlab](../examples/matlab) is the designated place for future reproducible textbook demonstrations.
 - [examples/lean](../examples/lean) is reserved for future verified examples.
 

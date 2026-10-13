@@ -5,6 +5,7 @@ all: electrophysiology formal_foundations
 check:
 	python3 tools/check_sources.py
 	python3 tools/check_language_boundaries.py
+	python3 tools/arsenal_registry.py --check
 
 matlab: electrophysiology
 lean: formal_foundations

@@ -1,0 +1,199 @@
+\chapter[Arsenal II: spectra and phase]{The mathematics of the arsenal II: filters, spectra, phase, and coupling}\label{ch:arsenal-spectral}
+\begin{readergoal}Prove the identities that make spectral, phase, and coupling estimators bounded, interpretable, and comparable, and identify exactly where each one depends on an idealisation.\end{readergoal}
+
+Throughout, $x[n]$, $n=0,\dots,N-1$, is a real sequence sampled at $f_s$, and $X[k]=\sum_n x[n]e^{-2\pi ikn/N}$ its discrete Fourier transform (DFT).
+
+\section{Zero-phase filtering}
+\begin{theorem}[ARS-FILT-001 --- Forward--backward filtering has zero phase]\label{ars:filt-001}
+Let $h$ be a real, stable linear time-invariant filter with frequency response $H(e^{i\omega})$, acting on bi-infinite square-summable sequences. Filtering forwards, reversing time, filtering again, and reversing again is the linear time-invariant operator with frequency response $|H(e^{i\omega})|^2$. It is real and nonnegative, so the operator introduces no phase shift; its magnitude response is the square of the original. If $|H|=1/\sqrt2$ at a design edge ($-3$ dB), the forward--backward gain there is $1/2$ ($-6.02$ dB).
+\end{theorem}
+\begin{proof}
+Time reversal $R$ maps a sequence with transform $Y(e^{i\omega})$ to one with transform $Y(e^{-i\omega})$, which equals $\overline{Y(e^{i\omega})}$ for real sequences. Write the cascade as $RFRF$ with $F$ the filter. In the frequency domain, $F$ multiplies by $H(e^{i\omega})$, and $R$ followed by $F$ followed by $R$ multiplies by $H(e^{-i\omega})=\overline{H(e^{i\omega})}$ because $h$ is real. The product is $|H|^2\ge0$.
+\end{proof}
+\begin{remark}
+The theorem is about bi-infinite sequences. A finite recording has edges; any practical forward--backward routine pads or reflects the record, and transients near both ends do not satisfy the zero-phase identity. A bandpass Butterworth design of nominal order $m$ already has $2m$ poles; the forward--backward cascade doubles the effective order again.
+\end{remark}
+
+\section{Analytic signals and wavelets}
+\begin{theorem}[ARS-FILT-002 --- The discrete analytic signal recovers amplitude and phase of a bin-centred sinusoid]\label{ars:filt-002}
+Let $N\ge3$, and form $Z[k]=X[k]\,u[k]$ with $u[0]=1$, $u[k]=2$ for $0<k<N/2$, $u[N/2]=1$ if $N$ is even, and $u[k]=0$ otherwise; let $z$ be the inverse DFT of $Z$. Then $\operatorname{Re}z=x$. If $x[n]=A\cos(2\pi k_0n/N+\phi)$ with an integer $0<k_0<N/2$ and $A>0$, then $z[n]=Ae^{i(2\pi k_0n/N+\phi)}$, so $|z[n]|=A$ and $\arg z[n]=2\pi k_0n/N+\phi$ (mod $2\pi$).
+\end{theorem}
+\begin{proof}
+For real $x$, $X[N-k]=\overline{X[k]}$. The inverse DFT of $X$ is $x$; the inverse DFT of $Z$ equals $x$ plus the inverse DFT of $X[k](u[k]-1)$. The weights $u[k]-1$ are $+1$ on $0<k<N/2$, $-1$ on the mirror indices and $0$ at $k=0,N/2$, so that second term is $\frac1N\sum_{0<k<N/2}\bigl(X[k]e^{2\pi ikn/N}-\overline{X[k]e^{2\pi ikn/N}}\bigr)$, which is purely imaginary. Hence $\operatorname{Re}z=x$. For the sinusoid, $X[k_0]=\tfrac N2Ae^{i\phi}$, $X[N-k_0]=\tfrac N2Ae^{-i\phi}$ and all other bins vanish; then $Z[k_0]=NAe^{i\phi}$ is the only nonzero bin and its inverse DFT is $Ae^{i(2\pi k_0n/N+\phi)}$.
+\end{proof}
+For signals that are not exactly periodic in the record, energy leaks into neighbouring bins and the identity holds only approximately. The continuous-time version, together with Bedrosian's theorem for modulated carriers, is treated in Chapter~\ref{ch:hilbert}. The practical moral is the same: amplitude and phase are well defined only for (approximately) narrowband signals, which is why phase-based methods require a band-limited input.
+
+\begin{theorem}[ARS-FILT-003 --- The admissible Morlet kernel]\label{ars:filt-003}
+For $\sigma>0$ and $\omega_0>0$, the function
+\[\psi(t)=\bigl(e^{i\omega_0t}-e^{-\sigma^2\omega_0^2/2}\bigr)e^{-t^2/(2\sigma^2)}\]
+has $\int_\R\psi(t)\,dt=0$. With $\omega_0=2\pi f$ and $\sigma=c/(2\pi f)$ (a wavelet of $c$ ``cycles''), the correction constant is $e^{-c^2/2}$, independent of $f$. The Gaussian envelope has spectral standard deviation $1/(2\pi\sigma)=f/c$ hertz and temporal standard deviation $\sigma=c/(2\pi f)$ seconds; their product $1/(2\pi)$ does not depend on $f$.
+\end{theorem}
+\begin{proof}
+The Gaussian integral $\int e^{i\omega t}e^{-t^2/(2\sigma^2)}dt=\sigma\sqrt{2\pi}\,e^{-\sigma^2\omega^2/2}$ (complete the square). At $\omega=\omega_0$ and $\omega=0$ this gives $\sigma\sqrt{2\pi}(e^{-\sigma^2\omega_0^2/2}-e^{-\sigma^2\omega_0^2/2})=0$. Substituting $\sigma\omega_0=c$ gives the constant. The same Gaussian integral shows that $e^{-t^2/(2\sigma^2)}$ has Fourier transform proportional to $e^{-\sigma^2\omega^2/2}$, a Gaussian in $\omega$ with standard deviation $1/\sigma$, i.e.\ $1/(2\pi\sigma)$ in hertz.
+\end{proof}
+A zero-mean kernel ignores constant offsets. Fixing $c$ means fixing \emph{relative} frequency resolution $f/c$: low frequencies are resolved finely in frequency but coarsely in time. A sampled, truncated kernel is zero-mean only approximately.
+
+\begin{theorem}[ARS-FILT-004 --- Unit-energy kernels give comparable noise power]\label{ars:filt-004}
+Let $w[m]$ be a finite complex kernel with $\sum_m|w[m]|^2=1$ and $\epsilon[n]$ real white noise of variance $s^2$. Then $y[n]=\sum_m w[m]\epsilon[n-m]$ satisfies $\E|y[n]|^2=s^2$, independently of the kernel's centre frequency.
+\end{theorem}
+\begin{proof}
+$\E|y|^2=\sum_{m,m'}w[m]\overline{w[m']}\,\E\epsilon[n-m]\epsilon[n-m']=s^2\sum_m|w[m]|^2$.
+\end{proof}
+Normalising each wavelet to unit energy is therefore what makes wavelet power at different frequencies comparable against a white background; against a $1/f$ background, power still varies with frequency, which is why oscillation detectors model the background explicitly.
+
+\section{Spectral estimators}
+For a taper (window) $w[n]$, the tapered periodogram is $\hat S_w(f_k)=\frac{1}{f_s\sum_n w[n]^2}\bigl|\sum_n w[n]x[n]e^{-2\pi ikn/N}\bigr|^2$. Welch's estimate averages such periodograms over (possibly overlapping) segments; the multitaper estimate averages them over orthonormal tapers on one segment.
+
+\begin{theorem}[ARS-SPEC-001 --- Energy normalisation makes tapered periodograms unbiased for white noise]\label{ars:spec-001}
+If $x$ is white with variance $s^2$, then $\E\hat S_w(f_k)=s^2/f_s$ for every $k$ and every nonzero taper. Hence Welch and multitaper averages of such periodograms are also unbiased for the flat density $s^2/f_s$.
+\end{theorem}
+\begin{proof}
+$\E\bigl|\sum_n w[n]x[n]e^{-i\omega n}\bigr|^2=\sum_{n,n'}w[n]w[n']e^{-i\omega(n-n')}\E x[n]x[n']=s^2\sum_n w[n]^2$. Divide by $f_s\sum w^2$. Averages of unbiased estimators are unbiased.
+\end{proof}
+For coloured spectra the tapered periodogram is biased by convolution of the true spectrum with the taper's spectral window; the taper controls leakage, not bias in general. The one-sided convention doubles all bins except $0$ and Nyquist so that the density integrates to the variance.
+
+\begin{theorem}[ARS-SPEC-002 --- Averaging orthonormal tapers divides variance by the number of tapers]\label{ars:spec-002}
+Let $x$ be Gaussian white noise and $w_1,\dots,w_K$ real tapers orthonormal in $\R^N$. Fix a frequency $\omega$ and suppose the $2K$ vectors $w_k\cos(\omega n)$, $w_k\sin(\omega n)$ are orthogonal with equal norms (\emph{idealisation}; it holds approximately when $\omega$ is far from $0$ and Nyquist relative to the taper bandwidth). Then the $K$ eigenspectra at $\omega$ are independent, each $\frac{s^2}{f_s}\frac{\chi^2_2}{2}$, and their average is $\frac{s^2}{f_s}\frac{\chi^2_{2K}}{2K}$, with variance $(s^2/f_s)^2/K$.
+\end{theorem}
+\begin{proof}
+Each real and imaginary part of $\sum_nw_k[n]x[n]e^{-i\omega n}$ is an inner product of the Gaussian vector $x$ with one of the $2K$ vectors. Inner products of white Gaussian noise with orthogonal vectors are independent Gaussians whose variances are $s^2$ times the squared norms, here all $1/2$. Each eigenspectrum is thus $s^2/f_s$ times a sum of two squared independent standard normals divided by $2$; averaging $K$ independent such variables gives a $\chi^2_{2K}/(2K)$ law.
+\end{proof}
+The ``number of independent estimates'' $K$ is what Welch obtains from segments and multitaper from tapers. Overlapping Welch segments are correlated, so their effective number is smaller than the nominal count.
+
+\begin{theorem}[ARS-SPEC-003 --- Coherence is bounded, and trivially one without averaging]\label{ars:spec-003}
+Let $X_1,\dots,X_K$ and $Y_1,\dots,Y_K$ be complex numbers (Fourier coefficients of two signals at one frequency over $K$ segments, tapers, or smoothing-window samples), not all zero. Define
+\[\hat C=\frac{\bigl|\sum_kX_k\overline{Y_k}\bigr|^2}{\sum_k|X_k|^2\sum_k|Y_k|^2}.\]
+Then $0\le\hat C\le1$, with $\hat C=1$ if and only if $(X_k)$ and $(Y_k)$ are proportional. In particular $\hat C=1$ identically when $K=1$.
+\end{theorem}
+\begin{proof}
+This is the Cauchy--Schwarz inequality in $\C^K$, with equality exactly for linearly dependent vectors. A single pair of complex numbers is always linearly dependent.
+\end{proof}
+\begin{remark}
+The theorem unifies Welch coherence, multitaper coherence, spike--field coherence and time-smoothed wavelet coherence: all are the same ratio over different index sets. It also explains why the \emph{amount} of averaging, not only the data, determines the estimate: with few effective degrees of freedom the estimate is biased upwards, and with none it is meaningless.
+\end{remark}
+
+\begin{theorem}[ARS-SPEC-004 --- Properties of the phase-slope index]\label{ars:spec-004}
+Let $C(f)$ be the complex coherency of $x$ and $y$ on a frequency grid $f_1<\dots<f_J$, and define $\Psi_{xy}=\operatorname{Im}\sum_{j<J}\overline{C(f_j)}\,C(f_{j+1})$.
+\begin{enumerate}[leftmargin=2em]
+\item $\Psi_{yx}=-\Psi_{xy}$.
+\item If $C(f_j)$ is real for every $j$ (for instance, instantaneous linear mixing of independent sources), then $\Psi_{xy}=0$.
+\item If $C(f)=\rho(f)e^{-2\pi if\tau}$ with $\rho\ge0$ and a constant delay $\tau$, then $\Psi_{xy}=\sum_j\rho(f_j)\rho(f_{j+1})\sin(-2\pi\delta_j\tau)$ with $\delta_j=f_{j+1}-f_j$; for $|2\pi\delta_j\tau|<\pi$ its sign is the sign of $-\tau$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1) Coherency satisfies $C_{yx}=\overline{C_{xy}}$, so each summand becomes its conjugate and the imaginary part changes sign. (2) Products of real numbers are real. (3) Substitute: $\overline{C(f_j)}C(f_{j+1})=\rho_j\rho_{j+1}e^{-2\pi i\delta_j\tau}$.
+\end{proof}
+\begin{remark}
+Which signal ``leads'' for a given sign depends on the cross-spectrum convention, $X\overline Y$ versus $\overline XY$, which differs between software libraries. The convention must be fixed by a test with a known delay before the sign is interpreted.
+\end{remark}
+
+\begin{theorem}[ARS-SPEC-005 --- Fourier phase randomisation preserves the periodogram and circular autocovariance]\label{ars:spec-005}
+Let $x$ be real with DFT $X$. Choose independent angles $\theta_k$ for $0<k<N/2$, set $\tilde X[k]=|X[k]|e^{i\theta_k}$ and $\tilde X[N-k]=\overline{\tilde X[k]}$ for those $k$, and leave $X[0]$ and (for even $N$) $X[N/2]$ unchanged. Then the inverse DFT $\tilde x$ is real, has the same mean and the same periodogram as $x$, and the same circular sample autocovariance at every lag.
+\end{theorem}
+\begin{proof}
+A sequence is real if and only if its DFT is Hermitian, $\tilde X[N-k]=\overline{\tilde X[k]}$, which holds by construction ($X[0]$ and $X[N/2]$ are real for real $x$). The mean is $X[0]/N$, unchanged. $|\tilde X[k]|=|X[k]|$ for all $k$, so the periodogram is unchanged. The circular autocovariance $\sum_nx[n]x[(n+m)\bmod N]$ is the inverse DFT of $|X[k]|^2$ (discrete Wiener--Khinchin), hence also unchanged.
+\end{proof}
+The surrogate preserves all second-order \emph{circular} structure and destroys phase relations, including any non-Gaussian waveform shape, transients, and nonstationarity. Rejecting a phase-randomised null is evidence against ``a stationary linear Gaussian process with this spectrum'', not evidence for any particular nonlinear mechanism.
+
+\begin{theorem}[ARS-SPEC-006 --- Circular shifts preserve marginal and autocorrelation structure]\label{ars:spec-006}
+A circular shift by $s$ samples is a permutation of the samples. It preserves the empirical distribution of values, and the circular autocovariance at every lag; it changes the alignment of $x$ with any other fixed signal.
+\end{theorem}
+\begin{proof}
+Permutations preserve multisets of values. The circular autocovariance sums $x[n]x[n+m]$ over all $n$ modulo $N$; shifting both indices by $s$ re-indexes the same sum.
+\end{proof}
+
+\section{Power laws, aperiodic backgrounds, and resampling}
+\begin{theorem}[ARS-SPEC-007 --- Log--log regression recovers exact power laws]\label{ars:spec-007}
+Let $u_i=\log v_i$ and $w_i=\log P_i$ for points with $v_i>0$, $P_i>0$, not all $v_i$ equal. If $P_i=a\,v_i^{-\beta}$ exactly, then ordinary least squares of $w$ on $u$ returns slope $-\beta$, intercept $\log a$ and $R^2=1$. Multiplying all $P_i$ by $\kappa>0$ changes only the intercept, by $\log\kappa$. The base of the logarithm does not change the slope.
+\end{theorem}
+\begin{proof}
+The points lie exactly on the line $w=\log a-\beta u$, so the residual sum of squares is zero at those parameters and the minimiser is unique because the design has two linearly independent columns. Scaling by $\kappa$ adds $\log\kappa$ to every $w_i$. Changing base multiplies $u$ and $w$ by the same constant, which cancels in the slope.
+\end{proof}
+The same estimator underlies the aperiodic exponent of a spectrum (power against frequency), the exponent of a population eigenspectrum (eigenvalue against rank) and the background used by oscillation detectors. Its weakness is equally shared: if a spectral peak is not excluded, the line is pulled toward it. Equal weight per \emph{bin} also means that, on a linear frequency grid, high frequencies dominate the fit.
+
+\begin{theorem}[ARS-SPEC-008 --- Geometric-mean resampling is exact for self-similar spectra]\label{ars:spec-008}
+Let a continuous-time stationary signal have spectral density $S$. For $h>1$, the stretched signal $x(t/h)$ has density $hS(hf)$ and the compressed signal $x(ht)$ has density $h^{-1}S(f/h)$. Their geometric mean is $\sqrt{S(hf)S(f/h)}$. If $S(f)=af^{-\beta}$ on an interval containing $f/h$ and $hf$, this equals $S(f)$ exactly, for every $h$.
+\end{theorem}
+\begin{proof}
+The autocovariance of $x(ct)$ is $r(c\tau)$; its Fourier transform is $c^{-1}S(f/c)$. Take $c=1/h$ and $c=h$. The factors $h$ and $h^{-1}$ cancel in the product. For a power law, $S(hf)S(f/h)=a^2f^{-2\beta}$.
+\end{proof}
+An oscillatory peak at $f_0$, by contrast, is moved to $f_0/h$ and $hf_0$ and so does not survive a median over many $h$; this is the idea of irregular-resampling autospectral analysis. Two consequences are easy to miss. First, compressing by $h$ before sampling at the same rate requires low-pass filtering below $f_s/(2h)$, so the decomposition is only meaningful for $f<f_s/(2h_{\max})$. Second, exactness requires a pure power law across $[f/h_{\max},h_{\max}f]$; a ``knee'' violates it.
+
+\section{Entropies of distributions}
+\begin{theorem}[ARS-INFO-001 --- Normalised entropies and the modulation index lie in the unit interval]\label{ars:info-001}
+For a probability vector $p=(p_1,\dots,p_M)$, $0\le H(p)=-\sum p_j\log p_j\le\log M$, with $H=\log M$ if and only if $p$ is uniform and $H=0$ if and only if $p$ is a point mass. Consequently:
+\begin{enumerate}[leftmargin=2em]
+\item the normalised spectral entropy $H(P/\sum P)/\log M$ of a nonnegative spectrum with $M$ bins lies in $[0,1]$;
+\item the modulation index $\mathrm{MI}=\KL(p\Vert u)/\log M=1-H(p)/\log M$ of an amplitude-by-phase distribution over $M$ phase bins lies in $[0,1]$, and is $0$ exactly when mean amplitude does not depend on phase bin;
+\item the normalised permutation entropy of order $d$ lies in $[0,1]$, because there are exactly $d!$ ordinal patterns of $d$ distinct values.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Each term $-p_j\log p_j\ge0$ on $[0,1]$, with equality iff $p_j\in\{0,1\}$. By Jensen's inequality for the concave logarithm, $H(p)=\sum_{p_j>0}p_j\log(1/p_j)\le\log\sum_{p_j>0}1\le\log M$, with equality iff all positive $p_j$ are equal and all are positive. $\KL(p\Vert u)=\sum p_j\log(Mp_j)=\log M-H(p)$. A permutation of $d$ distinct values is one of $d!$ orderings.
+\end{proof}
+\begin{remark}
+A normalised entropy depends on the number of bins $M$ and on the binning; comparing values computed on different grids is meaningless. Phase bins with no samples make the amplitude distribution undefined rather than zero.
+\end{remark}
+
+\section{Circular statistics and phase synchrony}
+For angles $\theta_1,\dots,\theta_n$ and weights $a_j\ge0$ with $\sum a_j>0$, define $z_j=e^{i\theta_j}$, the weighted mean resultant $\bar z=\sum a_jz_j/\sum a_j$, its length $R=|\bar z|$, and, when $R>0$, the circular mean $\arg\bar z$.
+
+\begin{theorem}[ARS-CIRC-001 --- Resultant lengths lie in the unit interval]\label{ars:circ-001}
+$0\le R\le1$, with $R=1$ if and only if all angles with positive weight coincide modulo $2\pi$. Rotating all angles by $\alpha$ rotates the circular mean by $\alpha$ and leaves $R$ unchanged. Consequently the phase-locking value $|\frac1n\sum e^{i(\phi_j-\psi_j)}|$ and the normalised mean vector length $|\sum a_je^{i\theta_j}|/\sum a_j$ lie in $[0,1]$.
+\end{theorem}
+\begin{proof}
+By the triangle inequality, $|\sum a_jz_j|\le\sum a_j|z_j|=\sum a_j$, with equality iff all $z_j$ with $a_j>0$ point in the same direction. Rotation multiplies $\bar z$ by $e^{i\alpha}$.
+\end{proof}
+
+\begin{theorem}[ARS-CIRC-002 --- Pairwise phase consistency is unbiased; squared resultant length is not]\label{ars:circ-002}
+For $n\ge2$,
+\[\mathrm{PPC}=\frac{|\sum_jz_j|^2-n}{n(n-1)}=\frac{2}{n(n-1)}\sum_{j<l}\cos(\theta_j-\theta_l).\]
+If the $\theta_j$ are i.i.d.\ with $\rho=|\E e^{i\theta}|$, then $\E\,\mathrm{PPC}=\rho^2$ for every $n$, whereas $\E R^2=\rho^2+(1-\rho^2)/n$.
+\end{theorem}
+\begin{proof}
+$|\sum z_j|^2=\sum_{j,l}z_j\overline{z_l}=n+\sum_{j\ne l}e^{i(\theta_j-\theta_l)}=n+2\sum_{j<l}\cos(\theta_j-\theta_l)$. For independent $j\ne l$, $\E z_j\overline{z_l}=\E z_j\,\overline{\E z_l}=\rho^2$ after rotating so that $\E z$ is real and nonnegative (allowed by the previous theorem). Hence $\E|\sum z_j|^2=n+n(n-1)\rho^2$; divide by $n(n-1)$ after subtracting $n$, or by $n^2$ to obtain $\E R^2$.
+\end{proof}
+This is the precise sense in which the phase-locking value depends on the number of spikes and PPC does not. The independence assumption is essential: spikes in a burst have dependent phases, and PPC is then biased again.
+
+\begin{theorem}[ARS-CIRC-003 --- The Rayleigh statistic under uniformity]\label{ars:circ-003}
+If $\theta_1,\dots,\theta_n$ are i.i.d.\ uniform on the circle, then $\E[nR^2]=1$, and $2nR^2\to\chi^2_2$ in distribution as $n\to\infty$. The finite-sample $p$-value approximation $p\approx\exp\bigl(\sqrt{1+4n+4(n^2-(nR)^2)}-(1+2n)\bigr)$ used in practice is \emph{(cited)} from Zar's correction to the asymptotic law.
+\end{theorem}
+\begin{proof}
+With $\rho=0$ the previous theorem gives $\E R^2=1/n$. The vector $\frac1{\sqrt n}\sum(\cos\theta_j,\sin\theta_j)$ has mean zero and covariance $\frac12I$ (since $\E\cos^2\theta=\E\sin^2\theta=\tfrac12$ and $\E\cos\theta\sin\theta=0$); by the multivariate central limit theorem it converges to $\Normal(0,\tfrac12I)$, so twice its squared norm, which is $2nR^2$, converges to $\chi^2_2$.
+\end{proof}
+Samples of LFP phase taken at every sample are strongly dependent, so neither the expectation nor the limit applies to them; the test is meant for independent events.
+
+\begin{theorem}[ARS-CIRC-004 --- Lag-based indices ignore zero-lag coupling]\label{ars:circ-004}
+For cross-spectral estimates $S_1,\dots,S_n\in\C$ with $\Delta_j=\arg S_j$, define $\mathrm{PLI}=|\frac1n\sum\operatorname{sgn}\sin\Delta_j|$ and, when $\sum|\operatorname{Im}S_j|>0$, $\mathrm{wPLI}=|\sum\operatorname{Im}S_j|/\sum|\operatorname{Im}S_j|$. Both lie in $[0,1]$. Terms with $S_j\in\R$ (relative phase $0$ or $\pi$) contribute nothing to either numerator, and adding a real number to every $S_j$ changes neither $\operatorname{Im}S_j$ nor $\mathrm{wPLI}$.
+\end{theorem}
+\begin{proof}
+$|\operatorname{sgn}|\le1$ and the triangle inequality give the bounds. If $S_j$ is real then $\sin\Delta_j=0=\operatorname{Im}S_j$. Adding a real number does not change imaginary parts.
+\end{proof}
+Volume conduction adds an approximately real, instantaneous component to cross-spectra; the theorem is the precise statement of the robustness these indices offer and of its limit: a real lagged interaction at a phase near $0$ or $\pi$ is also invisible.
+
+\section{Thresholds and episodes}
+\begin{theorem}[ARS-DET-001 --- Exponential power and the oscillation threshold]\label{ars:det-001}
+Suppose a complex coefficient $W$ is circular complex Gaussian with $\E|W|^2=\bar P$ (\emph{idealisation}: real and imaginary parts independent, equal variance, zero mean). Then $|W|^2$ is exponential with mean $\bar P$, and for $0<p<1$
+\[\Prob\bigl(|W|^2>-\bar P\log(1-p)\bigr)=1-p.\]
+If successive samples above threshold are required to persist for at least $c$ cycles at frequency $f$, the minimum run length is $\lceil cf_s/f\rceil$ samples.
+\end{theorem}
+\begin{proof}
+$|W|^2=U^2+V^2$ with $U,V\sim\Normal(0,\bar P/2)$ independent, so $2|W|^2/\bar P\sim\chi^2_2$, which is exponential with mean $2$. Hence $\Prob(|W|^2>t)=e^{-t/\bar P}$; setting $t=-\bar P\log(1-p)$ gives $1-p$. A cycle at $f$ lasts $f_s/f$ samples.
+\end{proof}
+The threshold is calibrated only if $\bar P$ is the true background power at that frequency. If the background is fitted to mean power that \emph{includes} oscillatory episodes, $\bar P$ is overestimated near the peak and the detector becomes conservative exactly where oscillations are. The power threshold controls the per-sample false-positive rate; the duration criterion changes the episode-level rate, which is not $1-p$.
+
+\begin{theorem}[ARS-DET-002 --- Zero-crossing period estimates are accurate to one sample]\label{ars:det-002}
+Let $x(t)=A\sin(2\pi f_0t+\phi)$, $A>0$, be sampled at $t_n=n/f_s$ with $f_s>2f_0$, and define a rising crossing as an index $n$ with $x(t_n)\le0<x(t_{n+1})$. The difference between consecutive rising-crossing indices, divided by $f_s$, differs from the true period $1/f_0$ by less than $1/f_s$.
+\end{theorem}
+\begin{proof}
+Within each period there is exactly one true rising zero $\tau$, preceded by a half-period on which $x<0$ and followed by one on which $x>0$. Each half-period lasts $1/(2f_0)>1/f_s$, so it contains a sample; hence a sign change $x(t_n)\le0<x(t_{n+1})$ occurs exactly once around each rising zero, with $t_n\le\tau<t_{n+1}$, i.e.\ $n/f_s\in(\tau-1/f_s,\tau]$. Two consecutive crossing times are each within $[0,1/f_s)$ before zeros that are $1/f_0$ apart; their difference lies in $(1/f_0-1/f_s,\,1/f_0+1/f_s)$.
+\end{proof}
+Waveform asymmetry and noise move zero crossings; the bound is for an ideal sinusoid only.
+
+\begin{exercises}
+\item Show that forward--backward filtering of a sinusoid at a design edge halves its amplitude, and compute the corresponding power gain.
+\item Compute $\E\,\mathrm{PPC}$ and $\E R^2$ for $n=10$ independent phases drawn from a von Mises distribution with $\rho=0.2$, and compare.
+\item Prove that the multitaper coherence over $K$ tapers and $L$ segments is the Cauchy--Schwarz ratio over $KL$ index pairs.
+\item Construct a spectrum $af^{-\beta}+b\,\ind_{[f_0-\epsilon,f_0+\epsilon]}(f)$ and compute the log--log slope fitted over $[1,100]$ Hz with and without excluding the peak.
+\item Verify Theorem ARS-SPEC-008 for $S(f)=af^{-\beta}$ with a knee, $S(f)=a/(k+f^\beta)$, and identify where it fails.
+\end{exercises}

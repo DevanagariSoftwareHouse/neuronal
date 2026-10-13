@@ -56,6 +56,12 @@
 \newcommand{\Prob}{\mathbb P}
 \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\rank}{\operatorname{rank}}
+% macros used by the arsenal chapters
+\providecommand{\Poisson}{\operatorname{Poisson}}
+\providecommand{\Normal}{\mathcal{N}}
+\providecommand{\ind}{\mathbf{1}}
+\providecommand{\KL}{D_{\mathrm{KL}}}
+\providecommand{\tr}{\operatorname{tr}}
 \newcounter{bridgecount}
 \newcommand{\bridgeentry}[2]{%
   \refstepcounter{bridgecount}%
@@ -127,6 +133,10 @@ Every chapter includes formal mathematics, an electrophysiological interpretatio
 \part{Scientific inference and reproducible methods}
 \input{chapters/08_inference/01_statistics}
 \input{chapters/08_inference/02_numerical}
+\part{The mathematics of the arsenal}
+\input{chapters/10_arsenal/01_counting_timing}
+\input{chapters/10_arsenal/02_spectral_phase}
+\input{chapters/10_arsenal/03_linear_inference}
 \input{chapters/09_projects/01_roadmap}
 \appendix
 \input{appendices/notation_new}
