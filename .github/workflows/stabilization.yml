@@ -14,14 +14,16 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-      - name: Verify host MATLAB and Signal Processing Toolbox
+      - name: Verify MATLAB R2019a and Signal Processing Toolbox
         shell: bash
         run: |
-          command -v matlab
-          matlab -batch "assert(license('test','Signal_Toolbox')); ver"
-      - name: Run scientific suite in host MATLAB
+          command -v matlab-r2019a
+          matlab-r2019a -batch "assert(license('test','Signal_Toolbox')); ver"
+      - name: Run scientific suite in installed MATLAB
         shell: bash
-        run: matlab -batch "run('matlab/tests/run_scientific_suite.m')"
+        run: |
+          test -f "$GITHUB_WORKSPACE/matlab/tests/run_scientific_suite.m"
+          matlab-r2019a -batch "run('$GITHUB_WORKSPACE/matlab/tests/run_scientific_suite.m')"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
