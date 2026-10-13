@@ -171,17 +171,36 @@ a neuron has no net monopole source, and its far field is at least
 dipolar.
 
 \section{Cable equation: space and time constants}
-With membrane resistance $r_m$ and capacitance $c_m$ per unit length,
-and axial resistance $r_a$ per unit length, the passive cable is
-$\lambda^2\partial_{xx}V-\tau\partial_tV-V=-r_mi_{\rm ext}$ with
-$\lambda=\sqrt{r_m/r_a}$ and $\tau=r_mc_m$. In steady state with a
-current injected at $x=0$ of an infinite cable,
-$V(x)=V(0)e^{-|x|/\lambda}$. A sinusoidal input of angular frequency
-$\omega$ decays with the frequency-dependent length constant
-$\lambda_\omega=\lambda\sqrt{2/(1+\sqrt{1+\omega^2\tau^2})}$, so dendrites
-filter high frequencies more strongly. Distal synaptic inputs therefore
-contribute low-pass-filtered dipoles, one physical reason why the LFP
-spectrum falls with frequency.
+Write $r_m$ for membrane resistance times length (units $\Omega\,\mathrm m$),
+$c_m$ for membrane capacitance per length ($\mathrm F/\mathrm m$), and
+$r_a$ for axial resistance per length ($\Omega/\mathrm m$). Thus a segment
+of length $dx$ has membrane resistance $r_m/dx$, capacitance $c_m dx$,
+and axial resistance $r_a dx$. The passive cable equation is
+$\lambda^2\partial_{xx}V-\tau\partial_tV-V=-r_m i_{\rm ext}$,
+where $i_{\rm ext}$ is injected current per length,
+$\lambda=\sqrt{r_m/r_a}$ has units of length and $\tau=r_mc_m$ has units
+of time. For a point injection at $x=0$ in an infinite passive cable,
+the steady solution is $V(x)=V(0)e^{-|x|/\lambda}$.
+
+For the convention $V(x,t)=\Re\{\widehat V(x)e^{i\omega t}\}$, away
+from the injection the equation gives
+\[
+\widehat V''=\kappa^2\widehat V,\qquad
+\kappa=\frac{\sqrt{1+i\omega\tau}}{\lambda},\quad\Re\kappa>0,
+\qquad \widehat V(x)=\widehat V(0)e^{-\kappa|x|}.
+\]
+The complex length is $1/\kappa$; the real amplitude attenuation length is
+\[
+\lambda_\omega=\frac1{\Re\kappa}
+=\lambda\sqrt{\frac{2}{1+\sqrt{1+\omega^2\tau^2}}}.
+\]
+The imaginary part of $\kappa$ gives spatial phase lag. At zero frequency
+$\lambda_\omega=\lambda$; for $|\omega\tau|\gg1$,
+$\lambda_\omega\sim\lambda\sqrt{2/|\omega\tau|}$.
+These conclusions assume a passive, uniform infinite cable; branches,
+finite boundary conditions and active channels change the transfer function.
+The MATLAB derivation regression compares this solution to a converging
+finite-difference cable calculation, not to a fitted biological neuron.
 
 \section{The Picard condition and regularization parameter choice}
 Let the discretized forward operator have SVD $G=\sum_j\sigma_ju_jv_j^\top$
@@ -210,19 +229,38 @@ L-curve can lack a corner, GCV can undersmooth with correlated noise,
 and the discrepancy principle depends on a noise estimate.
 
 \section{Line sources and laminar forward models}
-A neurite segment from $\mathbf r_1$ to $\mathbf r_2$ carrying a
-uniform transmembrane current $I$ contributes
+Assume an infinite homogeneous isotropic conductor with conductivity
+$\sigma>0$. A straight segment from $\mathbf r_1$ to $\mathbf r_2$ has
+length $\ell>0$ and direction $\mathbf u=(\mathbf r_2-\mathbf r_1)/\ell$.
+Let $z=(\mathbf r-\mathbf r_1)\cdot\mathbf u$ and
+$\rho=\|\mathbf r-\mathbf r_1-z\mathbf u\|>0$.
+For total current $I$ distributed uniformly along the segment,
+positive outward into the conductor, integrating the point-source kernel gives
 \[
-\phi(\mathbf r)=\frac{I}{4\pi\sigma\ell}\log\frac{\sqrt{h^2+\rho^2}-h}{\sqrt{l^2+\rho^2}-l},
+\begin{aligned}
+\phi(\mathbf r)
+&=\frac{I}{4\pi\sigma\ell}\int_0^\ell
+ \frac{ds}{\sqrt{\rho^2+(z-s)^2}}\\
+&=\frac{I}{4\pi\sigma\ell}
+ \left[\operatorname{asinh}\frac{\ell-z}{\rho}
+       +\operatorname{asinh}\frac{z}{\rho}\right].
+\end{aligned}
 \]
-where $\ell$ is the segment length, $\rho$ the perpendicular distance of
-$\mathbf r$ from the segment's line, $h$ the signed distance along the
-line from $\mathbf r$'s projection to $\mathbf r_2$, and $l=h+\ell$. This
-is the integral of the point-source kernel along the segment and is the
-building block of compartmental LFP simulators. It avoids the
-singularity of point sources near the electrode and shows that the
-potential of an elongated source decays logarithmically near it, much
-more slowly than $1/r$.
+With $h=-z$ and $l=\ell-z=h+\ell$, this equals
+$\frac{I}{4\pi\sigma\ell}
+\log\frac{\sqrt{l^2+\rho^2}+l}{\sqrt{h^2+\rho^2}+h}$.
+All distances are in metres, $I$ in amperes and $\sigma$ in siemens per
+metre, yielding volts. Reversing the segment endpoints leaves the potential
+unchanged. Holding total current fixed and shrinking a centred segment
+recovers $I/(4\pi\sigma r)$ away from the source.
+
+The ideal zero-radius line still has a logarithmic singularity as
+$\rho\to0$ inside the segment; finite-radius or electrode-averaging models
+are needed there. It does not eliminate all near-source singularities.
+At distances large compared with $\ell$, the isolated segment behaves as
+a point source; dipolar cancellation requires the return-current geometry.
+The supplied MATLAB forward operator only multiplies a user-provided
+lead field; it does not construct this geometry automatically.
 
 \section*{Exercises for this chapter}
 \begin{exercise}

@@ -150,24 +150,39 @@ common reason why ``controlling for behaviour'' fails.
 \end{example}
 
 \section{Spectral factorization and Wilson's method}
-For a bivariate stationary process with spectral density matrix $S(f)$,
-Wold's theorem (Result 66) and its spectral counterpart give a
-\emph{minimum-phase factorization}
+Assume a zero-mean, finite-variance, purely nondeterministic stationary
+process with an absolutely continuous spectral density matrix $S(f)$.
+For a full-rank factorization require $S(f)$ Hermitian positive definite
+almost everywhere and $\int_{-1/2}^{1/2}\log\det S(f)\,df>-\infty$.
+Under these conditions the normalized causal outer factor gives
 \[
-S(f)=H(f)\Sigma H(f)^\ast,
+S(f)=H(f)\Sigma H(f)^\ast,\qquad
+H(f)=I+\sum_{k\ge1}H_ke^{-2\pi ifk},\qquad \Sigma\succ0.
 \]
-with $H(f)=I+\sum_{k\ge1}H_ke^{-2\pi ifk}$ analytic in the sense that
-its inverse exists as a causal filter, and $\Sigma$ the innovation
-covariance. For a scalar spectrum the factor has an explicit expression,
-$\log\sigma^2=\int_{-1/2}^{1/2}\log S(f)\,df$ (the Kolmogorov--Szeg\H{o}
-formula), which gives the one-step prediction error variance from the
-spectrum alone. In the multivariate case \emph{Wilson's algorithm}
-computes $H$ and $\Sigma$ by Newton iterations on the equation
-$S=H\Sigma H^\ast$ on a frequency grid, preserving the minimum-phase
-property at each step. The resulting $H$ and $\Sigma$ feed Geweke's
-spectral Granger measure without fitting a finite VAR, avoiding the
-choice of model order but inheriting the bias and variance of the
-nonparametric spectral estimate, including its frequency smoothing.
+The normalization $H_0=I$ identifies the innovation covariance.
+``Minimum phase'' refers here to the outer causal factor; absolute
+summability of both the filter and its inverse requires stronger regularity
+than stationarity alone (for example a stable invertible rational model).
+Singular spectra and deterministic spectral lines require separate treatment.
+
+For a scalar positive spectrum with integrable logarithm, in units of
+cycles per sample, the Kolmogorov--Szeg\H{o} formula is
+$\log\sigma^2=\int_{-1/2}^{1/2}\log S(f)\,df$.
+For the multivariate normalized factor it determines
+$\log\det\Sigma=\int_{-1/2}^{1/2}\log\det S(f)\,df$, not each entry
+of $\Sigma$. The scalar AR(1) calculation below illustrates this identity;
+it is not a proof of the general matrix factorization theorem.
+
+Wilson's iterative factorization targets the causal outer factor on a
+frequency grid (Wilson, 1972, DOI: \texttt{10.1137/0123044}). In a numerical
+implementation check Hermitian symmetry and positive eigenvalues, specify
+initialization and normalization, and report a reconstruction residual and
+convergence tolerance. Near-singular estimated spectra can require
+regularization, which changes the spectrum being factorized. A finite grid
+and finite iterations do not by themselves certify minimum phase or
+convergence. The factor may feed a spectral Granger calculation, subject to
+the assumptions and uncertainty of the spectral estimate. This manuscript
+does not claim a verified Wilson implementation in the current arsenal.
 
 \begin{proposition}[Kolmogorov--Szeg\H{o} for AR(1)]
 For $X_t=aX_{t-1}+\varepsilon_t$ with $|a|<1$ and innovation variance

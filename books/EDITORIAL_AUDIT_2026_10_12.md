@@ -48,3 +48,29 @@ CI failed at the editorial fingerprint audit because five English logic
 sources changed. Compilation demonstrates syntactic integrity only; it
 does not establish correctness of the expanded derivations. Existing
 Lean proofs should be rechecked independently before renewing evidence.
+
+## Stabilization follow-up — 2026-10-13
+
+1. Replaced the ambiguous line-source endpoints with an explicit segment
+   coordinate and direct asinh integral. Corrected the claim that line sources
+   remove all singularities; the zero-radius on-axis singularity remains.
+   Added quadrature, endpoint reversal and point-source-limit regressions.
+2. Distinguished the complex cable length from the real amplitude attenuation
+   length and corrected the units of membrane resistance. Added a finite-
+   difference compartment convergence test with analytic boundary conditions.
+3. Restricted spectral factorization to full-rank nondeterministic spectra with
+   an integrable log determinant, distinguished the scalar variance from the
+   matrix determinant, and removed the unconditional numerical minimum-phase
+   claim. Added scalar AR(1) and stable bivariate VAR identity checks. The Wilson
+   algorithm itself remains outside the implemented/verified scope.
+   Primary methodological reference: G. T. Wilson (1972),
+   https://doi.org/10.1137/0123044.
+4. Five logic correspondences reviewed individually, with recovered historical
+   source and preserved evidence: `docs/stabilization/formal-correspondence.md`.
+5. The current Git index contains no gitlinks or `.lake` artifacts; CI now
+   checks that condition. The pinned manifest is retained and not updated by CI.
+
+These are scoped derivation corrections, not certification of every manuscript
+claim. Numerical execution evidence must come from the MATLAB Scientific Tests
+job for the exact candidate commit. All ARS records with `lean: null` remain
+outside the kernel-verified scope. See `docs/stabilization/acceptance.md`.
