@@ -3,19 +3,22 @@ on:
   push:
     branches: [main]
   pull_request:
-
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   books:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
+    runs-on: [self-hosted, linux, x64, dell-g15]
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
-      - name: Install TeX Live
+      - name: Verify Dell G15 TeX installation
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            texlive-latex-base texlive-latex-recommended \
-            texlive-latex-extra texlive-fonts-recommended lmodern
+          command -v pdflatex
+          command -v bibtex
+          command -v make
+          pdflatex --version | head -n 1
       - name: Check both manuscripts
         run: make -C books check
       - name: Build both manuscripts
