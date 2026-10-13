@@ -61,3 +61,12 @@ Lean source files and lockfile are unchanged. The side-by-side logic panel only
 changes its listing and lakefile paths; its new fingerprint and prior fingerprint are recorded
 explicitly in `formal_registry.json`. The five already-stale chapter fingerprints
 remain unchanged, so the existing English-source audit failure remains visible.
+
+## Source branch consolidation
+
+The subsequent [17-branch review](BRANCH_REVIEW_2026_10_12.md) imports the
+previously unmerged regression fixes and six standalone methods, bringing
+`matlab/path/` to 88 functions. The original byte-for-byte migration statement
+above describes the initial import; four functions now intentionally incorporate
+the reviewed upstream fixes. Source commits and hashes are recorded in the
+branch-review manifest. MATLAB execution remains pending.

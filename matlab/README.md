@@ -321,3 +321,27 @@ inclusive irregulares, retornando um vetor coluna. Todos os bins sao
 silenciosas retornam zeros; timestamps nao finitos sao descartados.
 `spike_bin_counts` reutiliza essa rotina e agora aceita um spike train vazio.
 A integracao e coberta por `tests/test_path_integration.m` em `paper_con2phys`.
+
+## Consolidação das branches do paper_con2phys
+
+A [auditoria de branches](../books/BRANCH_REVIEW_2026_10_12.md) registra
+as origens e decisões. Foram incorporadas as correções de covariância,
+binning decimal, histogramas peri-evento e waveforms de um canal, com regressões.
+
+Também estão disponíveis `lfp_envelope_moments` (momentos multicanal de
+envelopes com metadados temporais), `decode_trials` (ridge com cinco folds
+contíguos), `decoded_mi`, `greedy_modularity`, `spike_bins` e `trial_features`.
+Estas cinco últimas funções preservam os contratos simples dos auxiliares
+originais: forneça vetores-coluna de rótulos, janelas Nx2 em segundos e,
+para modularidade, matrizes simétricas não negativas. O resultado de modularidade
+é heurístico; a informação é a informação decodificada; as probabilidades softmax
+do decoder não são calibradas. O argumento seed do decoder é apenas metadado:
+os folds e o ajuste são determinísticos.
+
+```matlab
+run('matlab/neuronal_startup.m')
+run('matlab/tests/test_lfp_envelope_moments.m')
+run('matlab/tests/smoke_imported_helpers.m')
+```
+
+MATLAB não está disponível no ambiente de migração; execução numérica pendente.
