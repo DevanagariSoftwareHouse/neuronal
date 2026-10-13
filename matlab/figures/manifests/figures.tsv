@@ -1,0 +1,3 @@
+figure_id	chapter	source_matlab_function	latex_label	status	reference_doi
+fig_lfp_forward_geometry	05b_biophysics_inverse	figure_lfp_forward_geometry	fig:lfp-forward-geometry	draft	10.1038/nrn3599
+fig_cable_attenuation_vs_frequency	05b_biophysics_inverse	figure_cable_attenuation_vs_frequency	fig:cable-attenuation-frequency	draft	10.1038/nrn3599

@@ -202,6 +202,19 @@ finite boundary conditions and active channels change the transfer function.
 The MATLAB derivation regression compares this solution to a converging
 finite-difference cable calculation, not to a fitted biological neuron.
 
+% Optional generated preview, present only after 'make figures-preview'.
+\IfFileExists{figures/generated/fig_cable_attenuation_vs_frequency.pdf}{%
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/generated/fig_cable_attenuation_vs_frequency.pdf}
+  \caption{Voltage attenuation in an ideal infinite passive cable,
+  normalized by the DC transfer at the same distance. This describes
+  intracellular voltage propagation, not LFP electrode transfer.}
+  \label{fig:cable-attenuation-frequency}
+\end{figure}
+}{}
+
+
 \section{The Picard condition and regularization parameter choice}
 Let the discretized forward operator have SVD $G=\sum_j\sigma_ju_jv_j^\top$
 and data $\mathbf v=G\mathbf s_{\rm true}+\boldsymbol\epsilon$. The
@@ -261,6 +274,19 @@ At distances large compared with $\ell$, the isolated segment behaves as
 a point source; dipolar cancellation requires the return-current geometry.
 The supplied MATLAB forward operator only multiplies a user-provided
 lead field; it does not construct this geometry automatically.
+
+% Optional generated preview, present only after 'make figures-preview'.
+\IfFileExists{figures/generated/fig_lfp_forward_geometry.pdf}{%
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.92\textwidth]{figures/generated/fig_lfp_forward_geometry.pdf}
+  \caption{Geometric construction and depth profile for a uniformly
+  distributed impressed line current in an infinite isotropic conductor.
+  Physiological return currents and recording-reference effects are omitted.}
+  \label{fig:lfp-forward-geometry}
+\end{figure}
+}{}
+
 
 \section*{Exercises for this chapter}
 \begin{exercise}
