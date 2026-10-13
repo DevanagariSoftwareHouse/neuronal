@@ -9,7 +9,7 @@ permissions:
 jobs:
   matlab:
     name: MATLAB Scientific Tests
-    runs-on: [self-hosted, linux, x64, dell-g15]
+    runs-on: [self-hosted, linux, x64, dell]
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     timeout-minutes: 90
     steps:
@@ -31,7 +31,7 @@ jobs:
           path: matlab/build/scientific-tests.log
   registry:
     name: Arsenal Registry and Diff Integrity
-    runs-on: [self-hosted, linux, x64, dell-g15]
+    runs-on: [self-hosted, linux, x64, dell]
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
           PY
   rust:
     name: Rust Build Clippy and Tests
-    runs-on: [self-hosted, linux, x64, dell-g15]
+    runs-on: [self-hosted, linux, x64, dell]
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
       - run: cargo test --workspace --locked
   python:
     name: Python Package and Integration Tests
-    runs-on: [self-hosted, linux, x64, dell-g15]
+    runs-on: [self-hosted, linux, x64, dell]
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - uses: actions/checkout@v4
