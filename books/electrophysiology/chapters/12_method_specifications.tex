@@ -279,7 +279,7 @@ The entries were written from a line-by-line reading of the source on 12 October
 \methodentry{phase_lag_index.m}
 {$|\frac1n\sum\operatorname{sgn}\sin\Delta_j|$.}
 {\texttt{ARS-CIRC-004}.}
-{Zero-lag terms contribute nothing; so do true interactions near $0$ or $\pi$. Discontinuous in phase near those values. In floating point $\sin(\pi)\approx1.2\times10^{-16}>0$, so differences of exactly $\pm\pi$ (for instance from sign-inverted references) count as maximally lagged; the identity of \texttt{ARS-CIRC-004} holds in exact arithmetic only.}
+{Zero and antiphase terms contribute zero and remain in the denominator. The implementation sets $|\sin\Delta|\le10\,\mathrm{eps}$ to zero before taking signs, suppressing roundoff at multiples of $\pi$. Outside this tolerance the estimator remains discontinuous; a small consistent nonzero lag can give one. Nonfinite inputs are omitted and fewer than two finite samples give NaN.}
 
 \methodentry{weighted_phase_lag_index.m}
 {$|\sum\operatorname{Im}S_j|/\sum|\operatorname{Im}S_j|$ over per-segment cross-spectra.}

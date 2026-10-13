@@ -78,8 +78,15 @@ assert(abs(mean(est)-rho2)<.02);
 S=complex(randn(30,1),.3*randn(30,1));
 assert(abs(weighted_phase_lag_index(S)-weighted_phase_lag_index(S+5))<1e-12);
 assert(phase_lag_index(zeros(20,1))==0);
-% Floating point: sin(pi)=1.2e-16>0, so exact +/-pi differences count as lagged.
-assert(phase_lag_index(pi*ones(20,1))==1);
+% Zero and antiphase boundaries contribute zero despite sin(pi) roundoff.
+for boundary=[-2*pi -pi 0 pi 2*pi]
+    assert(phase_lag_index(boundary*ones(20,1))==0);
+end
+assert(phase_lag_index((pi-1e-8)*ones(20,1))==1);
+assert(phase_lag_index((pi+1e-8)*ones(20,1))==1);
+assert(phase_lag_index([pi-1e-8;pi+1e-8])==0);
+assert(phase_lag_index([0;pi;.3;.3])==.5);
+assert(isnan(phase_lag_index([NaN;Inf;0])));
 
 %% ARS-INFO-001: normalised entropies in [0,1]; extreme cases
 assert(abs(spectral_entropy(ones(16,1))-1)<1e-12);
@@ -124,7 +131,12 @@ mj=jpca_dynamics(traj,.01);
 assert(norm(mj.generator+mj.generator','fro')<1e-12 && max(abs(real(mj.eigenvalues)))<1e-12);
 
 %% ARS-VAR-001: Granger ratio nonnegative even for independent series
-g=granger_causality(randn(400,3),1,2,3); assert(g.log_variance_ratio>=0);
+% The same response and sample count, nested unregularized OLS designs:
+% projection onto a larger column space cannot increase residual norm.
+g=granger_causality(randn(400,3),1,2,3);
+assert(g.full_variance>0 && g.reduced_variance>0);
+assert(g.log_variance_ratio>=-1e-12);
+assert(abs(g.log_variance_ratio-log(g.reduced_variance/g.full_variance))<1e-12);
 
 %% ARS-EMD-001: completeness of sifting
 x=sin(2*pi*(1:512)'/40)+.5*sin(2*pi*(1:512)'/7)+.1*randn(512,1);
