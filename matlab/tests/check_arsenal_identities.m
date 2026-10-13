@@ -6,7 +6,7 @@
 % functions (no Signal Processing or Statistics Toolbox).
 here=fileparts(mfilename('fullpath'));
 addpath(fullfile(here,'..','path'))
-randn('state',7); rand('state',7); %#ok<RAND>
+rng(7,'twister');
 
 %% ARS-COUNT-001: half-open bins, nothing lost or duplicated
 t=[0 .1 .25 .5 .5 .999 1];

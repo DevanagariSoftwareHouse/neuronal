@@ -473,7 +473,7 @@ The MVGC Toolbox implements a flexible, powerful and efficient approach to G-cau
 	url = {http://biorxiv.org/lookup/doi/10.1101/299859},
 	doi = {10.1101/299859},
 	abstract = {Abstract
-          
+
             Electrophysiological signals across species and recording scales exhibit both periodic and aperiodic features. Periodic oscillations have been widely studied and linked to numerous physiological, cognitive, behavioral, and disease states, while the aperiodic “background” 1/f component of neural power spectra has received far less attention. Most analyses of oscillations are conducted on
             a priori
             , canonically-defined frequency bands without consideration of the underlying aperiodic structure, or verification that a periodic signal even exists in addition to the aperiodic signal. This is problematic, as recent evidence shows that the aperiodic signal is dynamic, changing with age, task demands, and cognitive state. It has also been linked to the relative excitation/inhibition of the underlying neuronal population. This means that standard analytic approaches easily conflate changes in the periodic and aperiodic signals with one another because the aperiodic parameters—along with oscillation center frequency, power, and bandwidth—are all dynamic in physiologically meaningful, but likely different, ways. In order to overcome the limitations of traditional narrowband analyses and to reduce the potentially deleterious effects of conflating these features, we introduce a novel algorithm for automatic parameterization of neural power spectral densities (PSDs) as a combination of the aperiodic signal and putative periodic oscillations. Notably, this algorithm requires no
@@ -563,7 +563,7 @@ The MVGC Toolbox implements a flexible, powerful and efficient approach to G-cau
 	url = {https://www.nature.com/articles/s41586-023-06031-6},
 	doi = {10.1038/s41586-023-06031-6},
 	abstract = {Abstract
-            
+
               Mapping behavioural actions to neural activity is a fundamental goal of neuroscience. As our ability to record large neural and behavioural data increases, there is growing interest in modelling neural dynamics during adaptive behaviours to probe neural representations
               1–3
               . In particular, although neural latent embeddings can reveal underlying correlates of behaviour, we lack nonlinear techniques that can explicitly and flexibly leverage joint behaviour and neural data to uncover neural dynamics
@@ -719,7 +719,7 @@ Conclusion: The PLI performed at least as well as the PC in detecting true chang
 	url = {https://elifesciences.org/articles/10989},
 	doi = {10.7554/eLife.10989},
 	abstract = {Neurons in higher cortical areas, such as the prefrontal cortex, are often tuned to a variety of sensory and motor variables, and are therefore said to display mixed selectivity. This complexity of single neuron responses can obscure what information these areas represent and how it is represented. Here we demonstrate the advantages of a new dimensionality reduction technique, demixed principal component analysis (dPCA), that decomposes population activity into a few components. In addition to systematically capturing the majority of the variance of the data, dPCA also exposes the dependence of the neural representation on task parameters such as stimuli, decisions, or rewards. To illustrate our method we reanalyze population data from four datasets comprising different species, different cortical areas and different experimental tasks. In each case, dPCA provides a concise way of visualizing the data that summarizes the task-dependent features of the population response in a single figure.
-          , 
+          ,
             Many neuroscience experiments today involve using electrodes to record from the brain of an animal, such as a mouse or a monkey, while the animal performs a task. The goal of such experiments is to understand how a particular brain region works. However, modern experimental techniques allow the activity of hundreds of neurons to be recorded simultaneously. Analysing such large amounts of data then becomes a challenge in itself.
             This is particularly true for brain regions such as the prefrontal cortex that are involved in the cognitive processes that allow an animal to acquire knowledge. Individual neurons in the prefrontal cortex encode many different types of information relevant to a given task. Imagine, for example, that an animal has to select one of two objects to obtain a reward. The same group of prefrontal cortex neurons will encode the object presented to the animal, the animal’s decision and its confidence in that decision. This simultaneous representation of different elements of a task is called a ‘mixed’ representation, and is difficult to analyse.
             Kobak, Brendel et al. have now developed a data analysis tool that can ‘demix’ neural activity. The tool breaks down the activity of a population of neurons into its individual components. Each of these relates to only a single aspect of the task and is thus easier to interpret. Information about stimuli, for example, is distinguished from information about the animal’s confidence levels.
@@ -1042,28 +1042,28 @@ Conclusion: The PLI performed at least as well as the PC in detecting true chang
 	url = {https://www.science.org/doi/10.1126/science.adp7429},
 	doi = {10.1126/science.adp7429},
 	abstract = {Simultaneous recordings from hundreds or thousands of neurons are becoming routine because of innovations in instrumentation, molecular tools, and data processing software. Such recordings can be analyzed with data science methods, but it is not immediately clear what methods to use or how to adapt them for neuroscience applications. We review, categorize, and illustrate diverse analysis methods for neural population recordings and describe how these methods have been used to make progress on longstanding questions in neuroscience. We review a variety of approaches, ranging from the mathematically simple to the complex, from exploratory to hypothesis-driven, and from recently developed to more established methods. We also illustrate some of the common statistical pitfalls in analyzing large-scale neural data.
-          , 
+          ,
             Editor’s summary
             Recent years have seen the development of a substantial number of new approaches to investigating the brain. Some of the most promising are techniques that allow functional recordings of large numbers of neurons with electrophysiological or optical imaging methods. Stringer and Pachitariu have reviewed both the advances in technology for large-scale neural activity recording over the past decade and recent developments in analytic tools and approaches to make sense of the resulting complex, high-dimensional data. They also offer a glimpse of what progress we can expect in the near future and what challenges lie ahead. —Peter Stern
-          , 
-            
+          ,
+
               BACKGROUND
               It is now easier than ever to record the activity of many neurons in awake, behaving animals. These recordings can be obtained either with multichannel electrodes or with two-photon microscopy, each with their own advantages. The latter breaks records for the number of simultaneously recorded neurons, which can reach into the hundreds of thousands. The former allows for unmatched temporal resolution and easy access to deep brain areas. Spoiled with this embarrassment of riches, neuroscientists must now demonstrate that they can use such data to answer longstanding questions and formulate new ones in the effort to understand the basic principles of brain function. The primary obstacle appears to be conceptual: What can we even infer from large-scale recordings that we could not have learned from smaller ones?
-            
-            
+
+
               ADVANCES
               Some of the recent advances in this field have come by formulating new analysis methods that probe specific properties of neural computations. For example, a longstanding question has been whether neural circuits use a dedicated set of neural patterns or “neural code” to represent information regardless of whether that activity is externally or internally driven. Specifically, one may ask whether the neural activity patterns observed when an animal explores one environment are similar, up to a temporal permutation, to the activity patterns during rest or during sleep. The answer turned out to be a resounding yes for grid cells in the rat entorhinal cortex, and a clear no for a similar question in primary visual cortex. The activity patterns evoked by stimuli in visual cortex were almost as different as possible from the patterns during spontaneous activity, and the latter were strongly related to orofacial behaviors instead. In further studies, movements in general were found to influence activity across the entire mouse brain, even during the execution of sensory-guided motor tasks. Multiple studies have now given stark warnings to neuroscientists who thought they were studying decision-making, working memory, and other internal processes: What you study might be direct reflections of movement instead—for example, through motor efference or proprioception.
               All of these statements required the development of bespoke mathematical models that were carefully applied to large-scale neural data together with a well-thought-out set of statistical controls. The most successful applications of models to neural data can be described intuitively in words such as we did above, even when the underlying mathematical techniques may be quite complex.
               In this Review, we synthesize some of the most promising approaches and try to offer insights into what motivates current studies and how the methods developed may be further used in the future. We emphasize the need to answer concrete scientific questions and the importance of performing appropriate controls and cross-validation to avoid some the most common pitfalls when analyzing big data.
-            
-            
+
+
               OUTLOOK
               Newly uncovered scaling laws over the number of recorded neurons demonstrate that in many tasks, such as neural decoding or encoding, the amount of information or unique variance continues to increase as the number of neurons increases even beyond 10,000. Neural activity patterns are thus rich with information, although it remains to be seen whether that information is rich with meaning. To find its meaning, neuroscientists will need to combine large-scale recordings with other methods and paradigms such as complex behavior, two-photon optogenetics, or anatomical methods. For the example of grid cells above, the persistence of the neural code suggests a dynamical constraint imposed by recurrent circuitry; connectomic reconstruction could confirm this in the coming years.
               Perhaps equally important, experimental neuroscientists will need to quickly become experts in computational and statistical analysis methods so that they can fully take advantage of the overwhelming amount of new data. Innovative online summer courses such as the Neuromatch Academy can get many neuroscientists up to speed quickly and even familiarize them with the rapid advances in artificial intelligence with the new “NeuroAI” course launched this summer.
-              
-                
+
+
                   An abundance of data available for analysis.
-                  
+
                     (
                     A
                     ) Two-photon calcium imaging from multiple visual cortical areas in a behaving mouse. (

@@ -21,3 +21,13 @@ to their hypotheses or conclusions. Fingerprints renewed only after this review.
 No Lean declaration or proof was altered. Historical kernel evidence remains
 historical; a successful current Formal Lean run is still required before merge.
 New chapter propositions and ARS statements are not covered by these five proofs.
+
+## Runtime-discovered integer bridge repair
+
+Run https://github.com/ze-gois/neuronal/actions/runs/38332243353 reached the
+kernel and failed in `BridgesNumbers.lean`. Symmetry of
+`p.1 + q.2 = p.2 + q.1` requires commuting additions as well as reversing the
+equality; `h.symm` alone has the wrong syntactic type. Unfolding the relation
+and using `omega` proves the unchanged natural-number proposition. Explicit
+binders repair the symmetry/transitivity fields of `Equivalence`.
+No theorem statement was weakened and no admission was introduced.

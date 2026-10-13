@@ -17,7 +17,6 @@ pub fn time_axis(samples: usize, dt_ms: f64) -> Result<Vec<f64>, &'static str> {
     Ok(times)
 }
 
-
 /// Time between first and last samples, in milliseconds.
 pub fn sampled_span(samples: usize, dt_ms: f64) -> Result<f64, &'static str> {
     if !dt_ms.is_finite() || dt_ms <= 0.0 {

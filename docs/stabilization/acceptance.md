@@ -34,7 +34,8 @@ in the editing container; local source checks cannot satisfy those gates.
 Require the six jobs above for main; require the branch to be up to date and
 prevent force pushes. Workflow files do not configure branch protection.
 If the available GitHub connection cannot administer these rules, report that
-explicitly and keep the integration draft until required enforcement is settled.
+explicitly as an outstanding settings action. Manually verify all six checks
+for this integration; do not claim repository-wide enforcement was configured.
 Do not use auto-merge to substitute for checking absent required jobs.
 
 ## Recovery

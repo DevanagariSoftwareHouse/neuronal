@@ -24,7 +24,8 @@ theorem integerPairRel_refl (p : ℕ × ℕ) :
 theorem integerPairRel_symm (p q : ℕ × ℕ) :
     integerPairRel p q → integerPairRel q p := by
   intro h
-  exact h.symm
+  dsimp [integerPairRel] at *
+  omega
 
 theorem integerPairRel_trans (p q r : ℕ × ℕ) :
     integerPairRel p q → integerPairRel q r → integerPairRel p r := by
@@ -36,8 +37,10 @@ theorem integerPairRel_equivalence :
     Equivalence integerPairRel := by
   constructor
   · exact integerPairRel_refl
-  · exact integerPairRel_symm
-  · exact integerPairRel_trans
+  · intro p q h
+    exact integerPairRel_symm p q h
+  · intro p q r hpq hqr
+    exact integerPairRel_trans p q r hpq hqr
 
 def integerPairAdd (p q : ℕ × ℕ) : ℕ × ℕ :=
   (p.1 + q.1, p.2 + q.2)
