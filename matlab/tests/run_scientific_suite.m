@@ -1,7 +1,7 @@
 %% Run every scientific regression script with a real MATLAB runtime.
 % From repository root: run('matlab/tests/run_scientific_suite.m')
 assert(~exist('OCTAVE_VERSION','builtin'),'A real MATLAB runtime is required.');
-assert(license('test','Signal_Toolbox'),'Signal Processing Toolbox is required.');
+assert(license('test','Signal_Toolbox') == 1,'Signal Processing Toolbox is required.');
 neuronal_ci_root=fileparts(mfilename('fullpath'));
 neuronal_ci_output=fullfile(neuronal_ci_root,'..','build');
 if ~exist(neuronal_ci_output,'dir'), mkdir(neuronal_ci_output); end
