@@ -32,7 +32,7 @@
         "Classical.choice",
         "Quot.sound"
       ],
-      "english_source_fingerprint": "6b2fd5e6",
+      "english_source_fingerprint": "71f8b889",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
       "english_panel_fingerprint": "7e14424d",
       "lean_source_fingerprint": "13796c72",
@@ -40,6 +40,15 @@
         "previous_english_panel_fingerprint": "69b1c19b",
         "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
         "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      },
+      "correspondence_review": {
+        "date": "2026-10-13",
+        "baseline_repository": "ze-gois/paper_con2phys",
+        "baseline_commit": "efd3d26eca266703e27156d067e2f72406ce36b0",
+        "previous_english_source_fingerprint": "6b2fd5e6",
+        "decision": "Existing statement and hypotheses unchanged; chapter expanded outside the five mapped statements.",
+        "record": "docs/stabilization/formal-correspondence.md",
+        "current_kernel_validation": "Required in neuronal CI; historical evidence above is not a current run."
       }
     },
     {
@@ -62,7 +71,7 @@
       "axiom_audit": "Lean #print axioms in source",
       "formal_statement": "¬ (P ∨ Q) ↔ ¬ P ∧ ¬ Q",
       "axiomatic_dependencies": [],
-      "english_source_fingerprint": "6b2fd5e6",
+      "english_source_fingerprint": "71f8b889",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
       "english_panel_fingerprint": "7e14424d",
       "lean_source_fingerprint": "13796c72",
@@ -70,6 +79,15 @@
         "previous_english_panel_fingerprint": "69b1c19b",
         "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
         "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      },
+      "correspondence_review": {
+        "date": "2026-10-13",
+        "baseline_repository": "ze-gois/paper_con2phys",
+        "baseline_commit": "efd3d26eca266703e27156d067e2f72406ce36b0",
+        "previous_english_source_fingerprint": "6b2fd5e6",
+        "decision": "Existing statement and hypotheses unchanged; chapter expanded outside the five mapped statements.",
+        "record": "docs/stabilization/formal-correspondence.md",
+        "current_kernel_validation": "Required in neuronal CI; historical evidence above is not a current run."
       }
     },
     {
@@ -96,7 +114,7 @@
         "Classical.choice",
         "Quot.sound"
       ],
-      "english_source_fingerprint": "6b2fd5e6",
+      "english_source_fingerprint": "71f8b889",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
       "english_panel_fingerprint": "7e14424d",
       "lean_source_fingerprint": "13796c72",
@@ -104,6 +122,15 @@
         "previous_english_panel_fingerprint": "69b1c19b",
         "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
         "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      },
+      "correspondence_review": {
+        "date": "2026-10-13",
+        "baseline_repository": "ze-gois/paper_con2phys",
+        "baseline_commit": "efd3d26eca266703e27156d067e2f72406ce36b0",
+        "previous_english_source_fingerprint": "6b2fd5e6",
+        "decision": "Existing statement and hypotheses unchanged; chapter expanded outside the five mapped statements.",
+        "record": "docs/stabilization/formal-correspondence.md",
+        "current_kernel_validation": "Required in neuronal CI; historical evidence above is not a current run."
       }
     },
     {
@@ -130,7 +157,7 @@
         "Classical.choice",
         "Quot.sound"
       ],
-      "english_source_fingerprint": "6b2fd5e6",
+      "english_source_fingerprint": "71f8b889",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
       "english_panel_fingerprint": "7e14424d",
       "lean_source_fingerprint": "13796c72",
@@ -138,6 +165,15 @@
         "previous_english_panel_fingerprint": "69b1c19b",
         "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
         "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      },
+      "correspondence_review": {
+        "date": "2026-10-13",
+        "baseline_repository": "ze-gois/paper_con2phys",
+        "baseline_commit": "efd3d26eca266703e27156d067e2f72406ce36b0",
+        "previous_english_source_fingerprint": "6b2fd5e6",
+        "decision": "Existing statement and hypotheses unchanged; chapter expanded outside the five mapped statements.",
+        "record": "docs/stabilization/formal-correspondence.md",
+        "current_kernel_validation": "Required in neuronal CI; historical evidence above is not a current run."
       }
     },
     {
@@ -162,7 +198,7 @@
       "axiomatic_dependencies": [
         "propext"
       ],
-      "english_source_fingerprint": "6b2fd5e6",
+      "english_source_fingerprint": "71f8b889",
       "english_panel": "books/formal_foundations/formal/logic_side_by_side.tex",
       "english_panel_fingerprint": "7e14424d",
       "lean_source_fingerprint": "13796c72",
@@ -170,6 +206,15 @@
         "previous_english_panel_fingerprint": "69b1c19b",
         "change": "Only listing and lakefile paths were relocated; mathematical text and Lean source unchanged.",
         "source_commit": "53df1852cd744b12efa9e07ff1a842d7bc754681"
+      },
+      "correspondence_review": {
+        "date": "2026-10-13",
+        "baseline_repository": "ze-gois/paper_con2phys",
+        "baseline_commit": "efd3d26eca266703e27156d067e2f72406ce36b0",
+        "previous_english_source_fingerprint": "6b2fd5e6",
+        "decision": "Existing statement and hypotheses unchanged; chapter expanded outside the five mapped statements.",
+        "record": "docs/stabilization/formal-correspondence.md",
+        "current_kernel_validation": "Required in neuronal CI; historical evidence above is not a current run."
       }
     }
   ]
