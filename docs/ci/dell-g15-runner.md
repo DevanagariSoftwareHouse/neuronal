@@ -18,7 +18,7 @@ Provision system dependencies manually, **outside** workflow execution:
 - `git`, `bash`, `make`, `python`, Python `venv`/`pip`, `curl`, `gcc`, build libraries and certificates.
 - Rust through `rustup`, with the project's required toolchain, `cargo`, `rustfmt`, `clippy`.
 - TeX Live packages providing `pdflatex`, `bibtex` and all packages/fonts referenced by both manuscripts. `make -C books all` should succeed as the runner user.
-- MATLAB available as the executable `matlab` in the runner user's PATH, with a functioning noninteractive license and the **Signal Processing Toolbox**. The workflow intentionally does not download/install or activate a new MATLAB release on each run. Confirm the installed release and toolbox are compatible with the scientific suite. The former hosted job used R2024b; installing that release locally is an operational choice, not a claim about what is currently installed.
+- MATLAB R2019a Update 9 available as the executable `matlab-r2019a` in the runner user's PATH, with a functioning noninteractive license and the **Signal Processing Toolbox**. The workflow intentionally does not download/install or activate a new MATLAB release on each run. Confirm the installed release and toolbox are compatible with the scientific suite. The former hosted job used R2024b; the Dell currently has R2019a Update 9, so the scientific suite must pass on R2019a before merge. The launcher changes the process working directory; CI supplies the absolute checked-out script path.
 - Lean 4 via `elan` for the **same runner account**: `$HOME/.elan/bin/lean` and `$HOME/.elan/bin/lake` must exist. The repository pins `leanprover/lean4:v4.34.0`; from `books/formal_foundations/lean`, execute `lake --version`, `lake exe cache get`, `lake build`.
 
 ## Preflight on the runner account
@@ -33,7 +33,7 @@ bibtex --version
 test -x "$HOME/.elan/bin/lake"
 cd books/formal_foundations/lean && "$HOME/.elan/bin/lake" --version
 cd ../../..
-matlab -batch "assert(license('test','Signal_Toolbox')); ver"
+matlab-r2019a -batch "assert(license('test','Signal_Toolbox')); ver"
 ```
 
 The commands assume you are in the root of a `neuronal` checkout when entering the Lean directory. Run them as the same dedicated user that runs the GitHub Actions service.
