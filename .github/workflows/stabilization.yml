@@ -18,7 +18,7 @@ jobs:
         shell: bash
         run: |
           command -v matlab-r2019a
-          matlab-r2019a -batch "assert(license('test','Signal_Toolbox')); ver"
+          matlab-r2019a -batch "assert(license('test','Signal_Toolbox') == 1); ver"
       - name: Run scientific suite in installed MATLAB
         shell: bash
         run: |
