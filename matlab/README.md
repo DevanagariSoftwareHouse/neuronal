@@ -345,3 +345,10 @@ run('matlab/tests/smoke_imported_helpers.m')
 ```
 
 MATLAB não está disponível no ambiente de migração; execução numérica pendente.
+
+## Armazenamento binário e digests
+
+Os descritores de arquivos, o catálogo persistente e o digest CON²PHYS
+estão documentados em [STORAGE.md](STORAGE.md). A interface pública fica
+em `matlab/path/` e os testes sintéticos em
+`matlab/tests/test_neuronal_raw_storage.m`.
