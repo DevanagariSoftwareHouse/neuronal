@@ -15,5 +15,5 @@ clean:
 # Draft preview only: no MATLAB prerequisite for the regular pdf target.
 MATLAB ?= matlab-r2019a
 figures-preview:
-	$(MATLAB) -batch "addpath('../../matlab/figures'); build_book_figures();"
+	$(MATLAB) -batch "addpath('$(abspath ../../matlab/figures)'); build_book_figures();"
 	cp ../../matlab/build/figures/fig_*.pdf figures/generated/

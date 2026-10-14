@@ -7,6 +7,10 @@ From the repository root:
 
     make -C books/electrophysiology figures-preview pdf
 
+The figures-preview target passes an absolute path to MATLAB because the
+MATLAB startup folder may differ from make's working directory (including
+when the repository lives below a path containing spaces).
+
 The figures-preview target executes matlab-r2019a -batch, produces
 matlab/build/figures/{EPS,PDF,manifest.json,manifest.tsv} and copies PDF
 previews into books/electrophysiology/figures/generated/. Both figures
