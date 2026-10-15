@@ -1,6 +1,7 @@
 
 clc
 clear
+%%
 a00_startup
 
 %%
