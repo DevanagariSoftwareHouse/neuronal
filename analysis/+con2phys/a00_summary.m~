@@ -1,0 +1,14 @@
+neuronal_path = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal';
+addpath(fullfile(neuronal_path,'matlab','path'))
+addpath(fullfile(neuronal_path,'analysis'))
+%%
+clc
+a00_startup
+%%
+catalog = neuronal_catalog;
+%%
+fprintf("Number of animals: %d\n",
+fprintf("Number of animals: %d\n",
+fprintf("Number of animals: %d\n",
+fprintf("Number of animals: %d\n",
+fprintf("Number of animals: %d\n",size(catalog.data,2))
