@@ -14,7 +14,7 @@ for d = 1:numel(catalog.data)
     spike_map = neuronal_memmap(data.file(4),neuronal_path);
     cluster_map = neuronal_memmap(data.file(5),neuronal_path);
     spikeTimes = double(spike_map.Data.x(:));
-    spikeClusters = cluster_map.Data.x(:);
+    spikeClusters = int64(cluster_map.Data.x(:));
     assert(numel(spikeTimes)==numel(spikeClusters) && ...
         numel(spikeTimes)==double(data.n_spikes), ...
         'Session %d spike arrays disagree with catalog.',d);
@@ -24,7 +24,7 @@ for d = 1:numel(catalog.data)
     assert(isfinite(duration) && duration>0,'Invalid recording duration.');
     assert(all(isfinite(spikeTimes)),'Nonfinite spike timestamps.');
     % Mapping is from catalog metadata, not an assertion of single-unit quality.
-    cluster_id = data.brain_areas.cluster_id(:);
+    cluster_id = int64(data.brain_areas.cluster_id(:));
     brain_area = data.brain_areas.brain_area(:);
     assert(numel(brain_area)==numel(cluster_id), ...
         'Brain area and cluster ID counts differ in session %d.',d);
