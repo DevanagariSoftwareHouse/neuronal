@@ -24,6 +24,14 @@ jobs:
         run: |
           test -f "$GITHUB_WORKSPACE/matlab/tests/run_scientific_suite.m"
           matlab-r2019a -batch "run('$GITHUB_WORKSPACE/matlab/tests/run_scientific_suite.m')"
+      - name: Validate private CON2PHYS recordings
+        if: ${{ vars.NEURONAL_CATALOG_PATH != '' }}
+        shell: bash
+        env:
+          NEURONAL_CATALOG_PATH: ${{ vars.NEURONAL_CATALOG_PATH }}
+          NEURONAL_DATA_ROOT: ${{ vars.NEURONAL_DATA_ROOT }}
+        run: |
+          matlab-r2019a -batch "run('$GITHUB_WORKSPACE/analysis/con2phys_real_data_check.m')"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
