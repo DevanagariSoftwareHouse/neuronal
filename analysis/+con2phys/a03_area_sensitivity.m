@@ -1,7 +1,7 @@
 %% A03: Brain-area firing-rate sensitivity to A02 timing-screen selection.
 % Uses A02 diagnostic labels, NOT validated single-unit classifications.
 % A02 clears the workspace; run it first, then construct comparisons here.
-a02_cluster_quality
+con2phys.a02_cluster_quality
 rng(43,'twister');
 n_boot = 1000;
 alpha = 0.05;
