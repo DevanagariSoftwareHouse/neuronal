@@ -90,23 +90,64 @@ for d = 1:numel(catalog.data)
 end
 fprintf('A01 complete: %d sessions. CI = 95%% trial-bootstrap percentile interval.\n',numel(results));
 
-%% Lowest complete-recording rate in each anatomical area, across sessions.
-all_area = vertcat(results{:});
-area_codes = vertcat(all_area.brain_area);
-all_rates = vertcat(all_area.full_rate_hz);
-all_ids = vertcat(all_area.cluster_id);
-all_sessions = cell(numel(all_rates),1);
-pos = 1;
+%% Population mean firing rate by anatomical area (mapped clusters).
+% One rate per mapped cluster; clusters are nested within recording/animal.
+% Bootstrap resamples animals first, then clusters within each sampled
+% animal. This estimates population-mean uncertainty, not uncertainty in a
+% single neuron's Poisson count. No quality-based unit filtering is implied.
+all_area = [];
 for d = 1:numel(results)
-    n = numel(results{d}.cluster_id);
-    all_sessions(pos:pos+n-1) = {results{d}.session};
-    pos = pos+n;
+    all_area = [all_area; results{d}.brain_area(:)]; %#ok<AGROW>
 end
-fprintf('\nLowest complete-recording firing rate by brain area:\n');
-for a = unique(area_codes(:))'
-    ix = find(area_codes==a);
-    [lowest,j] = min(all_rates(ix));
-    k = ix(j);
-    fprintf('Area %g: %.6g Hz (session %s, cluster %g)\n', ...
-        double(a),lowest,all_sessions{k},double(all_ids(k)));
+area_codes = unique(all_area);
+n_area = numel(area_codes);
+area_mean = NaN(n_area,1);
+area_ci95 = NaN(n_area,2);
+area_ncluster = zeros(n_area,1);
+area_nanimal = zeros(n_area,1);
+area_sample = cell(n_area,1);
+
+for ai = 1:n_area
+    area = area_codes(ai);
+    rates_by_animal = cell(numel(results),1);
+    for d = 1:numel(results)
+        selected = results{d}.brain_area == area;
+        rates_by_animal{d} = results{d}.full_rate_hz(selected);
+    end
+    contributes = find(~cellfun(@isempty,rates_by_animal));
+    per_animal = rates_by_animal(contributes);
+    area_nanimal(ai) = numel(contributes);
+    area_ncluster(ai) = sum(cellfun(@numel,per_animal));
+    if area_ncluster(ai)==0, continue; end
+    observed = vertcat(per_animal{:});
+    area_mean(ai) = mean(observed); % cluster-weighted pooled mean
+    area_sample{ai} = observed;
+    if area_nanimal(ai)<2, continue; end
+    estimates = zeros(n_boot,1);
+    for b = 1:n_boot
+        animals = randi(area_nanimal(ai),area_nanimal(ai),1);
+        sum_rate = 0;
+        n_unit = 0;
+        for j = 1:numel(animals)
+            values = per_animal{animals(j)};
+            draw = randi(numel(values),numel(values),1);
+            sum_rate = sum_rate + sum(values(draw));
+            n_unit = n_unit + numel(draw);
+        end
+        estimates(b) = sum_rate/n_unit;
+    end
+    estimates = sort(estimates);
+    lo = max(1,ceil((alpha/2)*n_boot));
+    hi = min(n_boot,ceil((1-alpha/2)*n_boot));
+    area_ci95(ai,:) = [estimates(lo), estimates(hi)];
 end
+
+area_summary = table(area_codes,area_ncluster,area_nanimal,area_mean, ...
+    area_ci95(:,1),area_ci95(:,2), ...
+    'VariableNames',{'brain_area','n_clusters','n_animals', ...
+    'mean_rate_hz','ci95_low_hz','ci95_high_hz'});
+disp(area_summary);
+[~,lowest_area_row] = min(area_mean);
+fprintf('Lowest population mean: brain area %g, %.6g Hz; 95%% hierarchical bootstrap CI [%.6g, %.6g] Hz.\n', ...
+    double(area_codes(lowest_area_row)),area_mean(lowest_area_row), ...
+    area_ci95(lowest_area_row,1),area_ci95(lowest_area_row,2));
