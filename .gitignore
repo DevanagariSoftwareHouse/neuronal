@@ -31,3 +31,6 @@ __pycache__/
 books/formal_foundations/mathematics/formal_inventory.json
 books/formal_foundations/mathematics/mathematical_graph.json
 books/formal_foundations/mathematics/pedagogical_graph.json
+
+# Local recordings and converted binary datasets (not source code)
+/data/

@@ -519,7 +519,19 @@ theorems:
     matlab:
       - matlab/path/template_match_waveforms.m
 definitional_methods:
+  - matlab/path/amplitude_threshold_events.m
+  - matlab/path/event_aligned_raster.m
+  - matlab/path/neuronal_catalog.m
+  - matlab/path/neuronal_file_path.m
+  - matlab/path/neuronal_memmap.m
+  - matlab/path/neuronal_read.m
+  - matlab/path/neuronal_register.m
+  - matlab/path/neuronal_validate_file.m
+  - matlab/path/neuronal_write_binary.m
+  - matlab/path/phase_crossing_events.m
+  - matlab/path/plot_event_raster.m
   - matlab/path/spectral_peak_candidates.m
+  - matlab/path/spike_raster_sparse.m
   - matlab/path/spike_waveform_average.m
   - matlab/path/spike_waveform_extraction.m
   - matlab/path/waveform_trough_to_peak.m

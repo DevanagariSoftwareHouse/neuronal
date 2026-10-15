@@ -465,3 +465,65 @@ The entries were written from a line-by-line reading of the source on 12 October
 {$\mu+K(K+s^2I)^{-1}(x-\mu)$ per column with a squared-exponential kernel, by Cholesky.}
 {\texttt{ARS-LIN-003}.}
 {Hyperparameters are fixed inputs; $O(n^3)$ cost (capped at $2000$ bins). Not GPFA.}
+
+\section{Event alignment and raw storage}
+
+\methodentry{amplitude_threshold_events.m}
+{Maximal threshold excursions with peak, onset or midpoint anchors.}
+{Thresholding and linear sample-time conversion.}
+{An envelope detector, not a validated ripple classifier; spacing is greedy.}
+
+\methodentry{event_aligned_raster.m}
+{Event-by-lag count matrices for a selected cluster.}
+{Discrete indexing with inclusive rounded lag endpoints.}
+{Event anchors use the containing bin; boundary samples are NaN or the event is dropped.}
+
+\methodentry{phase_crossing_events.m}
+{Interpolated forward crossings of a selected circular phase.}
+{Wrapped phase differences and linear interpolation.}
+{Requires phase increments below pi radians per sample and appropriate band filtering.}
+
+\methodentry{plot_event_raster.m}
+{Raster display of log(1+count) with transparent missing intervals.}
+{A monotone display transform.}
+{Counts retain multiplicity; the display is not an estimator.}
+
+\methodentry{spike_raster_sparse.m}
+{Sparse cluster-by-time spike counts, preserving repeated spikes.}
+{Half-open bins and summation of repeated sparse indices.}
+{Invalid times are discarded; original cluster labels and count metadata are retained.}
+
+\methodentry{neuronal_catalog.m}
+{Load the persistent metadata catalog.}
+{MAT-file deserialization and schema checks.}
+{Loads metadata only; raw recordings are separate files.}
+
+\methodentry{neuronal_file_path.m}
+{Resolve a descriptor path against the repository or an explicit root.}
+{Filesystem path composition.}
+{Relative paths must share the documented root.}
+
+\methodentry{neuronal_memmap.m}
+{Read-only native-endian mapping of a validated binary descriptor.}
+{Column-major binary layout.}
+{Requires exact byte length and host-compatible endianness.}
+
+\methodentry{neuronal_read.m}
+{Read selected sample and channel indices from a mapped matrix.}
+{One-based matrix indexing.}
+{Stored shape is samples by channels; requesting all samples may allocate a large result.}
+
+\methodentry{neuronal_register.m}
+{Validate records and publish a dataset catalog through a temporary file.}
+{Unique record IDs and single-writer replacement.}
+{No concurrent-writer coordination or whole-dataset rollback.}
+
+\methodentry{neuronal_validate_file.m}
+{Check data type, shape, byte offset, length and endianness.}
+{Byte count equals offset plus element count times element size.}
+{Structural validation does not establish equivalence to source recordings.}
+
+\methodentry{neuronal_write_binary.m}
+{Write numeric matrices in channel-contiguous little-endian layout.}
+{Chunked column-major serialization.}
+{Explicit overwrite is required; source files and physical metadata remain the caller responsibility.}
