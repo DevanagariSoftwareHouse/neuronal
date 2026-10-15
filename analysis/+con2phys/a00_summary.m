@@ -33,7 +33,8 @@ end
 %%
 % Single-file storage check: session 00001, spike timestamps.
 % Catalog paths are relative to the neuronal repository root.
-root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
+%root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
+root = neuronal_path;
 entry = catalog.data(1);
 descriptor = entry.file(4);
 absolute_path = neuronal_file_path(descriptor,root);
