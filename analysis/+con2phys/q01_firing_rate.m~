@@ -1,14 +1,97 @@
 %% Q1: lowest mean single-unit firing rate across the complete recording.
-
+clc
+clear
 a00_startup
 
 %%
-catalog = neuronal_catalog()
+catalog = neuronal_catalog();
+%%
+files_spike   = cellfun(@(f)f(4),{catalog.data.file});
+files_cluster = cellfun(@(f)f(5),{catalog.data.file});
+%%
+a = {}
+for s = 1 : 18
+    a{s} = histogram(diff([catalog.data(s).behavior.trials.trial_start]),100)
+end
 
 %%
+srate     = 500;
+bin_width = 60;
+time_bin  = (0:srate*bin_width:catalog.data(s).n_lfp_samples)/srate;
 
-catalog.data.file
+%%
+trial_hist = cell(1,18)
+th = 0;
+for s = 1:18
+    spiketime    = neuronal_memmap(files_spike(s));
+    cluster      = neuronal_memmap(files_cluster(s));
+    cluster_id   = catalog.data(s).brain_areas.cluster_id;
+    cluster_area = catalog.data(s).brain_areas.brain_area;
+    nof_cluster  = size(cluster_area,2);
+    
+    start_inclusion = ~isnan([catalog.data(s).behavior.trials.trial_start]);
+    end_inclusion = ~isnan([catalog.data(s).behavior.trials.trial_end]);
+    
+    trial_inclusion = start_inclusion & end_inclusion;
+    
+    trial_bin = zeros(1,sum(trial_inclusion)*2+1);
+    trial_bin(1:2:end-1) = [catalog.data(s).behavior.trials(trial_inclusion).trial_start];
+    trial_bin(2:2:end-1) = [catalog.data(s).behavior.trials(trial_inclusion).trial_end];
+    trial_bin(end) = catalog.data(s).n_lfp_samples/500;
 
+    trial_hist{s} = struct();
+    trial_hist{s}.animal = s;
+    trial_hist{s}.trial_edges = trial_bin;
+    trial_hist{s}.trial_neuron = zeros(nof_cluster,size(trial_bin,2));
+    
+    for c = 1 : nof_cluster
+        id_cluster = cluster.Data.x==cluster_id(c);
+        cluster_spiketime = spiketime.Data.x(id_cluster);
+        histograma = histogram(cluster_spiketime,trial_bin,'Normalization','countdensity');
+        return
+        [trial_hist{s}.trial_neuron(c,:)]
+        
+    end
+end
+%%
+for s = 1 : 18
+    for nrn = 1 : catalog.data(s).n_waveforms
+    trial_hist{s}.trial_neuron(nrn,:)
+    end
+end
+%%
+for s = 1 : 18
+figure(1)
+set(1,'windowstyle','docked')
+imagesc(zscore(trial_hist{s}.trial_neuron(:,1:2:end-3)')')
+caxis([-1.6 1.6])
+title(size(catalog.data(s).behavior.trials,1))
+pause()
+end
+%%
+clc
+for a = 1 : 18
+    for nrn = 1
+        a = hist(trial_hist{a}.trial_neuron(nrn,1:end-3),0:600)
+    end
+end
+%%
+
+cellfun(@(b)size(b.trials,1),{catalog.data.behavior})
+
+%%
+[a,b,c] = unique(cluster.Data.x);
+%%
+clc
+nrn = 1
+%%
+nrn = nrn + 1
+sum(c == nrn)
+%%
+total_time = catalog.data(s).n_lfp_samples/500;
+%%
+
+%%
 %%
 values=cell(3,1);
 for a=1:3, values{a}=qctx.rate(qctx.area==a); end
@@ -18,3 +101,91 @@ q01.unit=table(qctx.ids,qctx.area,qctx.rate,'VariableNames',{'cluster','area','r
 q01.excluded_spikes=qctx.excluded_spikes;
 q01.provenance=qctx.provenance;
 disp(q01.summary)
+%%
+%% Mean firing rate per neuron and trial
+trial_hist = cell(1, numel(catalog.data));
+
+for s = 1:numel(catalog.data)
+    data = catalog.data(s);
+
+    spiketime = neuronal_memmap(files_spike(s));
+    cluster   = neuronal_memmap(files_cluster(s));
+
+    spike_time    = double(spiketime.Data.x(:));
+    spike_cluster = cluster.Data.x(:);
+    cluster_id    = data.brain_areas.cluster_id(:);
+    brain_area    = data.brain_areas.brain_area(:);
+
+    assert(numel(spike_time) == numel(spike_cluster), ...
+        'Spike timestamps and cluster labels must have equal lengths.');
+
+    trial_start = double([data.behavior.trials.trial_start]');
+    trial_end   = double([data.behavior.trials.trial_end]');
+
+    valid = isfinite(trial_start) & isfinite(trial_end) & ...
+            trial_end > trial_start;
+
+    trial_index = find(valid);
+    trial_start = trial_start(valid);
+    trial_end   = trial_end(valid);
+    duration    = trial_end - trial_start;
+
+    n_neurons = numel(cluster_id);
+    n_trials  = numel(duration);
+    counts    = zeros(n_neurons, n_trials);
+
+    if n_trials > 0
+        % Unique boundaries support gaps and overlapping trials.
+        [edges, ~, boundary_index] = unique([trial_start; trial_end]);
+
+        start_index = boundary_index(1:n_trials);
+        end_index   = boundary_index(n_trials + 1:end);
+
+        for c = 1:n_neurons
+            t = spike_time(spike_cluster == cluster_id(c));
+
+            % Enforce [start, end), including at the final boundary.
+            t = t(isfinite(t) & t >= edges(1) & t < edges(end));
+
+            bin_counts = histcounts(t, edges);
+            cumulative = [0, cumsum(bin_counts)];
+
+            counts(c, :) = reshape( ...
+                cumulative(end_index) - cumulative(start_index), 1, []);
+        end
+    end
+
+    trial_hist{s} = struct( ...
+        'animal',         s, ...
+        'cluster_id',     cluster_id, ...
+        'brain_area',     brain_area, ...
+        'trial_index',    trial_index, ...
+        'trial_start',    trial_start, ...
+        'trial_end',      trial_end, ...
+        'trial_duration', duration, ...
+        'spike_count',    counts, ...
+        'trial_neuron',   counts ./ duration');
+end
+%%
+
+trial_firingrate = cellfun( ...
+    @(a) a.spike_count ./ a.trial_duration(:)', ...
+    trial_hist, 'UniformOutput', false);
+%%
+
+a = cell2mat(cellfun(@(t)mean(t,2),trial_firingrate,'UniformOutput',false)')
+%%
+b = cell2mat(cellfun(@(t)quantile(t,[0,.25,.5,.75,1],2),trial_firingrate,'UniformOutput',false)')
+
+%%
+c = cell2mat(cellfun(@(t)std(t,[],2),trial_firingrate,'UniformOutput',false)')
+%%
+brain_area = cell2mat(cellfun(@(t)int64(t.brain_area),trial_hist,'UniformOutput',false)')
+%%
+
+boxplot(b(:,3),brain_area)
+%%
+plot(a)
+
+%%
+plot(b)
