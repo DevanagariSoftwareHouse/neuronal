@@ -2,7 +2,7 @@
 % Runs A02 to compute timing screening. No single-unit identity claims.
 % Animals are paired: each bootstrap replicate resamples the same animals
 % for all brain areas; clusters are resampled within each selected animal.
-a02_cluster_quality
+con2phys.a02_cluster_quality
 rng(44,'twister');
 n_boot = 2000;
 alpha = 0.05;

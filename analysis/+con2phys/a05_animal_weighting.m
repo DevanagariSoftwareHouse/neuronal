@@ -1,7 +1,7 @@
 %% A05: Compare cluster-weighted and animal-weighted brain-area rates.
 % A02 creates cluster_quality; screen labels are exploratory, not proof of
 % isolated neurons. Animal-weighted means give each animal equal influence.
-a02_cluster_quality
+con2phys.a02_cluster_quality
 rng(45,'twister');
 n_boot = 2000;
 alpha = 0.05;
