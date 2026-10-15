@@ -1,7 +1,7 @@
 %% Synthetic end-to-end test: neuronal BIN / memmap and CON2PHYS digest.
 root = tempname; mkdir(root);
 cleanup = onCleanup(@() cleanup_dir(root));
-addpath(fullfile(fileparts(fileparts(mfilename('fullpath'))),'path'));
+run(fullfile(fileparts(fileparts(mfilename('fullpath'))),'neuronal_startup.m'));
 source = fullfile(root,'source');
 raw = fullfile(root,'raw');
 animal = fullfile(source,'01');
@@ -55,7 +55,7 @@ clear timesMap clustersMap wfMap
 
 catalogPath = fullfile(root,'neuronal','catalog.mat');
 catalog = neuronal_register(catalogPath,'con2phys', ...
-    'matlab/path/+con2phys/digest.m',entries);
+    'digest/+con2phys/digest.m',entries);
 assert(numel(catalog)==1);
 loaded = neuronal_catalog(catalogPath);
 assert(strcmp(loaded(1).digest_alias,'con2phys'));
@@ -68,7 +68,7 @@ catch ME
 end
 assert(raised);
 loaded = neuronal_register(catalogPath,'con2phys', ...
-    'matlab/path/+con2phys/digest.m',entries,'Replace',true);
+    'digest/+con2phys/digest.m',entries,'Replace',true);
 assert(numel(loaded)==1);
 
 % A corrupted raw file must not map.

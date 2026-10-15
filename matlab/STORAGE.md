@@ -19,7 +19,7 @@ data/
     waveforms.bin
   raw/00002/...
   neuronal/catalog.mat       One struct entry per dataset
-matlab/path/+con2phys/digest.m
+digest/+con2phys/digest.m
 matlab/path/neuronal_*.m
 ~~~
 
@@ -46,7 +46,7 @@ run('matlab/neuronal_startup.m')
 entries = con2phys.digest('data/source/con2phys','data/raw', ...
     'Animals',1:18,'RecordStart',1);
 catalog = neuronal_register('data/neuronal/catalog.mat', ...
-    'con2phys','matlab/path/+con2phys/digest.m',entries);
+    'con2phys','digest/+con2phys/digest.m',entries);
 
 m = neuronal_memmap(catalog(1).data(1).file(1));
 x = neuronal_read(m,1:5000,7); % 10 s at 500 Hz, seventh channel

@@ -1,6 +1,4 @@
-clc
-clear
-clear function
-neuronal_path = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal';
-addpath(fullfile(neuronal_path,'matlab','path'))
-addpath(fullfile(neuronal_path,'analysis'))
+%% Configure analysis paths without clearing caller data or changing directory.
+neuronal_path = fileparts(fileparts(mfilename('fullpath')));
+run(fullfile(neuronal_path,'matlab','neuronal_startup.m'));
+addpath(fullfile(neuronal_path,'analysis'));
