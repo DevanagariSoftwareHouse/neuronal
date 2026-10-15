@@ -25,6 +25,9 @@ for d = 1:numel(catalog.data)
     assert(all(isfinite(spikeTimes)),'Nonfinite spike timestamps.');
     % Mapping is from catalog metadata, not an assertion of single-unit quality.
     cluster_id = data.brain_areas.cluster_id(:);
+    brain_area = data.brain_areas.brain_area(:);
+    assert(numel(brain_area)==numel(cluster_id), ...
+        'Brain area and cluster ID counts differ in session %d.',d);
     assert(numel(unique(cluster_id))==numel(cluster_id), ...
         'Duplicate cluster IDs in session %d.',d);
 
@@ -76,6 +79,7 @@ for d = 1:numel(catalog.data)
     end
 
     results{d}=struct('session',data.id,'cluster_id',cluster_id, ...
+        'brain_area',brain_area, ...
         'full_count',counts_all,'full_rate_hz',rate_all, ...
         'trial_index',trial_index,'trial_counts',trial_counts, ...
         'trial_duration_s',trial_duration,'trial_rate_hz',trial_rate, ...
@@ -85,3 +89,24 @@ for d = 1:numel(catalog.data)
         data.id,numel(cluster_id),ntrial,min(rate_all));
 end
 fprintf('A01 complete: %d sessions. CI = 95%% trial-bootstrap percentile interval.\n',numel(results));
+
+%% Lowest complete-recording rate in each anatomical area, across sessions.
+all_area = vertcat(results{:});
+area_codes = vertcat(all_area.brain_area);
+all_rates = vertcat(all_area.full_rate_hz);
+all_ids = vertcat(all_area.cluster_id);
+all_sessions = cell(numel(all_rates),1);
+pos = 1;
+for d = 1:numel(results)
+    n = numel(results{d}.cluster_id);
+    all_sessions(pos:pos+n-1) = {results{d}.session};
+    pos = pos+n;
+end
+fprintf('\nLowest complete-recording firing rate by brain area:\n');
+for a = unique(area_codes(:))'
+    ix = find(area_codes==a);
+    [lowest,j] = min(all_rates(ix));
+    k = ix(j);
+    fprintf('Area %g: %.6g Hz (session %s, cluster %g)\n', ...
+        double(a),lowest,all_sessions{k},double(all_ids(k)));
+end
