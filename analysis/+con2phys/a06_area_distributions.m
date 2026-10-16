@@ -3,7 +3,7 @@
 % Pairwise whole-animal label swaps (not cluster-level shuffling) give a
 % conditional randomization p-value IF area labels are exchangeable as
 % entire within-animal cluster groups under the null. Interpret cautiously.
-a02_cluster_quality
+con2phys.a02_cluster_quality
 rng(46,'twister');
 n_perm = 1999;
 quantile_levels = [10 25 50 75 90];

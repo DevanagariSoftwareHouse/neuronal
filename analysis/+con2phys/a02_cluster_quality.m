@@ -28,16 +28,23 @@ quality_flag = {};
 for s = 1:numel(catalog.data)
     d = catalog.data(s);
     T = double(d.n_lfp_samples)/double(d.file(1).sampling_rate_hz);
+    
     assert(isfinite(T) && T>0,'Invalid recording duration.');
+    
     tsmap = neuronal_memmap(d.file(4),neuronal_path);
     idmap = neuronal_memmap(d.file(5),neuronal_path);
+    
     t = double(tsmap.Data.x(:));
+    
     labels = int64(idmap.Data.x(:));
+    
     assert(numel(t)==numel(labels) && numel(t)==double(d.n_spikes), ...
         'Session %s spike arrays disagree with catalog.',d.id);
     assert(all(isfinite(t)), 'Nonfinite spike timestamps in session %s.',d.id);
+    
     ids = int64(d.brain_areas.cluster_id(:));
     areas = double(d.brain_areas.brain_area(:));
+    
     assert(numel(ids)==numel(areas) && numel(unique(ids))==numel(ids), ...
         'Invalid anatomical cluster mapping in %s.',d.id);
 

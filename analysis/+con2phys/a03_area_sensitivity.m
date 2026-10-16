@@ -1,22 +1,33 @@
 %% A03: Brain-area firing-rate sensitivity to A02 timing-screen selection.
 % Uses A02 diagnostic labels, NOT validated single-unit classifications.
 % A02 clears the workspace; run it first, then construct comparisons here.
+
 con2phys.a02_cluster_quality
+
 rng(43,'twister');
+
 n_boot = 1000;
 alpha = 0.05;
 areas = unique(cluster_quality.brain_area);
+
 n_area = numel(areas);
 n_scenarios = 2;
+
 summary_area = zeros(n_area*n_scenarios,1);
 scenario = cell(n_area*n_scenarios,1);
-n_clusters = zeros(n_area*n_scenarios,1);
-n_animals = zeros(n_area*n_scenarios,1);
+
+n_clusters   = zeros(n_area*n_scenarios,1);
+n_animals    = zeros(n_area*n_scenarios,1);
+
 mean_rate_hz = NaN(n_area*n_scenarios,1);
-ci95_low_hz = NaN(n_area*n_scenarios,1);
+
+ci95_low_hz  = NaN(n_area*n_scenarios,1);
 ci95_high_hz = NaN(n_area*n_scenarios,1);
-n_removed = zeros(n_area*n_scenarios,1);
-screen_pass = strcmp(cluster_quality.quality_flag,'timing_screen_pass');
+
+n_removed    = zeros(n_area*n_scenarios,1);
+
+screen_pass  = strcmp(cluster_quality.quality_flag,'timing_screen_pass');
+
 fprintf('\nA03: A02 exclusion counts by area (diagnostic only):\n');
 for ai = 1:n_area
     ia = cluster_quality.brain_area == areas(ai);

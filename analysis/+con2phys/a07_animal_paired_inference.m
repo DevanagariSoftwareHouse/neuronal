@@ -3,7 +3,7 @@
 % Exact sign-flip tests require symmetric/exchangeable paired differences
 % under the null; sign tests additionally offer a median-direction check.
 % Quality-screen flags are exploratory, not confirmed single units.
-a02_cluster_quality
+con2phys.a02_cluster_quality
 rng(47,'twister');
 n_boot = 10000;
 areas = [1 2 3];
