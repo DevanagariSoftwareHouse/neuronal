@@ -1,0 +1,63 @@
+name: Dell logs
+
+# Runs the suites on the Dell runner and pushes logs to the `ci-logs` branch,
+# so they are readable as plain files on GitHub (no sign-in needed).
+
+on:
+  push:
+    branches-ignore: [ci-logs]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      suites:
+        description: "Space-separated suites (registry rust python matlab realdata lean); empty = defaults"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dell-logs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  logs:
+    name: Run suites and publish logs
+    runs-on: [self-hosted, linux, x64, dell]
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    timeout-minutes: 180
+    env:
+      CI_LOG_DIR: ${{ runner.temp }}/ci-logs
+      CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      SUITES: ${{ inputs.suites }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run suites
+        id: run
+        shell: bash
+        run: |
+          set +e
+          rm -rf "$CI_LOG_DIR"
+          bash ci/run.sh $SUITES
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Publish logs to ci-logs
+        if: always()
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash ci/publish.sh
+
+      - name: Job summary
+        if: always()
+        shell: bash
+        run: cat "$CI_LOG_DIR"/*/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Fail if any suite failed
+        if: steps.run.outputs.rc != '0'
+        run: exit 1
