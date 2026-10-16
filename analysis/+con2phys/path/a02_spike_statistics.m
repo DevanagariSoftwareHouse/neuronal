@@ -12,7 +12,7 @@ assert(isequal(r.counts,r.explicit_counts));
 r.fano=spike_count_fano(c.C); % Across time bins, not repeated matched trials.
 r.distance=victor_purpura_distance(c.s(c.s<2),c.s2(c.s2<2),10);
 if cfg.plots
-    figure('Name','Cluster statistics'); tiledlayout(1,2);
-    nexttile; histogram(r.isi,100); xlabel('ISI (s)');
-    nexttile; plot(r.lags,[r.auto r.cross]); xlabel('Lag (s)'); ylabel('Coincidences');
+    figure('Name','Cluster statistics');
+    subplot(1,2,1); histogram(r.isi,100); xlabel('ISI (s)');
+    subplot(1,2,2); plot(r.lags,[r.auto r.cross]); xlabel('Lag (s)'); ylabel('Coincidences');
 end

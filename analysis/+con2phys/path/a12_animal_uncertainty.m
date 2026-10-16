@@ -34,7 +34,8 @@ r.hierarchical=hierarchical_bootstrap_ci(nested,[],B,.95,cfg.seed);
 r.subsample=subsampling_ci(v,@mean,floor(numel(v)/2),B,.95);
 [r.paired_ci,r.delta]=paired_difference_ci(A(:,1),A(:,2),B,.95,'percentile',cfg.seed);
 r.signflip=paired_signflip_test(A(:,1),A(:,2),B,cfg.seed);
-r.paired=paired_permutation_test(A(:,1),A(:,2),@(a,b)mean(a-b),B,'two-sided');
+% The callback receives the already-paired difference B-A (one argument).
+r.paired=paired_permutation_test(A(:,1),A(:,2),@mean,B,'two-sided');
 r.group_folds=group_cross_validation((1:numel(v))',3);
 % Temporal bins need blocks, unlike independent animals above.
 [r.block_ci,r.block_mean,r.block_draws]=block_bootstrap_ci(c.C,@(z)mean(z,1),10,B,.95,cfg.seed,false);

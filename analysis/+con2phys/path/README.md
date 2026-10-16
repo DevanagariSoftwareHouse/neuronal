@@ -60,6 +60,10 @@ Cada módulo usa o contexto `c` e grava seu resultado em `r`; execute a prepara�
 
 ## Dependências e validação
 
-MATLAB moderno com `memmapfile`, `table`, `tiledlayout` e Signal Processing Toolbox; a14 requer Statistics and Machine Learning Toolbox. Sem esse toolbox a14 registra `skipped`. Os algoritmos existentes mantêm suas próprias limitações: slope não é specparam completo, GP smoothing não é GPFA, marginalização não é dPCA, EMD/BOSC são implementações exploratórias.
+MATLAB moderno com `memmapfile`, `table`, `subplot` e Signal Processing Toolbox; a14 requer Statistics and Machine Learning Toolbox. Sem esse toolbox a14 registra `skipped`. Os algoritmos existentes mantêm suas próprias limitações: slope não é specparam completo, GP smoothing não é GPFA, marginalização não é dPCA, EMD/BOSC são implementações exploratórias.
 
 Validação na implementação: parser/lint MISS_HIT dos 19 scripts e inventário estático 131/131. **Não executado em MATLAB nem contra os binários reais**, indisponíveis no ambiente de autoria. Os asserts verificam round trip, contagens, invariantes de surrogates, reconstrução e limites de p; o ledger é o registro de execução a produzir na máquina com os dados. Os artigos anexados não são apresentados como reproduzidos por estes scripts.
+
+## Correções após a primeira execução real
+
+O primeiro ledger reportado teve 14 módulos concluídos, dois com falha e um sem configuração de labels. O gráfico de a02 agora usa `subplot`, pois `tiledlayout` não estava disponível. Em a12, o callback de `paired_permutation_test` agora recebe o vetor B−A via `@mean`. O executor registra `error_file` e `error_line` no CSV e conserva `error_stack` e `error_report` no MAT de cada módulo. Essas correções ainda precisam ser reexecutadas no MATLAB do usuário.
