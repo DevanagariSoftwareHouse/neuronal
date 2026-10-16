@@ -34,7 +34,7 @@ mkdir -p "$OUT"
 if [ -n "${GITHUB_RUN_ID:-}" ]; then
   ORIGIN="actions ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
 else
-  ORIGIN="local ($(whoami)@$(hostname))"
+  ORIGIN="local"
 fi
 DIRTY=""; git diff --quiet HEAD -- 2>/dev/null || DIRTY=" (uncommitted changes)"
 
