@@ -1,7 +1,11 @@
 %% Run every analysis SCRIPT and persist results plus honest execution status.
 % From repository root: run('analysis/+con2phys/path/z00_run_all.m')
 % Set cfg before running. No clear/clc, no source catalog writes.
-battle_path=fileparts(mfilename('fullpath'));
+
+a00_startup
+%%
+%battle_path=fileparts(mfilename('fullpath'));
+battle_path=fullfile(neuronal_path,'analysis','+con2phys','path');
 run(fullfile(battle_path,'a00_prepare.m'));
 output_dir=fullfile(repo,'analysis','results',['con2phys_battle_' datestr(now,'yyyymmdd_HHMMSS')]);
 if exist(output_dir,'dir'), output_dir=tempname(fullfile(repo,'analysis','results')); end
