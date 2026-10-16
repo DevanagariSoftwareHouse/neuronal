@@ -34,3 +34,6 @@ books/formal_foundations/mathematics/pedagogical_graph.json
 
 # Local recordings and converted binary datasets (not source code)
 /data/
+
+# Local CON2PHYS battle-test output
+/analysis/results/
