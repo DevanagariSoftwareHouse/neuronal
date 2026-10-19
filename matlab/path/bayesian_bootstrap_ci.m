@@ -1,5 +1,18 @@
 function [ci,theta,draws,weights] = bayesian_bootstrap_ci(x,statfun,B,level,seed)
 %BAYESIAN_BOOTSTRAP_CI Rubin (1981) Dirichlet-weight bootstrap.
+% SIGNATURE: [ci,theta,draws,weights] = bayesian_bootstrap_ci(x,statfun,B,level,seed)
+% INPUTS:
+%   x       double [n x d] finite data; rows are independent units, n>=2
+%   statfun function_handle @(x,w)->double [1 x k] (default weighted mean);
+%           w is double [n x 1], positive and sums to 1
+%   B       positive integer scalar >=20, draws (default 2000)
+%   level   double scalar in (0,1), credible mass (default .95)
+%   seed    nonnegative integer scalar, RNG seed (default 42)
+% OUTPUTS:
+%   ci      double [2 x k], lower/upper posterior quantiles by column
+%   theta   double [1 x k], statistic under uniform weights
+%   draws   double [B x k], weighted statistic from each Dirichlet draw
+%   weights double [n x B], sampled weights (only populated if requested)
 % Rows are independent observational units. STATFUN(x,w) must accept
 % normalized observation weights and return a finite scalar or row vector.
 % This is a Bayesian-bootstrap credible interval, not a frequentist CI.
