@@ -1,5 +1,18 @@
 function [ci,beta,draws] = wild_bootstrap_ci(X,y,B,level,seed,weights)
 %WILD_BOOTSTRAP_CI Fixed-design wild residual bootstrap for OLS coefficients.
+% SIGNATURE: [ci,beta,draws] = wild_bootstrap_ci(X,y,B,level,seed,weights)
+% INPUTS:
+%   X       double [n x p], finite full-column-rank OLS design, n>p
+%   y       double [n x 1] or [1 x n], finite regression response
+%   B       integer scalar >=20, replicates (default 2000)
+%   level   double scalar in (0,1), CI coverage (default .95)
+%   seed    nonnegative integer scalar, RNG seed (default 42)
+%   weights char/string scalar: 'rademacher' (default) or 'mammen';
+%           names multiplier distribution, not observation weights
+% OUTPUTS:
+%   ci      double [2 x p], percentile interval per regression coefficient
+%   beta    double [p x 1], original OLS coefficient estimates
+%   draws   double [B x p], bootstrap coefficient estimates
 % X includes any desired intercept column; rows must be independent.
 % Rademacher or Mammen multipliers, centered on fitted residuals.
 % Percentile intervals are exploratory; heteroskedasticity is allowed.
