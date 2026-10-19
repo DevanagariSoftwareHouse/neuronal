@@ -1,5 +1,19 @@
 function [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed)
 %HIERARCHICAL_BOOTSTRAP_CI Nested bootstrap for independent top-level units.
+% SIGNATURE: [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed)
+% INPUTS:
+%   groups  cell [g x 1] or [1 x g], g>=2 independent top-level units;
+%           each element is finite numeric [n x d] or nested cell levels,
+%           whose leaves are numeric [n x d] with observations in rows
+%   statfun function_handle @(groups)->double [1 x k], must support the
+%           exact nesting of groups; default only supports numeric leaves
+%   B       integer scalar >=20, replicates (default 2000)
+%   level   double scalar in (0,1), CI coverage (default .95)
+%   seed    nonnegative integer scalar, RNG seed (default 42)
+% OUTPUTS:
+%   ci      double [2 x k], lower/upper percentile bounds
+%   theta   double [1 x k], statistic of original nested data
+%   boot    double [B x k], resampled statistics
 % Legacy: groups{animal} = trials x features; resample rows within animals.
 % General: groups{animal}{session}{cluster} = observations x features.
 % Each cell level is resampled with replacement, recursively. Use a
