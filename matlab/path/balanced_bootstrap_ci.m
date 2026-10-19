@@ -1,5 +1,16 @@
 function [ci,theta,draws] = balanced_bootstrap_ci(x,statfun,B,level,seed)
 %BALANCED_BOOTSTRAP_CI Balanced nonparametric bootstrap percentile CI.
+% SIGNATURE: [ci,theta,draws] = balanced_bootstrap_ci(x,statfun,B,level,seed)
+% INPUTS:
+%   x       double [n x d], finite independent observational rows, n>=2
+%   statfun function_handle @(x)->double [1 x k] (default column means)
+%   B       integer scalar >=20, replicates (default 2000)
+%   level   double scalar in (0,1), CI coverage (default .95)
+%   seed    nonnegative integer scalar, RNG seed (default 42)
+% OUTPUTS:
+%   ci      double [2 x k], lower/upper percentile bounds
+%   theta   double [1 x k], statistic of original sample
+%   draws   double [B x k], bootstrap statistic per replicate
 % Each independent row appears exactly B times over all B replicates.
 % Resamples remain dependent across replicates by design.
 if nargin<2||isempty(statfun), statfun=@(a)mean(a,1); end
