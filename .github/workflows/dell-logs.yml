@@ -1,12 +1,11 @@
 name: Dell logs
 
-# Runs the suites on the Dell runner and pushes logs to the `ci-logs` branch,
-# so they are readable as plain files on GitHub (no sign-in needed).
+# Run trusted main-branch code on the self-hosted Dell runner.
+# Pull request code must not execute on this machine.
 
 on:
   push:
-    branches-ignore: [ci-logs]
-  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       suites:
@@ -25,11 +24,11 @@ jobs:
   logs:
     name: Run suites and publish logs
     runs-on: [self-hosted, linux, x64, dell]
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.ref == 'refs/heads/main'
     timeout-minutes: 180
     env:
       CI_LOG_DIR: ${{ runner.temp }}/ci-logs
-      CI_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      CI_BASE_SHA: ${{ github.event.before || github.sha }}
       SUITES: ${{ inputs.suites }}
     steps:
       - uses: actions/checkout@v4
