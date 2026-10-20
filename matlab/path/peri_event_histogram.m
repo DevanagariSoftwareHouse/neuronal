@@ -1,5 +1,9 @@
 function [centers_s,rate_hz,trial_counts] = peri_event_histogram(spike_times,event_times,edges_s)
 %PERI_EVENT_HISTOGRAM Event-aligned firing rate and trial-by-bin counts.
+% [CENTERS_S, RATE_HZ, TRIAL_COUNTS] = PERI_EVENT_HISTOGRAM(TIMES, EVENTS, EDGES_S)
+% TIMES are point events (spikes, or any timestamps) and EVENTS the alignment
+% anchors, both in seconds; EDGES_S are relative half-open bins [left,right).
+% TRIAL_COUNTS is events x bins; RATE_HZ is the across-event mean per second.
 % Nawrot et al. (1999). Events/trials may be dependent: interpret accordingly.
 % Match spike_counts_edges: empty trains accepted, nonfinite spikes discarded.
 validateattributes(spike_times,{'numeric'},{'real'});

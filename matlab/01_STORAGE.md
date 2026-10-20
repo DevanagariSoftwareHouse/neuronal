@@ -2,7 +2,21 @@
 
 A first local backend for normalized electrophysiology datasets. It uses
 headerless little-endian .bin files and a persistent MATLAB catalog.mat.
-Cloud storage and NWB export are future work.
+Cloud storage and NWB export are future work. This is the entry point of
+the analysis order: every later chapter starts from a bounded block read
+here ([00_CONVENTIONS.md](00_CONVENTIONS.md)).
+
+## Public functions
+
+| Function | Role |
+| --- | --- |
+| `neuronal_write_binary` | Write a numeric matrix as headerless little-endian BIN through a validated temporary file; `'SampleAxis',2` stores channels x samples input as samples x channels without a transpose |
+| `neuronal_validate_file` | Check a descriptor's schema, byte length and host endianness (storage, not scientific equivalence) |
+| `neuronal_register` | The single writer of `catalog.mat`: validate entries and publish or `'Replace'` a dataset alias |
+| `neuronal_catalog` | Load the metadata catalog only, from a directory or a `.mat` path |
+| `neuronal_file_path` | Resolve a descriptor path against the repository root or an explicit `Root` |
+| `neuronal_memmap` | Read-only `memmapfile` with exactly the declared shape; one per `parfor` worker |
+| `neuronal_read` | Read selected samples x channels (1-based) from a map without loading the file |
 
 ## Filesystem layout
 
@@ -65,6 +79,24 @@ Never execute two digests targeting the same output folder concurrently.
 There is not yet whole-dataset rollback or cryptographic hash comparison.
 Do not discard the original files until round-trip scientific validation
 of each dataset has been completed.
+
+## From storage to analysis
+
+~~~matlab
+d = catalog(1).data(1).file(1);
+m = neuronal_memmap(d);
+fs = d.sampling_rate_hz;
+block = neuronal_read(m, 1:60*fs, 1:4);          % samples x channels, stored class
+x = double(block(:,1));                           % one channel for spectra (05)
+lfp_cs = double(block).';                         % channels x samples for 02 and 06
+seg = event_aligned_segments(block, stim_s, fs, [-.5 .5], [], 'SampleDim', 1);
+~~~
+
+Reading `m.Data.x` directly loads the whole array; `neuronal_read` indexes
+only the requested window. The stored layout is samples x channels, while
+referencing and CSD functions take channels x samples: transpose blocks,
+never full recordings ([02_PREPROCESSING.md](02_PREPROCESSING.md),
+[06_EVENT_ALIGNMENT.md](06_EVENT_ALIGNMENT.md)).
 
 ## parfor
 

@@ -8,11 +8,43 @@ de implementação é **uma função pública por arquivo `.m`** em [path](path)
 O arquivo [METHODS.tsv](METHODS.tsv) registra 97 entradas bibliográficas (incluindo 2 referências excluídas por escopo)
 e associa artigos a primitivas, limitações e métodos ainda não reproduzidos.
 
+## Ordem de leitura
+
+A documentação segue a ordem dos dados: armazenar e ler, limpar, reduzir a
+spikes ou a sinais em banda, alinhar a eventos, relacionar, modelar e só
+então testar. Cada uma das 131 funções de [path](path) aparece em
+exatamente um capítulo.
+
+| # | Capítulo | Funções |
+|---|---|---|
+| 00 | [Convenções](00_CONVENTIONS.md) | unidades, origem temporal, bins semiabertos, layouts, RNG |
+| 01 | [Armazenamento](01_STORAGE.md) | `neuronal_*` |
+| 02 | [Pré-processamento](02_PREPROCESSING.md) | referências, `bandpass_lfp`, CSD, lead fields |
+| 03 | [Spikes](03_SPIKES.md) | detecção, waveforms, qualidade de unidades |
+| 04 | [Trens de spikes](04_SPIKE_TRAINS.md) | contagens, taxas, ISI, correlogramas, Fano, Victor-Purpura |
+| 05 | [Espectros e oscilações](05_SPECTRA_OSCILLATIONS.md) | PSD, 1/f, IRASA, wavelets, ciclos, EMD, BOSC, ripples |
+| 06 | [Alinhamento a eventos](06_EVENT_ALIGNMENT.md) | fontes de eventos, `event_aligned_segments`, médias disparadas, PETH |
+| 07 | [Acoplamento](07_COUPLING.md) | coerência, PLV/PLI/wPLI, estatística circular, PAC, informação, Granger |
+| 08 | [Populações](08_POPULATION.md) | PCA, dimensionalidade, assemblies, dDR, RRR, jPCA, CP |
+| 09 | [Modelos e decodificação](09_MODELS_DECODING.md) | GLM de Poisson, filtros de acoplamento, decoders, folds |
+| 10 | [Surrogates](10_SURROGATES.md) | geradores nulos, testes Monte Carlo |
+| 11 | [Inferência](11_INFERENCE.md) | bootstrap, jackknife, permutação, validação |
+| 12 | [Revisão](12_REVIEW.md) | correções, pendências, estado de execução |
+
+O alinhamento a eventos é genérico: qualquer timestamp em segundos (estímulo,
+comportamento, cruzamento de fase, excursão de envelope, ripple ou spike)
+define o atraso zero, e qualquer sinal na grade de amostras (contagens
+esparsas, LFP, envelope, fase) pode ser recortado em torno dele. As antigas
+`spike_raster_sparse`, `event_aligned_raster`, `plot_event_raster` e
+`spike_triggered_average` passaram a `sparse_count_matrix`,
+`event_aligned_segments`, `plot_event_aligned` e `event_triggered_average`.
+
 ## Organização
 
 ```text
 matlab/
-  README.md
+  README.md                  índice (este arquivo)
+  00_CONVENTIONS.md ... 12_REVIEW.md
   METHODS.tsv
   resources.tsv
   searches.tsv
@@ -29,11 +61,15 @@ matlab/
     multitaper_psd.m
     ...
   tests/
+    run_scientific_suite.m
+    test_event_alignment.m
     smoke_arsenal.m
     smoke_population.m
     smoke_ephys_methods.m
     smoke_consensus_methods.m
     smoke_bosc_circ_glm.m
+    ...
+  figures/
 ```
 
 O diretório `path/` deve ser adicionado ao MATLAB path **na sessão que executa
@@ -65,12 +101,76 @@ cycles = cycle_by_cycle(theta,fs);
 unit_id = data.waveform_cluster(1);
 t = double(data.spike_timestamp(data.spike_cluster==unit_id));
 rate = firing_rate(t,0,size(data.lfp_3,2)/fs);
+
+% Alinhamento genérico: o mesmo recorte serve para spikes e para LFP.
+stim = [data.behavior.trials.stim_start];
+[counts,ids] = sparse_count_matrix(t,ones(size(t)),fs,size(data.lfp_3,2));
+psth = event_aligned_segments(counts,stim,fs,[-.5 .5],1);
+erp = event_aligned_segments(x,stim(stim<30),fs,[-.5 .5]);
+sta = event_triggered_average(x,t(t<30),fs,.2,.2);
 ```
 
 Ao selecionar uma unidade, confira o vínculo entre cluster, brain area e timestamps.
 Não derive duração do registro com `numel` sobre uma matriz multicanal.
 
-## Buscas bibliográficas em avaliação
+## Contratos e limites
+
+Versão completa em [00_CONVENTIONS.md](00_CONVENTIONS.md).
+
+1. Funções usam valores e parâmetros explícitos; não acessam `data` nem
+   variáveis do workspace por conta própria. Timestamps são segundos;
+   amostragem em Hz; fase em radianos.
+2. LFP CON²PHYS tem Nyquist de **250 Hz**. O spike detector opera apenas
+   sobre sinal broadband na taxa real de aquisição, não sobre LFP a 500 Hz.
+3. `spectral_peak_candidates` e `aperiodic_slope` **não** implementam
+   o algoritmo completo FOOOF/specparam. `cycle_by_cycle` omite critérios
+   de bursts. `current_source_density` é diferença finita, não iCSD.
+4. `irasa_decomposition`, `empirical_mode_decomposition` e
+   `ensemble_empirical_mode_decomposition` são formulações exploratórias,
+   não reproduções auditadas dos artigos.
+5. `template_match_waveforms` **não é Kilosort4**, e
+   `population_pca` **não é** GPFA, LFADS, jPCA ou dPCA.
+6. `modulation_index`, Granger, informação mútua e transfer entropy
+   demandam surrogates, análise de viés e pressupostos específicos antes
+   de conclusões sobre acoplamento, direção ou causalidade.
+7. Processar LFP inteiro pode consumir muitos GiB: passar **blocos** de
+   canais; não assumir que todas as funções são streaming ou memmap-ready.
+8. Para inferência em múltiplos animais, o animal deve ser unidade
+   experimental, não milhões de bins pseudorreplicados.
+
+## Famílias presentes
+
+Resumo por família; o capítulo correspondente traz exemplos, contratos e testes.
+
+- **Espectro, oscilações e separação:** Welch, multitaper, Morlet,
+  fase/amplitude de Hilbert, inclinação 1/f simples, candidatos a picos,
+  IRASA simplificado, EMD/EEMD exploratórios, ciclos, CSD, entropias.
+- **Acoplamento LFP–LFP e spike–LFP:** PLV, PPC, PLI, wPLI,
+  MI fase-amplitude, coerência, PSI simplificado e controles surrogates.
+- **Eventos e unidades:** detecção de candidatos ripple, threshold de spikes
+  (somente broadband), forma de onda, PCA de waveforms e template similarity.
+- **Alinhamento a eventos:** contagens esparsas rotuladas, cruzamentos de fase,
+  excursões de envelope, segmentos alinhados de qualquer sinal, média
+  disparada por eventos (STA) e PETH.
+- **Spike trains:** binning, firing rate, ISI, ACG, CCG, Fano e
+  distância de Victor-Purpura.
+- **Populações:** PCA, participation ratio, PCA de assemblies,
+  expressão de assemblies e noise correlations.
+- **Modelos e inferência:** GLM de Poisson aproximado, Granger VAR,
+  informação mútua, transfer entropy plug-in, bootstrap iid,
+  randomização pareada e jitter de spikes.
+
+## Armazenamento binário e digests
+
+Os descritores de arquivos, o catálogo persistente e o digest CON²PHYS
+estão documentados em [01_STORAGE.md](01_STORAGE.md). A interface pública fica
+em `matlab/path/` e os testes sintéticos em
+`matlab/tests/test_neuronal_raw_storage.m`.
+## Expansões bibliográficas e de métodos
+
+Registro histórico de cada rodada de incorporação, na ordem em que ocorreram.
+
+### Buscas bibliográficas em avaliação
 
 O arquivo [searches.tsv](searches.tsv) registra as pesquisas externas que
 alimentam a triagem metodológica, separadas dos artigos verificados de
@@ -101,24 +201,7 @@ run('matlab/tests/smoke_consensus_methods.m')
 run('matlab/tests/smoke_bosc_circ_glm.m')
 ```
 
-## Famílias presentes
-
-- **Espectro, oscilações e separação:** Welch, multitaper, Morlet,
-  fase/amplitude de Hilbert, inclinação 1/f simples, candidatos a picos,
-  IRASA simplificado, EMD/EEMD exploratórios, ciclos, CSD, entropias.
-- **Acoplamento LFP–LFP e spike–LFP:** PLV, PPC, PLI, wPLI,
-  MI fase-amplitude, coerência, PSI simplificado e controles surrogates.
-- **Eventos e unidades:** detecção de candidatos ripple, threshold de spikes
-  (somente broadband), forma de onda, PCA de waveforms e template similarity.
-- **Spike trains:** binning, firing rate, ISI, ACG, CCG, PSTH, Fano e
-  spike-triggered average.
-- **Populações:** PCA, participation ratio, PCA de assemblies,
-  expressão de assemblies e noise correlations.
-- **Modelos e inferência:** GLM de Poisson aproximado, Granger VAR,
-  informação mútua, transfer entropy plug-in, bootstrap iid,
-  randomização pareada e jitter de spikes.
-
-## Geometria e dinâmica de populações (seleção complementar)
+### Geometria e dinâmica de populações (seleção complementar)
 
 O catálogo `references/population_geometry.bib` reúne as 20 referências
 fornecidas para esta expansão, com anos e autores revisados. Quatro trabalhos
@@ -135,7 +218,7 @@ Primitivas adicionadas, uma por arquivo: `eigenspectrum_powerlaw`,
 `jpca_dynamics`, `tensor_cp_als`, `gaussian_process_smoothing`,
 `crossvalidated_ridge_decoder`.
 
-### Exemplo sintético
+#### Exemplo sintético
 
 ```matlab
 rng(17)
@@ -159,7 +242,7 @@ Para resultados publicáveis, selecionar posto, regularização, projeções
 e hiperparâmetros exclusivamente no conjunto de treinamento. A estrutura
 de trials deve ser preservada na validação cruzada para evitar leakage.
 
-## Spike sorting em larga escala e field potentials
+### Spike sorting em larga escala e field potentials
 
 Os seis artigos checados nesta rodada estão em
 [large_scale_ephys.bib](references/large_scale_ephys.bib).
@@ -205,7 +288,7 @@ Os frameworks e cursos usados como fontes de comparação:
 [AIND Ephys Pipeline](https://github.com/AllenNeuralDynamics/aind-ephys-pipeline) e
 [iBOTS LFP Analysis](https://learn.ibots-bonn.de/docs/lfp_analysis/).
 
-### Teste complementar
+#### Teste complementar
 
 ```matlab
 run('matlab/tests/smoke_ephys_methods.m')
@@ -216,7 +299,7 @@ Esse teste gera dados sintéticos e confere contratos básicos. Não substitui
 verificação contra waveforms com ground truth, testes de unidades duplicadas,
 efeitos da geometria laminar ou comparações com código de referência.
 
-## Oscilações BOSC, estatística circular e GLM acoplado
+### Oscilações BOSC, estatística circular e GLM acoplado
 
 Seis novas referências foram registradas em
 [references/bosc_circular_glm.bib](references/bosc_circular_glm.bib),
@@ -265,28 +348,40 @@ A existência desses testes **não significa que tenham sido executados**.
 O arquivo `METHODS.tsv` contém seis colunas separadas por TAB,
 inclusive DOI vazio quando não confirmado.
 
-## Contratos e limites
+## Integração com paper_con2phys
 
-1. Funções usam valores e parâmetros explícitos; não acessam `data` nem
-   variáveis do workspace por conta própria. Timestamps são segundos;
-   amostragem em Hz; fase em radianos.
-2. LFP CON²PHYS tem Nyquist de **250 Hz**. O spike detector opera apenas
-   sobre sinal broadband na taxa real de aquisição, não sobre LFP a 500 Hz.
-3. `spectral_peak_candidates` e `aperiodic_slope` **não** implementam
-   o algoritmo completo FOOOF/specparam. `cycle_by_cycle` omite critérios
-   de bursts. `current_source_density` é diferença finita, não iCSD.
-4. `irasa_decomposition`, `empirical_mode_decomposition` e
-   `ensemble_empirical_mode_decomposition` são formulações exploratórias,
-   não reproduções auditadas dos artigos.
-5. `template_match_waveforms` **não é Kilosort4**, e
-   `population_pca` **não é** GPFA, LFADS, jPCA ou dPCA.
-6. `modulation_index`, Granger, informação mútua e transfer entropy
-   demandam surrogates, análise de viés e pressupostos específicos antes
-   de conclusões sobre acoplamento, direção ou causalidade.
-7. Processar LFP inteiro pode consumir muitos GiB: passar **blocos** de
-   canais; não assumir que todas as funções são streaming ou memmap-ready.
-8. Para inferência em múltiplos animais, o animal deve ser unidade
-   experimental, não milhões de bins pseudorreplicados.
+### Incremento de integracao
+
+`spike_counts_edges(spike_times,edges)` conta eventos em bins explicitos,
+inclusive irregulares, retornando um vetor coluna. Todos os bins sao
+`[esquerda,direita)`: o ultimo timestamp na borda final e excluido. Unidades
+silenciosas retornam zeros; timestamps nao finitos sao descartados.
+`spike_bin_counts` reutiliza essa rotina e agora aceita um spike train vazio.
+A integracao e coberta por `tests/test_path_integration.m` em `paper_con2phys`.
+
+### Consolidação das branches do paper_con2phys
+
+A [auditoria de branches](../books/BRANCH_REVIEW_2026_10_12.md) registra
+as origens e decisões. Foram incorporadas as correções de covariância,
+binning decimal, histogramas peri-evento e waveforms de um canal, com regressões.
+
+Também estão disponíveis `lfp_envelope_moments` (momentos multicanal de
+envelopes com metadados temporais), `decode_trials` (ridge com cinco folds
+contíguos), `decoded_mi`, `greedy_modularity`, `spike_bins` e `trial_features`.
+Estas cinco últimas funções preservam os contratos simples dos auxiliares
+originais: forneça vetores-coluna de rótulos, janelas Nx2 em segundos e,
+para modularidade, matrizes simétricas não negativas. O resultado de modularidade
+é heurístico; a informação é a informação decodificada; as probabilidades softmax
+do decoder não são calibradas. O argumento seed do decoder é apenas metadado:
+os folds e o ajuste são determinísticos.
+
+```matlab
+run('matlab/neuronal_startup.m')
+run('matlab/tests/test_lfp_envelope_moments.m')
+run('matlab/tests/smoke_imported_helpers.m')
+```
+
+MATLAB não está disponível no ambiente de migração; execução numérica pendente.
 
 ## Compatibilidade e validação
 
@@ -312,43 +407,3 @@ Implementar testes de referência por artigo, aferir streaming/memmap,
 controle de borda em convoluções, qualidade de unidade, jitter condicional
 rigoroso, null models para assemblies, surrogates de PAC, ICSD inversa,
 cluster permutations, GPFA/LFADS/dPCA e benchmarking de spike sorting.
-
-## Incremento de integracao
-
-`spike_counts_edges(spike_times,edges)` conta eventos em bins explicitos,
-inclusive irregulares, retornando um vetor coluna. Todos os bins sao
-`[esquerda,direita)`: o ultimo timestamp na borda final e excluido. Unidades
-silenciosas retornam zeros; timestamps nao finitos sao descartados.
-`spike_bin_counts` reutiliza essa rotina e agora aceita um spike train vazio.
-A integracao e coberta por `tests/test_path_integration.m` em `paper_con2phys`.
-
-## Consolidação das branches do paper_con2phys
-
-A [auditoria de branches](../books/BRANCH_REVIEW_2026_10_12.md) registra
-as origens e decisões. Foram incorporadas as correções de covariância,
-binning decimal, histogramas peri-evento e waveforms de um canal, com regressões.
-
-Também estão disponíveis `lfp_envelope_moments` (momentos multicanal de
-envelopes com metadados temporais), `decode_trials` (ridge com cinco folds
-contíguos), `decoded_mi`, `greedy_modularity`, `spike_bins` e `trial_features`.
-Estas cinco últimas funções preservam os contratos simples dos auxiliares
-originais: forneça vetores-coluna de rótulos, janelas Nx2 em segundos e,
-para modularidade, matrizes simétricas não negativas. O resultado de modularidade
-é heurístico; a informação é a informação decodificada; as probabilidades softmax
-do decoder não são calibradas. O argumento seed do decoder é apenas metadado:
-os folds e o ajuste são determinísticos.
-
-```matlab
-run('matlab/neuronal_startup.m')
-run('matlab/tests/test_lfp_envelope_moments.m')
-run('matlab/tests/smoke_imported_helpers.m')
-```
-
-MATLAB não está disponível no ambiente de migração; execução numérica pendente.
-
-## Armazenamento binário e digests
-
-Os descritores de arquivos, o catálogo persistente e o digest CON²PHYS
-estão documentados em [STORAGE.md](STORAGE.md). A interface pública fica
-em `matlab/path/` e os testes sintéticos em
-`matlab/tests/test_neuronal_raw_storage.m`.

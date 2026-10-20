@@ -33,7 +33,8 @@ delete_group_jackknife,a12_animal_uncertainty.m,DELETE_GROUP_JACKKNIFE Leave-one
 eigenspectrum_powerlaw,a07_population.m,EIGENSPECTRUM_POWERLAW Log-log rank-eigenvalue exponent.
 empirical_mode_decomposition,a15_adaptive_decomposition.m,EMPIRICAL_MODE_DECOMPOSITION Exploratory Huang et al. (1998) EMD sifting.
 ensemble_empirical_mode_decomposition,a15_adaptive_decomposition.m,ENSEMBLE_EMPIRICAL_MODE_DECOMPOSITION Exploratory noise-assisted EEMD.
-event_aligned_raster,a04_oscillations_events.m,EVENT_ALIGNED_RASTER Extract a trial x peri-event bin count matrix.
+event_aligned_segments,a04_oscillations_events.m,EVENT_ALIGNED_SEGMENTS Extract event x lag segments from any sampled signal.
+event_triggered_average,a04_oscillations_events.m,EVENT_TRIGGERED_AVERAGE Average a sampled signal around point-process events.
 field_potential_forward,a10_fields_control.m,FIELD_POTENTIAL_FORWARD Apply supplied linear lead field to source currents.
 field_potential_inverse_tikhonov,a10_fields_control.m,FIELD_POTENTIAL_INVERSE_TIKHONOV Ridge-regularized inverse lead-field map.
 firing_rate,a02_spike_statistics.m,FIRING_RATE Mean firing rate from spike timestamps in seconds.
@@ -85,7 +86,7 @@ phase_lag_index,a05_phase_connectivity.m,PHASE_LAG_INDEX Absolute mean sign of p
 phase_locking_value,a05_phase_connectivity.m,"PHASE_LOCKING_VALUE Resultant magnitude of phase differences, [0,1]."
 phase_randomized_surrogate,a11_surrogate_invariants.m,PHASE_RANDOMIZED_SURROGATE Real-valued Fourier phase randomization.
 phase_slope_index,a05_phase_connectivity.m,PHASE_SLOPE_INDEX Frequency-neighbor coherency phase-slope statistic.
-plot_event_raster,a04_oscillations_events.m,PLOT_EVENT_RASTER Display event x bin spike counts without losing multiples.
+plot_event_aligned,a04_oscillations_events.m,PLOT_EVENT_ALIGNED Display an event x lag matrix as an image, one row per event.
 poisson_spike_glm,a06_predictive_dependence.m,POISSON_SPIKE_GLM Binned log-link point-process approximation by IRLS.
 population_dimension_scaling,a07_population.m,POPULATION_DIMENSION_SCALING Participation ratio for sampled units.
 population_pca,a07_population.m,"POPULATION_PCA PCA by SVD; rows observations, columns neuronal units."
@@ -95,6 +96,7 @@ reduced_rank_regression,a07_population.m,REDUCED_RANK_REGRESSION Low-rank multiv
 ripple_candidate_events,a04_oscillations_events.m,RIPPLE_CANDIDATE_EVENTS Robust-envelope high-frequency candidate screen.
 sensitivity_analysis,a06_predictive_dependence.m; a13_inference_controls.m,SENSITIVITY_ANALYSIS Evaluate statistic across caller-specified settings.
 simultaneous_confidence_band,a12_animal_uncertainty.m,SIMULTANEOUS_CONFIDENCE_BAND Draft max-t bootstrap band.
+sparse_count_matrix,a04_oscillations_events.m,SPARSE_COUNT_MATRIX Bin labelled timestamps into a sparse label x sample matrix.
 spectral_entropy,a03_spectrum.m,"SPECTRAL_ENTROPY Shannon entropy of a nonnegative PSD, normalized 0..1."
 spectral_peak_candidates,a03_spectrum.m,SPECTRAL_PEAK_CANDIDATES Find local excess above a median spectral baseline.
 spike_bin_counts,a02_spike_statistics.m,"SPIKE_BIN_COUNTS Count events in half-open [start,stop) bins."
@@ -106,11 +108,9 @@ spike_field_coherence,a05_phase_connectivity.m,SPIKE_FIELD_COHERENCE Magnitude-s
 spike_field_ppc,a05_phase_connectivity.m,SPIKE_FIELD_PPC Spike-LFP pairwise phase consistency at spike timestamps.
 spike_history_design,a06_predictive_dependence.m,SPIKE_HISTORY_DESIGN Causal spike-count regressors for coupled Poisson GLMs.
 spike_presence_ratio,a02_spike_statistics.m,SPIKE_PRESENCE_RATIO Fraction of time bins containing any sorted spike.
-spike_raster_sparse,a04_oscillations_events.m,SPIKE_RASTER_SPARSE Bin timestamped spikes into a sparse cluster x time matrix.
 spike_refractory_violations,a02_spike_statistics.m,SPIKE_REFRACTORY_VIOLATIONS Adjacent short-ISI proportion; not contamination.
 spike_sorting_agreement,a09_waveforms_control.m,SPIKE_SORTING_AGREEMENT One-to-one temporal event matching for a unit.
 spike_threshold_detection,a09_waveforms_control.m,SPIKE_THRESHOLD_DETECTION Negative extracellular transient candidates.
-spike_triggered_average,a04_oscillations_events.m,SPIKE_TRIGGERED_AVERAGE Average LFP samples relative to point-process events.
 spike_waveform_average,a09_waveforms_control.m,SPIKE_WAVEFORM_AVERAGE Mean +/- SEM of aligned waveform snippets.
 spike_waveform_extraction,a09_waveforms_control.m,SPIKE_WAVEFORM_EXTRACTION Event-aligned AP snippets from multichannel data.
 spike_waveform_pca,a09_waveforms_control.m; a17_average_waveforms.m,SPIKE_WAVEFORM_PCA PCA features of aligned extracellular waveforms.
