@@ -43,6 +43,26 @@
 %   value = phase_locking_value(phase_a,phase_b);
 %   % This descriptive value does not remove common-reference or stimulus effects.
 %
+% EXAMPLE 5 — SPIKE-TRIGGERED AVERAGE
+%   fs = 500;
+%   t = (0:fs*4-1)'/fs;
+%   lfp = sin(2*pi*8*t) + 0.1*randn(size(t));
+%   spike_times = [0.5 1.2 2.1 3.0];
+%   [sta,lags_s,n_used] = spike_triggered_average(lfp,spike_times,fs,0.2,0.3);
+%   plot(lags_s,sta); xlabel('Time from event (s)'); ylabel('Signal');
+%   % Spikes near recording edges are skipped. Shared stimulus drive remains.
+%
+% EXAMPLE 6 — SURROGATE TEST OF PAIRING
+%   rng(11);
+%   x = randn(80,1);
+%   y = x + 0.8*randn(80,1);
+%   paired_data = [x y];
+%   statfun = @(z) corr(z(:,1),z(:,2));
+%   shuffle_y = @(z) [z(:,1),z(randperm(size(z,1)),2)];
+%   result = surrogate_test(paired_data,statfun,shuffle_y,999,'right');
+%   % This tests the chosen pairing null for independent rows; it does not
+%   % control temporal dependence if the rows are ordered time samples.
+%
 % METHOD INDEX
 %
 % EVENT COUNTS, SPIKE FEATURES, AND SORTING
