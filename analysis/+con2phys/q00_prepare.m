@@ -1,4 +1,3 @@
-a00_startup
 %% Shared SCRIPT preparation for q01:q15; provide one raw recording in data.
 % Optional qcfg overrides persist. No data reload, clear, or figures.
 assert(exist('data','var')==1 && isstruct(data),'Provide one raw recording in data.');
