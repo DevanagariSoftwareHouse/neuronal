@@ -1,5 +1,7 @@
 # Spike-train counts, rates and correlograms (MATLAB)
 
+[Índice](README.md) · [Anterior](03_SPIKES.md) · [Próximo](05_SPECTRA_OSCILLATIONS.md)
+
 Sorted spikes enter this chapter as **timestamps in seconds**, one vector
 per unit, on the recording's time origin. The primitives turn them into
 counts on half-open bins, rates, interval distributions, correlograms,

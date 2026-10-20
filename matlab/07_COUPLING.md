@@ -1,5 +1,7 @@
 # Coupling, phase statistics and information (MATLAB)
 
+[Índice](README.md) · [Anterior](06_EVENT_ALIGNMENT.md) · [Próximo](08_POPULATION.md)
+
 The primitives in `path/` separate **spectral coupling between two
 signals**, **phase-based synchrony**, **circular statistics**,
 **spike-field relations**, **cross-frequency coupling**, and **information

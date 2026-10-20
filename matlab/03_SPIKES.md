@@ -1,5 +1,7 @@
 # Spike detection, waveforms and unit quality (MATLAB)
 
+[Índice](README.md) · [Anterior](02_PREPROCESSING.md) · [Próximo](04_SPIKE_TRAINS.md)
+
 The primitives in `path/` separate **candidate detection**, **waveform
 extraction**, **waveform description**, and **unit quality metrics**.
 Together they are the elements of a sorting pipeline, not a sorter: there is

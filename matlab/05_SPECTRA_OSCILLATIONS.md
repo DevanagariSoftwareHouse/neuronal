@@ -1,5 +1,7 @@
 # Spectra, oscillations and band-limited events (MATLAB)
 
+[Índice](README.md) · [Anterior](04_SPIKE_TRAINS.md) · [Próximo](06_EVENT_ALIGNMENT.md)
+
 The primitives in `path/` separate **spectral estimation**, **spectral
 parameterisation**, **time-frequency decomposition**, **cycle and episode
 description**, and **candidate event screening**. All inputs are finite

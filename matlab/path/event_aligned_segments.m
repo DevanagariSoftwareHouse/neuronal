@@ -4,7 +4,8 @@ function [segments, lags_s, info] = event_aligned_segments(signal, event_times_s
 %                                                  [PRE POST], ROWS)
 % SIGNAL is row x sample on the grid t = (k-1)/FS, k = 1,...,N: sparse
 % counts (see sparse_count_matrix), LFP channels, envelopes or phases.
-% A vector, row or column, is treated as one row.
+% A vector is one row unless SampleDim is explicitly supplied.
+% Explicit SampleDim also disambiguates multiple rows with one sample.
 % EVENTS are arbitrary timestamps in seconds relative to the same origin:
 % stimuli, behavior, phase crossings, threshold excursions, spikes.
 % ROWS are 1-based row indices, NOT necessarily original labels; [] or
@@ -39,8 +40,8 @@ parse(p, varargin{:});
 boundary = validatestring(p.Results.Boundary, {'nan','drop'});
 anchor = validatestring(p.Results.Anchor, {'containing','nearest'});
 sample_dim = double(p.Results.SampleDim);
-if isvector(signal)
-    % A vector has one row whatever its orientation.
+if isvector(signal) && any(strcmp(p.UsingDefaults, 'SampleDim'))
+    % Infer vector orientation only when the caller did not specify it.
     sample_dim = 1 + double(size(signal,1) == 1 || isscalar(signal));
 end
 n_samples = size(signal, sample_dim);

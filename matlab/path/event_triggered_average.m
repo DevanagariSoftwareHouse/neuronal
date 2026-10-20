@@ -11,13 +11,28 @@ function [average,lags_s,used] = event_triggered_average(signal,event_times,srat
 % Not corrected for shared trial drive or common stimulus locking.
 % Equivalent to the mean over EVENT_ALIGNED_SEGMENTS(..., 'Anchor',
 % 'nearest', 'Boundary', 'drop').
+% Accumulates one window at a time with O(number of lags) working memory.
 % See also event_aligned_segments, peri_event_histogram.
-x=double(signal(:)); t=double(event_times(:));
-assert(all(isfinite(x)) && all(isfinite(t)) && srate>0 && pre_s>=0 && post_s>=0);
-[segments,lags_s]=event_aligned_segments(x,t,srate,[-pre_s post_s],1, ...
-    'Anchor','nearest','Boundary','drop');
-lags_s=lags_s(:);
-used=size(segments,1);
-average=nan(numel(lags_s),1);
-if used>0, average=mean(segments,1).'; end
+validateattributes(signal, {'numeric'}, {'vector','real','finite','nonempty'});
+assert(isempty(event_times) || isvector(event_times), 'Expected event timestamps as a vector.');
+validateattributes(event_times, {'numeric'}, {'real','finite'});
+validateattributes(srate, {'numeric'}, {'scalar','real','finite','positive'});
+validateattributes(pre_s, {'numeric'}, {'scalar','real','finite','nonnegative'});
+validateattributes(post_s, {'numeric'}, {'scalar','real','finite','nonnegative'});
+x = double(signal(:));
+t = double(event_times(:));
+offsets = (-round(pre_s*srate):round(post_s*srate))';
+lags_s = offsets/double(srate);
+accumulator = zeros(numel(offsets),1);
+used = 0;
+% Accumulate one window at a time: no dense events-by-lags allocation.
+for k = 1:numel(t)
+    center = round(t(k)*double(srate)) + 1;
+    indices = center + offsets;
+    if indices(1) < 1 || indices(end) > numel(x), continue; end
+    accumulator = accumulator + x(indices);
+    used = used + 1;
+end
+average = nan(numel(offsets),1);
+if used > 0, average = accumulator/used; end
 end

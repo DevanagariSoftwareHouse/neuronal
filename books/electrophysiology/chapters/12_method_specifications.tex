@@ -331,7 +331,7 @@ The entries are maintained against the current source; these additional specific
 \methodentry{event_triggered_average.m}
 {$\frac1K\sum_kx[n_k+\ell]$ for $\ell\in[-B,A]$, $n_k=\operatorname{round}(t_kf_s)+1$, skipping incomplete windows; with spike times as events this is the spike-triggered average.}
 {\texttt{ARS-COUNT-001} (index conventions).}
-{Delegates to \path{event_aligned_segments} with the \emph{nearest}-sample anchor, whereas \path{spike_field_coherence} uses the \emph{containing} sample $\lfloor t f_s\rfloor+1$; the two differ by up to one sample. Common stimulus locking is not removed.}
+{Accumulates one complete window at a time using the \emph{nearest}-sample anchor, whereas \path{spike_field_coherence} uses the \emph{containing} sample $\lfloor t f_s\rfloor+1$; the two differ by up to one sample. Common stimulus locking is not removed.}
 
 \methodentry{spike_field_coherence.m}
 {Welch coherence between the LFP and a spike-count series binned at the LFP sampling rate.}
@@ -684,3 +684,22 @@ The entries are maintained against the current source; these additional specific
 {Definitional; no theorem needed.}
 {Apply the permutation consistently to the variable whose trial alignment is to be destroyed; repeated trial structure defines the null.}
 
+\methodentry{spike_raster_sparse.m}
+{Compatibility entry point for \path{sparse_count_matrix}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{event_aligned_raster.m}
+{Compatibility entry point for \path{event_aligned_segments}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{plot_event_raster.m}
+{Compatibility entry point for \path{plot_event_aligned}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{spike_triggered_average.m}
+{Compatibility entry point for \path{event_triggered_average}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}

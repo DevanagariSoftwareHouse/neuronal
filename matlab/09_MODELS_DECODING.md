@@ -1,5 +1,7 @@
 # Point-process models, decoding and validation folds (MATLAB)
 
+[Índice](README.md) · [Anterior](08_POPULATION.md) · [Próximo](10_SURROGATES.md)
+
 The primitives in `path/` separate **design matrices**, **Poisson
 regression of binned counts**, **coupled multi-unit models**, **held-out
 decoding**, and **fold construction**. They are fitted on explicit inputs:

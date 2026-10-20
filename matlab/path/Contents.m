@@ -221,3 +221,9 @@
 %
 % See also firing_rate, spike_counts_edges, welch_psd, bandpass_lfp,
 % analytic_phase, bootstrap_ci, phase_locking_value, event_aligned_segments.
+
+% Compatibility names (prefer the generic event API in new code)
+%   spike_raster_sparse - Compatibility wrapper; see sparse_count_matrix.
+%   event_aligned_raster - Compatibility wrapper; see event_aligned_segments.
+%   plot_event_raster - Compatibility wrapper; see plot_event_aligned.
+%   spike_triggered_average - Compatibility wrapper; see event_triggered_average.

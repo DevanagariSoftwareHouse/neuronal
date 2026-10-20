@@ -1,5 +1,7 @@
 # Neuronal raw storage: MATLAB BIN catalog v1
 
+[Índice](README.md) · [Anterior](00_CONVENTIONS.md) · [Próximo](02_PREPROCESSING.md)
+
 A first local backend for normalized electrophysiology datasets. It uses
 headerless little-endian .bin files and a persistent MATLAB catalog.mat.
 Cloud storage and NWB export are future work. This is the entry point of

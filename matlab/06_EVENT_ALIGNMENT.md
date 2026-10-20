@@ -1,5 +1,7 @@
 # Generic event-aligned analysis (MATLAB)
 
+[Índice](README.md) · [Anterior](05_SPECTRA_OSCILLATIONS.md) · [Próximo](07_COUPLING.md)
+
 The primitives in `path/` separate **event timestamp generation**, **signals
 on the sample grid**, **event-aligned extraction**, **summaries**, and
 **visualization**. Two kinds of input meet here and must not be confused:
@@ -51,8 +53,9 @@ stim_s = [data.behavior.trials.stim_start];
 
 % (a) Spike counts of one cluster: a raster and its PSTH.
 row = find(label_ids == 7, 1);
+assert(~isempty(row), 'Requested label is absent from this recording.');
 [R, lag_s, info] = event_aligned_segments(S, stim_s, srate, [-1 1], row);
-plot_event_aligned(R, lag_s);
+plot_event_aligned(R, lag_s, 'Scale','log1p');
 psth_hz = mean(R, 1, 'omitnan') * srate;
 
 % (b) Several LFP channels: channels x samples block, all rows.
@@ -75,8 +78,9 @@ correspondence with input events, and `info.rows` the selected rows.
 Values are copied unchanged: counts keep multiple events per bin, voltages
 keep their units, and the result is `double`. By default partial windows
 are retained, with unavailable samples set to `NaN` (rather than zero). Use
-`'Boundary','drop'` to discard incomplete windows. A vector signal is one
-row whatever its orientation. A sparse label x sample matrix stays sparse;
+`'Boundary','drop'` to discard incomplete windows. Without an explicit `SampleDim`, a vector signal is one
+row whatever its orientation. An explicit `SampleDim` takes precedence,
+including a channels x 1 block containing only one time sample. A sparse label x sample matrix stays sparse;
 only the requested rows' event x lag slices become dense, so for thousands
 of clusters loop over rows instead of requesting them all at once. Passing
 `m.Data.x` of a memory map reads the whole array: pass bounded blocks from
@@ -150,7 +154,9 @@ sta2 = mean(seg, 1).';
 `event_triggered_average` averages a finite vector around any events; with
 spike times and an LFP it is the spike-triggered average. It uses the
 **nearest** sample and drops incomplete windows; `used` counts the events
-retained, and the average is `NaN` when none remains. Keep the segments when
+retained, and the average is `NaN` when none remains. It accumulates one
+window at a time, so working memory does not grow as events x lags.
+Keep the segments when
 the spread across events matters. Shared stimulus drive and common trial
 locking are **not** removed: compare with shuffled or jittered spikes
 ([10_SURROGATES.md](10_SURROGATES.md)).
@@ -191,6 +197,83 @@ autocorrelation from timestamps:
 Avoid full-recording, unrestricted `xcorr` if only short lags matter
 ([04_SPIKE_TRAINS.md](04_SPIKE_TRAINS.md)).
 
+## 9. Cropped recordings and shared clocks
+
+An event timestamp and its aligned signal must use the same time origin.
+For a block starting at original sample `first_sample`, rebase timestamps:
+
+```matlab
+first_sample = 5001;
+block = neuronal_read(m, first_sample:first_sample+4999, 1:4);
+block_start_s = (first_sample-1)/srate;
+local_events_s = stim_s - block_start_s;
+[segments, lags_s, info] = event_aligned_segments( ...
+    block, local_events_s, srate, [-.2 .2], [], ...
+    'SampleDim',1, 'Boundary','drop');
+original_event_positions = info.event_indices;
+```
+
+This subtraction assumes synchronized clocks and no acquisition gaps. A
+sampling rate alone does not establish synchronization. With separate devices,
+first estimate the clock transformation from shared markers. For chunked
+processing include overlap sufficient for the window and filter support; assign
+each event to exactly one core chunk to avoid counting it twice.
+
+`info.valid_bins` marks whether the requested sample exists in the recording;
+it does not certify that the signal value is finite or artifact-free. Apply an
+artifact mask separately. NaN padding means unavailable data; zero counts mean
+an observed bin with no event. Retain the valid-event denominator at each lag.
+
+## 10. Summaries depend on the measured quantity
+
+| Aligned quantity | Summary | Units / interpretation |
+| --- | --- | --- |
+| Counts per grid bin | `mean(R,1,'omitnan') * srate` | Events/s; only for this bin width |
+| Voltage or envelope | `mean(V,1,'omitnan')` | Original signal units; no multiplication by sampling rate |
+| Wrapped phase | `angle(mean(exp(1i*P),1,'omitnan'))` | Circular mean in radians |
+| Unit phase vectors | `abs(mean(exp(1i*P),1,'omitnan'))` | Resultant length; descriptive phase concentration |
+
+Use an explicit `'Scale','linear'` with a meaningful `'ValueLabel'` when
+plotting continuous signals. Auto scale cannot distinguish integer-valued
+voltages from counts. A display transform must never be used as a rate estimate.
+For phase, the arithmetic mean of angles near -pi and pi is misleading;
+resultant length also needs a bias/dependence-aware null before inference.
+
+Aligning an envelope to its own detected maxima guarantees a central peak by
+construction. This is a useful detector diagnostic, but is not evidence of
+cross-signal coupling. Separate the detection and measurement questions and
+apply the same event-selection procedure to the null analysis when required.
+
+## 11. Events, trials and independent experimental units
+
+An extracted row is an **event**, not automatically an independent trial.
+Overlapping windows can reuse the same samples; multiple events can belong to
+one trial, session or animal. Preserve those identifiers alongside
+`info.event_indices` before any averaging or resampling.
+
+For a comparison between simultaneously recorded areas, extract both on the
+same events and use a common valid-event mask. Compute the paired difference
+within the experimental unit, then estimate uncertainty on those differences.
+Dropping boundary windows independently for each area can silently destroy the
+pairing. Across-animal conclusions require an animal-level estimand and a
+resampling design that respects the nested observations; more event rows do
+not create more independent animals. Continue with [surrogates](10_SURROGATES.md)
+for null hypotheses and [inference](11_INFERENCE.md) for uncertainty.
+
+## 12. Migration from spike-specific names
+
+| Existing name | Preferred generic name | Compatibility behavior |
+| --- | --- | --- |
+| `spike_raster_sparse` | `sparse_count_matrix` | Keeps `spikes_input`, `spikes_kept`, `spikes_discarded` |
+| `event_aligned_raster` | `event_aligned_segments` | One row, containing anchor, `info.cluster_row` |
+| `spike_triggered_average` | `event_triggered_average` | Nearest anchor, full windows, column-vector outputs |
+| `plot_event_raster` | `plot_event_aligned` | Explicit log1p display and spike-count colorbar |
+
+The old functions remain thin compatibility wrappers. Use the generic names
+in new code. This migration does not rename physiological operations such as
+spike sorting, refractory violations or waveform quality: their assumptions
+remain specific to spikes.
+
 ## Tests
 
 From the repository root:
@@ -206,5 +289,6 @@ recording boundaries, partial event windows, drop mode, non-grid
 timestamps, all-row extraction, dense channels x samples and samples x
 channels layouts, vector orientation, containing versus nearest anchors,
 the triggered average against an explicit loop, phase crossings, amplitude
-threshold excursions and interval centering. `plot_event_aligned` is not
+threshold excursions, interval centering, singleton sample layouts and
+compatibility metadata. `plot_event_aligned` is not
 exercised (no graphics in CI).

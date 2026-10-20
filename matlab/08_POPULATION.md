@@ -1,5 +1,7 @@
 # Population geometry, assemblies and dynamics (MATLAB)
 
+[Índice](README.md) · [Anterior](07_COUPLING.md) · [Próximo](09_MODELS_DECODING.md)
+
 The primitives in `path/` take a population as a matrix of **observations x
 units**: time bins x units for continuous activity, trials x units for
 trial responses, or a latent trajectory of time x dimensions. They separate

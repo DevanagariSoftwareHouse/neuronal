@@ -1,5 +1,7 @@
 # Conventions shared by every function in `path/` (MATLAB)
 
+[Índice](README.md) · [Próximo](01_STORAGE.md)
+
 This chapter is read first. It fixes the units, time origin, bin rules,
 array layouts, randomness and scope that the later chapters assume, so they
 do not repeat them. Each function's help text remains the authority for its

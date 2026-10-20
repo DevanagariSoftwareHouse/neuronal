@@ -1,5 +1,7 @@
 # Revisao manual: correcoes e execucao pendente
 
+[Índice](README.md) · [Anterior](11_INFERENCE.md)
+
 ## Correcoes desta rodada
 
 - `linear_discriminability`: `nb=size(b,1)`; regressao com grupos de tamanhos diferentes e covariancia calculada independentemente.
@@ -73,15 +75,14 @@ Cada uma das 131 funcoes de `path/` esta documentada em exatamente um
 capitulo. `EVENT_ALIGNMENT.md` virou `06_EVENT_ALIGNMENT.md` e deixou de
 supor que o sinal alinhado e uma contagem de spikes.
 
-Renomeacoes (sem aliases; chamadas externas, por exemplo em
-`paper_con2phys`, precisam ser atualizadas):
+Renomeacoes (com wrappers de compatibilidade para chamadas externas):
 
 | Antes | Depois | Mudanca |
 |---|---|---|
 | `spike_raster_sparse` | `sparse_count_matrix` | qualquer timestamp rotulado; campos `events_input/kept/discarded` |
 | `event_aligned_raster` | `event_aligned_segments` | qualquer sinal linha x amostra, denso ou esparso; varias linhas; `'Anchor'` (`containing`/`nearest`); `'SampleDim'` 1 ou 2 |
 | `plot_event_raster` | `plot_event_aligned` | `'Scale'` `auto`/`log1p`/`linear`, `'ValueLabel'`; aceita LFP |
-| `spike_triggered_average` | `event_triggered_average` | mesma conta; agora delega a `event_aligned_segments` |
+| `spike_triggered_average` | `event_triggered_average` | mesma conta; acumula uma janela por vez, sem matriz eventos x lags |
 
 `ripple_candidate_events` ganhou a coluna `peak_s` (maximo do envelope),
 acrescentada ao fim da tabela. `decode_trials`, `decoded_mi`,
@@ -105,3 +106,16 @@ Achados desta revisao (documentados nos capitulos; nao corrigidos no codigo):
   Monte Carlo, os folds de validacao e quase todo o bootstrap.
 
 MATLAB nao estava disponivel nesta sessao; nenhum teste foi executado.
+
+## Revisao complementar: compatibilidade e limites de memoria
+
+- Restaurados os quatro nomes anteriores como wrappers, incluindo os campos
+  `spikes_*` e `cluster_row` para os consumidores existentes.
+- `event_triggered_average` acumula janelas sem materializar a matriz completa
+  de eventos x lags e valida o contrato de sinal vetorial finito.
+- `event_aligned_segments` respeita `SampleDim` explicito mesmo quando ha
+  apenas uma amostra; a orientacao de vetores so e inferida na ausencia dele.
+- O capitulo 06 explica relogios, blocos recortados, medias circulares,
+  denominadores, selecao de eventos e a unidade experimental pareada.
+- Regressões MATLAB acrescentadas para aliases, metadados, uma unica amostra
+  multicanal e ausencia de janelas completas. Execucao MATLAB ainda pendente.

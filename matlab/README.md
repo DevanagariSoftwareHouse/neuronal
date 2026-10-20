@@ -12,8 +12,8 @@ e associa artigos a primitivas, limitações e métodos ainda não reproduzidos.
 
 A documentação segue a ordem dos dados: armazenar e ler, limpar, reduzir a
 spikes ou a sinais em banda, alinhar a eventos, relacionar, modelar e só
-então testar. Cada uma das 131 funções de [path](path) aparece em
-exatamente um capítulo.
+então testar. As funções de [path](path) são apresentadas por família; os quatro aliases
+de compatibilidade estão documentados no capítulo de alinhamento.
 
 | # | Capítulo | Funções |
 |---|---|---|
@@ -38,6 +38,8 @@ esparsas, LFP, envelope, fase) pode ser recortado em torno dele. As antigas
 `spike_raster_sparse`, `event_aligned_raster`, `plot_event_raster` e
 `spike_triggered_average` passaram a `sparse_count_matrix`,
 `event_aligned_segments`, `plot_event_aligned` e `event_triggered_average`.
+Os nomes antigos continuam disponíveis como wrappers que preservam os
+metadados e as convenções de alinhamento existentes.
 
 ## Organização
 

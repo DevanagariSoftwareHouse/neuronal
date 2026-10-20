@@ -1,5 +1,7 @@
 # Statistical inference methods — initial drafts
 
+[Índice](README.md) · [Anterior](10_SURROGATES.md) · [Próximo](12_REVIEW.md)
+
 All methods in `matlab/path` are preliminary. **No MATLAB execution or
 Type-I error calibration has been performed in this commit.** Two random
 conventions coexist, and both matter for reproducibility:

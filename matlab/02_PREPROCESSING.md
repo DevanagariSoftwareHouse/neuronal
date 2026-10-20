@@ -1,5 +1,7 @@
 # Referencing, filtering and field geometry (MATLAB)
 
+[Índice](README.md) · [Anterior](01_STORAGE.md) · [Próximo](03_SPIKES.md)
+
 Six primitives in `path/` act on sampled voltages **before** any spectral,
 event or coupling analysis: re-referencing, zero-phase band limitation,
 laminar second differences, and a supplied linear lead field in both

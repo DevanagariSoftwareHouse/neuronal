@@ -1,5 +1,7 @@
 # Surrogate methods (draft implementations)
 
+[Índice](README.md) · [Anterior](09_MODELS_DECODING.md) · [Próximo](11_INFERENCE.md)
+
 These functions are **not yet MATLAB-tested or statistically calibrated**.
 Choose a generator based on its null hypothesis, not on the statistic alone.
 Use `rng(seed)` externally for reproducibility: every generator below draws

@@ -54,9 +54,9 @@ assert(isequaln(L(:,:,2),[101 102 103; 119 120 NaN]));
 [Lt,~,it] = event_aligned_segments(lfp.',[.1 1.9],fs,[-.1 .1],[],'SampleDim',1);
 assert(isequaln(Lt,L) && it.sample_dim==1);
 
-% A vector is one row in either orientation, whatever SampleDim says.
+% A vector is one row in either orientation when SampleDim is omitted.
 [Lc,~,~] = event_aligned_segments(lfp(1,:).',[.1 1.9],fs,[-.1 .1]);
-[Lr,~,~] = event_aligned_segments(lfp(1,:),[.1 1.9],fs,[-.1 .1],1,'SampleDim',1);
+[Lr,~,~] = event_aligned_segments(lfp(1,:),[.1 1.9],fs,[-.1 .1],1);
 assert(isequaln(Lc,L(:,:,1)) && isequaln(Lr,L(:,:,1)));
 
 % Containing versus nearest anchors differ by at most one sample.
@@ -112,3 +112,27 @@ ripple_mid_s = (ripple_start_s+ripple_stop_s)/2;
 assert(rr==2);
 
 disp('event alignment regression checks completed')
+
+%% Singleton sample axes must respect an explicit layout.
+[one_sample,~,one_info] = event_aligned_segments([4;9],0,fs,[0 0],[], 'SampleDim',2);
+assert(isequal(size(one_sample),[1 1 2]));
+assert(isequal(reshape(one_sample,1,[]),[4 9]) && one_info.sample_dim==2);
+[one_sample_t,~,~] = event_aligned_segments([4 9],0,fs,[0 0],[], 'SampleDim',1);
+assert(isequal(one_sample,one_sample_t));
+
+%% Existing entry points preserve metadata, shapes and anchors.
+[old_s,old_labels,old_meta] = spike_raster_sparse(ts,ids,fs,20);
+assert(isequal(old_s,S) && isequal(old_labels,labels));
+assert(old_meta.spikes_input==numel(ts) && old_meta.spikes_kept==7);
+assert(old_meta.spikes_discarded==3);
+[old_r,old_lags,old_info] = event_aligned_raster(S,[0 .1 1.9],fs,[-.1 .1],1);
+assert(isequaln(old_r,expected) && isequal(old_lags,lags));
+assert(old_info.cluster_row==1 && isequal(old_info.event_indices,(1:3)'));
+[old_single,~,~] = event_aligned_raster([4;9],0,fs,[0 0],2);
+assert(old_single==9);
+[old_eta,old_eta_lags,old_used] = spike_triggered_average(x,ev,fs_lfp,.2,.3);
+assert(isequal(old_eta,eta) && isequal(old_eta_lags,eta_lags) && old_used==used);
+
+% An average with no complete window is NaN, not a zero response.
+[no_avg,~,no_used] = event_triggered_average(x,[-10 10],fs_lfp,.2,.3);
+assert(no_used==0 && all(isnan(no_avg)));
