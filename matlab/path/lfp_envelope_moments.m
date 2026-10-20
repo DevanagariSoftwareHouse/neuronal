@@ -35,10 +35,21 @@ function result = lfp_envelope_moments(lfp,fs,varargin)
 %   Requires Signal Processing Toolbox (BUTTER, ZP2SOS, FILTFILT, HILBERT).
 %
 %   Example (after a01_probing and a00_startup):
-%     moments = lfp_envelope_moments(data.lfp_1,data.srate);
+%     result = lfp_envelope_moments(lfp, fs);
 %     plot(moments.time_seconds,moments.mean(:,1,1));
 %
 %   MATLAB R2019a+.
+%
+%   SIGNATURE DESCRIPTION
+%     lfp — the lfp value; expected shape, units, and constraints are stated in the notes above.
+%     fs — sampling rate in samples per second (Hz).
+%     varargin — optional name/value pairs described in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = lfp_envelope_moments(lfp, fs, varargin);
+%
     validateattributes(lfp,{'numeric'},{'real','2d','nonempty'},mfilename,'lfp',1);
     validateattributes(fs,{'numeric'},{'scalar','real','finite','positive'},mfilename,'fs',2);
     fs = double(fs);

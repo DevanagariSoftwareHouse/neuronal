@@ -1,6 +1,21 @@
 function [frequency,coherence] = multitaper_coherence(a,b,srate,segment_seconds,time_bandwidth,tapers)
 %MULTITAPER_COHERENCE Magnitude-squared coherency from averaged DPSS spectra.
 % Related to Chronux/Pesaran et al. (2018); no jackknife or trial statistics.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%     segment_seconds — the segment seconds value; expected shape, units, and constraints are stated in the notes above.
+%     time_bandwidth — the time bandwidth value; expected shape, units, and constraints are stated in the notes above.
+%     tapers — the tapers value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     frequency — frequency axis in Hz.
+%     coherence — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [frequency, coherence] = multitaper_coherence(a, b, srate, segment_seconds, time_bandwidth, tapers);
+%
 if nargin<4 || isempty(segment_seconds), segment_seconds=4; end
 if nargin<5 || isempty(time_bandwidth), time_bandwidth=3; end
 if nargin<6 || isempty(tapers), tapers=floor(2*time_bandwidth-1); end

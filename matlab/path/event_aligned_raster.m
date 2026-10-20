@@ -11,6 +11,22 @@ function [counts, lags_s, info] = event_aligned_raster(rastergram, event_times_s
 % missing samples with NaN; 'drop' removes events lacking a full window.
 % COUNTS has events x lags layout, preserving multiple spikes per bin.
 % INFO.event_indices references positions in the supplied EVENTS vector.
+%
+%   SIGNATURE DESCRIPTION
+%     rastergram — the rastergram value; expected shape, units, and constraints are stated in the notes above.
+%     event_times_s — event timestamps in seconds relative to the recording origin.
+%     srate — sampling rate in Hz.
+%     window_s — window duration in seconds.
+%     cluster_row — the cluster row value; expected shape, units, and constraints are stated in the notes above.
+%     varargin — optional name/value pairs described in the notes above.
+%   RETURNS
+%     counts — event/count values in the bins or trials described above.
+%     lags_s — the returned value; see the summary above for meaning and units.
+%     info — metadata and diagnostics structure.
+%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [counts, lags_s, info] = event_aligned_raster(rastergram, event_times_s, srate, window_s, cluster_row);
+%
 validateattributes(rastergram, {'numeric'}, {'2d','real'});
 assert(isempty(event_times_s) || isvector(event_times_s), 'Expected a vector or empty input.');
 validateattributes(event_times_s, {'numeric'}, {'real','finite'});

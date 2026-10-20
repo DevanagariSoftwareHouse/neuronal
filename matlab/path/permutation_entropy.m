@@ -1,6 +1,19 @@
 function [entropy_value,counts,patterns] = permutation_entropy(signal,order,delay)
 %PERMUTATION_ENTROPY Normalized ordinal-pattern entropy (0 to 1).
 % Ties are excluded. Akin to con2phys q15; window selection is caller's job.
+%
+%   SIGNATURE DESCRIPTION
+%     signal — sampled signal; units and sample axis are given in the notes above.
+%     order — the order value; expected shape, units, and constraints are stated in the notes above.
+%     delay — the delay value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     entropy_value — the returned value; see the summary above for meaning and units.
+%     counts — event/count values in the bins or trials described above.
+%     patterns — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [entropy_value, counts, patterns] = permutation_entropy(signal, order, delay);
+%
 if nargin<2 || isempty(order), order=3; end
 if nargin<3 || isempty(delay), delay=1; end
 x=double(signal(:)); assert(all(isfinite(x)),'Signal must be finite');

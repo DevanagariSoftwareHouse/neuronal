@@ -6,6 +6,20 @@ function result = bosc_detect(signal,srate,frequencies,probability,minimum_cycle
 % x must be a finite real vector; frequencies in Hz; srate in Hz.
 % Power threshold uses exponential (chi-square 2 df) marginal model.
 % Bound the input by processing short time blocks; excludes wavelet edges.
+%
+%   SIGNATURE DESCRIPTION
+%     signal — sampled signal; units and sample axis are given in the notes above.
+%     srate — sampling rate in Hz.
+%     frequencies — the frequencies value; expected shape, units, and constraints are stated in the notes above.
+%     probability — the probability value; expected shape, units, and constraints are stated in the notes above.
+%     minimum_cycles — the minimum cycles value; expected shape, units, and constraints are stated in the notes above.
+%     wavelet_cycles — the wavelet cycles value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = bosc_detect(signal, srate, frequencies, probability, minimum_cycles, wavelet_cycles);
+%
 if nargin<4 || isempty(probability), probability=.95; end
 if nargin<5 || isempty(minimum_cycles), minimum_cycles=3; end
 if nargin<6 || isempty(wavelet_cycles), wavelet_cycles=6; end

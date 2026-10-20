@@ -1,6 +1,18 @@
 function result = paired_signflip_test(before,after,draws,seed)
 %PAIRED_SIGNFLIP_TEST Two-sided paired sign-flip randomization test.
 % Maris & Oostenveld (2007) motivate permutation inference; NOT cluster-based.
+%
+%   SIGNATURE DESCRIPTION
+%     before — the before value; expected shape, units, and constraints are stated in the notes above.
+%     after — the after value; expected shape, units, and constraints are stated in the notes above.
+%     draws — the draws value; expected shape, units, and constraints are stated in the notes above.
+%     seed — random-number generator seed.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = paired_signflip_test(before, after, draws, seed);
+%
 if nargin<3 || isempty(draws), draws=2000; end
 if nargin<4 || isempty(seed), seed=42; end
 a=double(before(:)); b=double(after(:));

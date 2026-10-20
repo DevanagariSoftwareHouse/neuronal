@@ -1,6 +1,22 @@
 function [coherence,frequency,time] = wavelet_coherence(a,b,srate,frequencies,cycles,smoothing_seconds)
 %WAVELET_COHERENCE Exploratory time-smoothed Morlet coherence.
 % No cross-scale smoothing; exclude edge samples before inference.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%     frequencies — the frequencies value; expected shape, units, and constraints are stated in the notes above.
+%     cycles — the cycles value; expected shape, units, and constraints are stated in the notes above.
+%     smoothing_seconds — the smoothing seconds value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     coherence — the returned value; see the summary above for meaning and units.
+%     frequency — frequency axis in Hz.
+%     time — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [coherence, frequency, time] = wavelet_coherence(a, b, srate, frequencies, cycles, smoothing_seconds);
+%
 if nargin<5 || isempty(cycles), cycles=6; end
 if nargin<6 || isempty(smoothing_seconds), smoothing_seconds=.5; end
 x=double(a(:)); y=double(b(:)); frequency=double(frequencies(:));

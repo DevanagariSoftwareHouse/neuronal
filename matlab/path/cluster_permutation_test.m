@@ -3,6 +3,18 @@ function result = cluster_permutation_test(a,b,threshold,B)
 % Independent units in rows, ordered samples/frequencies in columns.
 % Uses absolute Welch-like t statistic and max cluster mass.
 % A significant cluster does NOT localize the effect to every sample.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     threshold — the threshold value; expected shape, units, and constraints are stated in the notes above.
+%     B — number of bootstrap/permutation/surrogate draws.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = cluster_permutation_test(a, b, threshold, B);
+%
 if nargin<3||isempty(threshold), threshold=2; end
 if nargin<4||isempty(B), B=999; end
 assert(isnumeric(a)&&isnumeric(b)&&size(a,2)==size(b,2));

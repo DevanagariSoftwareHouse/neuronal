@@ -2,6 +2,18 @@ function [band,critical] = simultaneous_confidence_band(theta,boot,level)
 %SIMULTANEOUS_CONFIDENCE_BAND Draft max-t bootstrap band.
 % theta: 1 x frequencies; boot: B x frequencies from JOINT resampling.
 % Assumes centered bootstrap distribution approximates estimation errors.
+%
+%   SIGNATURE DESCRIPTION
+%     theta — the theta value; expected shape, units, and constraints are stated in the notes above.
+%     boot — the boot value; expected shape, units, and constraints are stated in the notes above.
+%     level — confidence level between 0 and 1.
+%   RETURNS
+%     band — the returned value; see the summary above for meaning and units.
+%     critical — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [band, critical] = simultaneous_confidence_band(theta, boot, level);
+%
 if nargin<3||isempty(level), level=.95; end
 theta=reshape(theta,1,[]);
 assert(isnumeric(boot)&&ismatrix(boot)&&size(boot,2)==numel(theta));

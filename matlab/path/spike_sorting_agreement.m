@@ -1,6 +1,17 @@
 function out = spike_sorting_agreement(reference,estimated,tolerance_seconds)
 %SPIKE_SORTING_AGREEMENT One-to-one temporal event matching for a unit.
 % SpikeForest/SpikeInterface benchmark primitive, not multiunit assignment.
+%
+%   SIGNATURE DESCRIPTION
+%     reference — the reference value; expected shape, units, and constraints are stated in the notes above.
+%     estimated — the estimated value; expected shape, units, and constraints are stated in the notes above.
+%     tolerance_seconds — the tolerance seconds value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     out — the returned out; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     out = spike_sorting_agreement(reference, estimated, tolerance_seconds);
+%
 if nargin<3 || isempty(tolerance_seconds), tolerance_seconds=.0005; end
 a=sort(double(reference(:))); b=sort(double(estimated(:)));
 assert(all(isfinite(a)) && all(isfinite(b)) && ...

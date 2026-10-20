@@ -1,6 +1,15 @@
 function entropy_value = spectral_entropy(power)
 %SPECTRAL_ENTROPY Shannon entropy of a nonnegative PSD, normalized 0..1.
 % Requires comparable frequency bins; does not measure physiological complexity.
+%
+%   SIGNATURE DESCRIPTION
+%     power — the power value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     entropy_value — the returned entropy_value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     entropy_value = spectral_entropy(power);
+%
 p=double(power(:));
 assert(all(isfinite(p)) && all(p>=0) && numel(p)>=2, ...
     'PSD must have at least two finite nonnegative bins');

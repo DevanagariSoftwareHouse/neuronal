@@ -2,6 +2,20 @@ function [counts,centers,edges] = spike_bin_counts(spike_times,start_s,stop_s,bi
 %SPIKE_BIN_COUNTS Count events in half-open [start,stop) bins.
 % Truccolo et al. (2005): discrete count representation for point-process GLMs.
 % Empty trains are valid; nonfinite timestamps are discarded by spike_counts_edges.
+%
+%   SIGNATURE DESCRIPTION
+%     spike_times — spike/event timestamps in seconds.
+%     start_s — start of the half-open analysis interval, in seconds.
+%     stop_s — end of the half-open analysis interval, in seconds.
+%     bin_s — bin width in seconds.
+%   RETURNS
+%     counts — event/count values in the bins or trials described above.
+%     centers — the returned value; see the summary above for meaning and units.
+%     edges — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [counts, centers, edges] = spike_bin_counts(spike_times, start_s, stop_s, bin_s);
+%
 validateattributes(spike_times,{'numeric'},{'real'});
 assert(isempty(spike_times) || isvector(spike_times));
 validateattributes(start_s,{'numeric'},{'scalar','real','finite'});

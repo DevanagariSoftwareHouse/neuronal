@@ -2,6 +2,18 @@ function model = tensor_cp_als(tensor,rank,iterations,ridge)
 %TENSOR_CP_ALS CANDECOMP/PARAFAC ALS for neuron x time x trial tensor.
 % Williams et al. (2018), doi:10.1016/j.neuron.2018.05.015.
 % Elementary CP algorithm; no TCA fitting constraints or rank selection.
+%
+%   SIGNATURE DESCRIPTION
+%     tensor — input tensor with axes specified in the function summary.
+%     rank — the rank value; expected shape, units, and constraints are stated in the notes above.
+%     iterations — the iterations value; expected shape, units, and constraints are stated in the notes above.
+%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = tensor_cp_als(tensor, rank, iterations, ridge);
+%
 if nargin<3 || isempty(iterations), iterations=40; end
 if nargin<4 || isempty(ridge), ridge=1e-7; end
 x=double(tensor); dims=size(x);

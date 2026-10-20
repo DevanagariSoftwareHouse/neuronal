@@ -2,6 +2,16 @@ function model = jpca_dynamics(trajectory,dt)
 %JPCA_DYNAMICS Skew-symmetric least-squares rotational dynamics.
 % Churchland et al. (2012), doi:10.1038/nature11129.
 % Pre-smoothed, aligned latent trajectory (time x dimension), not full jPCA.
+%
+%   SIGNATURE DESCRIPTION
+%     trajectory — the trajectory value; expected shape, units, and constraints are stated in the notes above.
+%     dt — the dt value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = jpca_dynamics(trajectory, dt);
+%
 x=double(trajectory); [n,k]=size(x);
 assert(n>=5 && k>=2 && k<=10 && all(isfinite(x(:))) && dt>0);
 xdot=(x(3:end,:)-x(1:end-2,:))/(2*dt);

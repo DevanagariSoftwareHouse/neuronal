@@ -4,6 +4,17 @@ function info = neuronal_write_binary(x, filename, varargin)
 %   For channels x samples use SampleAxis=2: writes each complete channel
 %   contiguously, yielding [samples x channels] on disk without TRANSPOSE.
 %   A temporary file is validated and atomically renamed on the same volume.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     filename — the filename value; expected shape, units, and constraints are stated in the notes above.
+%     varargin — optional name/value pairs described in the notes above.
+%   RETURNS
+%     info — metadata and diagnostics structure.
+%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
+%     % Prepare the input variables above with the documented dimensions and units.
+%     info = neuronal_write_binary(x, filename);
+%
     validateattributes(x,{'numeric'},{'real','2d','nonempty'},mfilename,'x');
     supported = {'double','single','int8','uint8','int16','uint16', ...
                  'int32','uint32','int64','uint64'};

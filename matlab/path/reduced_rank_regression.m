@@ -2,6 +2,18 @@ function model = reduced_rank_regression(source,target,rank,ridge)
 %REDUCED_RANK_REGRESSION Low-rank multivariate ridge prediction.
 % Semedo et al. (2019), doi:10.1016/j.neuron.2019.01.026.
 % Observations x units; training only. Rank and ridge require CV selection.
+%
+%   SIGNATURE DESCRIPTION
+%     source — the source value; expected shape, units, and constraints are stated in the notes above.
+%     target — the target value; expected shape, units, and constraints are stated in the notes above.
+%     rank — the rank value; expected shape, units, and constraints are stated in the notes above.
+%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = reduced_rank_regression(source, target, rank, ridge);
+%
 if nargin<4 || isempty(ridge), ridge=1e-6; end
 x=double(source); y=double(target);
 [n,p]=size(x); [ny,q]=size(y);

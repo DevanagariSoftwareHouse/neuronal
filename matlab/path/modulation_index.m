@@ -2,6 +2,19 @@ function [mi,amplitude_by_phase,edges] = modulation_index(phase,amplitude,nbins)
 %MODULATION_INDEX Tort et al. (2010) phase-amplitude modulation index.
 % Inputs are low-frequency phase (rad) and high-frequency envelope.
 % This is descriptive: use surrogates and control waveform non-sinusoidality.
+%
+%   SIGNATURE DESCRIPTION
+%     phase — phase values in radians.
+%     amplitude — amplitude/envelope values in the original signal units.
+%     nbins — the nbins value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     mi — the returned value; see the summary above for meaning and units.
+%     amplitude_by_phase — the returned value; see the summary above for meaning and units.
+%     edges — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [mi, amplitude_by_phase, edges] = modulation_index(phase, amplitude, nbins);
+%
 if nargin<3 || isempty(nbins), nbins=18; end
 phase=double(phase(:)); amplitude=double(amplitude(:));
 assert(numel(phase)==numel(amplitude),'Phase and amplitude must match');

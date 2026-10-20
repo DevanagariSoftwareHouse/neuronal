@@ -3,6 +3,19 @@ function catalog = neuronal_register(catalogPath, alias, digestPath, entries, va
 %   Only this single-writer function updates the catalog. Digest workers
 %   produce files and entries; they must not write catalog.mat concurrently.
 %   'Replace',true replaces an existing dataset alias (not other datasets).
+%
+%   SIGNATURE DESCRIPTION
+%     catalogPath — the catalog path value; expected shape, units, and constraints are stated in the notes above.
+%     alias — the alias value; expected shape, units, and constraints are stated in the notes above.
+%     digestPath — the digest path value; expected shape, units, and constraints are stated in the notes above.
+%     entries — the entries value; expected shape, units, and constraints are stated in the notes above.
+%     varargin — optional name/value pairs described in the notes above.
+%   RETURNS
+%     catalog — the returned catalog; see the summary above for meaning and units.
+%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
+%     % Prepare the input variables above with the documented dimensions and units.
+%     catalog = neuronal_register(catalogPath, alias, digestPath, entries);
+%
     p = inputParser;
     addParameter(p,'Replace',false,@(x) islogical(x)&&isscalar(x));
     addParameter(p,'Root',[],@(x) isempty(x)||ischar(x)||isstring(x));

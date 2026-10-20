@@ -1,6 +1,18 @@
 function peaks = spectral_peak_candidates(frequency,power,width_hz,prominence_db)
 %SPECTRAL_PEAK_CANDIDATES Find local excess above a median spectral baseline.
 % Heuristic complement to Donoghue et al. (2020); NOT aperiodic peak fitting.
+%
+%   SIGNATURE DESCRIPTION
+%     frequency — frequency values in Hz.
+%     power — the power value; expected shape, units, and constraints are stated in the notes above.
+%     width_hz — the width hz value; expected shape, units, and constraints are stated in the notes above.
+%     prominence_db — the prominence db value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     peaks — the returned peaks; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     peaks = spectral_peak_candidates(frequency, power, width_hz, prominence_db);
+%
 if nargin<3 || isempty(width_hz), width_hz=10; end
 if nargin<4 || isempty(prominence_db), prominence_db=3; end
 f=double(frequency(:)); p=double(power(:));

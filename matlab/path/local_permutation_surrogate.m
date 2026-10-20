@@ -3,6 +3,17 @@ function xp = local_permutation_surrogate(x,conditioning,k)
 % x rows correspond to observations; conditioning rows to matching states.
 % Heuristic neighbor-restricted permutation, NOT an exact conditional null.
 % Check calibration before TE inference (Shorten et al., 2020).
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     conditioning — the conditioning value; expected shape, units, and constraints are stated in the notes above.
+%     k — the k value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     xp — the returned xp; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     xp = local_permutation_surrogate(x, conditioning, k);
+%
 assert(isnumeric(x)&&isnumeric(conditioning)&&ismatrix(x)&&ismatrix(conditioning));
 n=size(x,1); assert(size(conditioning,1)==n&&n>=3);
 assert(all(isfinite(x(:)))&&all(isfinite(conditioning(:))));

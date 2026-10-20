@@ -2,6 +2,21 @@ function [frequency,fractal_power,oscillatory_power,total_power] = irasa_decompo
 %IRASA_DECOMPOSITION Exploratory irregular-resampling autospectral analysis.
 % Wen & Liu (2016). Median geometric mean estimates fractal spectrum.
 % This simplified whole-record implementation omits edge/bias diagnostics.
+%
+%   SIGNATURE DESCRIPTION
+%     signal — sampled signal; units and sample axis are given in the notes above.
+%     srate — sampling rate in Hz.
+%     window_seconds — window duration in seconds.
+%     resampling_factors — the resampling factors value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     frequency — frequency axis in Hz.
+%     fractal_power — the returned value; see the summary above for meaning and units.
+%     oscillatory_power — the returned value; see the summary above for meaning and units.
+%     total_power — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [frequency, fractal_power, oscillatory_power, total_power] = irasa_decomposition(signal, srate, window_seconds, resampling_factors);
+%
 if nargin<3 || isempty(window_seconds), window_seconds=4; end
 if nargin<4 || isempty(resampling_factors), resampling_factors=1.1:.1:1.9; end
 x=double(signal(:));

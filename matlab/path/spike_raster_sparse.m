@@ -6,6 +6,20 @@ function [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, sp
 % Multiple spikes in the same bin and cluster are SUMMED (not binarized).
 % Nonfinite and out-of-recording spike times are discarded. Cluster labels
 % remain in sorted order, including clusters whose spikes were discarded.
+%
+%   SIGNATURE DESCRIPTION
+%     spike_times_s — spike/event timestamps in seconds relative to the recording origin.
+%     spike_clusters — the spike clusters value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%     n_samples — the n samples value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     rastergram — the returned value; see the summary above for meaning and units.
+%     cluster_ids — the returned value; see the summary above for meaning and units.
+%     info — metadata and diagnostics structure.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, spike_clusters, srate, n_samples);
+%
 assert(isempty(spike_times_s) || isvector(spike_times_s), 'Expected a vector or empty input.');
 validateattributes(spike_times_s, {'numeric'}, {'real'});
 assert(isempty(spike_clusters) || isvector(spike_clusters), 'Expected a vector or empty input.');

@@ -1,6 +1,19 @@
 function [frequency, coherence] = coherence_spectrum(a,b,srate,window_seconds)
 %COHERENCE_SPECTRUM Welch magnitude-squared coherence, 0..1.
 % Bastos & Schoffelen (2016): coherence is not directed connectivity.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%     window_seconds — window duration in seconds.
+%   RETURNS
+%     frequency — frequency axis in Hz.
+%     coherence — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [frequency, coherence] = coherence_spectrum(a, b, srate, window_seconds);
+%
 if nargin<4 || isempty(window_seconds), window_seconds=4; end
 x=double(a(:)); y=double(b(:));
 assert(numel(x)==numel(y) && all(isfinite(x)) && all(isfinite(y)), ...

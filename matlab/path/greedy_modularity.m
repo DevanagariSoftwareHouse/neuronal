@@ -1,4 +1,13 @@
 function best=greedy_modularity(w)
+%
+%   SIGNATURE DESCRIPTION
+%     w — the w value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     best — the returned best; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     best = greedy_modularity(w);
+%
     s=sum(w(:)); best=nan; if s<=0, return; end
     k=sum(w,2); b=w-k*k'/s; group=1:size(w,1);
     best=sum(diag(b))/s;

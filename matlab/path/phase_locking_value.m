@@ -1,6 +1,16 @@
 function value = phase_locking_value(phase_a,phase_b)
 %PHASE_LOCKING_VALUE Resultant magnitude of phase differences, [0,1].
 % Lachaux et al. (1999). Does not remove common-reference effects.
+%
+%   SIGNATURE DESCRIPTION
+%     phase_a — the phase a value; expected shape, units, and constraints are stated in the notes above.
+%     phase_b — the phase b value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     value — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     value = phase_locking_value(phase_a, phase_b);
+%
 a=double(phase_a(:)); b=double(phase_b(:));
 assert(numel(a)==numel(b),'Phase vectors must match');
 valid=isfinite(a)&isfinite(b);

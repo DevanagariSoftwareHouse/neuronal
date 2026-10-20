@@ -2,6 +2,16 @@ function cycles = cycle_by_cycle(filtered,srate)
 %CYCLE_BY_CYCLE Describe individual cycles from a prefiltered oscillation.
 % Cole & Voytek (2019), simplified cycle descriptors only.
 % This does NOT reproduce the burst detection or quality criteria in bycycle.
+%
+%   SIGNATURE DESCRIPTION
+%     filtered — the filtered value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%   RETURNS
+%     cycles — the returned cycles; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     cycles = cycle_by_cycle(filtered, srate);
+%
 validateattributes(filtered,{'numeric'},{'vector','real','finite'});
 assert(srate>0,'srate must be positive');
 x=double(filtered(:));

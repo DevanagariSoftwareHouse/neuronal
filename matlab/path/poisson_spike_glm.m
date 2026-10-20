@@ -2,6 +2,19 @@ function model = poisson_spike_glm(design,counts,bin_seconds,ridge,max_iteration
 %POISSON_SPIKE_GLM Binned log-link point-process approximation by IRLS.
 % Truccolo et al. (2005). Columns are chosen covariates/spike history.
 % Does not correct for latent shared drive, refractory effects or overdispersion.
+%
+%   SIGNATURE DESCRIPTION
+%     design — the design value; expected shape, units, and constraints are stated in the notes above.
+%     counts — counts or observations, with dimensions described above.
+%     bin_seconds — the bin seconds value; expected shape, units, and constraints are stated in the notes above.
+%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
+%     max_iterations — the max iterations value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = poisson_spike_glm(design, counts, bin_seconds, ridge, max_iterations);
+%
 if nargin<4 || isempty(ridge), ridge=1e-4; end
 if nargin<5 || isempty(max_iterations), max_iterations=60; end
 x=double(design); y=double(counts(:)); n=size(x,1);

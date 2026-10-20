@@ -1,6 +1,16 @@
 function info = neuronal_validate_file(descriptor, root)
 %NEURONAL_VALIDATE_FILE Check raw binary schema, byte length, and host endian.
 %   This validates storage, not equivalence to the original experiment.
+%
+%   SIGNATURE DESCRIPTION
+%     descriptor — catalog file descriptor or dataset record.
+%     root — project/data root directory.
+%   RETURNS
+%     info — metadata and diagnostics structure.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     info = neuronal_validate_file(descriptor, root);
+%
     if nargin < 2, root = []; end
     filename = neuronal_file_path(descriptor,root);
     assert(isfile(filename),'neuronal:storage:Missing','Missing %s',filename);

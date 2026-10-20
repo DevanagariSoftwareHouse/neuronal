@@ -1,6 +1,19 @@
 function [frequency, power] = multitaper_psd(signal, srate, time_bandwidth, tapers)
 %MULTITAPER_PSD Thomson multitaper PSD from orthogonal DPSS tapers.
 % Mitra & Pesaran (1999); Bokil et al. (2010). No adaptive weighting here.
+%
+%   SIGNATURE DESCRIPTION
+%     signal — sampled signal; units and sample axis are given in the notes above.
+%     srate — sampling rate in Hz.
+%     time_bandwidth — the time bandwidth value; expected shape, units, and constraints are stated in the notes above.
+%     tapers — the tapers value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     frequency — frequency axis in Hz.
+%     power — power spectral density in signal-units squared per Hz.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [frequency, power] = multitaper_psd(signal, srate, time_bandwidth, tapers);
+%
 if nargin<3 || isempty(time_bandwidth), time_bandwidth=3; end
 if nargin<4 || isempty(tapers), tapers=floor(2*time_bandwidth-1); end
 validateattributes(signal,{'numeric'},{'vector','real','finite','nonempty'});

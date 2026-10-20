@@ -1,6 +1,18 @@
 function scaling = population_dimension_scaling(activity,unit_counts,repetitions,seed)
 %POPULATION_DIMENSION_SCALING Participation ratio for sampled units.
 % Williamson et al. (2016), doi:10.1371/journal.pcbi.1005141.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     unit_counts — the unit counts value; expected shape, units, and constraints are stated in the notes above.
+%     repetitions — the repetitions value; expected shape, units, and constraints are stated in the notes above.
+%     seed — random-number generator seed.
+%   RETURNS
+%     scaling — the returned scaling; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     scaling = population_dimension_scaling(activity, unit_counts, repetitions, seed);
+%
 if nargin<3 || isempty(repetitions), repetitions=25; end
 if nargin<4 || isempty(seed), seed=42; end
 x=double(activity); [n,p]=size(x);

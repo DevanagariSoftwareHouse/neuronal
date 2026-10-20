@@ -1,6 +1,22 @@
 function [ci,theta,boot] = bootstrap_ci(x,statfun,B,level,method,seed)
 %BOOTSTRAP_CI Draft IID confidence intervals: percentile, basic, BCa.
 % Observations are rows. Do not use IID resampling for correlated bins.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     statfun — function handle that computes the requested statistic.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     level — confidence level between 0 and 1.
+%     method — the method value; expected shape, units, and constraints are stated in the notes above.
+%     seed — random-number generator seed.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%     theta — the returned value; see the summary above for meaning and units.
+%     boot — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [ci, theta, boot] = bootstrap_ci(x, statfun, B, level, method, seed);
+%
 if nargin<2 || isempty(statfun), statfun=@mean; end
 if nargin<3 || isempty(B), B=2000; end
 if nargin<4 || isempty(level), level=.95; end

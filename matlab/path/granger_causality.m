@@ -3,6 +3,18 @@ function result = granger_causality(activity,source,target,lags)
 % Barnett & Seth (2014); Dhamala et al. (2008) use related spectral methods.
 % Rows=time bins, cols=variables. Score=log(var_reduced/var_full).
 % Predictive dependence is NOT physical causality. Validate model residuals.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     source — the source value; expected shape, units, and constraints are stated in the notes above.
+%     target — the target value; expected shape, units, and constraints are stated in the notes above.
+%     lags — lag indices in samples or bins, according to the function notes.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = granger_causality(activity, source, target, lags);
+%
 x=double(activity); [n,p]=size(x);
 assert(all(isfinite(x(:))) && p>=2 && source~=target && ...
     source>=1 && source<=p && target>=1 && target<=p);

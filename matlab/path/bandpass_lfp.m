@@ -1,6 +1,18 @@
 function filtered = bandpass_lfp(signal, srate, band_hz, order)
 %BANDPASS_LFP Zero-phase Butterworth filter for a finite LFP vector.
 % Filtering is not artifact removal; filtfilt introduces edge transients.
+%
+%   SIGNATURE DESCRIPTION
+%     signal — sampled signal; units and sample axis are given in the notes above.
+%     srate — sampling rate in Hz.
+%     band_hz — two-element frequency band in Hz.
+%     order — the order value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     filtered — the returned filtered; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     filtered = bandpass_lfp(signal, srate, band_hz, order);
+%
 if nargin<4 || isempty(order), order=4; end
 validateattributes(signal,{'numeric'},{'real','vector','finite'});
 validateattributes(srate,{'numeric'},{'scalar','positive','finite'});

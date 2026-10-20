@@ -1,6 +1,17 @@
 function out = delete_group_jackknife(x,group,statfun)
 %DELETE_GROUP_JACKKNIFE Leave-one-group-out sensitivity estimates.
 % Equal-weight jackknife SE is appropriate only for comparable groups.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     group — group identifier for each observation.
+%     statfun — function handle that computes the requested statistic.
+%   RETURNS
+%     out — the returned out; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     out = delete_group_jackknife(x, group, statfun);
+%
 if nargin<3||isempty(statfun), statfun=@(z)mean(z,1); end
 assert(size(x,1)==numel(group)&&all(isfinite(x(:))));
 [groups,~,id]=unique(group(:),'stable'); g=numel(groups);

@@ -3,6 +3,19 @@ function model = gaussian_process_smoothing(activity,times,length_scale,signal_v
 % Related mathematical primitive of GPFA (Yu et al. 2009).
 % NOT GPFA: no latent-variable factor inference or parameter optimization.
 % Dense time-by-time kernel; cap at 2000 bins for exploratory use.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     times — the times value; expected shape, units, and constraints are stated in the notes above.
+%     length_scale — the length scale value; expected shape, units, and constraints are stated in the notes above.
+%     signal_variance — the signal variance value; expected shape, units, and constraints are stated in the notes above.
+%     noise_variance — the noise variance value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = gaussian_process_smoothing(activity, times, length_scale, signal_variance, noise_variance);
+%
 x=double(activity); t=double(times(:)); [n,~]=size(x);
 assert(n>=3 && n<=2000 && numel(t)==n && all(diff(t)>0));
 assert(all(isfinite(x(:))) && all(isfinite(t)));

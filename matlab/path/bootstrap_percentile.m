@@ -1,6 +1,18 @@
 function ci = bootstrap_percentile(values,draws,confidence,seed)
 %BOOTSTRAP_PERCENTILE IID percentile CI of the arithmetic mean.
 % Not valid for correlated bins/units without block or hierarchical resampling.
+%
+%   SIGNATURE DESCRIPTION
+%     values — the values value; expected shape, units, and constraints are stated in the notes above.
+%     draws — the draws value; expected shape, units, and constraints are stated in the notes above.
+%     confidence — the confidence value; expected shape, units, and constraints are stated in the notes above.
+%     seed — random-number generator seed.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     ci = bootstrap_percentile(values, draws, confidence, seed);
+%
 if nargin<2 || isempty(draws), draws=1000; end
 if nargin<3 || isempty(confidence), confidence=.95; end
 if nargin<4 || isempty(seed), seed=42; end

@@ -6,6 +6,18 @@ function times_s = phase_crossing_events(phase_rad, srate, target_phase_rad, min
 % adjacent samples; timestamps use sample 1 = 0 seconds.
 % PHASE should come from an appropriately bandpassed analytic signal.
 % Sampling must resolve phase changes (< pi radians per sample).
+%
+%   SIGNATURE DESCRIPTION
+%     phase_rad — phase values in radians.
+%     srate — sampling rate in Hz.
+%     target_phase_rad — the target phase rad value; expected shape, units, and constraints are stated in the notes above.
+%     min_separation_s — the min separation s value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     times_s — event timestamps in seconds.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     times_s = phase_crossing_events(phase_rad, srate, target_phase_rad, min_separation_s);
+%
 if nargin < 3 || isempty(target_phase_rad), target_phase_rad = 0; end
 if nargin < 4 || isempty(min_separation_s), min_separation_s = 0; end
 validateattributes(phase_rad, {'numeric'}, {'vector','real','finite'});

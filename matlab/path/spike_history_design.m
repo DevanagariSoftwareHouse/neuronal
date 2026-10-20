@@ -4,6 +4,17 @@ function [design,valid_bins] = spike_history_design(spike_counts,lags)
 % Input: time bins x recorded units (counts, not spike timestamps).
 % Each column j,l corresponds to unit j at time t-l, l >= 1.
 % No contemporaneous counts are used; this is not causal identification.
+%
+%   SIGNATURE DESCRIPTION
+%     spike_counts — binned spike counts; rows are time bins and columns are units unless noted.
+%     lags — lag indices in samples or bins, according to the function notes.
+%   RETURNS
+%     design — the returned value; see the summary above for meaning and units.
+%     valid_bins — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [design, valid_bins] = spike_history_design(spike_counts, lags);
+%
 counts=double(spike_counts);
 [n,units]=size(counts);
 assert(ismatrix(counts) && n>=4 && units>=1 && ...

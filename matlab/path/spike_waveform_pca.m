@@ -2,6 +2,16 @@ function model = spike_waveform_pca(waveforms,n_components)
 %SPIKE_WAVEFORM_PCA PCA features of aligned extracellular waveforms.
 % Rows are waveforms, columns sampled voltages, all in comparable units.
 % Used in sorting pipelines; PCA alone is not spike sorting.
+%
+%   SIGNATURE DESCRIPTION
+%     waveforms — the waveforms value; expected shape, units, and constraints are stated in the notes above.
+%     n_components — the n components value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = spike_waveform_pca(waveforms, n_components);
+%
 x=double(waveforms);
 assert(ismatrix(x) && size(x,1)>=2 && all(isfinite(x(:))));
 if nargin<2 || isempty(n_components), n_components=3; end

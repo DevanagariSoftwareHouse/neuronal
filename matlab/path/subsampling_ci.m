@@ -2,6 +2,21 @@ function [ci,theta,draws] = subsampling_ci(x,statfun,m,B,level)
 %SUBSAMPLING_CI Subsampling CI via scaled estimator differences.
 % Validity requires a suitable subsample size m and asymptotic regime.
 % For mean-like root-n estimators; independent observations in rows.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     statfun — function handle that computes the requested statistic.
+%     m — the m value; expected shape, units, and constraints are stated in the notes above.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     level — confidence level between 0 and 1.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%     theta — the returned value; see the summary above for meaning and units.
+%     draws — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [ci, theta, draws] = subsampling_ci(x, statfun, m, B, level);
+%
 if nargin<2||isempty(statfun), statfun=@(z)mean(z,1); end
 n=size(x,1);
 if nargin<3||isempty(m), m=max(2,floor(sqrt(n))); end

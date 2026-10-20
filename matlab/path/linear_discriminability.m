@@ -1,6 +1,17 @@
 function result = linear_discriminability(a,b,ridge)
 %LINEAR_DISCRIMINABILITY Pooled-covariance linear d-prime squared.
 % Heller & David (2022), doi:10.1371/journal.pone.0271136.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = linear_discriminability(a, b, ridge);
+%
 if nargin<3 || isempty(ridge), ridge=1e-6; end
 a=double(a); b=double(b);
 assert(size(a,2)==size(b,2) && size(a,1)>=2 && size(b,1)>=2);

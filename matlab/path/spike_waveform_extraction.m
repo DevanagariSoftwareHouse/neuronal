@@ -2,6 +2,19 @@ function [waves,kept] = spike_waveform_extraction(recording,indices,before,after
 %SPIKE_WAVEFORM_EXTRACTION Event-aligned AP snippets from multichannel data.
 % Input recording=channels x samples, indices=MATLAB one-based sample indices.
 % Output spikes x channels x waveform_samples. NOT for downsampled LFP.
+%
+%   SIGNATURE DESCRIPTION
+%     recording — multichannel recording matrix; channel/sample orientation is stated above.
+%     indices — the indices value; expected shape, units, and constraints are stated in the notes above.
+%     before — the before value; expected shape, units, and constraints are stated in the notes above.
+%     after — the after value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     waves — the returned value; see the summary above for meaning and units.
+%     kept — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [waves, kept] = spike_waveform_extraction(recording, indices, before, after);
+%
 assert(isnumeric(recording) && ismatrix(recording) && isreal(recording));
 [nchannels,nsamples]=size(recording);
 indices=double(indices(:));

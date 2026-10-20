@@ -2,6 +2,16 @@ function result = pac_mean_vector_length(phase,amplitude)
 %PAC_MEAN_VECTOR_LENGTH Canolty et al. (2006); Huelsemann et al. (2019).
 % DOI 10.1126/science.1128115; 10.3389/fnins.2019.00573.
 % Low-frequency phase in radians; high-frequency envelope in original units.
+%
+%   SIGNATURE DESCRIPTION
+%     phase — phase values in radians.
+%     amplitude — amplitude/envelope values in the original signal units.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = pac_mean_vector_length(phase, amplitude);
+%
 p=double(phase(:)); a=double(amplitude(:));
 assert(numel(p)==numel(a) && ~isempty(p));
 valid=isfinite(p)&isfinite(a)&a>=0;

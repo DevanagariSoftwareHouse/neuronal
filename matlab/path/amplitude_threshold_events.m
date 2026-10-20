@@ -8,6 +8,19 @@ function [times_s, events] = amplitude_threshold_events(envelope, srate, thresho
 % Timestamp zero corresponds to the first sample. [start_s,stop_s)
 % describes each run, with stop_s one sample after the last active sample.
 % This is a general envelope detector, NOT a validated ripple classifier.
+%
+%   SIGNATURE DESCRIPTION
+%     envelope — the envelope value; expected shape, units, and constraints are stated in the notes above.
+%     srate — sampling rate in Hz.
+%     threshold — the threshold value; expected shape, units, and constraints are stated in the notes above.
+%     varargin — optional name/value pairs described in the notes above.
+%   RETURNS
+%     times_s — event timestamps in seconds.
+%     events — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [times_s, events] = amplitude_threshold_events(envelope, srate, threshold);
+%
 validateattributes(envelope, {'numeric'}, {'vector','real','finite','nonnegative'});
 validateattributes(srate, {'numeric'}, {'scalar','real','finite','positive'});
 validateattributes(threshold, {'numeric'}, {'scalar','real','finite','nonnegative'});

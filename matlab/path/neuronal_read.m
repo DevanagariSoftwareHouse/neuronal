@@ -2,6 +2,17 @@ function x = neuronal_read(mapping, samples, channels)
 %NEURONAL_READ Read a time x channels window without mapping whole file into RAM.
 %   X = NEURONAL_READ(M,SAMPLES,CHANNELS) assumes stored shape [time channels].
 %   Samples/channels are MATLAB 1-based indices. Omit channels for all.
+%
+%   SIGNATURE DESCRIPTION
+%     mapping — the mapping value; expected shape, units, and constraints are stated in the notes above.
+%     samples — the samples value; expected shape, units, and constraints are stated in the notes above.
+%     channels — the channels value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     x — the returned x; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     x = neuronal_read(mapping, samples, channels);
+%
     assert(isa(mapping,'memmapfile'), 'neuronal:read:Map', ...
         'First argument must be a memmapfile object.');
     a = mapping.Data.x;

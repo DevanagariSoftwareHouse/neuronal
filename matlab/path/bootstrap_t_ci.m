@@ -1,6 +1,22 @@
 function [ci,theta,tboot] = bootstrap_t_ci(x,statfun,sefun,B,level,seed)
 %BOOTSTRAP_T_CI Draft studentized IID bootstrap for scalar statistic.
 % statfun and sefun must operate on observations in rows.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     statfun — function handle that computes the requested statistic.
+%     sefun — the sefun value; expected shape, units, and constraints are stated in the notes above.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     level — confidence level between 0 and 1.
+%     seed — random-number generator seed.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%     theta — the returned value; see the summary above for meaning and units.
+%     tboot — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [ci, theta, tboot] = bootstrap_t_ci(x, statfun, sefun, B, level, seed);
+%
 if nargin<4||isempty(B), B=2000; end
 if nargin<5||isempty(level), level=.95; end
 if nargin<6||isempty(seed), seed=42; end

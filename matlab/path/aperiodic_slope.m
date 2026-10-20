@@ -1,6 +1,18 @@
 function model = aperiodic_slope(frequency,power,fit_band,exclude_bands)
 %APERIODIC_SLOPE Log-log linear 1/f fit; NOT full FOOOF/specparam.
 % Donoghue et al. (2020). Exclude peaks explicitly before fitting.
+%
+%   SIGNATURE DESCRIPTION
+%     frequency — frequency values in Hz.
+%     power — the power value; expected shape, units, and constraints are stated in the notes above.
+%     fit_band — the fit band value; expected shape, units, and constraints are stated in the notes above.
+%     exclude_bands — the exclude bands value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = aperiodic_slope(frequency, power, fit_band, exclude_bands);
+%
 if nargin<4, exclude_bands=zeros(0,2); end
 frequency=double(frequency(:)); power=double(power(:));
 assert(numel(frequency)==numel(power) && numel(fit_band)==2, ...

@@ -2,6 +2,16 @@ function bits = transfer_entropy(source,target)
 %TRANSFER_ENTROPY First-order DISCRETE lagged conditional mutual information.
 % Timme & Lapish (2018): exploratory plug-in estimator, no bias correction.
 % TE = I(target[t]; source[t-1] | target[t-1]); no causal claim.
+%
+%   SIGNATURE DESCRIPTION
+%     source — the source value; expected shape, units, and constraints are stated in the notes above.
+%     target — the target value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     bits — mutual/transfer information in bits.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     bits = transfer_entropy(source, target);
+%
 s=double(source(:)); y=double(target(:));
 assert(numel(s)==numel(y) && numel(y)>=10 && ...
     all(isfinite(s)) && all(isfinite(y)));

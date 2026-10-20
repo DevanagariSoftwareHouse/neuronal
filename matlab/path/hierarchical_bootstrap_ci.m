@@ -2,6 +2,21 @@ function [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed
 %HIERARCHICAL_BOOTSTRAP_CI Draft nested resampling: animals then trials.
 % groups{animal}: trials x features. Statistic accepts a cell array.
 % For clustered units within animals, extend to an additional level.
+%
+%   SIGNATURE DESCRIPTION
+%     groups — the groups value; expected shape, units, and constraints are stated in the notes above.
+%     statfun — function handle that computes the requested statistic.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     level — confidence level between 0 and 1.
+%     seed — random-number generator seed.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%     theta — the returned value; see the summary above for meaning and units.
+%     boot — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [ci, theta, boot] = hierarchical_bootstrap_ci(groups, statfun, B, level, seed);
+%
 if nargin<2||isempty(statfun)
     statfun=@(g)mean(cellfun(@(a)mean(a(:)),g));
 end

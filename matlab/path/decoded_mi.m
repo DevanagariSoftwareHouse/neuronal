@@ -1,4 +1,14 @@
 function info=decoded_mi(y,pred)
+%
+%   SIGNATURE DESCRIPTION
+%     y — the y value; expected shape, units, and constraints are stated in the notes above.
+%     pred — the pred value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     info — metadata and diagnostics structure.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     info = decoded_mi(y, pred);
+%
     ok=isfinite(y) & isfinite(pred); y=y(ok); pred=pred(ok); info=nan;
     if isempty(y) || numel(unique(y))<2, return; end
     classes=unique([y;pred]); p=zeros(numel(classes));

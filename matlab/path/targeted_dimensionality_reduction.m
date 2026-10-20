@@ -2,6 +2,16 @@ function model = targeted_dimensionality_reduction(activity,labels)
 %TARGETED_DIMENSIONALITY_REDUCTION dDR signal and noise plane.
 % Heller & David (2022), doi:10.1371/journal.pone.0271136.
 % Use training data only; never fit projection using held-out trials.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     labels — one condition/class label for each corresponding observation or trial.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = targeted_dimensionality_reduction(activity, labels);
+%
 x=double(activity); labels=labels(:);
 assert(size(x,1)==numel(labels) && size(x,2)>=2 && all(isfinite(x(:))));
 c=condition_marginalization(x,labels);

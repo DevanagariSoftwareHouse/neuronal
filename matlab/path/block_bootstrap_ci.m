@@ -2,6 +2,23 @@ function [ci,theta,boot] = block_bootstrap_ci(x,statfun,L,B,level,seed,stationar
 %BLOCK_BOOTSTRAP_CI Draft circular moving-block/stationary bootstrap.
 % Ordered observations in rows; synchronous channels in columns.
 % Stationary scheme: Politis & Romano (1994).
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     statfun — function handle that computes the requested statistic.
+%     L — the l value; expected shape, units, and constraints are stated in the notes above.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     level — confidence level between 0 and 1.
+%     seed — random-number generator seed.
+%     stationary — the stationary value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
+%     theta — the returned value; see the summary above for meaning and units.
+%     boot — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [ci, theta, boot] = block_bootstrap_ci(x, statfun, L, B, level, seed, stationary);
+%
 if nargin<2||isempty(statfun), statfun=@(a)mean(a,1); end
 if nargin<3||isempty(L), L=round(sqrt(size(x,1))); end
 if nargin<4||isempty(B), B=2000; end

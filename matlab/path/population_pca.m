@@ -1,6 +1,16 @@
 function model = population_pca(activity,n_components)
 %POPULATION_PCA PCA by SVD; rows observations, columns neuronal units.
 % Cunningham & Yu (2014). Observation selection determines interpretation.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     n_components — the n components value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     model — fitted model structure and associated estimates.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     model = population_pca(activity, n_components);
+%
 x=double(activity);
 assert(ismatrix(x) && size(x,1)>=2 && all(isfinite(x(:))), ...
     'Need finite observations x units');

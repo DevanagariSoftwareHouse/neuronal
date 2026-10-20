@@ -3,6 +3,18 @@ function [y,diagnostics] = iaaft_surrogate(x,max_iter,tolerance)
 % Preserves empirical marginal exactly (up to permutation); matches Fourier
 % amplitudes approximately. Schreiber & Schmitz (1996).
 % Nonconvergence and residual spectral error MUST be inspected.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     max_iter — the max iter value; expected shape, units, and constraints are stated in the notes above.
+%     tolerance — the tolerance value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     y — the returned value; see the summary above for meaning and units.
+%     diagnostics — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [y, diagnostics] = iaaft_surrogate(x, max_iter, tolerance);
+%
 if nargin<2||isempty(max_iter), max_iter=1000; end
 if nargin<3||isempty(tolerance), tolerance=1e-8; end
 assert(isvector(x)&&isreal(x)&&all(isfinite(x(:)))&&numel(x)>=8);

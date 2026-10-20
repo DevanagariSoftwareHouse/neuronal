@@ -1,6 +1,16 @@
 function counts = spike_counts_edges(spike_times,edges)
 %SPIKE_COUNTS_EDGES Event counts for explicit, possibly irregular [left,right) bins.
 % Empty spike trains are valid. Nonfinite timestamps are excluded.
+%
+%   SIGNATURE DESCRIPTION
+%     spike_times — spike/event timestamps in seconds.
+%     edges — monotonically increasing bin edges in seconds or feature units.
+%   RETURNS
+%     counts — event/count values in the bins or trials described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     counts = spike_counts_edges(spike_times, edges);
+%
 validateattributes(spike_times,{'numeric'},{'real'});
 assert(isempty(spike_times) || isvector(spike_times),'Expected one spike train.');
 validateattributes(edges,{'numeric'},{'vector','real','finite','increasing'});

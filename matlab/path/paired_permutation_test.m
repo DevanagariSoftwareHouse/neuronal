@@ -1,6 +1,19 @@
 function result = paired_permutation_test(a,b,statfun,B,tail)
 %PAIRED_PERMUTATION_TEST Random sign flips of matched differences.
 % Sign symmetry under H0 is required for a valid sign-flip test.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     statfun — function handle that computes the requested statistic.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     tail — the tail value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = paired_permutation_test(a, b, statfun, B, tail);
+%
 if nargin<3||isempty(statfun), statfun=@(d)mean(d,1); end
 if nargin<4||isempty(B), B=999; end
 if nargin<5||isempty(tail), tail='two-sided'; end

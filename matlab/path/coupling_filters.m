@@ -5,6 +5,18 @@ function result = coupling_filters(spike_counts,lags,bin_seconds,ridge)
 % Input: time bins x units, nonnegative binned spike counts.
 % Output filters: target unit x source unit x lag (lags in time bins).
 % Coefficients denote conditional log-rate effects, NOT synaptic causality.
+%
+%   SIGNATURE DESCRIPTION
+%     spike_counts — binned spike counts; rows are time bins and columns are units unless noted.
+%     lags — lag indices in samples or bins, according to the function notes.
+%     bin_seconds — the bin seconds value; expected shape, units, and constraints are stated in the notes above.
+%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = coupling_filters(spike_counts, lags, bin_seconds, ridge);
+%
 if nargin<4 || isempty(ridge), ridge=1; end
 counts=double(spike_counts);
 assert(ismatrix(counts) && size(counts,2)>=2 && ...

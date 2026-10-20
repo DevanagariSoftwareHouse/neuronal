@@ -1,6 +1,18 @@
 function [score,detail] = decode_trials(x,y,seed)
     % Five contiguous held-out folds; preprocessing learned on training only.
     % Fixed ridge one-vs-rest model, no tuned hyperparameters.
+%
+%   SIGNATURE DESCRIPTION
+%     x — input observations or signal (see the function summary for its expected shape).
+%     y — the y value; expected shape, units, and constraints are stated in the notes above.
+%     seed — random-number generator seed.
+%   RETURNS
+%     score — the returned value; see the summary above for meaning and units.
+%     detail — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [score, detail] = decode_trials(x, y, seed);
+%
     keep=all(isfinite(x),2) & isfinite(y); x=x(keep,:); y=y(keep);
     classes=unique(y); n=numel(y); pred=nan(n,1); prob=nan(n,numel(classes));
     score=nan; detail=struct('observed',y,'predicted',pred,'probability',prob);

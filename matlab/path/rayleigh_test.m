@@ -3,6 +3,15 @@ function result = rayleigh_test(angles)
 % Berens (2009), CircStat, DOI 10.18637/jss.v031.i10.
 % Formula assumes independent circular samples, unimodal alternative.
 % Small n and strongly dependent LFP samples require additional care.
+%
+%   SIGNATURE DESCRIPTION
+%     angles — the angles value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = rayleigh_test(angles);
+%
 a=double(angles(:));
 assert(numel(a)>=5 && all(isfinite(a)) && isreal(a));
 n=numel(a);

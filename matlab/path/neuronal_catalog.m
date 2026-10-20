@@ -2,6 +2,15 @@ function catalog = neuronal_catalog(catalogPath)
 %NEURONAL_CATALOG Load the persistent dataset index (never loads raw arrays).
 %   CATALOG = NEURONAL_CATALOG(PATH) reads PATH/catalog.mat if PATH is a
 %   directory, otherwise reads the given .mat file.
+%
+%   SIGNATURE DESCRIPTION
+%     catalogPath — the catalog path value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     catalog — the returned catalog; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     catalog = neuronal_catalog(catalogPath);
+%
     if nargin < 1 || isempty(catalogPath)
         root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
         catalogPath = fullfile(root,'data','neuronal','catalog.mat');

@@ -1,6 +1,19 @@
 function result = maxstat_permutation_test(a,b,statfun,B,tail)
 %MAXSTAT_PERMUTATION_TEST Joint label permutation and max-T correction.
 % statfun returns a row vector of test statistics over features.
+%
+%   SIGNATURE DESCRIPTION
+%     a — the a value; expected shape, units, and constraints are stated in the notes above.
+%     b — the b value; expected shape, units, and constraints are stated in the notes above.
+%     statfun — function handle that computes the requested statistic.
+%     B — number of bootstrap/permutation/surrogate draws.
+%     tail — the tail value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = maxstat_permutation_test(a, b, statfun, B, tail);
+%
 if nargin<4||isempty(B), B=999; end
 if nargin<5||isempty(tail), tail='two-sided'; end
 assert(size(a,2)==size(b,2)&&all(isfinite(a(:)))&&all(isfinite(b(:))));

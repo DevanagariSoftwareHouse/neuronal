@@ -2,6 +2,19 @@ function [frequency,coherence] = spike_field_coherence(lfp,spike_times,srate,win
 %SPIKE_FIELD_COHERENCE Magnitude-squared coherence of binned spikes and LFP.
 % Field-potential coding analysis; NOT pairwise phase consistency.
 % spike_times in seconds, same zero time origin as LFP.
+%
+%   SIGNATURE DESCRIPTION
+%     lfp — the lfp value; expected shape, units, and constraints are stated in the notes above.
+%     spike_times — spike/event timestamps in seconds.
+%     srate — sampling rate in Hz.
+%     window_seconds — window duration in seconds.
+%   RETURNS
+%     frequency — frequency axis in Hz.
+%     coherence — the returned value; see the summary above for meaning and units.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     [frequency, coherence] = spike_field_coherence(lfp, spike_times, srate, window_seconds);
+%
 if nargin<4 || isempty(window_seconds), window_seconds=4; end
 x=double(lfp(:)); t=double(spike_times(:)); n=numel(x);
 assert(all(isfinite(x)) && all(isfinite(t)) && srate>0);

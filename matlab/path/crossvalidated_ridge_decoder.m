@@ -3,6 +3,18 @@ function result = crossvalidated_ridge_decoder(activity,labels,folds,penalty)
 % Decoding comparison primitive for Heller et al. and Zhang et al.
 % Fold-specific normalization prevents leakage. Fold assignment interleaved.
 % Do NOT fit PCA/dDR on the full dataset before held-out decoding.
+%
+%   SIGNATURE DESCRIPTION
+%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
+%     labels — one condition/class label for each corresponding observation or trial.
+%     folds — the folds value; expected shape, units, and constraints are stated in the notes above.
+%     penalty — the penalty value; expected shape, units, and constraints are stated in the notes above.
+%   RETURNS
+%     result — result structure containing the estimates and diagnostics described above.
+%   USAGE EXAMPLE
+%     % Prepare the input variables above with the documented dimensions and units.
+%     result = crossvalidated_ridge_decoder(activity, labels, folds, penalty);
+%
 if nargin<3 || isempty(folds), folds=5; end
 if nargin<4 || isempty(penalty), penalty=1; end
 x=double(activity); y=double(labels(:));
