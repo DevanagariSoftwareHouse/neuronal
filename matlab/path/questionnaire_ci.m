@@ -27,7 +27,7 @@ if n==0, theta=NaN; else, theta=statfun(x); end
 assert(isscalar(theta),'questionnaire:Scalar','Statistic must be scalar.');
 validateattributes(opt.level,{'numeric'},{'scalar','>',0,'<',1});
 out=struct('estimate',theta,'ci',[nan nan],'draws',[], ...
-    'method',method,'level',opt.level,'axis',axis,'n',n, ...
+    'method',method,'level',opt.level,'axis',axis,'n',n,'seed',seed, ...
     'interval_kind','confidence','scope','within-recording conditional', ...
     'status','insufficient observations','block_length',[],'draws_kind','statistic');
 if strcmp(method,'bayesian'), out.interval_kind='credible'; end
@@ -48,6 +48,7 @@ validateattributes(L,{'numeric'},{'scalar','integer','>=',1,'<=',n});
 % Some toolbox primitives use the global stream. Restore it even on error.
 old=rng; cleanup=onCleanup(@()rng(old)); rng(seed,'twister'); %#ok<NASGU>
 draws=[];
+try
 switch method
     case {'percentile','basic','bca'}
         [ci,theta,draws]=bootstrap_ci(x,statfun,B,opt.level,method,seed);
@@ -87,6 +88,13 @@ switch method
     case 'jackknife'
         [ci,j]=jackknife_ci(x,statfun,opt.level); theta=j.estimate;
         out.jackknife=j; % CI is centered on bias-corrected estimate.
+end
+catch err
+    if strcmp(err.identifier,'questionnaire:InsufficientFiniteRows')
+        out.status='interval unavailable: insufficient finite observations in a replicate';
+        return
+    end
+    rethrow(err);
 end
 assert(all(isfinite(ci(:)))&&ci(1)<=ci(2),'questionnaire:InvalidInterval','Method produced an invalid interval.');
 assert(isscalar(theta)&&numel(ci)==2,'questionnaire:Shape','Expected scalar estimate and two endpoints.');

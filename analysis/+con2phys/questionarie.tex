@@ -1,478 +1,190 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[margin=22mm]{geometry}
-\usepackage{booktabs,tabularx}
+\usepackage[T1]{fontenc}\usepackage[utf8]{inputenc}
+\usepackage[margin=22mm]{geometry}\usepackage{booktabs,tabularx}
 \usepackage[hidelinks]{hyperref}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
-\begin{document}
-\raggedright
-\title{CON\textsuperscript{2}PHYS questionnaire: reproducible analytical answers}
-\author{Neuronal analysis}
-\date{}
-\maketitle
-\textbf{Status: analytical report awaiting recording execution.}
-The raw recordings and a completed Q01--Q15 result bundle were unavailable in the authoring environment. No numerical estimates, confidence intervals or winning areas are invented. Missing evidence is not evidence of equality.
-
-The executable source is \path{analysis/+con2phys/qNN_*.m}. Run
-\texttt{con2phys.run\_questionnaire} in MATLAB with a raw recording to regenerate this report from the script outputs. The accompanying MAT file preserves results and errors. See \texttt{RESAMPLING.md} for schema and configuration.
-
-\textbf{Inference scope.} Default intervals are within-recording conditional intervals: percentile resampling for cluster summaries and stationary resampling for ordered block/trial summaries. Bayesian intervals must be labelled credible intervals. Animal-level claims require paired animal contrasts. Marginal interval overlap does not select a winning area. Bootstrap repetition counts do not measure empirical coverage.
-
-
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\begin{document}\raggedright
+\title{CON\textsuperscript{2}PHYS questionnaire: analytical answers}\author{Neuronal analysis}\date{}\maketitle
+This report transcribes script outputs for one recording. Missing estimates are not evidence of equality. No winning area is inferred from marginal interval overlap. Population-level claims require paired animal contrasts.
 \clearpage
-
 \section*{Q01. Which brain area has the lowest firing rate over the entire recording?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
-Area 1 & -- & -- & spikes/s/cluster \\
-
-Area 2 & -- & -- & spikes/s/cluster \\
-
-Area 3 & -- & -- & spikes/s/cluster \\
-
-\bottomrule
-
-\end{tabularx}
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
+Area 1 & -- & -- & Hz \\
+Area 2 & -- & -- & Hz \\
+Area 3 & -- & -- & Hz \\
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Full-recording count divided by recording exposure for every mapped cluster, including silent clusters; arithmetic mean by area.
-
 \textbf{Interpretation and limitations.} Cluster resampling conditions on this recording. Mapped clusters are not automatically validated single neurons.
-
 \textbf{Source.} \path{analysis/+con2phys/q01_firing_rate.m}
-
 \clearpage
-
 \section*{Q02. Which brain area has the highest broadband LFP power (1-100 Hz) over the entire recording?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & LFP units squared \\
-
 Area 2 & -- & -- & LFP units squared \\
-
 Area 3 & -- & -- & LFP units squared \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Welch power integrated from 1 to 100 Hz in nonoverlapping blocks; equal channel weighting within each block.
-
 \textbf{Interpretation and limitations.} Stationary resampling acts on ordered block-power summaries. Reference choice, omitted tail and channel validity affect the target.
-
 \textbf{Source.} \path{analysis/+con2phys/q02_broadband_power.m}
-
 \clearpage
-
 \section*{Q03. Which brain area (if any) has the highest density of ripples (i.e. "hippocampal" ripples traditionally occurring during sharp wave-ripples)?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & candidate events/min \\
-
 Area 2 & -- & -- & candidate events/min \\
-
 Area 3 & -- & -- & candidate events/min \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} 120-200 Hz envelope candidates: robust onset z=2, peak z=5, duration 25-150 ms; union across channels within 20 ms; counts per minute.
-
 \textbf{Interpretation and limitations.} These are candidate ripples. Sharp-wave morphology and artifacts require validation before hippocampal ripple identification.
-
 \textbf{Source.} \path{analysis/+con2phys/q03_ripple_density.m}
-
 \clearpage
-
 \section*{Q04. In which brain area are pairwise spike train interactions strongest at the 100 ms timescale?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & absolute Pearson r \\
-
 Area 2 & -- & -- & absolute Pearson r \\
-
 Area 3 & -- & -- & absolute Pearson r \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} 100 ms spike counts; Pearson correlation for each nonconstant cluster pair; mean absolute correlation per time block.
-
 \textbf{Interpretation and limitations.} Shared neurons make pair estimates dependent. Resample block summaries; shared task drive is not synaptic interaction.
-
 \textbf{Source.} \path{analysis/+con2phys/q04_spike_interactions.m}
-
 \clearpage
-
 \section*{Q05. Which brain area pair has the strongest undirected functional connectivity?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 \textless{}-\textgreater{} 2 & -- & -- & absolute Pearson r \\
-
 Area 1 \textless{}-\textgreater{} 3 & -- & -- & absolute Pearson r \\
-
 Area 2 \textless{}-\textgreater{} 3 & -- & -- & absolute Pearson r \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} 100 ms counts averaged over clusters in each area; absolute correlation between area populations in each time block.
-
 \textbf{Interpretation and limitations.} Compare the three connections with paired estimates. Shared input and unequal cluster counts can affect connectivity.
-
 \textbf{Source.} \path{analysis/+con2phys/q05_undirected_connectivity.m}
-
 \clearpage
-
 \section*{Q06. Which brain area pair has the strongest directed functional connectivity?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 -\textgreater{} 2 & -- & -- & log variance ratio \\
-
 Area 3 -\textgreater{} 2 & -- & -- & log variance ratio \\
-
 Area 3 -\textgreater{} 1 & -- & -- & log variance ratio \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} 20 ms population counts; detrended, standardized conditional VAR with five lags; log reduced/full residual variance ratio per block.
-
 \textbf{Interpretation and limitations.} Exploratory in-sample predictability, not causal evidence. Check residuals, stationarity and lag choice; the target is mean blockwise predictability.
-
 \textbf{Source.} \path{analysis/+con2phys/q06_directed_connectivity.m}
-
 \clearpage
-
 \section*{Q07. Which brain area has the highest density of putative fast-spiking interneurons based on spike waveform and/or spike train features?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & fraction of classifiable clusters \\
-
 Area 2 & -- & -- & fraction of classifiable clusters \\
-
 Area 3 & -- & -- & fraction of classifiable clusters \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Classify finite negative-trough/following-positive-peak waveforms using configured sample rate and trough-to-peak width threshold; fraction narrow by area.
-
 \textbf{Interpretation and limitations.} Recorded-cluster proportion is not anatomical density or confirmed interneuron identity. Exclude invalid waveforms explicitly.
-
 \textbf{Source.} \path{analysis/+con2phys/q07_fast_spiking.m}
-
 \clearpage
-
 \section*{Q08. In which brain area are spikes most strongly phase-locked to its own LFP in the 4-10 Hz range?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & PPC \\
-
 Area 2 & -- & -- & PPC \\
-
 Area 3 & -- & -- & PPC \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} 4-10 Hz zero-phase filtered LFP on a prespecified channel; complex interpolation at spike times; discard two-second edges; PPC for eligible clusters.
-
 \textbf{Interpretation and limitations.} Default minimum is 50 spikes per cluster. Cluster intervals condition on estimated PPC and eligibility; check reference-channel sensitivity.
-
 \textbf{Source.} \path{analysis/+con2phys/q08_phase_locking.m}
-
 \clearpage
-
 \section*{Q09. Which brain area has the highest excitation-inhibition ratio (i.e., the strongest relative excitation)?}
-
-\textbf{Answer:} Not enough information to identify physiological excitation/inhibition from this proxy.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & broad/narrow ratio \\
-
 Area 2 & -- & -- & broad/narrow ratio \\
-
 Area 3 & -- & -- & broad/narrow ratio \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Estimate the narrow-waveform fraction p and transform its interval to broad/narrow count ratio (1-p)/p, reversing endpoints.
-
 \textbf{Interpretation and limitations.} Physiological excitation/inhibition cannot be identified from waveform counts. Boundary samples have no reported empirical ratio interval.
-
 \textbf{Source.} \path{analysis/+con2phys/q09_excitation_inhibition.m}
-
 \clearpage
-
 \section*{Q10. Which brain area has the shortest intrinsic neuronal timescale during baseline activity?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & seconds \\
-
 Area 2 & -- & -- & seconds \\
-
 Area 3 & -- & -- & seconds \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} One-second pretrial baseline without trial overlap; across-trial correlations of 50 ms bins; fit A exp(-lag/tau)+C and summarize accepted tau estimates.
-
 \textbf{Interpretation and limitations.} Requires at least 20 baseline trials, six finite lags, tau 25-1000 ms and R-squared at least 0.5. Interval conditions on accepted fits.
-
 \textbf{Source.} \path{analysis/+con2phys/q10_intrinsic_timescale.m}
-
 \clearpage
-
 \section*{Q11. Which brain area contains most information about variable A? Exclude inter-trial intervals. The specific trial segment on which to base the analysis is not given because it cannot be determined a priori for variable A.}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & bits \\
-
 Area 2 & -- & -- & bits \\
-
 Area 3 & -- & -- & bits \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Matched fixed cluster subsets; whole-trial mean firing rates; contiguous five-fold ridge decoding of A; mutual information of held-out confusion matrix.
-
 \textbf{Interpretation and limitations.} Joint trial resampling conditions on fitted predictions. This is decoded information, not full neural mutual information. Circular-shift nulls are separate.
-
 \textbf{Source.} \path{analysis/+con2phys/q11_variable_a_information.m}
-
 \clearpage
-
 \section*{Q12. During which trial segment is variable C best decoded?}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Trial start to stimulus & -- & -- & balanced accuracy \\
-
 Stimulus to outcome & -- & -- & balanced accuracy \\
-
 Outcome to trial end & -- & -- & balanced accuracy \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} All clusters; mean rates in the three trial segments; common contiguous five-fold decoder splits; balanced accuracy with fixed classes.
-
 \textbf{Interpretation and limitations.} Joint trial resampling preserves segment pairing. Full prediction coverage is required; absent-class replicates fail explicitly. Training uncertainty and duration effects remain separate.
-
 \textbf{Source.} \path{analysis/+con2phys/q12_variable_c_decoding.m}
-
 \clearpage
-
 \section*{Q13. In which brain area is the dimensionality of neural activity highest? Use the segments from stimulus presentation to outcome to answer this question.}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & effective dimensions \\
-
 Area 2 & -- & -- & effective dimensions \\
-
 Area 3 & -- & -- & effective dimensions \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Fixed matched cluster subset in each area; 100 ms bins within stimulus-to-outcome trials; covariance participation ratio tr(C)\textasciicircum{}2/tr(C\textasciicircum{}2), recomputed on whole resampled trials.
-
 \textbf{Interpretation and limitations.} Point and replicate estimators use the same subset. Longer trials contribute more bins; raw covariance weights high-variance units.
-
 \textbf{Source.} \path{analysis/+con2phys/q13_dimensionality.m}
-
 \clearpage
-
 \section*{Q14. In which brain area is modularity the lowest? Use the entirety of the recording to answer this question.}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & weighted modularity Q \\
-
 Area 2 & -- & -- & weighted modularity Q \\
-
 Area 3 & -- & -- & weighted modularity Q \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Fixed matched cluster subset; positive Pearson spike-count network at 100 ms; weighted greedy modularity in each time block.
-
 \textbf{Interpretation and limitations.} Mean blockwise modularity is not one whole-session graph statistic. Negative edges are discarded; inspect node-count and resolution sensitivity.
-
 \textbf{Source.} \path{analysis/+con2phys/q14_modularity.m}
-
 \clearpage
-
 \section*{Q15. In which brain area is the neural signal most complex? Use the segments from stimulus presentation to trial end to answer this question.}
-
-\textbf{Answer:} Not determined: the corresponding recording analysis has not been executed.
-
-\textbf{Quantitative results:} unavailable; no numerical answer is asserted.
-
-\begin{tabularx}{\linewidth}{XrrX}
-
-\toprule Group & Estimate & Interval & Units \\
-
-\midrule
-
+\textbf{Answer.} Not determined: a completed analysis result is unavailable.
+\textbf{Execution status.} Not executed.
+\begin{tabularx}{\linewidth}{XrrX}\toprule Group & Estimate & Interval & Units \\\midrule
 Area 1 & -- & -- & normalized entropy \\
-
 Area 2 & -- & -- & normalized entropy \\
-
 Area 3 & -- & -- & normalized entropy \\
-
-\bottomrule
-
-\end{tabularx}
-
+\bottomrule\end{tabularx}
 \textbf{Analytical approach.} Permutation entropy of order 3 with approximately 10 ms delay; linear detrending; exclude tied patterns; mean across channels per stimulus-to-end trial.
-
 \textbf{Interpretation and limitations.} High entropy may reflect noise. Assess trial length, valid pattern count, embedding parameters and spectral sensitivity.
-
 \textbf{Source.} \path{analysis/+con2phys/q15_signal_complexity.m}
-
 \clearpage\section*{Section 2: participant meta-information}
-
-Confidence in each answer, prior methodological experience, and expected participant consensus are personal ratings on the original 1--10 scales. They are left unfilled for the participant; execution success or interval width is not substituted for these ratings.
-
+For each question, confidence in the answer, prior experience, and expected consensus must be rated by the participant on the original 1--10 scales. These personal ratings are left unfilled.
 \end{document}

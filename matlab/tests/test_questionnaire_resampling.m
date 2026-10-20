@@ -41,8 +41,8 @@ assert(all(draws>=9/11-1e-12),'Fixed blocks were interleaved.');
 cfg=rmfield(cfg,'questions'); cfg.inference=struct('method','stationary');
 j=questionnaire_joint_summary(x,{@mean,@mean},{'a';'b'},'test','test',cfg,'trial');
 assert(isequal(j.inference{1}.draws,j.inference{2}.draws));
-expect_error(@()summarize_questionnaire({[1;NaN;3]},{'a'},'x','x',cfg,'trial'), ...
-    'questionnaire:MissingOrderedRows');
+sparse=summarize_questionnaire({[1;NaN;3],[1;2;3],[2;3;4]},{'a';'b';'c'},'x','x',cfg,'trial');
+assert(isnan(sparse.summary.ci_low(1)) && sparse.summary.n_finite(1)==2);
 run_questions();
 fprintf('Questionnaire method dispatch and q01:q15 synthetic smoke passed.\n');
 end

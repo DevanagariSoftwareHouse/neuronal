@@ -19,7 +19,7 @@ if isfield(results,'meta')
     for key={'generated_at','matlab_version','revision','scope','source'}
         if isfield(results.meta,key{1})
             value=results.meta.(key{1});
-            if ischar(value)||isstring(value)
+            if (ischar(value)||isstring(value)) && ~isempty(char(value))
                 put(fid,[tex(key{1}) ': \texttt{' tex(char(value)) '}\par']);
             end
         end
@@ -56,6 +56,28 @@ for k=1:numel(spec)
     put(fid,['\textbf{Interpretation and limitations.} ' tex(item.limitations)]);
     put(fid,['\textbf{Source.} \path{' ['analysis/+con2phys/' item.script '.m'] '}']);
     if complete
+        if isfield(result,'decision')
+            put(fid,['\textbf{Decision scope.} ' tex(result.decision.scope) '. ' tex(result.decision.status)]);
+            for choice=1:4
+                if choice<=3, label=item.labels{choice}; else, label='Not enough data / no differences'; end
+                selected=(isempty(result.decision.winner)&&choice==4)||isequal(result.decision.winner,choice);
+                if selected, mark='X'; else, mark='\phantom{X}'; end
+                put(fid,['\fbox{' mark '} ' tex(label) '\quad']);
+            end
+            put(fid,'\par');
+            contrasts=result.decision.contrasts;
+            if ~isempty(contrasts)
+                put(fid,'\begin{tabularx}{\linewidth}{Xrrr}\toprule Pair & Difference & Simultaneous interval & Holm p \\\midrule');
+                for pair=1:height(contrasts)
+                    put(fid,sprintf('%d vs %d & %s & [%s, %s] & %s \\\\', ...
+                        contrasts.group_a(pair),contrasts.group_b(pair),number(contrasts.difference(pair)), ...
+                        number(contrasts.simultaneous_low(pair)),number(contrasts.simultaneous_high(pair)), ...
+                        number(contrasts.p_holm(pair))));
+                end
+                put(fid,'\bottomrule\end{tabularx}');
+                put(fid,'All three pairs form the family. Intervals use Bonferroni basic bootstrap; p-values use centered bootstrap with Holm adjustment.');
+            end
+        end
         for g=1:numel(result.inference)
             interval_info=result.inference{g};
             detail=sprintf('%s: %s; %.1f percent %s interval; axis=%s; n=%d; status=%s; scope=%s.', ...

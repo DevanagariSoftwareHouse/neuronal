@@ -68,8 +68,11 @@ data referenced by those IDs, not average the numerical IDs.
 
 IID methods on trial/time-block rows require explicit `allow_iid=true`.
 Block length is in **input rows**, not samples or seconds. All synchronous
-features stay together. Missing ordered rows are rejected rather than silently
-closing temporal gaps. Define a valid contiguous analysis interval first.
+features stay together. Ordered means retain missing rows in a common index grid. Each replicate
+resamples row IDs and averages only finite values. `qcfg.minimum_finite_rows`
+(default 3) applies to the observation and every replicate. If any replicate
+fails this minimum, its interval is unavailable; replicates are not silently
+dropped or retried. This does not correct informative missingness.
 At least three usable observations are required; otherwise intervals remain
 NaN with a status. Invalid/sparse replicate statistics raise an error.
 
@@ -110,9 +113,9 @@ pivots, explicitly identified by `draws_kind`, rather than raw estimates.
 - Q02-Q06/Q14 resample block-level statistics, not reconstructed raw signals.
   Their target remains the mean blockwise statistic. Q15 resamples trial entropy.
 
-These scripts return descriptive estimates; they do not select a winning area
-by comparing marginal CI overlap. Population claims require paired animal
-contrasts and a defined multiplicity policy.
+Supported empirical methods also report all three paired contrasts and a
+within-recording decision. They never select winners by marginal CI overlap.
+Population claims still require animal-level analysis.
 
 Run `test_questionnaire_resampling` after adding `matlab/tests` to the path.
 It checks method dispatch, reproducibility/RNG restoration, dependency guards,
@@ -138,7 +141,8 @@ Every question runs independently; failures are logged in the MAT evidence
 bundle and displayed in the TeX report. Successful outputs retain the exact
 method, coverage, interval kind, observation count, block length, configuration
 and recording duration. Bayesian credible intervals are never labelled CIs.
-The runner does not aggregate recordings, select winners from interval overlap,
+The runner isolates each script in a fresh function workspace. It does not
+aggregate recordings or select winners from interval overlap,
 or fill personal Section 2 ratings. Set `qcfg.report_revision` to the commit SHA
 for manual runs; CI obtains it from GITHUB_SHA.
 
@@ -154,3 +158,28 @@ You can re-export saved evidence without rerunning analyses:
 load('analysis/results/questionnaire/questionarie.mat','results')
 write_questionnaire_tex(results,'questionarie.tex')
 ```
+
+## Contrast decisions and review scope
+
+`questionnaire_decide` uses all three pairwise comparisons as the family, before
+selecting a candidate minimum (Q01/Q10/Q14) or maximum (other questions). It
+reports centered-bootstrap two-sided p-values, Holm adjustment, and Bonferroni
+basic simultaneous intervals at family alpha=0.05. A candidate must beat both
+competitors under both gates. These are approximate bootstrap tests; the
+simultaneous intervals are Bonferroni intervals, not "Holm-adjusted CIs".
+The decision alpha is 0.05 regardless of the marginal interval level.
+
+Ordered mean summaries use a common row-index matrix and matching resampling
+plans, preserving cross-area dependence and NaN locations. Q11-Q13 already
+use joint observations. Compatible raw statistic draws are required; Bayesian,
+studentized-pivot, model-callback and jackknife results are not subtracted as
+though they were interchangeable empirical replicates. Unit summaries use
+different streams, but decisions require explicit `qcfg.independent_groups=true`
+with scientific justification. Separate recorded areas alone do not establish
+independent biological replicates. Q03 candidate screens and Q09 waveform
+proxies do not automatically select physiological ripple/E-I winners.
+
+The report displays the choice boxes, contrast table, and within-recording
+scope. No 18-animal population decision has been implemented. The per-question
+methodological alternatives in the review (FA dimensionality, alternative
+timescale fit, ripple validation, and so on) remain separate changes.

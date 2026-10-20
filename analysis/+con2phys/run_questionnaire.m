@@ -24,8 +24,7 @@ questionnaire_cleanup=onCleanup(@()rng(questionnaire_rng)); %#ok<NASGU>
 for questionnaire_index=1:numel(questionnaire_specification)
     questionnaire_item=questionnaire_specification(questionnaire_index);
     try
-        eval(['con2phys.' questionnaire_item.script]);
-        questionnaire_value=eval(questionnaire_item.id);
+        questionnaire_value=execute_question(data,qcfg,questionnaire_item);
         results.(questionnaire_item.id)=struct('status','completed','result',questionnaire_value);
     catch questionnaire_error
         results.(questionnaire_item.id)=struct('status','failed', ...
@@ -41,4 +40,10 @@ if ~isempty(questionnaire_parent)&&~exist(questionnaire_parent,'dir'), mkdir(que
 save(fullfile(questionnaire_parent,[questionnaire_name '.mat']),'results','-v7.3');
 write_questionnaire_tex(results,questionnaire_output);
 fprintf('Questionnaire report: %s\n',questionnaire_output);
+end
+
+function value=execute_question(data,qcfg,item) %#ok<INUSD>
+% Every call has a fresh script workspace; only data/config are supplied.
+eval(['con2phys.' item.script]);
+value=eval(item.id);
 end
