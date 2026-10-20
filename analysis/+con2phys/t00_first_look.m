@@ -5,12 +5,6 @@ run(fullfile(matlab_dir,'startup.m'))
 matlab_dir = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/';
 run(fullfile(matlab_dir,'neuronal/startup.m'))
 run(fullfile(matlab_dir,'neuronal/analysis/a00_startup.m'))
-%%
-tsc_path = fullfile(matlab_dir,'neuronal/star/vitor/tSC')
-insert(py.sys.path, int32(0), tsc_path);
-%%
-m = py.importlib.import_module("t");
-result = m.my_function(5);
 
 %%
 catalog = neuronal_catalog()
