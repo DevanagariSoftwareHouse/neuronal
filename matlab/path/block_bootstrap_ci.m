@@ -25,7 +25,8 @@ for k=1:B
         end
     else
         starts=randi(stream,n,ceil(n/L),1);
-        idx=reshape(mod(starts+(0:L-1)-1,n)+1,[],1);
+        blocks=mod(starts+(0:L-1)-1,n)+1;
+        idx=reshape(blocks.',[],1);
         idx=idx(1:n);
     end
     v=reshape(statfun(x(idx,:)),1,[]);

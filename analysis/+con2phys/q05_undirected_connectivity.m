@@ -1,5 +1,5 @@
 %% Q5: population spike-count correlation between areas, 100 ms.
-q00_prepare
+qid='q05'; con2phys.q00_prepare
 counts=spike_bins(qctx.spikes,0:.1:qctx.duration); pop=nan(size(counts,1),3);
 for a=1:3, pop(:,a)=mean(counts(:,qctx.area==a),2); end
 pairs=[1 2;1 3;2 3]; values=cell(3,1); L=round(qcfg.block_seconds/.1);
@@ -13,7 +13,7 @@ for p=1:3
     values{p}=v;
 end
 q05=summarize_questionnaire(values,{'Area 1 <-> 2';'Area 1 <-> 3';'Area 2 <-> 3'}, ...
-    'absolute Pearson r','100 ms mean population counts; nonoverlapping block bootstrap.',qcfg);
+    'absolute Pearson r','100 ms mean population counts; nonoverlapping configured resampling.',qcfg,'time_block');
 q05.limitations='Undirected association, sensitive to common task drive and unequal unit counts.';
 q05.provenance=qctx.provenance;
 disp(q05.summary)
