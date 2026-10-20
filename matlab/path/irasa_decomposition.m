@@ -3,19 +3,29 @@ function [frequency,fractal_power,oscillatory_power,total_power] = irasa_decompo
 % Wen & Liu (2016). Median geometric mean estimates fractal spectrum.
 % This simplified whole-record implementation omits edge/bias diagnostics.
 %
-%   SIGNATURE DESCRIPTION
-%     signal — sampled signal; units and sample axis are given in the notes above.
-%     srate — sampling rate in Hz.
-%     window_seconds — window duration in seconds.
-%     resampling_factors — the resampling factors value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     frequency — frequency axis in Hz.
-%     fractal_power — the returned value; see the summary above for meaning and units.
-%     oscillatory_power — the returned value; see the summary above for meaning and units.
-%     total_power — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [frequency, fractal_power, oscillatory_power, total_power] = irasa_decomposition(signal, srate, window_seconds, resampling_factors);
+%   SYNTAX
+%     [frequency,fractal_power,oscillatory_power,total_power] = irasa_decomposition(signal,srate,window_seconds,resampling_factors)
+%
+%   INPUTS
+%     signal: Finite real vector, longer than two windows and sufficiently long after
+%       reciprocal resampling.
+%     srate: Positive sampling rate in Hz.
+%     window_seconds: Welch window length in seconds; default 4; >=16 samples.
+%     resampling_factors: Factors strictly between 1 and 2; default 1.1:0.1:1.9.
+%
+%   OUTPUTS
+%     frequency: Column frequency axis in Hz.
+%     fractal_power: Median resampled geometric-mean PSD.
+%     oscillatory_power: max(0,total_power-fractal_power), same PSD units.
+%     total_power: Original Welch PSD in signal-units squared/Hz.
+%
+%   Requires Signal Processing Toolbox (hann, pwelch, resample).
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     [f, fractal, oscillatory, total] = irasa_decomposition(x,fs,2,1.1:0.2:1.9);
+%     % The residual is clipped at zero; inspect the total and fractal spectra.
 %
 if nargin<3 || isempty(window_seconds), window_seconds=4; end
 if nargin<4 || isempty(resampling_factors), resampling_factors=1.1:.1:1.9; end

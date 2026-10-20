@@ -2,15 +2,21 @@ function folds = blocked_cross_validation(n,k,gap)
 %BLOCKED_CROSS_VALIDATION Contiguous held-out folds with exclusion gap.
 % Returns train/test index vectors; model fitting is caller responsibility.
 %
-%   SIGNATURE DESCRIPTION
-%     n — the n value; expected shape, units, and constraints are stated in the notes above.
-%     k — the k value; expected shape, units, and constraints are stated in the notes above.
-%     gap — the gap value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     folds — cell array of train/test index sets.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     folds = blocked_cross_validation(n, k, gap);
+%   SYNTAX
+%     folds = blocked_cross_validation(n,k,gap)
+%
+%   INPUTS
+%     n: Integer number of ordered observations.
+%     k: Integer number of folds, 2 <= k <= n.
+%     gap: Nonnegative integer excluded rows on each side of a test block; default 0.
+%
+%   OUTPUTS
+%     folds: k-by-1 cell array; each struct has train/test column indices (1-based).
+%
+%   EXAMPLE
+%     folds = blocked_cross_validation(100,5,3);
+%     train_rows = folds{1}.train; test_rows = folds{1}.test;
+%     % Fit preprocessing only on train_rows; gap rows are not training data.
 %
 if nargin<3||isempty(gap), gap=0; end
 assert(n>=k&&k>=2&&k==floor(k)&&gap>=0&&gap==floor(gap));

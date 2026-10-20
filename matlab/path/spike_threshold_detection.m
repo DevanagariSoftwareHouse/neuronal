@@ -3,18 +3,27 @@ function [times_s,indices,threshold] = spike_threshold_detection(signal,srate,th
 % Only for broadband, sufficiently sampled data; not applicable to 500 Hz LFP.
 % Does not perform sorting, drift correction or waveform artifact checks.
 %
-%   SIGNATURE DESCRIPTION
-%     signal — sampled signal; units and sample axis are given in the notes above.
-%     srate — sampling rate in Hz.
-%     threshold_sigma — the threshold sigma value; expected shape, units, and constraints are stated in the notes above.
-%     refractory_s — the refractory s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     times_s — event timestamps in seconds.
-%     indices — the returned value; see the summary above for meaning and units.
-%     threshold — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [times_s, indices, threshold] = spike_threshold_detection(signal, srate, threshold_sigma, refractory_s);
+%   SYNTAX
+%     [times_s,indices,threshold] = spike_threshold_detection(signal,srate,threshold_sigma,refractory_s)
+%
+%   INPUTS
+%     signal: Finite real broadband high-rate extracellular voltage vector, with nonzero robust
+%       noise scale.
+%     srate: Positive waveform sampling rate in Hz, e.g. 30000 (not downsampled LFP).
+%     threshold_sigma: Positive multiplier of median-based noise SD; default 4.
+%     refractory_s: Positive minimum peak separation in seconds; default 0.001.
+%
+%   OUTPUTS
+%     times_s: Column of detected negative-peak timestamps in seconds.
+%     indices: Corresponding 1-based sample indices.
+%     threshold: Positive amplitude threshold; applied to -signal.
+%
+%   Requires Signal Processing Toolbox (findpeaks).
+%
+%   EXAMPLE
+%     rng(7); fs = 30000; x = 0.1*randn(30000,1); x([5000 15000]) = -2;
+%     [times_s, indices, threshold] = spike_threshold_detection(x,fs,4,0.001);
+%     % These are transient candidates, not sorted units.
 %
 if nargin<3 || isempty(threshold_sigma), threshold_sigma=4; end
 if nargin<4 || isempty(refractory_s), refractory_s=.001; end

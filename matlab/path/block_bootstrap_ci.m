@@ -3,21 +3,30 @@ function [ci,theta,boot] = block_bootstrap_ci(x,statfun,L,B,level,seed,stationar
 % Ordered observations in rows; synchronous channels in columns.
 % Stationary scheme: Politis & Romano (1994).
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     statfun — function handle that computes the requested statistic.
-%     L — the l value; expected shape, units, and constraints are stated in the notes above.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     level — confidence level between 0 and 1.
-%     seed — random-number generator seed.
-%     stationary — the stationary value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
-%     theta — the returned value; see the summary above for meaning and units.
-%     boot — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ci, theta, boot] = block_bootstrap_ci(x, statfun, L, B, level, seed, stationary);
+%   SYNTAX
+%     [ci,theta,boot] = block_bootstrap_ci(x,statfun,L,B,level,seed,stationary)
+%
+%   INPUTS
+%     x: Finite ordered observations-by-features matrix, at least 3 rows.
+%     statfun: Function accepting a resampled matrix and returning a fixed-size statistic;
+%       default column means.
+%     L: Block length, or expected stationary-block length, in rows; default
+%       round(sqrt(size(x,1))).
+%     B: Integer replicate count >=20; default 2000.
+%     level: Confidence probability in (0,1); default 0.95.
+%     seed: Local mt19937ar seed; default 42.
+%     stationary: true selects geometric block lengths; false (default) selects the fixed-block
+%       branch.
+%
+%   OUTPUTS
+%     ci: 2-by-P percentile bounds, lower then upper.
+%     theta: 1-by-P original statistic.
+%     boot: B-by-P bootstrap statistics.
+%
+%   EXAMPLE
+%     rng(7); x = filter(1,[1 -0.7],randn(200,1));
+%     [ci, theta, boot] = block_bootstrap_ci(x,@mean,10,500,0.95,7,true);
+%     % L=10 is an illustration; choose a dependence scale for the data.
 %
 if nargin<2||isempty(statfun), statfun=@(a)mean(a,1); end
 if nargin<3||isempty(L), L=round(sqrt(size(x,1))); end

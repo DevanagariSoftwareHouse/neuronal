@@ -2,14 +2,21 @@ function out = jackknife_estimate(x,statfun)
 %JACKKNIFE_ESTIMATE Delete-one-row jackknife for vector-valued statistics.
 % Rows must be independent experimental units, not time samples of an LFP.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     statfun — function handle that computes the requested statistic.
-%   RETURNS
-%     out — the returned out; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     out = jackknife_estimate(x, statfun);
+%   SYNTAX
+%     out = jackknife_estimate(x,statfun)
+%
+%   INPUTS
+%     x: Finite independent-observations-by-features matrix, at least 3 rows.
+%     statfun: Function returning a fixed-size finite statistic; default column means.
+%
+%   OUTPUTS
+%     out: Struct: estimate, bias, se, bias_corrected (1-by-P) and leave_one_out
+%       (observations-by-P).
+%
+%   EXAMPLE
+%     x = [1;2;4;5;7];
+%     out = jackknife_estimate(x,@mean);
+%     % out.leave_one_out shows the influence of each omitted observation.
 %
 if nargin<2||isempty(statfun), statfun=@(a)mean(a,1); end
 assert(isnumeric(x)&&ismatrix(x)&&all(isfinite(x(:))));

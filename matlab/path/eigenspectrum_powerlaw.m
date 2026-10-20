@@ -2,14 +2,21 @@ function fit = eigenspectrum_powerlaw(eigenvalues,ranks)
 %EIGENSPECTRUM_POWERLAW Log-log rank-eigenvalue exponent.
 % Stringer et al. (2019), doi:10.1038/s41586-019-1346-5.
 %
-%   SIGNATURE DESCRIPTION
-%     eigenvalues — the eigenvalues value; expected shape, units, and constraints are stated in the notes above.
-%     ranks — the ranks value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     fit — the returned fit; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     fit = eigenspectrum_powerlaw(eigenvalues, ranks);
+%   SYNTAX
+%     fit = eigenspectrum_powerlaw(eigenvalues,ranks)
+%
+%   INPUTS
+%     eigenvalues: At least 3 finite nonnegative values in descending order.
+%     ranks: Integer indices to fit; default all ranks; at least 3 selected eigenvalues must be
+%       positive.
+%
+%   OUTPUTS
+%     fit: Struct: exponent, natural-log intercept, retained ranks and r_squared.
+%
+%   EXAMPLE
+%     v = (1:20)'.^(-1.5);
+%     fit = eigenspectrum_powerlaw(v,2:15);
+%     % Ideal data recover exponent 1.5.
 %
 v=double(eigenvalues(:));
 assert(numel(v)>=3 && all(isfinite(v)) && all(v>=0));

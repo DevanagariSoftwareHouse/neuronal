@@ -2,17 +2,26 @@ function [ppc,spike_phase] = spike_field_ppc(lfp,spike_times,srate,edge_seconds)
 %SPIKE_FIELD_PPC Spike-LFP pairwise phase consistency at spike timestamps.
 % Vinck et al. (2010); requires PRE-FILTERED narrow-band LFP input.
 %
-%   SIGNATURE DESCRIPTION
-%     lfp — the lfp value; expected shape, units, and constraints are stated in the notes above.
-%     spike_times — spike/event timestamps in seconds.
-%     srate — sampling rate in Hz.
-%     edge_seconds — the edge seconds value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     ppc — pairwise phase consistency estimate.
-%     spike_phase — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ppc, spike_phase] = spike_field_ppc(lfp, spike_times, srate, edge_seconds);
+%   SYNTAX
+%     [ppc,spike_phase] = spike_field_ppc(lfp,spike_times,srate,edge_seconds)
+%
+%   INPUTS
+%     lfp: Finite prefiltered narrow-band real LFP vector.
+%     spike_times: Finite spike timestamps in seconds, first LFP sample at time zero.
+%     srate: Positive sampling rate in Hz.
+%     edge_seconds: Nonnegative margin excluded at each recording end; default 2.
+%
+%   OUTPUTS
+%     ppc: Scalar pairwise phase consistency; NaN if fewer than 2 usable spike phases.
+%     spike_phase: Column of retained phases in radians after complex interpolation;
+%       zero-amplitude/invalid samples removed.
+%
+%   Requires Signal Processing Toolbox (hilbert).
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs; lfp = sin(2*pi*8*t);
+%     [ppc, spike_phase] = spike_field_ppc(lfp,(2.1:0.125:7.9)',fs,2);
+%     % Use phase estimates away from filtering/Hilbert edges.
 %
 if nargin<4 || isempty(edge_seconds), edge_seconds=2; end
 x=double(lfp(:)); t=double(spike_times(:));

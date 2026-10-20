@@ -4,13 +4,19 @@ function pli = phase_lag_index(phase_difference)
 % Sines within 10*eps of zero are rounded to zero to suppress boundary roundoff.
 % Nonzero values are not proof of causality.
 %
-%   SIGNATURE DESCRIPTION
-%     phase_difference — the phase difference value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     pli — the returned pli; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     pli = phase_lag_index(phase_difference);
+%   SYNTAX
+%     pli = phase_lag_index(phase_difference)
+%
+%   INPUTS
+%     phase_difference: Phase-difference vector in radians; nonfinite entries are removed.
+%
+%   OUTPUTS
+%     pli: Scalar absolute mean sign(sin(phase_difference)) in [0,1]; NaN with fewer than 2
+%       finite entries.
+%
+%   EXAMPLE
+%     pli = phase_lag_index([0.2;0.3;-0.1;0]);
+%     % Zero lag contributes zero but remains in the denominator.
 %
 p=double(phase_difference(:)); p=p(isfinite(p));
 if numel(p)<2, pli=NaN; return; end

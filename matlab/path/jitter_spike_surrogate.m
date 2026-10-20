@@ -3,15 +3,21 @@ function surrogate = jitter_spike_surrogate(spike_times,window_s,origin_s)
 % Amarasingham et al. (2012): simplified conditional-jitter null.
 % Preserves total spikes per window; use caller-controlled random seed.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_times — spike/event timestamps in seconds.
-%     window_s — window duration in seconds.
-%     origin_s — the origin s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     surrogate — the returned surrogate; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     surrogate = jitter_spike_surrogate(spike_times, window_s, origin_s);
+%   SYNTAX
+%     surrogate = jitter_spike_surrogate(spike_times,window_s,origin_s)
+%
+%   INPUTS
+%     spike_times: Finite timestamps in seconds.
+%     window_s: Positive width of fixed aligned jitter intervals in seconds.
+%     origin_s: Finite alignment origin in seconds; default 0.
+%
+%   OUTPUTS
+%     surrogate: Sorted column of resampled timestamps, preserving counts per aligned window.
+%
+%   EXAMPLE
+%     rng(7); spikes = [0.01;0.03;0.12;0.18];
+%     y = jitter_spike_surrogate(spikes,0.1,0);
+%     % Each 100-ms interval retains its original spike count.
 %
 if nargin<3 || isempty(origin_s), origin_s=0; end
 t=double(spike_times(:));

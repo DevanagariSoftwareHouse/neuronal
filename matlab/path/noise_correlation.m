@@ -2,15 +2,22 @@ function [correlation,residual] = noise_correlation(trial_counts,condition)
 %NOISE_CORRELATION Trial residual correlations, subtracting each condition mean.
 % Cohen & Kohn (2011). Trial x units counts and trial condition labels.
 %
-%   SIGNATURE DESCRIPTION
-%     trial_counts — the trial counts value; expected shape, units, and constraints are stated in the notes above.
-%     condition — the condition value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     correlation — the returned value; see the summary above for meaning and units.
-%     residual — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [correlation, residual] = noise_correlation(trial_counts, condition);
+%   SYNTAX
+%     [correlation,residual] = noise_correlation(trial_counts,condition)
+%
+%   INPUTS
+%     trial_counts: Finite trials-by-units matrix.
+%     condition: One condition label per trial.
+%
+%   OUTPUTS
+%     correlation: Unit-by-unit Pearson residual correlations; constant residual columns
+%       produce NaN.
+%     residual: Trials-by-units counts after subtracting each condition mean.
+%
+%   EXAMPLE
+%     rng(7); counts = randi([0 5],40,3); condition = repelem([1;2],20);
+%     [r, residual] = noise_correlation(counts,condition);
+%     % Each residual column is a unit, not a trial.
 %
 x=double(trial_counts);
 assert(size(x,1)==numel(condition) && all(isfinite(x(:))));

@@ -7,18 +7,29 @@ function result = bosc_detect(signal,srate,frequencies,probability,minimum_cycle
 % Power threshold uses exponential (chi-square 2 df) marginal model.
 % Bound the input by processing short time blocks; excludes wavelet edges.
 %
-%   SIGNATURE DESCRIPTION
-%     signal — sampled signal; units and sample axis are given in the notes above.
-%     srate — sampling rate in Hz.
-%     frequencies — the frequencies value; expected shape, units, and constraints are stated in the notes above.
-%     probability — the probability value; expected shape, units, and constraints are stated in the notes above.
-%     minimum_cycles — the minimum cycles value; expected shape, units, and constraints are stated in the notes above.
-%     wavelet_cycles — the wavelet cycles value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = bosc_detect(signal, srate, frequencies, probability, minimum_cycles, wavelet_cycles);
+%   SYNTAX
+%     result = bosc_detect(signal,srate,frequencies,probability,minimum_cycles,wavelet_cycles)
+%
+%   INPUTS
+%     signal: Finite real vector, at least 32 samples and long enough for the lowest-frequency
+%       wavelet.
+%     srate: Positive sampling rate in Hz.
+%     frequencies: At least 3 strictly increasing frequencies in (0,srate/2) Hz;
+%       samples*frequencies <=4e6.
+%     probability: Power-threshold probability in (0,1); default 0.95.
+%     minimum_cycles: Positive minimum episode length in cycles; default 3.
+%     wavelet_cycles: Wavelet width in cycles, >=3; default 6.
+%
+%   OUTPUTS
+%     result: Struct with frequency_hz/time_seconds axes; frequency-by-time wavelet_power,
+%       valid_mask and detected_mask; per-frequency background_power, power_threshold,
+%       p_episode and episodes.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     result = bosc_detect(x,fs,4:2:40,0.95,3,6);
+%     % Inspect result.valid_mask before interpreting edge regions.
 %
 if nargin<4 || isempty(probability), probability=.95; end
 if nargin<5 || isempty(minimum_cycles), minimum_cycles=3; end

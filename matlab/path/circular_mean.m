@@ -3,15 +3,21 @@ function [mean_angle,resultant_length] = circular_mean(angles,weights)
 % DOI 10.18637/jss.v031.i10. Finite angles and nonnegative weights only.
 % Mean undefined when resultant is numerically indistinguishable from 0.
 %
-%   SIGNATURE DESCRIPTION
-%     angles — the angles value; expected shape, units, and constraints are stated in the notes above.
-%     weights — nonnegative observation weights.
-%   RETURNS
-%     mean_angle — the returned value; see the summary above for meaning and units.
-%     resultant_length — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [mean_angle, resultant_length] = circular_mean(angles, weights);
+%   SYNTAX
+%     [mean_angle,resultant_length] = circular_mean(angles,weights)
+%
+%   INPUTS
+%     angles: Nonempty finite angles in radians, flattened to a vector.
+%     weights: Matching nonnegative weights with positive sum; default ones(size(angles)).
+%
+%   OUTPUTS
+%     mean_angle: Scalar circular mean in radians; NaN if resultant <1e-12.
+%     resultant_length: Scalar normalized resultant magnitude in [0,1].
+%
+%   EXAMPLE
+%     angles = [-0.2; 0; 0.3];
+%     [mu, r] = circular_mean(angles,[1; 2; 1]);
+%     % r measures concentration; mu is an angle, not an arithmetic mean.
 %
 if nargin<2 || isempty(weights), weights=ones(size(angles)); end
 a=double(angles(:)); w=double(weights(:));

@@ -12,20 +12,29 @@ function [counts, lags_s, info] = event_aligned_raster(rastergram, event_times_s
 % COUNTS has events x lags layout, preserving multiple spikes per bin.
 % INFO.event_indices references positions in the supplied EVENTS vector.
 %
-%   SIGNATURE DESCRIPTION
-%     rastergram — the rastergram value; expected shape, units, and constraints are stated in the notes above.
-%     event_times_s — event timestamps in seconds relative to the recording origin.
-%     srate — sampling rate in Hz.
-%     window_s — window duration in seconds.
-%     cluster_row — the cluster row value; expected shape, units, and constraints are stated in the notes above.
-%     varargin — optional name/value pairs described in the notes above.
-%   RETURNS
-%     counts — event/count values in the bins or trials described above.
-%     lags_s — the returned value; see the summary above for meaning and units.
-%     info — metadata and diagnostics structure.
-%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [counts, lags_s, info] = event_aligned_raster(rastergram, event_times_s, srate, window_s, cluster_row);
+%   SYNTAX
+%     [counts, lags_s, info] = event_aligned_raster(rastergram, event_times_s, srate, window_s, cluster_row, varargin)
+%
+%   INPUTS
+%     rastergram: Cluster-by-recording-sample numeric count matrix, dense or sparse.
+%     event_times_s: Finite event timestamps in seconds; empty vector is allowed.
+%     srate: Positive bin sampling rate in Hz.
+%     window_s: [start end] relative seconds, e.g. [-0.1 0.2], both rounded endpoints included.
+%     cluster_row: 1-based raster row, not a cluster ID.
+%     varargin: Boundary name/value: nan (default) pads partial windows; drop retains only
+%       complete windows.
+%
+%   OUTPUTS
+%     counts: Retained-events-by-lags dense counts, with NaNs for missing bins.
+%     lags_s: 1-by-lags relative times in seconds.
+%     info: Struct with event_times_s, event_indices, center_samples, valid_bins, cluster_row,
+%       boundary and sampling_rate_hz.
+%
+%   EXAMPLE
+%     raster = sparse(1,[101 201 301],1,1,500);
+%     [counts, lags_s, info] = event_aligned_raster(raster,[0.2;0.4],500, ...
+%         [-0.1 0.1],1,'Boundary','drop');
+%     % info.event_indices maps retained rows back to the supplied events.
 %
 validateattributes(rastergram, {'numeric'}, {'2d','real'});
 assert(isempty(event_times_s) || isvector(event_times_s), 'Expected a vector or empty input.');

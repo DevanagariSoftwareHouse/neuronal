@@ -2,19 +2,26 @@ function [average,lags_s,used] = spike_triggered_average(signal,spike_times,srat
 %SPIKE_TRIGGERED_AVERAGE Average LFP samples relative to point-process events.
 % Excludes spikes with incomplete windows; not corrected for shared trial drive.
 %
-%   SIGNATURE DESCRIPTION
-%     signal — sampled signal; units and sample axis are given in the notes above.
-%     spike_times — spike/event timestamps in seconds.
-%     srate — sampling rate in Hz.
-%     pre_s — the pre s value; expected shape, units, and constraints are stated in the notes above.
-%     post_s — the post s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     average — the returned value; see the summary above for meaning and units.
-%     lags_s — the returned value; see the summary above for meaning and units.
-%     used — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [average, lags_s, used] = spike_triggered_average(signal, spike_times, srate, pre_s, post_s);
+%   SYNTAX
+%     [average,lags_s,used] = spike_triggered_average(signal,spike_times,srate,pre_s,post_s)
+%
+%   INPUTS
+%     signal: Finite sampled vector.
+%     spike_times: Finite event timestamps in seconds, first sample at zero.
+%     srate: Positive sampling rate in Hz.
+%     pre_s: Nonnegative duration before each event in seconds.
+%     post_s: Nonnegative duration after each event in seconds.
+%
+%   OUTPUTS
+%     average: Column mean over complete event windows; all NaN if none retained.
+%     lags_s: Column relative time axis in seconds, both rounded endpoints included.
+%     used: Scalar number of complete windows averaged.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     [average, lags_s, used] = spike_triggered_average(x,[1 2 3],fs,0.1,0.2);
+%     % Event centers use round(time*fs)+1, and incomplete windows are skipped.
 %
 x=double(signal(:)); t=double(spike_times(:));
 assert(all(isfinite(x)) && all(isfinite(t)) && srate>0 && pre_s>=0 && post_s>=0);

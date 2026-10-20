@@ -2,15 +2,24 @@ function [phase, amplitude, analytic] = analytic_phase(signal)
 %ANALYTIC_PHASE Hilbert analytic signal, phase (rad), amplitude (input units).
 % Bruns (2004). Apply a scientifically justified bandpass beforehand.
 %
-%   SIGNATURE DESCRIPTION
-%     signal — sampled signal; units and sample axis are given in the notes above.
-%   RETURNS
-%     phase — instantaneous phase in radians.
-%     amplitude — analytic-signal amplitude in the input units.
-%     analytic — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [phase, amplitude, analytic] = analytic_phase(signal);
+%   SYNTAX
+%     [phase, amplitude, analytic] = analytic_phase(signal)
+%
+%   INPUTS
+%     signal: Finite real nonempty vector, normally already bandpass filtered.
+%
+%   OUTPUTS
+%     phase: Instantaneous phase in radians, same shape as signal.
+%     amplitude: Nonnegative envelope in signal units, same shape.
+%     analytic: Complex Hilbert analytic signal, same shape.
+%
+%   Requires Signal Processing Toolbox (hilbert).
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     [phase, amplitude, analytic] = analytic_phase(x);
+%     % Interpret phase away from edges and for a justified narrow band.
 %
 validateattributes(signal,{'numeric'},{'vector','real','finite','nonempty'});
 analytic=hilbert(double(signal));

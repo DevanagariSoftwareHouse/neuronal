@@ -3,14 +3,22 @@ function result = pac_mean_vector_length(phase,amplitude)
 % DOI 10.1126/science.1128115; 10.3389/fnins.2019.00573.
 % Low-frequency phase in radians; high-frequency envelope in original units.
 %
-%   SIGNATURE DESCRIPTION
-%     phase — phase values in radians.
-%     amplitude — amplitude/envelope values in the original signal units.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = pac_mean_vector_length(phase, amplitude);
+%   SYNTAX
+%     result = pac_mean_vector_length(phase,amplitude)
+%
+%   INPUTS
+%     phase: Low-frequency phase vector in radians.
+%     amplitude: Matching high-frequency envelope; only finite pairs with amplitude>=0 are
+%       retained (>=2 needed).
+%
+%   OUTPUTS
+%     result: Struct: raw_mvl (amplitude units), normalized_mvl (divided by mean amplitude; NaN
+%       for zero mean), preferred_phase_rad, observations and note.
+%
+%   EXAMPLE
+%     phase = linspace(-pi,pi,1001)'; amplitude = 1+0.5*cos(phase);
+%     result = pac_mean_vector_length(phase,amplitude);
+%     % Raw MVL depends on amplitude scale; normalized MVL removes that scale.
 %
 p=double(phase(:)); a=double(amplitude(:));
 assert(numel(p)==numel(a) && ~isempty(p));

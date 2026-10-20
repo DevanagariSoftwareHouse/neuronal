@@ -3,17 +3,25 @@ function [waves,kept] = spike_waveform_extraction(recording,indices,before,after
 % Input recording=channels x samples, indices=MATLAB one-based sample indices.
 % Output spikes x channels x waveform_samples. NOT for downsampled LFP.
 %
-%   SIGNATURE DESCRIPTION
-%     recording — multichannel recording matrix; channel/sample orientation is stated above.
-%     indices — the indices value; expected shape, units, and constraints are stated in the notes above.
-%     before — the before value; expected shape, units, and constraints are stated in the notes above.
-%     after — the after value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     waves — the returned value; see the summary above for meaning and units.
-%     kept — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [waves, kept] = spike_waveform_extraction(recording, indices, before, after);
+%   SYNTAX
+%     [waves,kept] = spike_waveform_extraction(recording,indices,before,after)
+%
+%   INPUTS
+%     recording: Real channels-by-samples numeric broadband recording.
+%     indices: Finite positive integer event sample indices (1-based).
+%     before: Nonnegative integer samples before each event.
+%     after: Nonnegative integer samples after each event.
+%
+%   OUTPUTS
+%     waves: Retained-spikes-by-channels-by-(before+after+1) single tensor; allocation limited
+%       to 2e7 elements.
+%     kept: Column of positions in the input indices vector with complete windows (not the
+%       sample indices themselves).
+%
+%   EXAMPLE
+%     recording = randn(2,1000); indices = [5;200;700];
+%     [waves, kept] = spike_waveform_extraction(recording,indices,20,40);
+%     % kept=[2;3]; the event at sample 5 lacks the requested pre-window.
 %
 assert(isnumeric(recording) && ismatrix(recording) && isreal(recording));
 [nchannels,nsamples]=size(recording);

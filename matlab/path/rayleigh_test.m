@@ -4,13 +4,20 @@ function result = rayleigh_test(angles)
 % Formula assumes independent circular samples, unimodal alternative.
 % Small n and strongly dependent LFP samples require additional care.
 %
-%   SIGNATURE DESCRIPTION
-%     angles — the angles value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
+%   SYNTAX
+%     result = rayleigh_test(angles)
+%
+%   INPUTS
+%     angles: At least 5 finite real independent circular observations in radians.
+%
+%   OUTPUTS
+%     result: Struct with p_value (analytic approximation), z, resultant_length, n,
+%       mean_direction (radians) and note.
+%
+%   EXAMPLE
+%     angles = [-0.3;-0.1;0;0.1;0.2;0.4];
 %     result = rayleigh_test(angles);
+%     % Use independent events/trials rather than adjacent LFP phase samples.
 %
 a=double(angles(:));
 assert(numel(a)>=5 && all(isfinite(a)) && isreal(a));

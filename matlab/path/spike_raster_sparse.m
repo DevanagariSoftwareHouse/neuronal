@@ -7,18 +7,25 @@ function [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, sp
 % Nonfinite and out-of-recording spike times are discarded. Cluster labels
 % remain in sorted order, including clusters whose spikes were discarded.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_times_s — spike/event timestamps in seconds relative to the recording origin.
-%     spike_clusters — the spike clusters value; expected shape, units, and constraints are stated in the notes above.
-%     srate — sampling rate in Hz.
-%     n_samples — the n samples value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     rastergram — the returned value; see the summary above for meaning and units.
-%     cluster_ids — the returned value; see the summary above for meaning and units.
-%     info — metadata and diagnostics structure.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, spike_clusters, srate, n_samples);
+%   SYNTAX
+%     [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, spike_clusters, srate, n_samples)
+%
+%   INPUTS
+%     spike_times_s: Real timestamp vector in seconds; invalid/out-of-range values discarded.
+%     spike_clusters: Matching finite numeric cluster labels; labels need not be consecutive.
+%     srate: Positive bin sampling rate in Hz.
+%     n_samples: Positive integer number of recording bins.
+%
+%   OUTPUTS
+%     rastergram: Sparse clusters-by-n_samples count matrix; multiple events are summed.
+%     cluster_ids: Sorted unique original labels, one per raster row, including labels with no
+%       retained spikes.
+%     info: Struct with sampling_rate_hz, n_samples, duration_s, spikes_input, spikes_kept and
+%       spikes_discarded.
+%
+%   EXAMPLE
+%     [raster, ids, info] = spike_raster_sparse([0.1 0.1 0.4],[7 7 42],500,500);
+%     % ids=[7;42]; raster(1,51)=2 counts, not a binary flag.
 %
 assert(isempty(spike_times_s) || isvector(spike_times_s), 'Expected a vector or empty input.');
 validateattributes(spike_times_s, {'numeric'}, {'real'});

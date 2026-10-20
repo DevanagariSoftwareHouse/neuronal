@@ -9,17 +9,25 @@ function [times_s, events] = amplitude_threshold_events(envelope, srate, thresho
 % describes each run, with stop_s one sample after the last active sample.
 % This is a general envelope detector, NOT a validated ripple classifier.
 %
-%   SIGNATURE DESCRIPTION
-%     envelope — the envelope value; expected shape, units, and constraints are stated in the notes above.
-%     srate — sampling rate in Hz.
-%     threshold — the threshold value; expected shape, units, and constraints are stated in the notes above.
-%     varargin — optional name/value pairs described in the notes above.
-%   RETURNS
-%     times_s — event timestamps in seconds.
-%     events — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [times_s, events] = amplitude_threshold_events(envelope, srate, threshold);
+%   SYNTAX
+%     [times_s, events] = amplitude_threshold_events(envelope, srate, threshold, varargin)
+%
+%   INPUTS
+%     envelope: Finite nonnegative amplitude vector.
+%     srate: Positive sampling rate in Hz.
+%     threshold: Nonnegative scalar in envelope units; equality is included.
+%     varargin: Name/value pairs: Anchor (peak/onset/midpoint), MinDuration and MinSeparation
+%       in seconds; defaults peak, 0, 0.
+%
+%   OUTPUTS
+%     times_s: Column of retained anchor timestamps in seconds.
+%     events: Table with start_s, stop_s, peak_s, peak_amplitude and anchor_s.
+%
+%   EXAMPLE
+%     env = zeros(1000,1); env(201:250) = 3;
+%     [times_s, events] = amplitude_threshold_events(env,500,2, ...
+%         'Anchor','onset','MinDuration',0.05);
+%     % The run starts at 0.4 s and lasts 0.1 s.
 %
 validateattributes(envelope, {'numeric'}, {'vector','real','finite','nonnegative'});
 validateattributes(srate, {'numeric'}, {'scalar','real','finite','positive'});

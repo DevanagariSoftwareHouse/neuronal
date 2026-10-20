@@ -3,14 +3,23 @@ function model = assembly_pca(spike_counts,n_components)
 % Peyrache et al. (2010); Lopes-dos-Santos et al. (2013).
 % Does not implement ICA or formal assembly significance testing.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_counts — binned spike counts; rows are time bins and columns are units unless noted.
-%     n_components — the n components value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     model — fitted model structure and associated estimates.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     model = assembly_pca(spike_counts, n_components);
+%   SYNTAX
+%     model = assembly_pca(spike_counts,n_components)
+%
+%   INPUTS
+%     spike_counts: Finite nonnegative time-bin-by-unit matrix, at least 3 rows; each unit must
+%       vary.
+%     n_components: Positive integer number of templates; default min(size(spike_counts)),
+%       capped by available singular vectors.
+%
+%   OUTPUTS
+%     model: Struct with templates (units-by-components), scores (bins-by-components),
+%       eigenvalues, per-unit mean/std and mp_upper (IID reference bound).
+%
+%   EXAMPLE
+%     rng(7); counts = randi([0 4],100,5);
+%     model = assembly_pca(counts,2);
+%     % model.templates has five rows and two columns.
 %
 x=double(spike_counts);
 assert(ismatrix(x) && size(x,1)>=3 && all(isfinite(x(:))) && all(x(:)>=0));

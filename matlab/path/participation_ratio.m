@@ -2,13 +2,19 @@ function dimension = participation_ratio(activity)
 %PARTICIPATION_RATIO Covariance effective dimensionality: tr(C)^2/tr(C^2).
 % Used in dimensionality analyses; raw variance differences influence result.
 %
-%   SIGNATURE DESCRIPTION
-%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
-%   RETURNS
-%     dimension — the returned dimension; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
+%   SYNTAX
+%     dimension = participation_ratio(activity)
+%
+%   INPUTS
+%     activity: Finite observations-by-units matrix, >=2 rows; columns are centered internally.
+%
+%   OUTPUTS
+%     dimension: Scalar covariance participation ratio; NaN for zero centered variance.
+%
+%   EXAMPLE
+%     rng(7); activity = randn(100,5);
 %     dimension = participation_ratio(activity);
+%     % Unequal unit variances affect this effective dimension.
 %
 x=double(activity);
 assert(ismatrix(x) && size(x,1)>=2 && all(isfinite(x(:))));

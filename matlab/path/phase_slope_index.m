@@ -2,19 +2,30 @@ function [psi,frequency,coherency] = phase_slope_index(a,b,srate,band_hz,window_
 %PHASE_SLOPE_INDEX Frequency-neighbor coherency phase-slope statistic.
 % Nolte et al. (2008). Unnormalized draft; no jackknife z-score/sign inference.
 %
-%   SIGNATURE DESCRIPTION
-%     a — the a value; expected shape, units, and constraints are stated in the notes above.
-%     b — the b value; expected shape, units, and constraints are stated in the notes above.
-%     srate — sampling rate in Hz.
-%     band_hz — two-element frequency band in Hz.
-%     window_seconds — window duration in seconds.
-%   RETURNS
-%     psi — the returned value; see the summary above for meaning and units.
-%     frequency — frequency axis in Hz.
-%     coherency — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [psi, frequency, coherency] = phase_slope_index(a, b, srate, band_hz, window_seconds);
+%   SYNTAX
+%     [psi,frequency,coherency] = phase_slope_index(a,b,srate,band_hz,window_seconds)
+%
+%   INPUTS
+%     a: Finite real signal vector.
+%     b: Matching synchronous finite real signal vector.
+%     srate: Positive sampling rate in Hz.
+%     band_hz: Inclusive [low high] Hz containing >=3 adjacent spectral bins.
+%     window_seconds: Welch window duration; default 4; >=8 samples/window and >=2 windows of
+%       data.
+%
+%   OUTPUTS
+%     psi: Scalar unnormalized imaginary neighbor-coherency product sum within band.
+%     frequency: Full spectral frequency column in Hz.
+%     coherency: Matching complex normalized cross-spectrum.
+%
+%   Requires Signal Processing Toolbox (hann, cpsd, pwelch).
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     y = circshift(x,3)+0.2*randn(size(x));
+%     [psi, f, c] = phase_slope_index(x,y,fs,[4 12],2);
+%     % This example does not establish a calibrated direction/sign inference.
 %
 if nargin<5 || isempty(window_seconds), window_seconds=4; end
 x=double(a(:)); y=double(b(:));

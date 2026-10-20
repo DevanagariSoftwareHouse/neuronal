@@ -2,20 +2,27 @@ function [ci,theta,tboot] = bootstrap_t_ci(x,statfun,sefun,B,level,seed)
 %BOOTSTRAP_T_CI Draft studentized IID bootstrap for scalar statistic.
 % statfun and sefun must operate on observations in rows.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     statfun — function handle that computes the requested statistic.
-%     sefun — the sefun value; expected shape, units, and constraints are stated in the notes above.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     level — confidence level between 0 and 1.
-%     seed — random-number generator seed.
-%   RETURNS
-%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
-%     theta — the returned value; see the summary above for meaning and units.
-%     tboot — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ci, theta, tboot] = bootstrap_t_ci(x, statfun, sefun, B, level, seed);
+%   SYNTAX
+%     [ci,theta,tboot] = bootstrap_t_ci(x,statfun,sefun,B,level,seed)
+%
+%   INPUTS
+%     x: Finite observations-by-features matrix with at least 3 independent rows.
+%     statfun: Function returning a finite scalar statistic.
+%     sefun: Function returning a finite positive scalar standard error on every sample.
+%     B: Integer replicate count >=20; default 2000.
+%     level: Confidence probability in (0,1); default 0.95.
+%     seed: Local mt19937ar seed; default 42.
+%
+%   OUTPUTS
+%     ci: 1-by-2 studentized lower/upper bounds.
+%     theta: Original scalar statistic.
+%     tboot: B-by-1 studentized bootstrap statistics.
+%
+%   EXAMPLE
+%     rng(7); x = randn(40,1);
+%     sefun = @(z) std(z)/sqrt(numel(z));
+%     [ci, theta, tboot] = bootstrap_t_ci(x,@mean,sefun,500,0.95,7);
+%     % sefun must also be positive on each bootstrap sample.
 %
 if nargin<4||isempty(B), B=2000; end
 if nargin<5||isempty(level), level=.95; end

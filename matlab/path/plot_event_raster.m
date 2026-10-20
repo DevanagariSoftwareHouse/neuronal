@@ -3,14 +3,21 @@ function h = plot_event_raster(counts, lags_s)
 % H = PLOT_EVENT_RASTER(COUNTS, LAGS_S) plots log(1+count) for visibility.
 % NaN-padded samples are transparent. Raw COUNTS are not modified.
 %
-%   SIGNATURE DESCRIPTION
-%     counts — counts or observations, with dimensions described above.
-%     lags_s — the lags s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     h — the returned h; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     h = plot_event_raster(counts, lags_s);
+%   SYNTAX
+%     h = plot_event_raster(counts, lags_s)
+%
+%   INPUTS
+%     counts: Nonempty events-by-bins numeric matrix, nonnegative values or NaN padding.
+%     lags_s: Finite vector in seconds, one value per column.
+%
+%   OUTPUTS
+%     h: Image graphics handle displaying log(1+counts); NaNs are transparent. Draws in the
+%       current axes.
+%
+%   EXAMPLE
+%     counts = [0 1 2 0 1;1 0 1 0 0]; lags_s = -0.2:0.1:0.2;
+%     figure; h = plot_event_raster(counts,lags_s);
+%     % Color encodes transformed counts; multiple spikes remain distinguishable.
 %
 validateattributes(counts, {'numeric'}, {'2d','real'});
 validateattributes(lags_s, {'numeric'}, {'vector','real','finite'});

@@ -4,17 +4,25 @@ function result = surrogate_test(data,statfun,surrogatefun,B,tail)
 % tail: 'right', 'left', 'two-sided' (two-sided uses |T| around zero).
 % Exact Monte Carlo interpretation requires exchangeability under H0.
 %
-%   SIGNATURE DESCRIPTION
-%     data — the data value; expected shape, units, and constraints are stated in the notes above.
-%     statfun — function handle that computes the requested statistic.
-%     surrogatefun — the surrogatefun value; expected shape, units, and constraints are stated in the notes above.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     tail — the tail value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = surrogate_test(data, statfun, surrogatefun, B, tail);
+%   SYNTAX
+%     result = surrogate_test(data,statfun,surrogatefun,B,tail)
+%
+%   INPUTS
+%     data: Dataset accepted by both callbacks.
+%     statfun: Function statfun(data) returning a finite scalar.
+%     surrogatefun: Function surrogatefun(data) generating one null dataset.
+%     B: Integer null draws >=19; default 999.
+%     tail: right (default), left, or two-sided (absolute values around zero).
+%
+%   OUTPUTS
+%     result: Struct with observed, null (B-by-1), p (plus-one p-value), tail and draws.
+%
+%   EXAMPLE
+%     rng(7); x = randn(80,1); data = [x,x+randn(80,1)];
+%     statfun = @(z) mean(z(:,1).*z(:,2));
+%     shuffle = @(z) [z(:,1),z(randperm(size(z,1)),2)];
+%     result = surrogate_test(data,statfun,shuffle,199,'right');
+%     % This null destroys row pairing and assumes rows are exchangeable.
 %
 if nargin<4||isempty(B), B=999; end
 if nargin<5||isempty(tail), tail='right'; end

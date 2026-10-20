@@ -4,17 +4,31 @@ function catalog = neuronal_register(catalogPath, alias, digestPath, entries, va
 %   produce files and entries; they must not write catalog.mat concurrently.
 %   'Replace',true replaces an existing dataset alias (not other datasets).
 %
-%   SIGNATURE DESCRIPTION
-%     catalogPath — the catalog path value; expected shape, units, and constraints are stated in the notes above.
-%     alias — the alias value; expected shape, units, and constraints are stated in the notes above.
-%     digestPath — the digest path value; expected shape, units, and constraints are stated in the notes above.
-%     entries — the entries value; expected shape, units, and constraints are stated in the notes above.
-%     varargin — optional name/value pairs described in the notes above.
-%   RETURNS
-%     catalog — the returned catalog; see the summary above for meaning and units.
-%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
-%     % Prepare the input variables above with the documented dimensions and units.
-%     catalog = neuronal_register(catalogPath, alias, digestPath, entries);
+%   SYNTAX
+%     catalog = neuronal_register(catalogPath, alias, digestPath, entries, varargin)
+%
+%   INPUTS
+%     catalogPath: Target catalog MAT-file path (created if absent).
+%     alias: Nonempty dataset alias, unique in the catalog.
+%     digestPath: Nonempty provenance/digest path string stored as metadata.
+%     entries: Nonempty record struct array with unique id and nonempty file descriptor array;
+%       files are validated.
+%     varargin: Replace=false by default; true replaces an existing alias. Root resolves
+%       relative binary paths (default repository root).
+%
+%   OUTPUTS
+%     catalog: Updated struct array with schema_version, digest_alias, digest_path and data.
+%       Also writes catalogPath atomically.
+%
+%   The little-endian writer fixture validates on a little-endian host.
+%
+%   EXAMPLE
+%     folder = tempname; mkdir(folder);
+%     d = neuronal_write_binary(single(randn(100,2)),fullfile(folder,'toy.bin'));
+%     entry = struct('id','toy-record','file',d);
+%     catalog = neuronal_register(fullfile(folder,'catalog.mat'),'toy','toy.m',entry);
+%     % The example writes a temporary catalog and binary, then removes them.
+%     rmdir(folder,'s');
 %
     p = inputParser;
     addParameter(p,'Replace',false,@(x) islogical(x)&&isscalar(x));

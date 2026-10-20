@@ -3,14 +3,21 @@ function expression = assembly_expression(zscores,templates)
 % Project onto PCA/ICA templates; input zscores MUST match fitted unit order.
 % Peyrache et al. (2010); Lopes-dos-Santos et al. (2013).
 %
-%   SIGNATURE DESCRIPTION
-%     zscores — the zscores value; expected shape, units, and constraints are stated in the notes above.
-%     templates — the templates value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     expression — the returned expression; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     expression = assembly_expression(zscores, templates);
+%   SYNTAX
+%     expression = assembly_expression(zscores,templates)
+%
+%   INPUTS
+%     zscores: Finite time-bin-by-unit standardized activity; use the training mean/std.
+%     templates: Unit-by-assembly weights, e.g. assembly_pca(...).templates.
+%
+%   OUTPUTS
+%     expression: Time-bin-by-assembly off-diagonal coactivation scores; may be negative.
+%
+%   EXAMPLE
+%     counts = randi([0 4],100,5); model = assembly_pca(counts,2);
+%     z = (counts-model.mean)./model.std;
+%     expression = assembly_expression(z,model.templates);
+%     % Columns correspond to the fitted assembly templates.
 %
 z=double(zscores); v=double(templates);
 assert(size(z,2)==size(v,1) && all(isfinite(z(:))) && all(isfinite(v(:))));

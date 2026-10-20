@@ -3,16 +3,23 @@ function model = tensor_cp_als(tensor,rank,iterations,ridge)
 % Williams et al. (2018), doi:10.1016/j.neuron.2018.05.015.
 % Elementary CP algorithm; no TCA fitting constraints or rank selection.
 %
-%   SIGNATURE DESCRIPTION
-%     tensor — input tensor with axes specified in the function summary.
-%     rank — the rank value; expected shape, units, and constraints are stated in the notes above.
-%     iterations — the iterations value; expected shape, units, and constraints are stated in the notes above.
-%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     model — fitted model structure and associated estimates.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     model = tensor_cp_als(tensor, rank, iterations, ridge);
+%   SYNTAX
+%     model = tensor_cp_als(tensor,rank,iterations,ridge)
+%
+%   INPUTS
+%     tensor: Finite neuron-by-time-by-trial 3-D array (trailing trial dimension >1).
+%     rank: Positive integer CP component count.
+%     iterations: Positive integer fixed iteration count; default 40.
+%     ridge: Positive normal-equation ridge penalty; default 1e-7.
+%
+%   OUTPUTS
+%     model: Struct with neuron_factors, temporal_factors, trial_factors (each
+%       axis-size-by-rank) and relative_error (Frobenius reconstruction error).
+%
+%   EXAMPLE
+%     rng(7); x = randn(5,20,8);
+%     model = tensor_cp_als(x,2,40,1e-7);
+%     % Factor scales/signs are nonunique; inspect reconstruction and repeated starts.
 %
 if nargin<3 || isempty(iterations), iterations=40; end
 if nargin<4 || isempty(ridge), ridge=1e-7; end

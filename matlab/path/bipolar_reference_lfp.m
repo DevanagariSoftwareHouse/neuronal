@@ -3,15 +3,21 @@ function [bipolar,midpoint_depth] = bipolar_reference_lfp(potential,depth_m)
 % Channels must be ordered by physical depth and share consistent units.
 % Difference is not itself a CSD estimate.
 %
-%   SIGNATURE DESCRIPTION
-%     potential — the potential value; expected shape, units, and constraints are stated in the notes above.
-%     depth_m — the depth m value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     bipolar — the returned value; see the summary above for meaning and units.
-%     midpoint_depth — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [bipolar, midpoint_depth] = bipolar_reference_lfp(potential, depth_m);
+%   SYNTAX
+%     [bipolar,midpoint_depth] = bipolar_reference_lfp(potential,depth_m)
+%
+%   INPUTS
+%     potential: Finite channels-by-samples matrix with at least 2 channels.
+%     depth_m: Strictly increasing channel depths in metres, one per row.
+%
+%   OUTPUTS
+%     bipolar: (channels-1)-by-samples differences, deeper minus shallower.
+%     midpoint_depth: Column of adjacent-pair midpoint depths in metres.
+%
+%   EXAMPLE
+%     potential = randn(4,1000); depths = (0:3)'*100e-6;
+%     [bipolar, midpoint_depth] = bipolar_reference_lfp(potential,depths);
+%     % bipolar(1,:) equals potential(2,:)-potential(1,:).
 %
 x=double(potential); z=double(depth_m(:));
 assert(ismatrix(x) && size(x,1)>=2 && numel(z)==size(x,1));

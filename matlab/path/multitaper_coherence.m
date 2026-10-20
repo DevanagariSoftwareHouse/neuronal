@@ -2,19 +2,30 @@ function [frequency,coherence] = multitaper_coherence(a,b,srate,segment_seconds,
 %MULTITAPER_COHERENCE Magnitude-squared coherency from averaged DPSS spectra.
 % Related to Chronux/Pesaran et al. (2018); no jackknife or trial statistics.
 %
-%   SIGNATURE DESCRIPTION
-%     a — the a value; expected shape, units, and constraints are stated in the notes above.
-%     b — the b value; expected shape, units, and constraints are stated in the notes above.
-%     srate — sampling rate in Hz.
-%     segment_seconds — the segment seconds value; expected shape, units, and constraints are stated in the notes above.
-%     time_bandwidth — the time bandwidth value; expected shape, units, and constraints are stated in the notes above.
-%     tapers — the tapers value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     frequency — frequency axis in Hz.
-%     coherence — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [frequency, coherence] = multitaper_coherence(a, b, srate, segment_seconds, time_bandwidth, tapers);
+%   SYNTAX
+%     [frequency,coherence] = multitaper_coherence(a,b,srate,segment_seconds,time_bandwidth,tapers)
+%
+%   INPUTS
+%     a: Finite real signal vector.
+%     b: Matching synchronous finite real signal vector.
+%     srate: Positive sampling rate in Hz.
+%     segment_seconds: Segment duration; default 4; >=16 samples per segment and >=2 segments
+%       of data.
+%     time_bandwidth: DPSS time-bandwidth product >1; default 3.
+%     tapers: Integer count >=1 and <2*time_bandwidth; default floor(2*time_bandwidth-1).
+%
+%   OUTPUTS
+%     frequency: Column frequency axis in Hz.
+%     coherence: Matching magnitude-squared coherence in [0,1].
+%
+%   Requires Signal Processing Toolbox (dpss).
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     y = x+randn(size(x));
+%     [f, c] = multitaper_coherence(x,y,fs,2,3,5);
+%     % Segments overlap by approximately 50 percent.
 %
 if nargin<4 || isempty(segment_seconds), segment_seconds=4; end
 if nargin<5 || isempty(time_bandwidth), time_bandwidth=3; end

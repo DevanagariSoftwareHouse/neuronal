@@ -3,15 +3,22 @@ function result = field_potential_inverse_tikhonov(leadfield,potentials,lambda)
 % Pesaran et al. (2018): the inverse problem is nonunique/ill-posed.
 % Needs physically specified leadfield, noise model, regularization and checks.
 %
-%   SIGNATURE DESCRIPTION
-%     leadfield — the leadfield value; expected shape, units, and constraints are stated in the notes above.
-%     potentials — the potentials value; expected shape, units, and constraints are stated in the notes above.
-%     lambda — the lambda value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = field_potential_inverse_tikhonov(leadfield, potentials, lambda);
+%   SYNTAX
+%     result = field_potential_inverse_tikhonov(leadfield,potentials,lambda)
+%
+%   INPUTS
+%     leadfield: Finite electrodes-by-sources matrix.
+%     potentials: Finite electrodes-by-samples observations.
+%     lambda: Finite positive scalar ridge penalty in the units of leadfield'*leadfield.
+%
+%   OUTPUTS
+%     result: Struct with sources (sources-by-samples), prediction/residual
+%       (electrodes-by-samples), lambda and note.
+%
+%   EXAMPLE
+%     G = [1 0.2;0.3 1;0.5 0.5]; y = G*randn(2,100);
+%     result = field_potential_inverse_tikhonov(G,y,0.1);
+%     % Regularization selects an estimate; it does not make sources unique.
 %
 g=double(leadfield); y=double(potentials);
 assert(ismatrix(g) && ismatrix(y) && size(g,1)==size(y,1));

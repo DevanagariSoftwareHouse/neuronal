@@ -3,14 +3,20 @@ function bits = mutual_information(x,y)
 % Panzeri & Treves (1996): strong finite-sample bias; no correction here.
 % Each event must have a finite numerical label, not a continuous measurement.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     y — the y value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     bits — mutual/transfer information in bits.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     bits = mutual_information(x, y);
+%   SYNTAX
+%     bits = mutual_information(x,y)
+%
+%   INPUTS
+%     x: Finite numeric discrete-label vector, >=2 observations.
+%     y: Matching finite numeric discrete-label vector.
+%
+%   OUTPUTS
+%     bits: Scalar empirical mutual information in bits, without bias correction.
+%
+%   EXAMPLE
+%     x = [0;0;1;1]; y = [1;1;0;0];
+%     bits = mutual_information(x,y);
+%     % These balanced, perfectly related labels give 1 bit.
 %
 x=double(x(:)); y=double(y(:));
 assert(numel(x)==numel(y) && numel(x)>=2 && ...

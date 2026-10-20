@@ -5,15 +5,26 @@ function info = neuronal_write_binary(x, filename, varargin)
 %   contiguously, yielding [samples x channels] on disk without TRANSPOSE.
 %   A temporary file is validated and atomically renamed on the same volume.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     filename — the filename value; expected shape, units, and constraints are stated in the notes above.
-%     varargin — optional name/value pairs described in the notes above.
-%   RETURNS
-%     info — metadata and diagnostics structure.
-%   USAGE EXAMPLE (uses default options; add documented name/value pairs as needed)
-%     % Prepare the input variables above with the documented dimensions and units.
-%     info = neuronal_write_binary(x, filename);
+%   SYNTAX
+%     info = neuronal_write_binary(x, filename, varargin)
+%
+%   INPUTS
+%     x: Nonempty real 2-D numeric matrix; supported classes are double/single and
+%       signed/unsigned 8/16/32/64-bit integers.
+%     filename: Destination path; parent directories are created.
+%     varargin: SampleAxis=1 (default) or 2; Overwrite=false (logical); ChunkSamples=2^19
+%       (positive integer).
+%
+%   OUTPUTS
+%     info: Descriptor with path, dtype, shape (samples-by-channels), layout, endian=ieee-le,
+%       offset_bytes=0, bytes, sample_axis=1 and channel_axis=2.
+%
+%   EXAMPLE
+%     filename = [tempname '.bin'];
+%     lfp = single(randn(3,1000)); % channels by samples
+%     info = neuronal_write_binary(lfp,filename,'SampleAxis',2,'ChunkSamples',256);
+%     % info.shape is [1000 3]; existing files require Overwrite=true.
+%     delete(filename);
 %
     validateattributes(x,{'numeric'},{'real','2d','nonempty'},mfilename,'x');
     supported = {'double','single','int8','uint8','int16','uint16', ...

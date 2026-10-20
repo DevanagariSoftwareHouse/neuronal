@@ -7,16 +7,24 @@ function times_s = phase_crossing_events(phase_rad, srate, target_phase_rad, min
 % PHASE should come from an appropriately bandpassed analytic signal.
 % Sampling must resolve phase changes (< pi radians per sample).
 %
-%   SIGNATURE DESCRIPTION
-%     phase_rad — phase values in radians.
-%     srate — sampling rate in Hz.
-%     target_phase_rad — the target phase rad value; expected shape, units, and constraints are stated in the notes above.
-%     min_separation_s — the min separation s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     times_s — event timestamps in seconds.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     times_s = phase_crossing_events(phase_rad, srate, target_phase_rad, min_separation_s);
+%   SYNTAX
+%     times_s = phase_crossing_events(phase_rad, srate, target_phase_rad, min_separation_s)
+%
+%   INPUTS
+%     phase_rad: Finite real phase vector in radians; sample-to-sample advances must be
+%       resolved (<pi).
+%     srate: Positive sampling rate in Hz.
+%     target_phase_rad: Finite crossing phase in radians modulo 2*pi; default 0.
+%     min_separation_s: Nonnegative minimum retained-event separation in seconds; default 0.
+%
+%   OUTPUTS
+%     times_s: Column of interpolated forward-crossing timestamps; first input sample is time
+%       zero.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:999)'/fs; phase = 2*pi*8*t-0.3;
+%     times_s = phase_crossing_events(phase,fs,0,0.05);
+%     % Backward phase movements and wrap discontinuities are not crossings.
 %
 if nargin < 3 || isempty(target_phase_rad), target_phase_rad = 0; end
 if nargin < 4 || isempty(min_separation_s), min_separation_s = 0; end

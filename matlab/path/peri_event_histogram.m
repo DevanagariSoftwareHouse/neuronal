@@ -3,17 +3,24 @@ function [centers_s,rate_hz,trial_counts] = peri_event_histogram(spike_times,eve
 % Nawrot et al. (1999). Events/trials may be dependent: interpret accordingly.
 % Match spike_counts_edges: empty trains accepted, nonfinite spikes discarded.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_times — spike/event timestamps in seconds.
-%     event_times — event timestamps in seconds.
-%     edges_s — the edges s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     centers_s — the returned value; see the summary above for meaning and units.
-%     rate_hz — rate in spikes per second (Hz).
-%     trial_counts — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [centers_s, rate_hz, trial_counts] = peri_event_histogram(spike_times, event_times, edges_s);
+%   SYNTAX
+%     [centers_s,rate_hz,trial_counts] = peri_event_histogram(spike_times,event_times,edges_s)
+%
+%   INPUTS
+%     spike_times: Real timestamp vector in seconds; empty accepted and nonfinite values
+%       discarded.
+%     event_times: Nonempty finite event vector in seconds, same time origin.
+%     edges_s: Strictly increasing finite relative bin edges in seconds, >=2 values.
+%
+%   OUTPUTS
+%     centers_s: Bin-center column in relative seconds.
+%     rate_hz: Mean trial count divided by bin width, column in spikes/s.
+%     trial_counts: Events-by-bins matrix, all bins half-open including final bin.
+%
+%   EXAMPLE
+%     spikes = [0.95 1.02 1.1 1.98 2.04]; events = [1 2];
+%     [centers_s, rate_hz, trial_counts] = peri_event_histogram(spikes,events,-0.2:0.05:0.2);
+%     % Each trial is aligned to one event, with a shared relative time axis.
 %
 validateattributes(spike_times,{'numeric'},{'real'});
 assert(isempty(spike_times) || isvector(spike_times));

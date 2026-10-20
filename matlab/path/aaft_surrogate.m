@@ -3,13 +3,19 @@ function y = aaft_surrogate(x)
 % Rank-map original data to Gaussian, randomize phase, map ranks back.
 % Theiler et al. (1992). Prefer IAAFT when spectral fidelity matters.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%   RETURNS
-%     y — the returned y; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
+%   SYNTAX
+%     y = aaft_surrogate(x)
+%
+%   INPUTS
+%     x: Finite real vector with at least 8 samples.
+%
+%   OUTPUTS
+%     y: Surrogate with the same shape and sorted values as x.
+%
+%   EXAMPLE
+%     rng(7); x = randn(1000,1);
 %     y = aaft_surrogate(x);
+%     % Compare spectra as well as the preserved amplitude distribution.
 %
 assert(isvector(x)&&isreal(x)&&all(isfinite(x(:)))&&numel(x)>=8);
 row=isrow(x); x=double(x(:)); n=numel(x);

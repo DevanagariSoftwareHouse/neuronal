@@ -2,16 +2,23 @@ function model = aperiodic_slope(frequency,power,fit_band,exclude_bands)
 %APERIODIC_SLOPE Log-log linear 1/f fit; NOT full FOOOF/specparam.
 % Donoghue et al. (2020). Exclude peaks explicitly before fitting.
 %
-%   SIGNATURE DESCRIPTION
-%     frequency — frequency values in Hz.
-%     power — the power value; expected shape, units, and constraints are stated in the notes above.
-%     fit_band — the fit band value; expected shape, units, and constraints are stated in the notes above.
-%     exclude_bands — the exclude bands value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     model — fitted model structure and associated estimates.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     model = aperiodic_slope(frequency, power, fit_band, exclude_bands);
+%   SYNTAX
+%     model = aperiodic_slope(frequency,power,fit_band,exclude_bands)
+%
+%   INPUTS
+%     frequency: Frequency vector in Hz.
+%     power: Matching PSD vector; only finite positive frequency/power pairs enter the fit.
+%     fit_band: Inclusive [low high] frequency range in Hz.
+%     exclude_bands: K-by-2 excluded frequency ranges in Hz; default zeros(0,2).
+%
+%   OUTPUTS
+%     model: Struct: slope, exponent=-slope, intercept (base-10 log power), background (PSD),
+%       frequency_hz and fit_mask.
+%
+%   EXAMPLE
+%     f = (1:100)'; p = 2*f.^(-1.5);
+%     model = aperiodic_slope(f,p,[2 90],[7 12]);
+%     % model.exponent is 1.5 for this ideal power law.
 %
 if nargin<4, exclude_bands=zeros(0,2); end
 frequency=double(frequency(:)); power=double(power(:));

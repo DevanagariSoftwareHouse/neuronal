@@ -4,16 +4,24 @@ function result = cluster_permutation_test(a,b,threshold,B)
 % Uses absolute Welch-like t statistic and max cluster mass.
 % A significant cluster does NOT localize the effect to every sample.
 %
-%   SIGNATURE DESCRIPTION
-%     a — the a value; expected shape, units, and constraints are stated in the notes above.
-%     b — the b value; expected shape, units, and constraints are stated in the notes above.
-%     threshold — the threshold value; expected shape, units, and constraints are stated in the notes above.
-%     B — number of bootstrap/permutation/surrogate draws.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = cluster_permutation_test(a, b, threshold, B);
+%   SYNTAX
+%     result = cluster_permutation_test(a,b,threshold,B)
+%
+%   INPUTS
+%     a: Finite group-A observations-by-ordered-features matrix, at least 2 rows.
+%     b: Finite group-B matrix with matching columns and at least 2 rows.
+%     threshold: Positive cluster-forming absolute t threshold; default 2.
+%     B: Integer permutation count >=19; default 999.
+%
+%   OUTPUTS
+%     result: Struct: statistic (1-by-features), cluster_labels (0 outside clusters),
+%       cluster_masses, cluster_p and max_null (B-by-1).
+%
+%   EXAMPLE
+%     rng(7); a = randn(20,30); b = randn(20,30);
+%     a(:,10:15) = a(:,10:15)+1;
+%     result = cluster_permutation_test(a,b,2,199);
+%     % cluster_p tests cluster mass, not significance at each member sample.
 %
 if nargin<3||isempty(threshold), threshold=2; end
 if nargin<4||isempty(B), B=999; end

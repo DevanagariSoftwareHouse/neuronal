@@ -2,14 +2,21 @@ function result = condition_marginalization(activity,labels)
 %CONDITION_MARGINALIZATION Separate condition means from trial residuals.
 % Primitive used in demixing and dDR; not a complete dPCA algorithm.
 %
-%   SIGNATURE DESCRIPTION
-%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
-%     labels — one condition/class label for each corresponding observation or trial.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = condition_marginalization(activity, labels);
+%   SYNTAX
+%     result = condition_marginalization(activity,labels)
+%
+%   INPUTS
+%     activity: Finite trials-by-features matrix with at least 2 trials.
+%     labels: One condition label per trial.
+%
+%   OUTPUTS
+%     result: Struct with conditions, group_index, condition_means, counts, noise_residual
+%       (trials-by-features), and grand_mean.
+%
+%   EXAMPLE
+%     activity = randn(20,4); labels = repelem([1;2],10);
+%     result = condition_marginalization(activity,labels);
+%     % noise_residual subtracts the mean of each trial's condition.
 %
 x=double(activity); labels=labels(:);
 assert(size(x,1)==numel(labels) && size(x,1)>=2 && all(isfinite(x(:))));

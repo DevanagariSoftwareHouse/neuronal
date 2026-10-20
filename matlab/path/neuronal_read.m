@@ -3,15 +3,26 @@ function x = neuronal_read(mapping, samples, channels)
 %   X = NEURONAL_READ(M,SAMPLES,CHANNELS) assumes stored shape [time channels].
 %   Samples/channels are MATLAB 1-based indices. Omit channels for all.
 %
-%   SIGNATURE DESCRIPTION
-%     mapping — the mapping value; expected shape, units, and constraints are stated in the notes above.
-%     samples — the samples value; expected shape, units, and constraints are stated in the notes above.
-%     channels — the channels value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     x — the returned x; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     x = neuronal_read(mapping, samples, channels);
+%   SYNTAX
+%     x = neuronal_read(mapping, samples, channels)
+%
+%   INPUTS
+%     mapping: memmapfile object with 2-D Data.x stored as samples-by-channels.
+%     samples: Valid 1-based numeric row indices; omitted or [] selects all.
+%     channels: Valid 1-based numeric column indices; omitted or [] selects all.
+%
+%   OUTPUTS
+%     x: Selected samples-by-channels matrix in the stored numeric class.
+%
+%   The writer example requires a little-endian host for memory mapping.
+%
+%   EXAMPLE
+%     filename = [tempname '.bin'];
+%     descriptor = neuronal_write_binary(single(reshape(1:200,100,2)),filename);
+%     mapping = neuronal_memmap(descriptor);
+%     x = neuronal_read(mapping,11:20,2);
+%     % x is 10-by-1 single precision.
+%     clear mapping; delete(filename);
 %
     assert(isa(mapping,'memmapfile'), 'neuronal:read:Map', ...
         'First argument must be a memmapfile object.');

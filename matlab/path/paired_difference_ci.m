@@ -2,20 +2,26 @@ function [ci,delta,boot] = paired_difference_ci(a,b,B,level,method,seed)
 %PAIRED_DIFFERENCE_CI Draft bootstrap for matched differences B-A.
 % Rows must be independent matched experimental units.
 %
-%   SIGNATURE DESCRIPTION
-%     a — the a value; expected shape, units, and constraints are stated in the notes above.
-%     b — the b value; expected shape, units, and constraints are stated in the notes above.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     level — confidence level between 0 and 1.
-%     method — the method value; expected shape, units, and constraints are stated in the notes above.
-%     seed — random-number generator seed.
-%   RETURNS
-%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
-%     delta — the returned value; see the summary above for meaning and units.
-%     boot — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ci, delta, boot] = paired_difference_ci(a, b, B, level, method, seed);
+%   SYNTAX
+%     [ci,delta,boot] = paired_difference_ci(a,b,B,level,method,seed)
+%
+%   INPUTS
+%     a: Finite vector of before/condition-A measurements, >=3 matched units.
+%     b: Same-sized finite vector of after/condition-B measurements.
+%     B: Integer bootstrap draws >=20; default 2000.
+%     level: Confidence probability in (0,1); default 0.95.
+%     method: percentile (default), basic or bca.
+%     seed: Local mt19937ar seed; default 42.
+%
+%   OUTPUTS
+%     ci: 1-by-2 bounds for the mean paired B-A difference.
+%     delta: Scalar original mean B-A.
+%     boot: B-by-1 bootstrap mean differences.
+%
+%   EXAMPLE
+%     a = [5;7;6;8;4]; b = a+[1;2;0;1;3];
+%     [ci, delta, boot] = paired_difference_ci(a,b,500,0.95,'percentile',7);
+%     % Pair identities are preserved by resampling differences.
 %
 if nargin<3, B=[]; end
 if nargin<4, level=[]; end

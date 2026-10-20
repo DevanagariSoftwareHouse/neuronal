@@ -3,15 +3,21 @@ function result = surrogate_maxstat_test(observed,null,tail)
 % observed: 1 x features; null: B x features from JOINT null draws.
 % Absolute values for 'two-sided' assume zero-centered null statistics.
 %
-%   SIGNATURE DESCRIPTION
-%     observed — the observed value; expected shape, units, and constraints are stated in the notes above.
-%     null — the null value; expected shape, units, and constraints are stated in the notes above.
-%     tail — the tail value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     result — result structure containing the estimates and diagnostics described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     result = surrogate_maxstat_test(observed, null, tail);
+%   SYNTAX
+%     result = surrogate_maxstat_test(observed,null,tail)
+%
+%   INPUTS
+%     observed: Finite vector of test statistics.
+%     null: Finite B-by-features matrix from joint null draws, matching observed.
+%     tail: right (default), left, or two-sided (absolute values around zero).
+%
+%   OUTPUTS
+%     result: Struct with p_corrected (1-by-features), max_null (B-by-1) and observed (row).
+%
+%   EXAMPLE
+%     rng(7); null = randn(999,4); observed = [0.2 1 3 0];
+%     result = surrogate_maxstat_test(observed,null,'two-sided');
+%     % Real applications must generate each row jointly under the chosen null.
 %
 if nargin<3||isempty(tail), tail='right'; end
 observed=reshape(observed,1,[]);

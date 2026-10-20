@@ -3,20 +3,28 @@ function [ci,theta,draws] = parametric_bootstrap_ci(data,fitfun,simulatefun,stat
 % fitfun(data)->params; simulatefun(params,n)->synthetic data.
 % statfun(data)->scalar or vector estimate; percentile CI (draft).
 %
-%   SIGNATURE DESCRIPTION
-%     data — the data value; expected shape, units, and constraints are stated in the notes above.
-%     fitfun — the fitfun value; expected shape, units, and constraints are stated in the notes above.
-%     simulatefun — the simulatefun value; expected shape, units, and constraints are stated in the notes above.
-%     statfun — function handle that computes the requested statistic.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     level — confidence level between 0 and 1.
-%   RETURNS
-%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
-%     theta — the returned value; see the summary above for meaning and units.
-%     draws — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ci, theta, draws] = parametric_bootstrap_ci(data, fitfun, simulatefun, statfun, B, level);
+%   SYNTAX
+%     [ci,theta,draws] = parametric_bootstrap_ci(data,fitfun,simulatefun,statfun,B,level)
+%
+%   INPUTS
+%     data: Dataset with observations in rows.
+%     fitfun: Function fitfun(data) returning model parameters.
+%     simulatefun: Function simulatefun(params,n) generating a dataset with n rows.
+%     statfun: Function returning a fixed-size finite statistic.
+%     B: Integer replicate count >=20; default 999.
+%     level: Confidence probability in (0,1); default 0.95.
+%
+%   OUTPUTS
+%     ci: 2-by-P percentile bounds.
+%     theta: 1-by-P statistic on data.
+%     draws: B-by-P simulated statistics.
+%
+%   EXAMPLE
+%     rng(7); x = randn(30,1);
+%     fitfun = @(z) [mean(z),std(z)];
+%     simulatefun = @(p,n) p(1)+p(2)*randn(n,1);
+%     [ci, theta, draws] = parametric_bootstrap_ci(x,fitfun,simulatefun,@mean,500,0.95);
+%     % The assumed model here is IID Gaussian.
 %
 if nargin<5||isempty(B), B=999; end
 if nargin<6||isempty(level), level=.95; end

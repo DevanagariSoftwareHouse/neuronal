@@ -5,15 +5,22 @@ function [design,valid_bins] = spike_history_design(spike_counts,lags)
 % Each column j,l corresponds to unit j at time t-l, l >= 1.
 % No contemporaneous counts are used; this is not causal identification.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_counts — binned spike counts; rows are time bins and columns are units unless noted.
-%     lags — lag indices in samples or bins, according to the function notes.
-%   RETURNS
-%     design — the returned value; see the summary above for meaning and units.
-%     valid_bins — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [design, valid_bins] = spike_history_design(spike_counts, lags);
+%   SYNTAX
+%     [design,valid_bins] = spike_history_design(spike_counts,lags)
+%
+%   INPUTS
+%     spike_counts: Finite nonnegative time-bin-by-unit matrix.
+%     lags: Positive integer number of previous bins; at least 4 response bins must remain.
+%
+%   OUTPUTS
+%     design: (bins-lags)-by-(units*lags) matrix; column (unit-1)*lags+lag contains that unit
+%       at t-lag; <=1e7 elements.
+%     valid_bins: Column of response indices lags+1:bins (1-based).
+%
+%   EXAMPLE
+%     counts = reshape(1:40,20,2);
+%     [design, valid_bins] = spike_history_design(counts,3);
+%     % design(:,1) is unit 1 one bin before each valid response bin.
 %
 counts=double(spike_counts);
 [n,units]=size(counts);

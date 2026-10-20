@@ -4,15 +4,22 @@ function xp = local_permutation_surrogate(x,conditioning,k)
 % Heuristic neighbor-restricted permutation, NOT an exact conditional null.
 % Check calibration before TE inference (Shorten et al., 2020).
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%     conditioning — the conditioning value; expected shape, units, and constraints are stated in the notes above.
-%     k — the k value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     xp — the returned xp; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     xp = local_permutation_surrogate(x, conditioning, k);
+%   SYNTAX
+%     xp = local_permutation_surrogate(x,conditioning,k)
+%
+%   INPUTS
+%     x: Finite observations-by-features numeric matrix with >=3 rows.
+%     conditioning: Finite matching observations-by-conditioning-features matrix.
+%     k: Integer nearest-neighbor count, 1 <= k < n; default min(10,n-1).
+%
+%   OUTPUTS
+%     xp: Same-sized matrix drawing each row from one of its k nearest neighbors in
+%       conditioning space; rows may be reused.
+%
+%   EXAMPLE
+%     rng(7); z = linspace(0,1,50)'; x = z+0.1*randn(50,1);
+%     xp = local_permutation_surrogate(x,z,5);
+%     % Sampling is with possible row reuse, not a one-to-one permutation.
 %
 assert(isnumeric(x)&&isnumeric(conditioning)&&ismatrix(x)&&ismatrix(conditioning));
 n=size(x,1); assert(size(conditioning,1)==n&&n>=3);

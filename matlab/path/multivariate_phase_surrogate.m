@@ -3,13 +3,20 @@ function y = multivariate_phase_surrogate(x)
 % Samples in rows, channels in columns. Preserves cross-spectral matrices
 % at each Fourier bin. Prichard & Theiler (1994); stationary signals only.
 %
-%   SIGNATURE DESCRIPTION
-%     x — input observations or signal (see the function summary for its expected shape).
-%   RETURNS
-%     y — the returned y; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
+%   SYNTAX
+%     y = multivariate_phase_surrogate(x)
+%
+%   INPUTS
+%     x: Finite real samples-by-channels matrix with >=4 rows.
+%
+%   OUTPUTS
+%     y: Same-sized real surrogate with common phase randomization across channels, preserving
+%       cross-spectral matrices to numerical precision.
+%
+%   EXAMPLE
+%     rng(7); x = randn(1000,3);
 %     y = multivariate_phase_surrogate(x);
+%     % This preserves linear cross-spectral dependence; it does not destroy all coupling.
 %
 assert(isnumeric(x)&&isreal(x)&&ismatrix(x)&&all(isfinite(x(:))));
 [n,~]=size(x); assert(n>=4);

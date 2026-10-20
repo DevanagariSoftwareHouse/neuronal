@@ -2,18 +2,27 @@ function [lags_s,counts] = autocorrelogram(spike_times,start_s,stop_s,bin_s,max_
 %AUTOCORRELOGRAM Binned spike-train autocorrelation (count coincidences).
 % Bin width determines resolution; central zero-lag includes self-pairs.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_times — spike/event timestamps in seconds.
-%     start_s — start of the half-open analysis interval, in seconds.
-%     stop_s — end of the half-open analysis interval, in seconds.
-%     bin_s — bin width in seconds.
-%     max_lag_s — the max lag s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     lags_s — the returned value; see the summary above for meaning and units.
-%     counts — event/count values in the bins or trials described above.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [lags_s, counts] = autocorrelogram(spike_times, start_s, stop_s, bin_s, max_lag_s);
+%   SYNTAX
+%     [lags_s,counts] = autocorrelogram(spike_times,start_s,stop_s,bin_s,max_lag_s)
+%
+%   INPUTS
+%     spike_times: Finite timestamps in seconds.
+%     start_s: Exposure start in seconds (included).
+%     stop_s: Exposure end in seconds (excluded); must exceed start_s.
+%     bin_s: Positive bin width in seconds.
+%     max_lag_s: Maximum lag in seconds, rounded to bins; at least one bin and less than the
+%       binned recording length.
+%
+%   OUTPUTS
+%     lags_s: Column of negative-to-positive lag times in seconds.
+%     counts: Raw binned coincidence counts; central lag includes self-pairs.
+%
+%   Requires Signal Processing Toolbox (xcorr).
+%
+%   EXAMPLE
+%     spikes = [0.1 0.3 0.31 0.8 1.2];
+%     [lags_s, counts] = autocorrelogram(spikes,0,2,0.01,0.1);
+%     % counts is unnormalized; the central peak includes self-pairs.
 %
 [b,~,~]=spike_bin_counts(spike_times,start_s,stop_s,bin_s);
 lag_bins=round(max_lag_s/bin_s);

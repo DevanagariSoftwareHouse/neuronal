@@ -3,14 +3,20 @@ function y = spike_dither_surrogate(spike_times,halfwidth_s)
 % This is NOT an exact conditional interval-jitter null.
 % Platkiewicz, Stark & Amarasingham (2017) discuss false positives.
 %
-%   SIGNATURE DESCRIPTION
-%     spike_times — spike/event timestamps in seconds.
-%     halfwidth_s — the halfwidth s value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     y — the returned y; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     y = spike_dither_surrogate(spike_times, halfwidth_s);
+%   SYNTAX
+%     y = spike_dither_surrogate(spike_times,halfwidth_s)
+%
+%   INPUTS
+%     spike_times: Finite timestamps in seconds.
+%     halfwidth_s: Positive scalar dither half-width in seconds.
+%
+%   OUTPUTS
+%     y: Sorted column with each event independently displaced in +/-halfwidth_s; no
+%       recording-boundary clipping.
+%
+%   EXAMPLE
+%     rng(7); y = spike_dither_surrogate([0.1;0.3;0.5],0.02);
+%     % Dithering can move events outside a recording and does not preserve bin counts.
 %
 t=double(spike_times(:));
 assert(all(isfinite(t))&&isscalar(halfwidth_s)&&halfwidth_s>0);

@@ -3,19 +3,27 @@ function [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed
 % groups{animal}: trials x features. Statistic accepts a cell array.
 % For clustered units within animals, extend to an additional level.
 %
-%   SIGNATURE DESCRIPTION
-%     groups — the groups value; expected shape, units, and constraints are stated in the notes above.
-%     statfun — function handle that computes the requested statistic.
-%     B — number of bootstrap/permutation/surrogate draws.
-%     level — confidence level between 0 and 1.
-%     seed — random-number generator seed.
-%   RETURNS
-%     ci — confidence interval (one row per statistic, lower and upper limits in columns).
-%     theta — the returned value; see the summary above for meaning and units.
-%     boot — the returned value; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     [ci, theta, boot] = hierarchical_bootstrap_ci(groups, statfun, B, level, seed);
+%   SYNTAX
+%     [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed)
+%
+%   INPUTS
+%     groups: Cell array of at least 2 animals/groups, each a nonempty finite
+%       trials-by-features matrix.
+%     statfun: Function accepting the resampled cell array; default mean of per-group means
+%       over all elements.
+%     B: Integer replicate count >=20; default 2000.
+%     level: Confidence probability in (0,1); default 0.95.
+%     seed: Local mt19937ar seed; default 42.
+%
+%   OUTPUTS
+%     ci: 2-by-P percentile lower/upper bounds.
+%     theta: 1-by-P original statistic.
+%     boot: B-by-P statistics from resampling groups, then rows within selected groups.
+%
+%   EXAMPLE
+%     rng(7); groups = {randn(10,1),randn(12,1)+1,randn(8,1)};
+%     [ci, theta, boot] = hierarchical_bootstrap_ci(groups,[],500,0.95,7);
+%     % The default gives each animal equal weight despite unequal trial counts.
 %
 if nargin<2||isempty(statfun)
     statfun=@(g)mean(cellfun(@(a)mean(a(:)),g));

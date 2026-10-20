@@ -3,17 +3,25 @@ function model = poisson_spike_glm(design,counts,bin_seconds,ridge,max_iteration
 % Truccolo et al. (2005). Columns are chosen covariates/spike history.
 % Does not correct for latent shared drive, refractory effects or overdispersion.
 %
-%   SIGNATURE DESCRIPTION
-%     design — the design value; expected shape, units, and constraints are stated in the notes above.
-%     counts — counts or observations, with dimensions described above.
-%     bin_seconds — the bin seconds value; expected shape, units, and constraints are stated in the notes above.
-%     ridge — the ridge value; expected shape, units, and constraints are stated in the notes above.
-%     max_iterations — the max iterations value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     model — fitted model structure and associated estimates.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     model = poisson_spike_glm(design, counts, bin_seconds, ridge, max_iterations);
+%   SYNTAX
+%     model = poisson_spike_glm(design,counts,bin_seconds,ridge,max_iterations)
+%
+%   INPUTS
+%     design: Finite time-bin-by-covariate matrix, >=4 rows; intercept added internally.
+%     counts: Matching nonnegative finite count vector.
+%     bin_seconds: Positive exposure duration per bin in seconds.
+%     ridge: Nonnegative coefficient penalty (intercept unpenalized); default 1e-4.
+%     max_iterations: Positive integer IRLS iteration limit; default 60.
+%
+%   OUTPUTS
+%     model: Struct with intercept (log-rate scale), coefficients (covariates-by-1),
+%       expected_count (bins-by-1), iterations and note.
+%
+%   EXAMPLE
+%     rng(7); design = randn(200,2); counts = double(rand(200,1)<0.2);
+%     model = poisson_spike_glm(design,counts,0.02,0.1,60);
+%     rate_hz = model.expected_count/0.02;
+%     % Inspect convergence and held-out performance before interpreting coefficients.
 %
 if nargin<4 || isempty(ridge), ridge=1e-4; end
 if nargin<5 || isempty(max_iterations), max_iterations=60; end

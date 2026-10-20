@@ -3,15 +3,23 @@ function csd = current_source_density(potential,spacing_m,conductivity)
 % Pettersen et al. (2006) describes advanced inverse methods not used here.
 % Assumes equal channel spacing, 1D laminar geometry and homogeneous sigma.
 %
-%   SIGNATURE DESCRIPTION
-%     potential — the potential value; expected shape, units, and constraints are stated in the notes above.
-%     spacing_m — the spacing m value; expected shape, units, and constraints are stated in the notes above.
-%     conductivity — the conductivity value; expected shape, units, and constraints are stated in the notes above.
-%   RETURNS
-%     csd — the returned csd; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     csd = current_source_density(potential, spacing_m, conductivity);
+%   SYNTAX
+%     csd = current_source_density(potential,spacing_m,conductivity)
+%
+%   INPUTS
+%     potential: Depth-ordered channels-by-samples potentials, at least 3 channels; use volts
+%       for SI output.
+%     spacing_m: Positive equal intercontact spacing in metres.
+%     conductivity: Positive homogeneous conductivity in S/m; default 1.
+%
+%   OUTPUTS
+%     csd: Same-sized matrix; interior -conductivity*d2V/dz2 (A/m^3 for SI inputs), NaN at
+%       outer contacts.
+%
+%   EXAMPLE
+%     z = (0:4)'*100e-6; potential = repmat(z.^2,1,20);
+%     csd = current_source_density(potential,100e-6,0.3);
+%     % Outer contacts are NaN because no boundary derivative is estimated.
 %
 if nargin<3 || isempty(conductivity), conductivity=1; end
 assert(ismatrix(potential) && size(potential,1)>=3, ...

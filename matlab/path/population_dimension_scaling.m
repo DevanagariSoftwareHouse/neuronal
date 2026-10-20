@@ -2,16 +2,23 @@ function scaling = population_dimension_scaling(activity,unit_counts,repetitions
 %POPULATION_DIMENSION_SCALING Participation ratio for sampled units.
 % Williamson et al. (2016), doi:10.1371/journal.pcbi.1005141.
 %
-%   SIGNATURE DESCRIPTION
-%     activity — neural activity matrix; observation/time rows and unit columns unless noted.
-%     unit_counts — the unit counts value; expected shape, units, and constraints are stated in the notes above.
-%     repetitions — the repetitions value; expected shape, units, and constraints are stated in the notes above.
-%     seed — random-number generator seed.
-%   RETURNS
-%     scaling — the returned scaling; see the summary above for meaning and units.
-%   USAGE EXAMPLE
-%     % Prepare the input variables above with the documented dimensions and units.
-%     scaling = population_dimension_scaling(activity, unit_counts, repetitions, seed);
+%   SYNTAX
+%     scaling = population_dimension_scaling(activity,unit_counts,repetitions,seed)
+%
+%   INPUTS
+%     activity: Finite observations-by-units matrix, >=3 rows and >=2 units.
+%     unit_counts: Nonempty vector of integer subset sizes from 2 to the available units.
+%     repetitions: Positive integer subset draws per size; default 25.
+%     seed: Local mt19937ar seed; default 42.
+%
+%   OUTPUTS
+%     scaling: Struct with unit_counts (column), dimension_samples (repetitions-by-sizes),
+%       mean_dimension (column), seed.
+%
+%   EXAMPLE
+%     rng(7); x = randn(100,10);
+%     scaling = population_dimension_scaling(x,[2 5 10],20,7);
+%     % Variability across subsets is not an animal-level confidence interval.
 %
 if nargin<3 || isempty(repetitions), repetitions=25; end
 if nargin<4 || isempty(seed), seed=42; end
