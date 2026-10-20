@@ -137,6 +137,7 @@
 %   surrogate_maxstat_test     Familywise maximum-statistic surrogate test
 %   permutation_test           Two-sample label-permutation test
 %   paired_permutation_test    Paired sign-flip permutation test
+%   paired_difference_ci      Bootstrap interval for matched differences
 %   paired_signflip_test       Paired sign-flip randomisation test
 %   maxstat_permutation_test   Maximum-statistic permutation test
 %   cluster_permutation_test   Cluster-mass permutation test
