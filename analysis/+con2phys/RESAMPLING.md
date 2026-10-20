@@ -118,3 +118,39 @@ Run `test_questionnaire_resampling` after adding `matlab/tests` to the path.
 It checks method dispatch, reproducibility/RNG restoration, dependency guards,
 fixed-block contiguity, shared resampling, and all fifteen scripts on synthetic
 data. This is a functional regression test, not a coverage study.
+
+## Re-answer and export the questionnaire
+
+`questionarie.tex` contains all 15 original prompts, analytical approaches and
+limitations. Its initial edition explicitly marks numerical results unavailable.
+To execute the question scripts and regenerate a populated report:
+
+```matlab
+run('analysis/a00_startup.m')
+% data must contain one actual raw recording; configure trial_columns first.
+qcfg.inference = struct('method','auto','level',.95);
+qcfg.bootstrap = 2000;
+results = con2phys.run_questionnaire(data,qcfg);
+% Default: analysis/results/questionnaire/questionarie.tex and questionarie.mat
+```
+
+Every question runs independently; failures are logged in the MAT evidence
+bundle and displayed in the TeX report. Successful outputs retain the exact
+method, coverage, interval kind, observation count, block length, configuration
+and recording duration. Bayesian credible intervals are never labelled CIs.
+The runner does not aggregate recordings, select winners from interval overlap,
+or fill personal Section 2 ratings. Set `qcfg.report_revision` to the commit SHA
+for manual runs; CI obtains it from GITHUB_SHA.
+
+Compile from the directory containing the generated TeX:
+
+```sh
+pdflatex -interaction=nonstopmode -halt-on-error questionarie.tex
+```
+
+You can re-export saved evidence without rerunning analyses:
+
+```matlab
+load('analysis/results/questionnaire/questionarie.mat','results')
+write_questionnaire_tex(results,'questionarie.tex')
+```
