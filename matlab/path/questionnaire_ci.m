@@ -29,7 +29,9 @@ validateattributes(opt.level,{'numeric'},{'scalar','>',0,'<',1});
 out=struct('estimate',theta,'ci',[nan nan],'draws',[], ...
     'method',method,'level',opt.level,'axis',axis,'n',n, ...
     'interval_kind','confidence','scope','within-recording conditional', ...
-    'status','insufficient observations','block_length',[]);
+    'status','insufficient observations','block_length',[],'draws_kind','statistic');
+if strcmp(method,'bayesian'), out.interval_kind='credible'; end
+if strcmp(method,'studentized'), out.draws_kind='studentized pivot'; end
 known={'percentile','basic','bca','balanced','bayesian','studentized', ...
     'block','stationary','hierarchical','parametric','wild','subsampling','jackknife'};
 assert(ismember(method,known),'questionnaire:Method','Unknown method: %s',method);
@@ -38,7 +40,8 @@ if ismember(axis,{'time_block','trial'}) && ...
     assert(opt.allow_iid,'questionnaire:Dependence', ...
         'Ordered rows require block/stationary resampling, or explicit allow_iid=true.');
 end
-if n<3 || ~isfinite(theta), return; end
+if n<3, return; end
+if ~isfinite(theta), out.status='undefined point estimate'; return; end
 L=opt.block_length;
 if isempty(L), L=max(1,min(n-1,round(sqrt(n)))); end
 validateattributes(L,{'numeric'},{'scalar','integer','>=',1,'<=',n});

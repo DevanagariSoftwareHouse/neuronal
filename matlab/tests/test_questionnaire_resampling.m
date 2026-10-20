@@ -22,6 +22,9 @@ for test_i=1:numel(methods)
     again=questionnaire_ci(x,@mean,cfg,'unit',true);
     assert(isequal(result.ci,again.ci));
 end
+cfg.inference=struct('method','bayesian');
+small=questionnaire_ci([1;2],@mean,cfg,'unit',true);
+assert(strcmp(small.interval_kind,'credible')&&all(isnan(small.ci)));
 cfg.inference=struct('method','percentile');
 expect_error(@()questionnaire_ci(x,@mean,cfg,'trial',true),'questionnaire:Dependence');
 cfg.inference=struct('method','bayesian');
