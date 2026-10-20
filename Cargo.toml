@@ -11,3 +11,4 @@ repository = "https://github.com/ze-gois/neuronal"
 [workspace.dependencies]
 neuronal-core = { path = "crates/neuronal-core" }
 pyo3 = { version = "0.27", features = ["abi3-py310"] }
+numpy = "0.27"
