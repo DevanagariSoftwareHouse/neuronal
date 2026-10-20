@@ -1,0 +1,375 @@
+\chapter[Second-order modulation]{A simulation of second-order amplitude and phase modulation}
+\label{ch:second-order-modulation}
+Phase--amplitude coupling (PAC) is usually stated as a first-order
+relation: the phase of a slower rhythm modulates the envelope of a faster
+one \cite{canolty2006,tort2010}. Hierarchical, nested accounts of LFP
+rhythms \cite{hyafil2015} invite a further question: is the
+\emph{coupling coefficient itself} modulated by a third, still slower
+phase? This chapter poses a generative model in which the answer is known,
+derives what an estimator should return, and records what the estimator
+actually returns once filtering, noise and finite data intervene. It uses
+Bedrosian's theorem (Chapter~\ref{ch:classical-sampling}) and the Hilbert
+multiplier identity of Chapter~5 at every level of the hierarchy.
+
+The code is \path{simulate_lfp_modulation.m} and
+\path{second_order_modulation.m}, with the regression test
+\path{matlab/tests/test_second_order_modulation.m}.
+
+\section{Orders of modulation}
+\begin{definition}[Order of a modulation]
+Let $x(t)=\sum_k A_k(t)\cos\phi_k(t)$ be a sum of narrowband components.
+A parameter of component $k$ (its envelope $A_k$ or the deviation of
+$\phi_k$ from a linear ramp) is \emph{modulated to first order} by
+component $j$ if it is a nonconstant function of $\phi_j$ with fixed
+coefficients. It is modulated \emph{to second order} by a pair $(j,l)$
+if it depends on $\phi_j$ through a coefficient that is itself a
+nonconstant function of $\phi_l$.
+\end{definition}
+The word ``order'' here counts levels of a modulation hierarchy, not the
+order of a moment or of a filter.
+
+\section{The generative model}
+Write $s,m,f$ for slow, middle and fast components (defaults
+$f_s=1.5$, $f_m=8$, $f_f=60$\,Hz: delta, theta, gamma). With independent
+standard Wiener processes $W_\cdot$, phase-diffusion coefficients
+$\sigma_\cdot$ (rad$/\sqrt{\mathrm s}$) and uniform initial phases
+$u_\cdot$,
+\begin{align*}
+\phi_s&=2\pi f_st+u_s+\sigma_sW_s,\\
+A_m&=a_m\bigl(1+m_m\cos(\phi_s-\psi_m)\bigr), &
+\phi_m&=2\pi f_mt+u_m+\sigma_mW_m+\beta_m\sin(\phi_s-\chi_m),\\
+m_f&=m_0\bigl(1+\kappa\cos(\phi_s-\psi_2)\bigr), &
+b_f&=b_0\bigl(1+\lambda\cos(\phi_s-\chi_2)\bigr),\\
+A_f&=a_f\bigl(1+m_f\cos(\phi_m-\psi_f)\bigr), &
+\phi_f&=2\pi f_ft+u_f+\sigma_fW_f+b_f\sin(\phi_m-\chi_f),
+\end{align*}
+and $x=a_s\cos\phi_s+A_m\cos\phi_m+A_f\cos\phi_f+\xi$, where $\xi$ is a
+$1/f^{\chi}$ Gaussian background plus white measurement noise. The middle
+component is amplitude- and phase-modulated by the slow phase (first
+order); the fast component is amplitude- and phase-modulated by the middle
+phase with depth $m_f$ and index $b_f$, and these are modulated by the slow
+phase (second order). Setting $\kappa=\lambda=0$ recovers ordinary
+first-order PAC and phase--phase modulation. Envelopes are nonnegative
+when $m_m\le1$ and $m_0(1+\kappa)\le1$, which the generator enforces.
+
+Phase diffusion is not decoration. With $f_m/f_s=16/3$ the deterministic
+phases would be commensurate, $\phi_m$ would take only a few values for
+each $\phi_s$, and the conditional expectations below would not exist in
+the form stated. Diffusion of the relative phase
+$\phi_m-\tfrac{16}{3}\phi_s$, with variance rate
+$\sigma_m^2+(16/3)^2\sigma_s^2\approx5.2$\,rad$^2$/s at the defaults,
+makes $\phi_m$ asymptotically uniform given $\phi_s$.
+
+\section{Spectral signature}
+\begin{proposition}[Lines produced by second-order AM]
+\label{prop:som-am-lines}
+With $b_f=0$, the fast term expands as
+\begin{align*}
+A_f\cos\phi_f={}&a_f\cos\phi_f
++\tfrac{a_fm_0}{2}\sum_{\pm}\cos\bigl(\phi_f\pm(\phi_m-\psi_f)\bigr)\\
+&+\tfrac{a_fm_0\kappa}{4}\sum_{\pm,\pm}
+\cos\bigl(\phi_f\pm(\phi_m-\psi_f)\pm(\phi_s-\psi_2)\bigr).
+\end{align*}
+Hence second-order AM places four lines at $f_f\pm f_m\pm f_s$, each of
+amplitude $a_fm_0\kappa/4$, whose phases are locked to
+$\phi_f\pm\phi_m\pm\phi_s$.
+\end{proposition}
+\begin{proof}
+Expand $A_f=a_f+a_fm_0\cos(\phi_m-\psi_f)
++a_fm_0\kappa\cos(\phi_m-\psi_f)\cos(\phi_s-\psi_2)$ and apply
+$\cos\alpha\cos\beta=\tfrac12[\cos(\alpha+\beta)+\cos(\alpha-\beta)]$
+once to the second term and twice to the third.
+\end{proof}
+
+\begin{proposition}[Small-index PM lines]
+With $m_f=0$, $u=\phi_m-\chi_f$ and $v=\phi_s-\chi_2$, the Jacobi--Anger
+expansion $\cos(\theta+\beta\sin u)=\sum_{n\in\Z}J_n(\beta)\cos(\theta+nu)$
+and $J_{-1}=-J_1$, $J_1(\beta)=\beta/2+O(\beta^3)$ give, to first order in
+$b_0$,
+\[
+\cos\phi_f\approx\cos\theta
++\tfrac{b_0}{2}\bigl[\cos(\theta+u)-\cos(\theta-u)\bigr]
++\tfrac{b_0\lambda}{4}\sum_{\pm}\bigl[\cos(\theta+u\pm v)-\cos(\theta-u\pm v)\bigr],
+\]
+with $\theta$ the unmodulated fast phase.
+\end{proposition}
+Second-order AM and second-order PM therefore occupy the \emph{same}
+frequencies $f_f\pm f_m\pm f_s$. They differ in the sign relation between
+upper and lower sidebands (equal for AM, opposite for PM), which is the
+classical AM/PM quadrature distinction. A power spectrum, which discards
+these phases, cannot tell them apart; nor can it tell either from
+independent oscillations that happen to sit at those frequencies.
+
+The phase relation $\phi_{f_f+f_m+f_s}-\phi_f-\phi_m-\phi_s=\text{const}$
+involves four components, so it is a trispectral (fourth-order)
+statistic. A bispectrum can respond only through a triad. When the middle
+component is itself AM- or PM-modulated by $\phi_s$, it carries sidebands
+at $f_m\pm f_s$, the triad $(f_m+f_s,f_f,f_f+f_m+f_s)$ exists, and the
+bispectrum can respond; it then cannot separate first-order modulation of
+the middle rhythm from second-order modulation of the fast one.
+
+\section{Spectral separation at every level}
+Bedrosian's theorem (Chapter~\ref{ch:classical-sampling}) gives a
+sufficient condition for the analytic signal of $A\cos\phi$ to return
+$A$ and $\phi$: the envelope spectrum lies inside $(-B,B)$ and the
+carrier spectrum outside it. With phase modulation the carrier is not a
+line. Carson's rule \cite{carson1922} approximates the band occupied by a
+sinusoidally phase-modulated carrier of index $\beta$ and modulating
+frequency $f_{\mathrm{mod}}$ as $2(\beta+1)f_{\mathrm{mod}}$; it is an
+engineering approximation (it retains roughly $98\%$ of the power), not a
+theorem. The resulting conditions, used by the generator, are
+\begin{align*}
+\text{middle:}&\quad f_s<f_m-(\beta_m+1)f_s,\\
+\text{fast:}&\quad f_m+f_s<f_f-(b_0(1+\lambda)+1)f_m,
+\end{align*}
+and an analysis passband of half-width
+\[
+h_m=c\bigl[(\beta_m+1)f_s+f_s\bigr],\qquad
+h_f=c\bigl[(b_0(1+\lambda)+1)f_m+f_m+f_s\bigr],
+\]
+with a margin $c\ge1$ (default $1.2$) against Butterworth roll-off. At the
+defaults this gives $[2.96,13.04]$\,Hz and $[30.36,89.64]$\,Hz, and a slow
+band $f_s\pm cf_s/2=[0.6,2.4]$\,Hz. The generator returns these bands in
+\texttt{recommended\_band\_hz} and flags every violated condition in
+\texttt{constraints}; a band chosen by convention (``theta $5$--$11$\,Hz'')
+rather than by the model is the source of two of the failures in
+Section~\ref{sec:som-failures}.
+
+\section{Estimator targets}
+\begin{proposition}[Conditional mean-vector length]
+\label{prop:som-mvl}
+Assume $\phi_m$ is uniform on the circle conditionally on $\phi_s$ and
+independent of the diffusion of $\phi_f$. Then
+\[
+\frac{\E[A_fe^{i\phi_m}\mid\phi_s]}{\E[A_f\mid\phi_s]}
+=\frac{m_f(\phi_s)}{2}e^{i\psi_f}.
+\]
+In particular, the normalised mean-vector length equals $m_0/2$
+marginally and $m_f(\phi_s)/2$ conditionally.
+\end{proposition}
+\begin{proof}
+Conditionally on $\phi_s$, $m_f$ is fixed. Uniformity gives
+$\E[e^{i\phi_m}]=0$ and $\E[\cos(\phi_m-\psi_f)e^{i\phi_m}]
+=\tfrac12\E[e^{i\psi_f}+e^{i(2\phi_m-\psi_f)}]=\tfrac12e^{i\psi_f}$.
+Hence the numerator is $a_fm_fe^{i\psi_f}/2$ and the denominator is
+$a_f(1+m_f\E\cos(\phi_m-\psi_f))=a_f$.
+\end{proof}
+
+\begin{proposition}[Conditional PM index]
+Under the same assumption, with
+$d_f=b_f\sin(\phi_m-\chi_f)$ the phase deviation,
+$2\,\lvert\E[d_fe^{i\phi_m}\mid\phi_s]\rvert=b_f(\phi_s)$.
+\end{proposition}
+\begin{proof}
+$\sin(\phi_m-\chi_f)e^{i\phi_m}
+=\tfrac1{2i}\bigl(e^{i(2\phi_m-\chi_f)}-e^{i\chi_f}\bigr)$; the first
+term has zero conditional mean, so the expectation is
+$-b_fe^{i\chi_f}/(2i)$, of modulus $b_f/2$.
+\end{proof}
+
+\paragraph{Centring.} In a finite bin the empirical mean of $e^{i\phi_m}$
+is not zero. Writing $\bar{\,\cdot\,}$ for a bin average,
+$\overline{Ae^{i\phi}}=\overline{(A-\bar A)e^{i\phi}}
++\bar A\,\overline{e^{i\phi}}$: the second term leaks the mean envelope
+into the coupling estimate. In the default simulation, with $200$\,s and
+$12$ bins, $\lvert\overline{e^{i\phi_m}}\rvert\approx0.01$--$0.04$ per bin,
+which on the \emph{exact} phases produced per-bin errors of up to $0.09$
+in $\hat m_f$. The estimator therefore uses the centred projection
+$\overline{(A-\bar A)e^{i\phi}}$, which has the same target under
+uniformity and is the phase-clustering correction of
+\cite{vandriel2015}; the worst-bin error on exact phases fell to
+$0.024$, attributable to sampling.
+
+\begin{lemma}[Binning attenuates the first harmonic]
+If $y(\theta)=c_0+\delta\cos(\theta-\psi)$ is averaged over bins of width
+$w=2\pi/M$, the bin means are $c_0+\delta\,\mathrm{sinc}_M\cos(c_b-\psi)$
+at bin centres $c_b$, with $\mathrm{sinc}_M=\sin(\pi/M)/(\pi/M)$.
+\end{lemma}
+\begin{proof}
+$\frac1w\int_{c-w/2}^{c+w/2}\cos(\theta-\psi)\,d\theta
+=\frac{2\sin(w/2)}{w}\cos(c-\psi)$.
+\end{proof}
+For $M=12$ the factor is $0.9886$; the estimator divides the fitted
+first-harmonic amplitude by it. This assumes $\phi_s$ is roughly uniform
+within each bin.
+
+\paragraph{The estimator.} After zero-phase band-pass filtering and Hilbert
+transformation of each band, and removal of filter edges, the slow phase
+is divided into $M$ bins. In each bin
+\[
+\hat m(b)=\frac{2\lvert\overline{(\hat A_f-\bar{\hat A}_f)e^{i\hat\phi_m}}\rvert}
+{\bar{\hat A}_f},\qquad
+\hat\beta(b)=2\lvert\overline{(\hat d_f-\bar{\hat d}_f)e^{i\hat\phi_m}}\rvert,
+\]
+where $\hat d_f$ is the unwrapped fast phase after a zero-phase high-pass
+below the middle band, which removes the carrier ramp and the diffusion
+drift. Each profile is fitted by least squares to
+$c_0+c\cos\theta+s\sin\theta$; the code reports $c_0$, the corrected
+absolute second-order term $\Delta=\lvert c+is\rvert/\mathrm{sinc}_M$, the
+ratio $\Delta/c_0$ and the phase $\arg(c+is)$. For the model these
+estimate $(m_0,m_0\kappa,\kappa,\psi_2)$ and $(b_0,b_0\lambda,\lambda,\chi_2)$.
+
+\begin{caution}
+Report $\Delta$, not only the ratio. When first-order coupling is near
+zero, $\Delta/c_0$ is a ratio of two noise-dominated quantities; in a
+simulation with no coupling at all it averaged $0.25$ with standard
+deviation $0.16$ across six seeds, while $c_0=0.007$: a meaningless number.
+\end{caution}
+
+\paragraph{A null for the second order.} Circularly shifting $\hat\phi_s$
+by at least $10$\,s, while leaving $(\hat\phi_m,\hat A_f,\hat d_f)$ in
+place, preserves first-order coupling, every within-band property and the
+autocorrelation of each series, and destroys only the relation to the slow
+phase. It encodes ``no dependence of the coupling on $\phi_s$''. In $40$
+null realisations ($\kappa=\lambda=0$, $120$\,s, $99$ shifts) the
+nominal-$5\%$ test rejected $0/40$ times for AM and $4/40$ for PM; with
+$40$ realisations the latter is compatible with the nominal level
+($P(\ge4)\approx0.14$ under a $5\%$ rate) but should be checked with more
+runs.
+
+\section{What the simulation returned}
+The numbers below come from an independent NumPy mirror of both MATLAB
+functions (same algorithm, different random generator), eight seeds of
+$200$\,s each at the default parameters and recommended bands. They are
+to be replaced by the MATLAB results of
+\path{test_second_order_modulation.m} once run.
+
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+Quantity & True & Mean & SD\\
+\midrule
+$m_0$ & $0.500$ & $0.478$ & $0.003$\\
+$m_0\kappa$ & $0.300$ & $0.280$ & $0.004$\\
+$\kappa$ & $0.600$ & $0.586$ & $0.005$\\
+$\psi_2$ (rad) & $1.047$ & $1.060$ & $0.012$\\
+$b_0$ & $0.600$ & $0.600$ & $0.007$\\
+$b_0\lambda$ & $0.300$ & $0.289$ & $0.007$\\
+$\lambda$ & $0.500$ & $0.482$ & $0.013$\\
+$\chi_2$ (rad) & $-0.785$ & $-0.705$ & $0.030$\\
+normalised MVL & $0.250$ & $0.239$ & $0.002$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The depths are biased downward by a few per cent: the outer sidebands
+$f_f\pm f_m\pm f_s$ and the middle band's PM spread fall where a
+fourth-order Butterworth filter applied forward and backward no longer has
+unit gain. The bias in $\chi_2$ is a separate mechanism, discussed next.
+With $\kappa=\lambda=0$ the absolute terms were $m_0\kappa\approx0.003$
+and $b_0\lambda\approx0.010$, the size of the upward bias of a modulus of
+noisy means.
+
+\section{Four ways to obtain second-order modulation without it}
+\label{sec:som-failures}
+Each of the following produced a slow-phase dependence of measured
+coupling that the circular-shift null declares significant, in a model
+where the second-order mechanism is absent or different. All were
+isolated by switching one parameter at a time.
+
+\begin{caution}[Non-sinusoidal middle rhythm]
+Add harmonics $h_k\cos(k\phi_m)$, $h_k=0.6/k$, $k=2,\dots,10$, to the
+middle rhythm and remove every true coupling. The harmonics of an $8$\,Hz
+rhythm fall inside the fast band, so the fast envelope and phase become
+periodic in $\phi_m$: spurious first-order PAC (normalised MVL $0.07$,
+$\hat m_0\approx0.13$) and spurious first-order PM ($\hat b_0=0.09$). Because
+the harmonics scale with $A_m$, which the slow phase modulates, the
+spurious coupling also depends on $\phi_s$: $\hat\Delta_{\mathrm{AM}}\approx0.11$,
+$\hat\Delta_{\mathrm{PM}}=0.08$, $p=0.01$ (the smallest attainable with $99$
+shifts) for every seed. Without slow AM of the middle rhythm,
+$\hat\Delta_{\mathrm{AM}}$ fell from $0.112$ to $0.023$ and the ratio from
+$0.88$ to $0.20$. Waveform shape
+is the standard PAC confound \cite{aru2015,cole2019}; here it propagates
+one level up. The generator flags it
+(\texttt{harmonics\_outside\_fast\_band} false); the surrogate does not.
+\end{caution}
+
+\begin{caution}[Modulator frequency modulation and filter roll-off]
+When the middle rhythm is phase-modulated by $\phi_s$, its instantaneous
+frequency $f_m+\beta_mf_s\cos(\phi_s-\chi_m)$ moves with $\phi_s$, and so
+do the fast sidebands $f_f\pm f_m$. If the fast band is narrower than the
+Carson rule requires, the sidebands slide across the filter skirt and the
+measured depth depends on $\phi_s$. With a conventional $35$--$85$\,Hz band
+and $\kappa=0$: $\hat\Delta_{\mathrm{AM}}=0.0059\pm0.0022$, significant in
+$2/6$ seeds; with $\beta_m=0$, $0.0037$ and $0/6$; with a $25$--$95$\,Hz band,
+$0.0034$ and $0/6$. The effect is small next to a true $m_0\kappa=0.3$ and is
+expected to reach significance more often in longer recordings, because
+the surrogate spread shrinks with length while the bias does not. (An earlier, uncentred version of the estimator gave
+$0.008$ and $4/6$.) The same
+mechanism (PM-to-AM conversion by a non-flat passband) lowered the
+first-order estimate of $m_m$, from a harmonic fit of the middle envelope
+on $\hat\phi_s$, from $0.388$ ($\beta_m=0$) to $0.355$ ($\beta_m=0.8$) with a
+$5$--$11$\,Hz middle band; the Carson band restored $0.383$.
+\end{caution}
+
+\begin{caution}[Instantaneous-frequency PM estimators]
+An apparently natural estimator regresses the fast instantaneous frequency
+on $\cos\hat\phi_m$. Differentiating $b_f\sin(\phi_m-\chi_f)$ gives
+$b_f\dot\phi_m\cos(\phi_m-\chi_f)+\dot b_f\sin(\phi_m-\chi_f)$; the
+estimated index is $\propto b_f\dot\phi_m$, and $\dot\phi_m$ is itself
+modulated by $\phi_s$ when $\beta_m\ne0$. The measured profile is then
+\[
+(1+\lambda\cos(\phi_s-\chi_2))
+\bigl(1+\beta_m\tfrac{f_s}{f_m}\cos(\phi_s-\chi_m)\bigr)
+\approx1+\Re\bigl[(\lambda e^{-i\chi_2}+\beta_m\tfrac{f_s}{f_m}e^{-i\chi_m})
+e^{i\phi_s}\bigr],
+\]
+which at the defaults predicts a ratio $0.615$ and phase $-0.61$\,rad
+instead of $0.5$ and $-0.785$; the simulation (with a $35$--$85$\,Hz band)
+returned $0.58$ and $-0.60$.
+With $\beta_m=0$ the estimator was unbiased. The phase-deviation estimator
+used in the code has no $\dot\phi_m$ factor and is immune.
+\end{caution}
+
+\begin{caution}[AM leaking into PM through phase noise]
+The phase of a noisy analytic signal is least reliable where its envelope
+is small, and second-order AM makes the fast envelope's troughs deepest at
+$\phi_s=\psi_2$. The PM estimate inherits a component at that slow phase:
+$\hat\chi_2$ was $-0.705$ with $\psi_2=\pi/3$, $-0.774$ with $\kappa=0$,
+and $-0.835$ with $\psi_2=-3\pi/4$ (truth $-0.785$); without background
+noise it was $-0.776$. Second-order AM and PM estimates are therefore not
+independent, and a significant PM result in the presence of strong AM
+needs a simulation of this kind at matched signal-to-noise ratio.
+\end{caution}
+
+\section{What the model does and does not establish}
+Recovery within a few per cent shows that the estimator approximates its
+target under the model's assumptions; it is a statement about numerical
+behaviour, not about the brain. The four failures above are each
+sufficient to produce surrogate-significant ``second-order coupling''
+without a second-order mechanism, and real LFPs contain all of their
+ingredients: non-sinusoidal theta, theta frequency that varies with slower
+state, conventional band choices and envelope-dependent noise. A claim of
+second-order modulation in data therefore requires at least: bands
+justified by the separation conditions above, waveform-shape controls,
+the phase-deviation (not instantaneous-frequency) PM estimator, the
+absolute term $\Delta$ with a slow-phase-shift null, and a matched
+simulation showing that the observed $\Delta$ exceeds what the confounds
+produce at the data's signal-to-noise ratio.
+
+\section*{Exercises for this chapter}
+\begin{exercise}
+Extend Proposition~\ref{prop:som-am-lines} to include $b_f\ne0$ and find
+the lowest order in $(m_0,b_0)$ at which AM and PM sidebands interact.
+\end{exercise}
+\begin{exercise}
+Show that the trispectrum at $(f_s,f_m,f_f)$ of the model with
+$m_m=\beta_m=0$ is nonzero if and only if $\kappa\ne0$ or $\lambda\ne0$.
+Which product of moments must be removed to make this a cumulant
+statement?
+\end{exercise}
+\begin{exercise}
+Compute the variance of $\lvert\overline{e^{i\phi}}\rvert^2$ for $N$
+independent uniform phases and use it to explain the per-bin errors of the
+uncentred estimator.
+\end{exercise}
+\begin{exercise}
+Using \path{simulate_lfp_modulation.m}, find the smallest $f_f$ for which
+the default fast band no longer satisfies the Bedrosian condition, and
+measure how $\hat\Delta_{\mathrm{AM}}$ degrades below it.
+\end{exercise}
+\begin{exercise}
+Design a waveform-shape control for the first caution: for example,
+estimate coupling after removing the part of the fast band predicted by a
+harmonic regression on $\hat\phi_m$, and test it on the harmonic
+simulation.
+\end{exercise}

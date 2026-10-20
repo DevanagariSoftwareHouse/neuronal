@@ -135,6 +135,8 @@
 %   pairwise_phase_consistency Pairwise phase consistency
 %   modulation_index           Phase-binned amplitude modulation index
 %   pac_mean_vector_length     Phase-amplitude mean-vector length
+%   second_order_modulation    Slow-phase dependence of PAC depth and PM index
+%   simulate_lfp_modulation    Synthetic LFP with 1st/2nd-order AM and PM, ground truth
 %   mutual_information         Plug-in mutual information
 %   transfer_entropy           First-order plug-in transfer entropy
 %   granger_causality          Conditional linear VAR Granger causality
