@@ -25,8 +25,11 @@ function results = filter_compare(signal, srate, frequencies, cycles)
         'One cycle count required per frequency');
     assert(numel(frequencies) <= 100, 'At most 100 probes per call');
 
-    results = repmat(struct(), numel(frequencies), 1);
-    for k = 1:numel(frequencies)
+    first = filter_probe(signal, srate, frequencies(1), cycles(1));
+    first.center_hz = frequencies(1);
+    first.cycles = cycles(1);
+    results = repmat(first, numel(frequencies), 1);
+    for k = 2:numel(frequencies)
         r = filter_probe(signal, srate, frequencies(k), cycles(k));
         r.center_hz = frequencies(k);
         r.cycles = cycles(k);
