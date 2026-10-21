@@ -19,6 +19,12 @@ function [ci,theta,boot] = hierarchical_bootstrap_ci(groups,statfun,B,level,seed
 % Each cell level is resampled with replacement, recursively. Use a
 % statistic that understands the nested structure and scientific estimand.
 % Do not treat crossed trial/unit factors as nested without justification.
+%
+%   EXAMPLE
+%     rng(7); groups = {randn(10,1),randn(12,1)+1,randn(8,1)};
+%     [ci, theta, boot] = hierarchical_bootstrap_ci(groups,[],500,0.95,7);
+%     % The default gives each animal equal weight despite unequal trial counts.
+%
 if nargin<2||isempty(statfun)
     statfun=@(g)mean(cellfun(@(a)mean(a(:)),g));
 end

@@ -17,7 +17,7 @@ for d = 1 : numel(data)
     end
     data(d).waveform_id = data(d).brain_areas.cluster_id
     data(d).waveform_area = data(d).brain_areas.brain_area
-    
+
 end
 %%
 %%
@@ -42,14 +42,14 @@ times(1).srate = 500;
 
 for dd = 1 : numel(data)
     d = data(dd);
- 
+
     for t = 1 : numel(times)
         time = times(t);
         time.t = time.init:(1/time.srate):time.end;
         time.id = unique(floor(time.init*time.srate:time.end*time.srate));
-    
+
         d.time(t) = time;
-        
+
         for cc = 1 : size(d.lfp_1.Data.x,2)
             sample = d.lfp_1.Data.x(time.id,cc);
             for b = 1 : numel(band)
@@ -58,7 +58,7 @@ for dd = 1 : numel(data)
         end
         data(dd).time = d.time;
     end
-    
+
 end
 
 %%
@@ -128,7 +128,7 @@ for b = 1 : numel(bins)
     id = id_bin==bins(b);
     plot(offsets,zscore(mean(sample_by_spike(id,:),1)))
     hold on
-    
+
 end
 hold off
 grid on
@@ -157,8 +157,7 @@ for b = 1 : numel(bins)
     id = id_bin==bins(b);
     plot(offsets,unwrap(mean(phase_by_spike(id,:)),1))
     hold on
-    
+
 end
 
 %%
-

@@ -1,5 +1,5 @@
-% eegfilt() -  (high|low|band)-pass filter data using two-way least-squares 
-%              FIR filtering. Optionally uses the window method instead of 
+% eegfilt() -  (high|low|band)-pass filter data using two-way least-squares
+%              FIR filtering. Optionally uses the window method instead of
 %              least-squares. Multiple data channels and epochs supported.
 %              Requires the MATLAB Signal Processing Toolbox.
 % Usage:
@@ -110,7 +110,7 @@ if isempty(filtorder) | filtorder==0,
     elseif hicutoff>0,
         filtorder = minfac*fix(srate/hicutoff);
     end
-    
+
     if filtorder < min_filtorder
         filtorder = min_filtorder;
     end

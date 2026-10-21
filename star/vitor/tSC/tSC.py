@@ -51,21 +51,21 @@ def run(base,ChLabels,sessions,freqs=freqs,nPCs=nPCs,matchSessions=matchSessions
 		printTime('............. started at: ')
 		runThetaSC(base,ChLabel,[ChLabel],sessions,freqs=freqs,nPCs=nPCs,matchSessions=matchSessions,dimrec=dimrec)
 		printTime('............. done at: ')
-	
+
 	print('All done!')
-		
+
 #########################################################################################################
 #### FUNCTIONS FOR TSC EXTRATION ########################################################################
 #########################################################################################################
 
-def GetCyclePSD(CycleEdges,WVSpect):    
-    
+def GetCyclePSD(CycleEdges,WVSpect):
+
 	nCycles = np.size(CycleEdges,0)
 	CyclePSD = np.zeros((nCycles,np.size(WVSpect,0)))
 	for cyclei in range(nCycles):
 		samples = range(CycleEdges[cyclei,0],CycleEdges[cyclei,1])
 		CyclePSD[cyclei,:] = np.mean(WVSpect[:,samples],axis=1)
-        
+
 	return CyclePSD
 
 def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions=matchSessions,dimrec=dimrec):
@@ -90,7 +90,7 @@ def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions
 			WVspect4ICA = computeWVspect4ICA(baseSession,ChLabel,freqs)
 			cyclePSDs = np.concatenate((cyclePSDs,GetCyclePSD(edges,WVspect4ICA)),axis=1)
 		del WVspect4ICA
-		
+
 		spectralSigs[si] = cyclePSDs
 
 	if matchSessions:
@@ -102,13 +102,13 @@ def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions
 
 		nCy = np.size(spectralSigs[sessioni],0)
 		cycleIds = np.arange(nCy)
-		if matchSessions:		
+		if matchSessions:
 			if sessioni<1:
 				cycleIds = np.arange(nCy,nCy-nCyclesPerSession,-1)
 			else:
 				cycleIds = np.arange(nCyclesPerSession)
 
-		spectralSigs0 = np.vstack((spectralSigs0,spectralSigs[sessioni][cycleIds,:])) 
+		spectralSigs0 = np.vstack((spectralSigs0,spectralSigs[sessioni][cycleIds,:]))
 
 	print('................ extracting tSCs')
 	model = extractPatterns(spectralSigs0,dimrec,nPCs,nreplicates=50)
@@ -121,13 +121,13 @@ def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions
 	componentMainFreq = np.zeros(model.n_components)
 	highfreqScore = np.zeros((model.n_components))
 	for compi in range(model.n_components):
-		        
+
 		meanproj = np.mean(projections[compi,:])
-		compsign = np.sign(meanproj)  
+		compsign = np.sign(meanproj)
 		component = np.copy(model.components_[compi,:])
-		compnorm = np.sqrt(np.sum(pow(component,2))) 
+		compnorm = np.sqrt(np.sum(pow(component,2)))
 		component /= compnorm
-                        
+
 		highfreqIds = np.where(efreqs>100)[0]
 	        highfreqscore = np.abs(np.sum(component[highfreqIds])) # gets contribution from high-freqs (>100)
 	        baselinescore = np.abs(np.sum(component[efreqs<100])) # gets contribution from low-freqs (<100)
@@ -156,7 +156,7 @@ def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions
 	model.components_[hfComponent,:] =  component*np.sign(np.sum(component[highfreqIds]))
 	meanComponent = np.mean(pow(model.components_[hfComponent,:],2).reshape(nChs,len(freqs)),axis=0)
 	highfreqIds = np.where(freqs>100)[0]
-	preakfreqi = np.argmax(meanComponent[highfreqIds])	
+	preakfreqi = np.argmax(meanComponent[highfreqIds])
 	componentMainFreq[hfComponent] = freqs[highfreqIds[preakfreqi]]
 
 	print('................ saving theta profiles for '+base)
@@ -177,12 +177,12 @@ def runThetaSC(base,thetaCh,spectCh,sessions,freqs=freqs,nPCs=nPCs,matchSessions
 		output['thetaCh'] = thetaCh
 		output['ChLabels'] = spectCh
 
-		fileout = open(filename, 'wb')	
+		fileout = open(filename, 'wb')
 		np.save(fileout,output)
 		fileout.close()
 
 		filename = baseSession+'.tSCs.'+dimrec+'.model'+'.'+str(thetaCh)
-		joblib.dump(model, filename) 
+		joblib.dump(model, filename)
 
 	printTime('... done at: ')
 
@@ -222,9 +222,9 @@ def eemd(signal,nWorkers,nEnsembles,NoiseStd = 0.3,NumShifts=10):
                         for i in range(nWorkers)]
         for p in processes:
                 p.start()
-        emdjoin = [EMDparOut.get() for p in processes] 
+        emdjoin = [EMDparOut.get() for p in processes]
         for p in processes:
-                p.join()       
+                p.join()
         imfs = np.zeros((np.shape(emdjoin[0])))
         for i in range(len(emdjoin)):
                 imfs += emdjoin[i]
@@ -368,7 +368,7 @@ def defineThetaCycles(Theta,lowFreqAmp,SamplingRate=1250.):
 	MaxPeak2PeakDistance = int(round((1./5)*SamplingRate)) # I use a 5-Hz cycle
 
 	# below define what is the maximum and minimum peak to valley internval
-	MinPeak2ValleyDistance = int(round((1./16)*SamplingRate/2)) # 16-Hz half-cycle for minimum 
+	MinPeak2ValleyDistance = int(round((1./16)*SamplingRate/2)) # 16-Hz half-cycle for minimum
 	MaxPeak2ValleyDistance = int(round((1./4)*SamplingRate/2)) # 4-Hz half-cycle for maximum
 
 	###################################################################################################
@@ -376,8 +376,8 @@ def defineThetaCycles(Theta,lowFreqAmp,SamplingRate=1250.):
 
 	# I use two threholds.
 
-	# FIRST THRESHOLD is based on slow oscillations oscillations. 
-	# The rationale is that we want real theta oscillations and not 1/f signals. 
+	# FIRST THRESHOLD is based on slow oscillations oscillations.
+	# The rationale is that we want real theta oscillations and not 1/f signals.
 	# So theta peaks have to be larger than low-frequency amplitudes.
 
 	lowfreqthrs = np.copy(lowFreqAmp)
@@ -388,7 +388,7 @@ def defineThetaCycles(Theta,lowFreqAmp,SamplingRate=1250.):
 	# this is to avoid to get periods where the signal is (nearly) flat
 
 	# line below combines both thresholds
-	lowfreqthrs[lowfreqthrs<MinThetaPeakAmplitude] = MinThetaPeakAmplitude	
+	lowfreqthrs[lowfreqthrs<MinThetaPeakAmplitude] = MinThetaPeakAmplitude
 
 	###################################################################################################
 	# STEP 3. Theta peak and valley detection #########################################################
@@ -404,8 +404,8 @@ def defineThetaCycles(Theta,lowFreqAmp,SamplingRate=1250.):
 	###################################################################################################
 	# STEP 4. Definitions of Theta cycles #############################################################
 
-	# in order to 'detect' a theta cycle I go valley by valley and check if the preceding AND the subsequent 
-	# detected peaks are within a distance compatible with the theta cycle length (following the parameters 
+	# in order to 'detect' a theta cycle I go valley by valley and check if the preceding AND the subsequent
+	# detected peaks are within a distance compatible with the theta cycle length (following the parameters
 	# defined in the first step), c.f. the loop below.
 
 	# declaring variables as empty int arrays
@@ -415,28 +415,28 @@ def defineThetaCycles(Theta,lowFreqAmp,SamplingRate=1250.):
 
 	# loop over valleys
 	for Valleyi in ValleyIs:
-	    
+
 		# gets first peak BEFORE valley
 		aux = PeakIs[(PeakIs>(Valleyi-MaxPeak2ValleyDistance))&(PeakIs<Valleyi)]
 		if np.size(aux)>0:
 			Peak1 = aux[np.argmax(aux)]
 		else:
 			Peak1 = -np.inf
-	    
+
 		# gets first peak AFTER valley
 		aux = PeakIs[(PeakIs<(Valleyi+MaxPeak2ValleyDistance))&(PeakIs>Valleyi)]
 		if np.size(aux)>0:
-	    		Peak2 = aux[np.argmin(aux)]
+                        Peak2 = aux[np.argmin(aux)]
 		else:
 			Peak2 = -np.inf
-	    
+
 		# checks if both peak-valley distances are larger than minimum allowed
 		PeakValleyCheck1 = min((Valleyi-Peak1),(Peak2-Valleyi))\
 		                    >=MinPeak2ValleyDistance
 		# checks if both peak-valley distances are smaller than maximum allowed
 		PeakValleyCheck2 = max((Valleyi-Peak1),(Peak2-Valleyi))\
 		                    <=MaxPeak2ValleyDistance
-    	    
+
 		# if both conditions are satisfied, get theta cycle
 		if PeakValleyCheck1&PeakValleyCheck2:
 			if (Peak2-Peak1)<=MaxPeak2PeakDistance:
@@ -493,7 +493,7 @@ def getThetaPhases(cycleRefs,signalLen):
 		        quadrantSamples = range(phaserefs[phaserefi],phaserefs[phaserefi+1])
 		        quadrantTimeLength =  len(quadrantSamples)
 		        phase[quadrantSamples] = np.linspace(initialphase,endphase,quadrantTimeLength+1)[0:-1]
-		
+
 	validPhases = np.where(~np.isnan(phase))[0]
 	phase[validPhases[phase[validPhases]<0]] += 2*np.pi
 
@@ -547,8 +547,8 @@ def detectPeaks(x, mph=None, mpd=1, threshold=0, edge='rising',
     -----
     The detection of valleys instead of peaks is performed internally by simply
     negating the data: `ind_valleys = detect_peaks(-x)`
-    
-    The function can handle NaN's 
+
+    The function can handle NaN's
 
     See this IPython Notebook [1]_.
 
@@ -655,13 +655,13 @@ def detectPeaks(x, mph=None, mpd=1, threshold=0, edge='rising',
 def WvSpectrogram(raw,SamplingRate,frequencies,runSpectrogram=True,runPhases=False,s=1,w=5):
 
         if np.size(frequencies)>1:
-                tfr = np.zeros((len(frequencies),len(raw)),dtype=complex) 
+                tfr = np.zeros((len(frequencies),len(raw)),dtype=complex)
 		for freq_i in range(len(frequencies)):
 
                         freq = frequencies[freq_i]
-			
-			# call function below 
-                        tfr[freq_i,:] = WVfiltering(raw,SamplingRate,freq) 
+
+			# call function below
+                        tfr[freq_i,:] = WVfiltering(raw,SamplingRate,freq)
 
 	else:
 		tfr = WVfiltering(raw,SamplingRate,frequencies)
@@ -675,20 +675,20 @@ def WvSpectrogram(raw,SamplingRate,frequencies,runSpectrogram=True,runPhases=Fal
 		phases = np.angle(tfr)
 	else:
 		phases = None
-		
+
 	return spectrogram,tfr,phases
 
 def WVfiltering(Signal,SamplingRate,DesiredFreq):
 
 	# computing the length of the wavelet for the desired frequency
-	WaveletLength = 10.*SamplingRate/DesiredFreq			
+	WaveletLength = 10.*SamplingRate/DesiredFreq
 
 	# constructs morlet wavelet with given parameters
 	MorletWav = sig.morlet(WaveletLength,w=5,s=1,complete=True)
 
 	# cutting borders
 	CumulativeEnvelope = np.cumsum(np.abs(MorletWav))/np.sum(np.abs(MorletWav))
-	Cut1 = next(i for (i,val) in enumerate(CumulativeEnvelope[::-1]) if val<=(1./10000)) 
+	Cut1 = next(i for (i,val) in enumerate(CumulativeEnvelope[::-1]) if val<=(1./10000))
 	Cut2 = Cut1
 	Cut1 = len(CumulativeEnvelope)-Cut1-1
 	MorletWav = MorletWav[range(Cut1,Cut2)]
@@ -726,7 +726,7 @@ def next_power_of_2(n):
 	n -= 1                 # short for "n = n - 1"
 	shift = 1
 	while (n+1) & n:       # the operator "&" is a bitwise operator: it compares every bit of (n+1) and n, and returns those bits that are present in both
-		n |= n >> shift    
+		n |= n >> shift
 		shift <<= 1        # the operator "<<" means "left bitwise shift": this comes down to "shift = shift**2"
 	return n + 1
 
@@ -741,10 +741,10 @@ def printTime(prefix):
 	sys.stdout.flush()
 
 def bold(string):
-        
+
         b0 = "\033[1m"
         b1 = "\033[0;0m"
-        
+
         return b0+string+b1
 
 #########################################################################################################
@@ -754,9 +754,9 @@ def bold(string):
 def getSamplesWithinEdges(edges):
 
 	if len(np.shape(edges))<2:
-       		edges = edges.reshape(1,2)
+                edges = edges.reshape(1,2)
 	samples = np.array([],dtype=int)
-	NofCycles = len(edges)    
+	NofCycles = len(edges)
 	for cyclei in range(NofCycles):
 		cyclesamplesAux = np.arange(edges[cyclei,0],edges[cyclei,1],dtype=int)
 		samples = np.hstack((samples,cyclesamplesAux))
@@ -787,8 +787,8 @@ def getAmpPhaseMatrix(phase,amplitude,nbins):
 	PhaseSamples = [None]*nbins
 	for bin_i in range(nbins):
 		aux = np.where((BinEdges[bin_i]<=phase)&(phase<BinEdges[bin_i+1]))
-    		PhaseSamples[bin_i] = aux[0]
-	
+                PhaseSamples[bin_i] = aux[0]
+
 	MeanAmpMat = np.zeros((len(amplitude),nbins))
 	for freq_i in range(len(amplitude)):
 
@@ -825,12 +825,12 @@ def meantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphasebins
 	tSCprofile = np.zeros((1+ntSCs,len(pltfreqs),nphasebins))
 	nCycles = np.zeros(1+ntSCs)
 	for (si,s) in enumerate(sessions):
-	    
+
 		baseSession = base+'_'+str(s)
-		
+
 		lfp = np.load(baseSession+'.eeg.'+str(ChLabel))
 		spectrogram,_,_ = WvSpectrogram(lfp,SamplingRate=lfpSR,frequencies=pltfreqs)
-		
+
 		edges = thetaCycles[si][:,np.array([0,4])]
 		samples = getSamplesWithinEdges(edges)
 		ampphase,phasebins = getAmpPhaseMatrix(thetaPhase[si][samples],\
@@ -838,11 +838,11 @@ def meantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphasebins
 		                                            nbins=nphasebins)
 		tSCprofile[0] += ampphase*np.size(edges,0)
 		nCycles[0] += np.size(edges,0)
-		
+
 		for tSCi in range(ntSCs):
-		
+
 		        cycleIDs = tSCdata[si]['projections'][:,tSCi]>[thrs[tSCi]]
-		    
+
 		        if np.sum(cycleIDs)>0:
 		                edges = thetaCycles[si][cycleIDs,:][:,np.array([0,4])]
 		                samples = getSamplesWithinEdges(edges)
@@ -850,7 +850,7 @@ def meantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphasebins
 		                                                           spectrogram[:,samples],nbins=nphasebins)
 		                tSCprofile[1+tSCi] += ampphase*np.sum(cycleIDs)
 		                nCycles[1+tSCi] += np.sum(cycleIDs)
-		                
+
 	for (i,tSCprofile0) in enumerate(tSCprofile):
 		tSCprofile[i] = tSCprofile0/nCycles[i]
 
@@ -868,9 +868,9 @@ def plotMeantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphase
 	for (i,tSCi) in enumerate(np.argsort(np.concatenate((np.array([0]),mainfreqs)))):
 		plt.subplot(2,3,i+1)
 
-		ampphase0 = tSCprofile[tSCi] 
+		ampphase0 = tSCprofile[tSCi]
 		ampphase0 = np.concatenate((ampphase0,ampphase0),axis=1)
-		phasebins0 = np.concatenate((phasebins,phasebins+2*np.pi)) 
+		phasebins0 = np.concatenate((phasebins,phasebins+2*np.pi))
 		ampphase0[ampphase0<np.min(levels)] = np.min(levels)
 		ampphase0[ampphase0>np.max(levels)] = np.max(levels)
 
@@ -881,7 +881,7 @@ def plotMeantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphase
 		plt.xticks(np.arange(np.pi/2,4*np.pi,np.pi/2),np.arange(np.pi/2,4*np.pi,np.pi/2)*180/np.pi)
 		plt.colorbar()
 		plt.grid(True,color='w',alpha=.3)
-		
+
 		if i == 0:
 		        plt.title('All cycles')
 		else:
@@ -889,7 +889,7 @@ def plotMeantSCcycle(base,ChLabel,sessions,pltfreqs = np.arange(15,110,5),nphase
 
 		plt.xlabel('theta phase',fontsize=14)
 		plt.ylabel('frequency (Hz)',fontsize=14)
-		
+
 	plt.tight_layout()
 
 #########################################################################################################
@@ -919,7 +919,7 @@ if __name__ == "__main__":
 			ChLabels = np.unique([int(x) for x in aux.split(',')])
 		else:
 			import glob as glob
-			filenames = glob.glob(base+'*.eeg*')			
+			filenames = glob.glob(base+'*.eeg*')
 
 		if 'freqs=' in sys.argv[argi]:
 			freqs = np.unique([int(x) for x in aux.split(',')])
@@ -956,5 +956,5 @@ if __name__ == "__main__":
 			aux = np.array([filename[indx1+5:]])
 			ChLabels = np.concatenate((ChLabels,aux))
 	ChLabels = np.unique(ChLabels)
-	
+
 	run(base,ChLabels,sessions,freqs=freqs,nPCs=nPCs,matchSessions=matchSessions,dimrec=dimrec,nWorkers=nCPUs)

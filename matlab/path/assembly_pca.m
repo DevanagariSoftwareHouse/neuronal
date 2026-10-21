@@ -2,6 +2,25 @@ function model = assembly_pca(spike_counts,n_components)
 %ASSEMBLY_PCA Z-scored PCA templates for population coactivation patterns.
 % Peyrache et al. (2010); Lopes-dos-Santos et al. (2013).
 % Does not implement ICA or formal assembly significance testing.
+%
+%   SYNTAX
+%     model = assembly_pca(spike_counts,n_components)
+%
+%   INPUTS
+%     spike_counts: Finite nonnegative time-bin-by-unit matrix, at least 3 rows; each unit must
+%       vary.
+%     n_components: Positive integer number of templates; default min(size(spike_counts)),
+%       capped by available singular vectors.
+%
+%   OUTPUTS
+%     model: Struct with templates (units-by-components), scores (bins-by-components),
+%       eigenvalues, per-unit mean/std and mp_upper (IID reference bound).
+%
+%   EXAMPLE
+%     rng(7); counts = randi([0 4],100,5);
+%     model = assembly_pca(counts,2);
+%     % model.templates has five rows and two columns.
+%
 x=double(spike_counts);
 assert(ismatrix(x) && size(x,1)>=3 && all(isfinite(x(:))) && all(x(:)>=0));
 mu=mean(x,1); sigma=std(x,0,1);

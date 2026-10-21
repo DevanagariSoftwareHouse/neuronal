@@ -2,9 +2,11 @@
 
 Distribuição Python: `neuronal-rs`. Importação: `import neuronal`.
 
-Pacote Python com núcleo numérico escrito em Rust. Esqueleto inicial para
-simulação neuronal e, posteriormente, geração de registros extracelulares sintéticos.
-Ainda não implementa neurônios LIF nem spike sorting.
+Análise de eletrofisiologia com núcleo numérico em Rust, acessível pelo Python.
+Os métodos de referência estão em MATLAB; o núcleo Rust reimplementa os que forem
+validados contra eles. Ainda não implementa neurônios LIF nem spike sorting.
+
+Convenções de unidades e eixos (s, Hz, `(canal, tempo)`): [docs/conventions.md](docs/conventions.md).
 
 ## Estrutura
 
@@ -22,11 +24,12 @@ Requisitos: Rust estável (cargo/rustc), Python 3.10+ e compilador/linker do sis
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install 'maturin>=1.9,<2' 'pytest>=8'
-maturin develop
+maturin develop -E panel
 python examples/time_axis.py
 pytest
 cargo fmt --all --check
-cargo check --workspace
+cargo clippy --workspace --all-targets -- -D warnings
+cargo test --workspace
 ```
 
 Exemplo:
@@ -37,9 +40,10 @@ import neuronal
 print(neuronal.time_axis(samples=5, dt_ms=0.1))
 ```
 
-A função retorna uma lista Python; NumPy não é obrigatório nesta primeira etapa.
+A função retorna um `numpy.ndarray` `float64`, entregue ao NumPy sem cópia.
 O número de amostras é explícito: o último instante é `(samples - 1) * dt_ms`.
-Zero amostras produz uma lista vazia. O passo deve ser finito e positivo.
+Zero amostras produz um array vazio. Passo não finito ou não positivo gera
+`ValueError`; resultado fora do intervalo finito gera `OverflowError`.
 
 ## Distribuição local
 
@@ -71,7 +75,8 @@ A preparação dos ambientes está em [scripts/README.md](scripts/README.md).
 
 ## Painel NiceGUI experimental
 
-Nesta branch, NiceGUI é dependência do pacote. O painel reutilizável está em
+NiceGUI é opcional: `pip install 'neuronal-rs[panel]'` (ou `maturin develop -E panel`).
+O núcleo numérico funciona sem ele. O painel reutilizável está em
 `neuronal.panel.TimeAxisPanel`; veja
 [02_nicegui_panel.ipynb](examples/notebooks/02_nicegui_panel.ipynb) para apresentação
 no notebook e `python examples/panel.py` para execução no navegador.

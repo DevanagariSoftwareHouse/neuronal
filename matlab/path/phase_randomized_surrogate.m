@@ -2,6 +2,22 @@ function surrogate = phase_randomized_surrogate(signal)
 %PHASE_RANDOMIZED_SURROGATE Real-valued Fourier phase randomization.
 % Preserves Fourier magnitudes, not transient structure or nonstationarity.
 % Uses caller's random state; seed explicitly outside this function.
+%
+%   SYNTAX
+%     surrogate = phase_randomized_surrogate(signal)
+%
+%   INPUTS
+%     signal: Finite real vector with >=4 samples.
+%
+%   OUTPUTS
+%     surrogate: Same-shaped real vector preserving Fourier magnitudes, including unchanged DC
+%       and Nyquist where present.
+%
+%   EXAMPLE
+%     rng(7); x = randn(1000,1);
+%     y = phase_randomized_surrogate(x);
+%     % Sample amplitude distribution need not be preserved.
+%
 assert(isvector(signal) && isreal(signal) && all(isfinite(signal)));
 was_row=isrow(signal); x=double(signal(:)); n=numel(x);
 assert(n>=4,'At least 4 samples required');
