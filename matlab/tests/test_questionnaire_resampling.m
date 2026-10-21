@@ -29,6 +29,8 @@ cfg.inference=struct('method','percentile');
 expect_error(@()questionnaire_ci(x,@mean,cfg,'trial',true),'questionnaire:Dependence');
 cfg.inference=struct('method','bayesian');
 expect_error(@()questionnaire_ci(x,@median,cfg,'unit',false),'questionnaire:Callback');
+% Multifeature observations must not use an implicit scalar weighted mean.
+expect_error(@()questionnaire_ci([x x.^2],@(a)mean(a(:)),cfg,'unit',true),'questionnaire:Callback');
 cfg.inference=struct('method','auto');
 r=questionnaire_ci(x,@mean,cfg,'time_block',true);
 assert(strcmp(r.method,'stationary'));
