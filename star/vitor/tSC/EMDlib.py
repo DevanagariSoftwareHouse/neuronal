@@ -22,13 +22,13 @@ def emd(data,max_modes=10):
     """Calculate the Emprical Mode Decomposition of a signal."""
     # initialize modes
     modes=[]
-  
+
     # perform sifts until we have all modes
     residue=data
     while not _done_sifting(residue):
         # perform a sift
         imf,residue = _do_sift(residue)
-        
+
         # append the imf
         modes.append(imf)
 
@@ -36,7 +36,7 @@ def emd(data,max_modes=10):
         if len(modes) == max_modes:
             # we have all we wanted
             break
-            
+
     # append the residue
     modes.append(residue)
 
@@ -55,10 +55,10 @@ def eemd(data, noise_std=0.2, num_ensembles=100, num_sifts=10):
     # normalize incomming data
     dstd = data.std()
     y = data/dstd
-    
+
     # allocate for starting value
     all_modes = np.zeros((num_modes+2,num_samples))
-    
+
     # loop over num_ensembles
     for e in range(num_ensembles):
         np.random.seed()
@@ -67,7 +67,7 @@ def eemd(data, noise_std=0.2, num_ensembles=100, num_sifts=10):
 
         # save the starting value
         all_modes[0] += x0
-        
+
         # loop over modes
         for m in range(num_modes):
             # do the sifts
@@ -77,16 +77,16 @@ def eemd(data, noise_std=0.2, num_ensembles=100, num_sifts=10):
 
             # save the imf
             all_modes[m+1] += imf
-            
+
             # set the residual
             x0 = x0 - imf
 
         # save the final residual
         all_modes[-1] += x0
-                
+
     # average everything out and renormalize
     return all_modes*dstd/np.float64(num_ensembles)
-    
+
 def _done_sifting(d):
     """We are done sifting is there a monotonic function."""
     return np.sum(_localmax(d))+np.sum(_localmax(-d))<=2
@@ -107,7 +107,7 @@ def _do_sift(data):
     while True:
         imf=_do_one_sift(imf)
         numExtrema,numZC = _analyze_imf(imf)
-        #print 'numextrema=%d, numZC=%d' %  (numExtrema, numZC) 
+        #print 'numextrema=%d, numZC=%d' %  (numExtrema, numZC)
         if abs(numExtrema-numZC)<=1:
             break
 
@@ -130,7 +130,7 @@ def _do_sift(data):
         # save the last extrema and ZC
         lastNumExtrema = numExtrema
         lastNumZC = numZC
-        
+
     # FIX THIS
 #     while True:
 #         imf = _do_one_sift(imf)
@@ -206,7 +206,7 @@ al. (2003)."""
     # needed to change so that fMRI dat would work
     rep = scipy.interpolate.splrep(t,d2,s=.0)
     s = scipy.interpolate.splev(range(len(data)),rep)
-    # plot(1:length(data),data,'b-',1:length(data),s,'k-',t,d2,'r--');  
+    # plot(1:length(data),data,'b-',1:length(data),s,'k-',t,d2,'r--');
 
     return s
 
@@ -221,15 +221,15 @@ def _analyze_imf(d):
 # %   a1=subplot(2,1,1);
 # %   plot(xs,d,'b-',xs,upper,'k-',xs,lower,'k-');
 # %   axis tight;
-  
+
 # %   a2=subplot(2,1,2);
 # %   plot(xs,stopScore,'b-',[0 length(d)],[thresh1 thresh1],'k--',[0 length(d)],[thresh2 ...
 # %                       thresh2],'r--');
 # %   axis tight;
-# %   xlabel(sprintf('score = %.3g',s));  
+# %   xlabel(sprintf('score = %.3g',s));
 # %   linkaxes([a1 a2],'x')
 # %   keyboard
-  
+
 # % end
 
 
@@ -241,7 +241,7 @@ def _analyze_imf(d):
 #   yi=interp1(x,y,xi,'spline');
 # end
 
-  
+
 
 def _localmax(d):
     """Calculate the local maxima of a vector."""
@@ -250,7 +250,7 @@ def _localmax(d):
     # value -1 denotes that the run its a part of may contain a local max
     diffvec = np.r_[-np.inf,d,-np.inf]
     diffScore=np.diff(np.sign(np.diff(diffvec)))
-                     
+
     # Run length code with help from:
     #  http://home.online.no/~pjacklam/matlab/doc/mtt/index.html
     # (this is all painfully complicated, but I did it in order to avoid loops...)
@@ -296,12 +296,12 @@ def calc_inst_info(modes,samplerate):
         h=scipy.signal.hilbert(modes[m]);
         amp[m,:]=np.abs(h);
         phase[m,:]=np.angle(h);
-        f[m,:] = np.r_[np.nan, 
+        f[m,:] = np.r_[np.nan,
                       0.5*(np.angle(-h[2:]*np.conj(h[0:-2]))+np.pi)/(2*np.pi) * samplerate,
                       np.nan]
 
         #f(m,:) = [nan 0.5*(angle(-h(t+1).*conj(h(t-1)))+pi)/(2*pi) * sr nan];
-    
+
     # calc the freqs (old way)
     #f=np.diff(np.unwrap(phase[:,np.r_[0,0:len(modes[0])]]))/(2*np.pi)*samplerate
 
