@@ -1,6 +1,25 @@
 function [entropy_value,counts,patterns] = permutation_entropy(signal,order,delay)
 %PERMUTATION_ENTROPY Normalized ordinal-pattern entropy (0 to 1).
 % Ties are excluded. Akin to con2phys q15; window selection is caller's job.
+%
+%   SYNTAX
+%     [entropy_value,counts,patterns] = permutation_entropy(signal,order,delay)
+%
+%   INPUTS
+%     signal: Finite numeric vector.
+%     order: Integer ordinal pattern length from 2 to 7; default 3.
+%     delay: Positive integer sample lag; default 1; numel(signal)-(order-1)*delay >=10.
+%
+%   OUTPUTS
+%     entropy_value: Scalar normalized ordinal entropy in [0,1], NaN if all patterns have ties.
+%     counts: Column of counts for observed tie-free patterns.
+%     patterns: One observed index permutation per row.
+%
+%   EXAMPLE
+%     rng(7); x = randn(1000,1);
+%     [h, counts, patterns] = permutation_entropy(x,3,1);
+%     % delay is in samples; ties are excluded rather than randomly broken.
+%
 if nargin<2 || isempty(order), order=3; end
 if nargin<3 || isempty(delay), delay=1; end
 x=double(signal(:)); assert(all(isfinite(x)),'Signal must be finite');

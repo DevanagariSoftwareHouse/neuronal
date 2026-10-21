@@ -2,6 +2,26 @@ function [mi,amplitude_by_phase,edges] = modulation_index(phase,amplitude,nbins)
 %MODULATION_INDEX Tort et al. (2010) phase-amplitude modulation index.
 % Inputs are low-frequency phase (rad) and high-frequency envelope.
 % This is descriptive: use surrogates and control waveform non-sinusoidality.
+%
+%   SYNTAX
+%     [mi,amplitude_by_phase,edges] = modulation_index(phase,amplitude,nbins)
+%
+%   INPUTS
+%     phase: Low-frequency phase vector in radians, wrapped internally to [-pi,pi).
+%     amplitude: Matching nonnegative high-frequency envelope; invalid pairs are removed.
+%     nbins: Integer phase bins >=3; default 18; at least 2*nbins valid observations required.
+%
+%   OUTPUTS
+%     mi: Scalar normalized KL modulation index; NaN for empty phase bins or zero total
+%       amplitude.
+%     amplitude_by_phase: nbins-by-1 mean envelope per phase bin.
+%     edges: 1-by-(nbins+1) phase-bin edges in radians.
+%
+%   EXAMPLE
+%     phase = linspace(-pi,pi,1001)'; amplitude = 1+0.5*cos(phase);
+%     [mi, amplitude_by_phase, edges] = modulation_index(phase,amplitude,18);
+%     % A descriptive toy modulation; surrogate controls are a separate step.
+%
 if nargin<3 || isempty(nbins), nbins=18; end
 phase=double(phase(:)); amplitude=double(amplitude(:));
 assert(numel(phase)==numel(amplitude),'Phase and amplitude must match');

@@ -1,6 +1,29 @@
 function [ci,theta,boot] = bootstrap_ci(x,statfun,B,level,method,seed)
 %BOOTSTRAP_CI Draft IID confidence intervals: percentile, basic, BCa.
 % Observations are rows. Do not use IID resampling for correlated bins.
+%
+%   SYNTAX
+%     [ci,theta,boot] = bootstrap_ci(x,statfun,B,level,method,seed)
+%
+%   INPUTS
+%     x: Finite observations-by-features matrix, at least 3 independent rows.
+%     statfun: Function returning one finite scalar; default @mean (use a column vector with
+%       this default).
+%     B: Integer replicate count >=20; default 2000.
+%     level: Confidence probability in (0,1); default 0.95.
+%     method: percentile (default), basic, or bca.
+%     seed: Local mt19937ar seed; default 42.
+%
+%   OUTPUTS
+%     ci: 1-by-2 lower/upper bounds.
+%     theta: Scalar statistic on the original data.
+%     boot: B-by-1 resampled statistics.
+%
+%   EXAMPLE
+%     rng(7); trial_rate = 8 + randn(30,1);
+%     [ci, theta, boot] = bootstrap_ci(trial_rate,@mean,500,0.95,'bca',7);
+%     % Rows represent independent trials, not adjacent time samples.
+%
 if nargin<2 || isempty(statfun), statfun=@mean; end
 if nargin<3 || isempty(B), B=2000; end
 if nargin<4 || isempty(level), level=.95; end

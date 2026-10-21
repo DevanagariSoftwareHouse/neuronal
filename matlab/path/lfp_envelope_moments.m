@@ -34,11 +34,32 @@ function result = lfp_envelope_moments(lfp,fs,varargin)
 %
 %   Requires Signal Processing Toolbox (BUTTER, ZP2SOS, FILTFILT, HILBERT).
 %
-%   Example (after a01_probing and a00_startup):
-%     moments = lfp_envelope_moments(data.lfp_1,data.srate);
-%     plot(moments.time_seconds,moments.mean(:,1,1));
-%
 %   MATLAB R2019a+.
+%
+%   SYNTAX
+%     result = lfp_envelope_moments(lfp,fs,varargin)
+%
+%   INPUTS
+%     lfp: Nonempty real channels-by-samples matrix; channels containing NaN/Inf yield NaN
+%       moments.
+%     fs: Sampling rate in Hz, strictly greater than 160.
+%     varargin: Name/value options listed above; WindowSeconds=10, StepSeconds=0.1,
+%       TimeOriginSeconds=0, ChannelIds=1:nchannels, EdgeSeconds=2, ChunkWindows=512,
+%       OutputClass=double.
+%
+%   OUTPUTS
+%     result: Struct: mean, variance, skewness, excess_kurtosis (windows-by-channels-by-3
+%       bands); time_seconds, window start/end times/samples, channel_valid, edge_affected,
+%       band_names/band_hz, config, filter and provenance.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:9999)/fs;
+%     lfp = [sin(2*pi*8*t); sin(2*pi*20*t)] + 0.2*randn(2,numel(t));
+%     result = lfp_envelope_moments(lfp,fs,'WindowSeconds',10,'StepSeconds',0.5);
+%     plot(result.time_seconds,result.mean(:,1,1));
+%     xlabel('Window center (s)'); ylabel('Theta envelope mean');
+%     % Overlapping windows are dependent; check result.edge_affected.
+%
     validateattributes(lfp,{'numeric'},{'real','2d','nonempty'},mfilename,'lfp',1);
     validateattributes(fs,{'numeric'},{'scalar','real','finite','positive'},mfilename,'fs',2);
     fs = double(fs);

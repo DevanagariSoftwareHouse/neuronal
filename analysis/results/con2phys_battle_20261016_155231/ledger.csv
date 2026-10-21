@@ -1,0 +1,18 @@
+script,status,seconds,message,identifier,error_file,error_line
+a01_storage.m,passed,0.114983,,,,NaN
+a02_spike_statistics.m,passed,1.484128,,,,NaN
+a03_spectrum.m,passed,2.033461,,,,NaN
+a04_oscillations_events.m,passed,0.710568,,,,NaN
+a05_phase_connectivity.m,passed,0.43171,,,,NaN
+a06_predictive_dependence.m,passed,0.052378,,,,NaN
+a07_population.m,passed,0.113975,,,,NaN
+a08_trials_decoding.m,skipped,0.009937,Set cfg.label_field to a verified numeric trial column.,battle:skip,/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal/analysis/+con2phys/path/a08_trials_decoding.m,2
+a09_waveforms_control.m,passed,0.083012,,,,NaN
+a10_fields_control.m,passed,0.019053,,,,NaN
+a11_surrogate_invariants.m,passed,0.059804,,,,NaN
+a12_animal_uncertainty.m,passed,1.171197,,,,NaN
+a13_inference_controls.m,passed,0.042904,,,,NaN
+a14_count_models.m,passed,0.122604,,,,NaN
+a15_adaptive_decomposition.m,passed,0.09486,,,,NaN
+a16_trial_tensor.m,passed,0.069272,,,,NaN
+a17_average_waveforms.m,passed,0.058357,,,,NaN

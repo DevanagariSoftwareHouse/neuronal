@@ -4,6 +4,26 @@ function [episodes,mask,p_episode] = oscillation_episode(above_threshold,srate,f
 % Input: one logical or binary sample-per-time vector above a POWER threshold.
 % Output: detected episodes in seconds, logical mask, proportion of total samples.
 % Note: this is the duration decision step, not an entire BOSC estimator.
+%
+%   SYNTAX
+%     [episodes,mask,p_episode] = oscillation_episode(above_threshold,srate,frequency_hz,minimum_cycles)
+%
+%   INPUTS
+%     above_threshold: Nonempty logical/binary sample vector.
+%     srate: Positive sampling rate in Hz.
+%     frequency_hz: Frequency in (0,srate/2) Hz.
+%     minimum_cycles: Positive minimum duration in cycles; default 3.
+%
+%   OUTPUTS
+%     episodes: Table with start_s, exclusive stop_s, duration_s and cycles.
+%     mask: Logical retained-episode vector, same orientation as input.
+%     p_episode: Scalar fraction of all input samples retained.
+%
+%   EXAMPLE
+%     above = false(1000,1); above(201:450) = true;
+%     [episodes, mask, p_episode] = oscillation_episode(above,500,8,3);
+%     % A 0.5-s run at 8 Hz contains 4 cycles and survives the threshold.
+%
 if nargin<4 || isempty(minimum_cycles), minimum_cycles=3; end
 assert(isvector(above_threshold) && ~isempty(above_threshold));
 assert(all(isfinite(double(above_threshold(:)))) && ...

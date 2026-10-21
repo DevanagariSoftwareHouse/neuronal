@@ -50,7 +50,7 @@ Barnett & Seth	2014	Multivariate Granger causality	granger_causality	parcial	10.
 Cekic et al.	2018	Time-varying Granger review	granger_causality	referencia	10.1002/sim.7621
 Timme & Lapish	2018	Information-theoretic estimators	mutual_information; transfer_entropy	parcial	10.1523/ENEURO.0052-18.2018
 Huang et al.	1998	EMD/Hilbert-Huang	empirical_mode_decomposition; analytic_phase	exploratorio	10.1098/rspa.1998.0193
-Csicsvari et al.	1999	Joint spike-LFP analysis	spike_field_ppc; spike_triggered_average	primitiva apenas	10.1523/JNEUROSCI.19-01-00274.1999
+Csicsvari et al.	1999	Joint spike-LFP analysis	spike_field_ppc; event_triggered_average	primitiva apenas	10.1523/JNEUROSCI.19-01-00274.1999
 Mazzoni et al.	2008	Simulated LFP and spectral information	welch_psd; mutual_information	primitiva apenas	10.1371/journal.pcbi.1000239
 Stark et al.	2014	Sharp-wave ripple interactions	ripple_candidate_events	primitiva apenas	10.1016/j.neuron.2014.06.023
 Wen & Liu	2016	IRASA	irasa_decomposition	exploratorio	10.1007/s10548-015-0448-0

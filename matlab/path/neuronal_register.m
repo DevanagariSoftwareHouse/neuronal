@@ -3,6 +3,33 @@ function catalog = neuronal_register(catalogPath, alias, digestPath, entries, va
 %   Only this single-writer function updates the catalog. Digest workers
 %   produce files and entries; they must not write catalog.mat concurrently.
 %   'Replace',true replaces an existing dataset alias (not other datasets).
+%
+%   SYNTAX
+%     catalog = neuronal_register(catalogPath, alias, digestPath, entries, varargin)
+%
+%   INPUTS
+%     catalogPath: Target catalog MAT-file path (created if absent).
+%     alias: Nonempty dataset alias, unique in the catalog.
+%     digestPath: Nonempty provenance/digest path string stored as metadata.
+%     entries: Nonempty record struct array with unique id and nonempty file descriptor array;
+%       files are validated.
+%     varargin: Replace=false by default; true replaces an existing alias. Root resolves
+%       relative binary paths (default repository root).
+%
+%   OUTPUTS
+%     catalog: Updated struct array with schema_version, digest_alias, digest_path and data.
+%       Also writes catalogPath atomically.
+%
+%   The little-endian writer fixture validates on a little-endian host.
+%
+%   EXAMPLE
+%     folder = tempname; mkdir(folder);
+%     d = neuronal_write_binary(single(randn(100,2)),fullfile(folder,'toy.bin'));
+%     entry = struct('id','toy-record','file',d);
+%     catalog = neuronal_register(fullfile(folder,'catalog.mat'),'toy','toy.m',entry);
+%     % The example writes a temporary catalog and binary, then removes them.
+%     rmdir(folder,'s');
+%
     p = inputParser;
     addParameter(p,'Replace',false,@(x) islogical(x)&&isscalar(x));
     addParameter(p,'Root',[],@(x) isempty(x)||ischar(x)||isstring(x));
