@@ -474,120 +474,7 @@ The entries are maintained against the current source; these additional specific
 {An envelope detector, not a validated ripple classifier; spacing is greedy.}
 
 \methodentry{event_aligned_raster.m}
-{Event-by-lag count matrices for a selected cluster.}
-{Discrete indexing with inclusive rounded lag endpoints.}
-{Event anchors use the containing bin; boundary samples are NaN or the event is dropped.}
-
-\methodentry{phase_crossing_events.m}
-{Interpolated forward crossings of a selected circular phase.}
-{Wrapped phase differences and linear interpolation.}
-{Requires phase increments below pi radians per sample and appropriate band filtering.}
-
-\methodentry{plot_event_raster.m}
-{Raster display of log(1+count) with transparent missing intervals.}
-{A monotone display transform.}
-{Counts retain multiplicity; the display is not an estimator.}
-
-\methodentry{spike_raster_sparse.m}
-{Sparse cluster-by-time spike counts, preserving repeated spikes.}
-{Half-open bins and summation of repeated sparse indices.}
-{Invalid times are discarded; original cluster labels and count metadata are retained.}
-
-\methodentry{neuronal_catalog.m}
-{Load the persistent metadata catalog.}
-{MAT-file deserialization and schema checks.}
-{Loads metadata only; raw recordings are separate files.}
-
-\methodentry{neuronal_file_path.m}
-{Resolve a descriptor path against the repository or an explicit root.}
-{Filesystem path composition.}
-{Relative paths must share the documented root.}
-
-\methodentry{neuronal_memmap.m}
-{Read-only native-endian mapping of a validated binary descriptor.}
-{Column-major binary layout.}
-{Requires exact byte length and host-compatible endianness.}
-
-\methodentry{neuronal_read.m}
-{Read selected sample and channel indices from a mapped matrix.}
-{One-based matrix indexing.}
-{Stored shape is samples by channels; requesting all samples may allocate a large result.}
-
-\methodentry{neuronal_register.m}
-{Validate records and publish a dataset catalog through a temporary file.}
-{Unique record IDs and single-writer replacement.}
-{No concurrent-writer coordination or whole-dataset rollback.}
-
-\methodentry{neuronal_validate_file.m}
-{Check data type, shape, byte offset, length and endianness.}
-{Byte count equals offset plus element count times element size.}
-{Structural validation does not establish equivalence to source recordings.}
-
-\methodentry{neuronal_write_binary.m}
-{Write numeric matrices in channel-contiguous little-endian layout.}
-{Chunked column-major serialization.}
-{Explicit overwrite is required; source files and physical metadata remain the caller responsibility.}
-
-\section{Additional resampling, null models, and validation methods}
-\methodentry{aaft_surrogate.m}
-{Rank-map $x$ to Gaussian scores, randomise Fourier phases, then map back to the original ranks.}
-{Definitional; no theorem needed.}
-{Approximate spectrum only; prefer IAAFT when spectral fidelity matters. The marginal distribution is preserved exactly.}
-
-\methodentry{block_bootstrap_ci.m}
-{Percentile interval from circular moving-block or stationary-bootstrap resamples of length $L$.}
-{Definitional; no theorem needed.}
-{Rows are resampled synchronously across channels; the block scheme and length must reflect dependence. The result is marked as a draft.}
-
-\methodentry{block_shuffle_surrogate.m}
-{Random permutation of nonoverlapping contiguous blocks of $x$.}
-{Definitional; no theorem needed.}
-{Within-block structure is preserved while between-block order is disrupted; conclusions depend on the chosen block length.}
-
-\methodentry{blocked_cross_validation.m}
-{Contiguous test folds with a configurable exclusion gap; returns complementary training indices.}
-{Definitional; no theorem needed.}
-{Use a gap large enough to limit temporal leakage. This partitions observations; it does not balance labels.}
-
-\methodentry{bootstrap_ci.m}
-{IID bootstrap percentile, basic, or BCa interval for a caller-supplied statistic.}
-{Definitional; no theorem needed.}
-{Rows must be independent experimental units. Do not resample correlated time bins as IID observations.}
-
-\methodentry{bootstrap_t_ci.m}
-{Studentised IID bootstrap interval using caller-supplied statistic and standard-error functions.}
-{Definitional; no theorem needed.}
-{Requires independent rows and a stable standard-error estimate; scalar statistic and standard error are expected.}
-
-\methodentry{cluster_permutation_test.m}
-{Permutation test using the maximum cluster mass over ordered features, formed from thresholded absolute two-sample statistics.}
-{Definitional; no theorem needed.}
-{Exchangeability is required at the independent-unit level. A significant cluster does not localise every sample within it.}
-
-\methodentry{delete_group_jackknife.m}
-{Leave-one-group-out estimates and their jackknife standard error.}
-{Definitional; no theorem needed.}
-{The equal-weight standard error is most defensible for comparable groups; requires at least three groups.}
-
-\methodentry{group_cross_validation.m}
-{Randomised folds in which all observations from a group remain in one fold.}
-{Definitional; no theorem needed.}
-{Choose groups to match the independent sampling unit, such as animal or subject; no group is split across train and test.}
-
-\methodentry{hierarchical_bootstrap_ci.m}
-{Nested resampling of animals and then trials to form a percentile interval.}
-{Definitional; no theorem needed.}
-{Assumes trials are nested within animals; crossed sampling axes need a design-specific resampling scheme. This implementation is marked as a draft.}
-
-\methodentry{iaaft_surrogate.m}
-{Iteratively alternates rank remapping to the observed marginal and Fourier-amplitude adjustment.}
-{Definitional; no theorem needed.}
-{The marginal is preserved exactly and the spectrum approximately. Inspect convergence and spectral error diagnostics.}
-
-\methodentry{interval_jitter_surrogate.m}
-{Uniformly relocate each spike within its aligned fixed-width interval.}
-{Definitional; no theorem needed.}
-{Preserves counts per interval but not refractory periods or fine temporal patterns; alignment origin and window are part of the null.}
+{Event-by-lag count matri…1494 tokens truncated…of the null.}
 
 \methodentry{jackknife_ci.m}
 {Normal-approximation interval from delete-one-row jackknife estimates.}
@@ -684,3 +571,34 @@ The entries are maintained against the current source; these additional specific
 {Definitional; no theorem needed.}
 {Apply the permutation consistently to the variable whose trial alignment is to be destroyed; repeated trial structure defines the null.}
 
+
+\section{Spectrograms and filter banks}
+\methodentry{filter_bank_lfp.m}
+{Applies a zero-phase Butterworth bandpass independently to each channel and selected frequency band.}
+{\texttt{ARS-FILT-001}.}
+{Samples are rows; outputs retain channel and band axes. Defaults omit bands crossing Nyquist; edge transients require exclusion.}
+
+\methodentry{fir_bandpass_lfp.m}
+{Designs an even-order Kaiser-window FIR bandpass and applies forward--backward filtering.}
+{\texttt{ARS-FILT-001}.}
+{Noncausal response with squared magnitude; requires more than three filter orders of samples. Vector orientation is preserved.}
+
+\methodentry{notch_lfp.m}
+{Applies a second-order Butterworth bandstop prototype in second-order sections, forward and backward.}
+{\texttt{ARS-FILT-001}.}
+{The stopband must lie inside Nyquist; nearby oscillations and transients can be distorted.}
+
+\methodentry{wavelet_spectrogram.m}
+{Convolves each channel with a unit-energy Morlet kernel at each requested frequency and returns squared coefficient magnitudes.}
+{Definitional; discrete convolution and squared modulus.}
+{Power is wavelet energy, not density per hertz. The validity mask excludes the truncated kernel support at recording boundaries.}
+
+\methodentry{welch_spectrogram.m}
+{Computes one-sided Hann-window periodogram densities in overlapping complete windows.}
+{Definitional; windowed Fourier power density.}
+{Each time column is a single periodogram rather than an average across Welch segments. Overlapping windows are dependent.}
+
+\methodentry{multitaper_spectrogram.m}
+{Averages one-sided periodogram densities across DPSS tapers within each complete sliding window.}
+{Definitional; equal-weight multitaper spectral estimation.}
+{Density is in squared signal units per hertz. Taper count must be below twice the time-bandwidth product; overlapping windows are dependent.}

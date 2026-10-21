@@ -211,7 +211,10 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/bandpass_lfp.m
+      - matlab/path/filter_bank_lfp.m
+      - matlab/path/fir_bandpass_lfp.m
       - matlab/path/lfp_envelope_moments.m
+      - matlab/path/notch_lfp.m
       - matlab/path/ripple_candidate_events.m
   - id: ARS-FILT-002
     name: "The discrete analytic signal recovers amplitude and phase of a bin-centred sinusoid"
@@ -538,6 +541,7 @@ definitional_methods:
   - matlab/path/local_permutation_surrogate.m
   - matlab/path/maxstat_permutation_test.m
   - matlab/path/monte_carlo_null_test.m
+  - matlab/path/multitaper_spectrogram.m
   - matlab/path/multivariate_phase_surrogate.m
   - matlab/path/neuronal_catalog.m
   - matlab/path/neuronal_file_path.m
@@ -566,3 +570,5 @@ definitional_methods:
   - matlab/path/surrogate_test.m
   - matlab/path/trial_shuffle_surrogate.m
   - matlab/path/waveform_trough_to_peak.m
+  - matlab/path/wavelet_spectrogram.m
+  - matlab/path/welch_spectrogram.m
