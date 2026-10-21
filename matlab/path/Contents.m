@@ -43,14 +43,16 @@
 %   value = phase_locking_value(phase_a,phase_b);
 %   % This descriptive value does not remove common-reference or stimulus effects.
 %
-% EXAMPLE 5 — SPIKE-TRIGGERED AVERAGE
+% EXAMPLE 5 — EVENT-ALIGNED SEGMENTS AND TRIGGERED AVERAGE
 %   fs = 500;
 %   t = (0:fs*4-1)'/fs;
 %   lfp = sin(2*pi*8*t) + 0.1*randn(size(t));
-%   spike_times = [0.5 1.2 2.1 3.0];
-%   [sta,lags_s,n_used] = spike_triggered_average(lfp,spike_times,fs,0.2,0.3);
+%   spike_times = [0.5 1.2 2.1 3.0];  % any event timestamps in seconds
+%   [segments,lags_s] = event_aligned_segments(lfp,spike_times,fs,[-0.2 0.3]);
+%   [sta,lags_s,n_used] = event_triggered_average(lfp,spike_times,fs,0.2,0.3);
 %   plot(lags_s,sta); xlabel('Time from event (s)'); ylabel('Signal');
-%   % Spikes near recording edges are skipped. Shared stimulus drive remains.
+%   % Edge events are NaN-padded (segments) or skipped (average).
+%   % With spikes as events this is the spike-triggered average.
 %
 % EXAMPLE 6 — SURROGATE TEST OF PAIRING
 %   rng(11);
@@ -71,7 +73,6 @@
 %   spike_bin_counts            Equal-width counts on a time interval
 %   spike_bins                  Counts for multiple units
 %   interspike_intervals        Successive spike-time differences
-%   peri_event_histogram        Trial-by-bin event counts and rates
 %   trial_features              Trial-by-unit rates in specified windows
 %   spike_count_fano            Fano factor across trials
 %   noise_correlation           Condition-residual correlation
@@ -88,15 +89,16 @@
 %   spike_refractory_violations Fraction of short inter-spike intervals
 %   spike_presence_ratio        Fraction of occupied time bins
 %   spike_sorting_agreement     Tolerance-matched sorting agreement
-%   spike_raster_sparse         Sparse cluster-by-time count matrix
+%   victor_purpura_distance     Edit distance between spike trains
 %
-% EVENT ALIGNMENT AND SPIKE-TRAIN METHODS
+% EVENT ALIGNMENT
+%   sparse_count_matrix        Sparse label-by-sample counts of timestamps
 %   amplitude_threshold_events Threshold-defined event candidates
 %   phase_crossing_events      Interpolated phase crossings
-%   event_aligned_raster       Event-aligned count matrix
-%   plot_event_raster          Display event-aligned counts
-%   spike_triggered_average    Signal average around spike times
-%   victor_purpura_distance   Edit distance between spike trains
+%   event_aligned_segments     Event x lag segments of any sampled signal
+%   event_triggered_average    Signal average around event times (STA)
+%   peri_event_histogram       Trial-by-bin event counts and rates
+%   plot_event_aligned         Display an event x lag matrix
 %
 % SPECTRA, FILTERS, OSCILLATIONS, AND LFP
 %   welch_psd                  One-sided Welch power spectral density
@@ -218,4 +220,10 @@
 %   unit and null generator. Connectivity metrics do not establish causation.
 %
 % See also firing_rate, spike_counts_edges, welch_psd, bandpass_lfp,
-% analytic_phase, bootstrap_ci, phase_locking_value, spike_triggered_average.
+% analytic_phase, bootstrap_ci, phase_locking_value, event_aligned_segments.
+
+% Compatibility names (prefer the generic event API in new code)
+%   spike_raster_sparse - Compatibility wrapper; see sparse_count_matrix.
+%   event_aligned_raster - Compatibility wrapper; see event_aligned_segments.
+%   plot_event_raster - Compatibility wrapper; see plot_event_aligned.
+%   spike_triggered_average - Compatibility wrapper; see event_triggered_average.

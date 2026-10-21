@@ -1,0 +1,62 @@
+name: Dell logs
+
+# Run trusted main-branch code on the self-hosted Dell runner.
+# Pull request code must not execute on this machine.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      suites:
+        description: "Space-separated suites (registry rust python matlab realdata lean); empty = defaults"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dell-logs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  logs:
+    name: Run suites and publish logs
+    runs-on: [self-hosted, linux, x64, dell]
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 180
+    env:
+      CI_LOG_DIR: ${{ github.workspace }}/.ci-logs
+      CI_BASE_SHA: ${{ github.event.before || github.sha }}
+      SUITES: ${{ inputs.suites }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run suites
+        id: run
+        shell: bash
+        run: |
+          set +e
+          rm -rf "$CI_LOG_DIR"
+          bash ci/run.sh $SUITES
+          echo "rc=$?" >> "$GITHUB_OUTPUT"
+
+      - name: Publish logs to ci-logs
+        if: always()
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash ci/publish.sh
+
+      - name: Job summary
+        if: always()
+        shell: bash
+        run: cat "$CI_LOG_DIR"/*/summary.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: Fail if any suite failed
+        if: steps.run.outputs.rc != '0'
+        run: exit 1

@@ -72,6 +72,7 @@ theorems:
     lean: null
     status: proved-in-text
     matlab:
+      - matlab/path/event_triggered_average.m
       - matlab/path/firing_rate.m
       - matlab/path/peri_event_histogram.m
       - matlab/path/spike_bin_counts.m
@@ -79,7 +80,6 @@ theorems:
       - matlab/path/spike_counts_edges.m
       - matlab/path/spike_field_coherence.m
       - matlab/path/spike_presence_ratio.m
-      - matlab/path/spike_triggered_average.m
       - matlab/path/trial_features.m
   - id: ARS-COUNT-002
     name: "Rate estimation for a homogeneous Poisson process"
@@ -532,6 +532,7 @@ definitional_methods:
   - matlab/path/cluster_permutation_test.m
   - matlab/path/delete_group_jackknife.m
   - matlab/path/event_aligned_raster.m
+  - matlab/path/event_aligned_segments.m
   - matlab/path/group_cross_validation.m
   - matlab/path/hierarchical_bootstrap_ci.m
   - matlab/path/iaaft_surrogate.m
@@ -554,6 +555,7 @@ definitional_methods:
   - matlab/path/parametric_bootstrap_ci.m
   - matlab/path/permutation_test.m
   - matlab/path/phase_crossing_events.m
+  - matlab/path/plot_event_aligned.m
   - matlab/path/plot_event_raster.m
   - matlab/path/posterior_predictive_check.m
   - matlab/path/questionnaire_balanced_accuracy.m
@@ -565,9 +567,11 @@ definitional_methods:
   - matlab/path/questionnaire_trial_participation.m
   - matlab/path/sensitivity_analysis.m
   - matlab/path/simultaneous_confidence_band.m
+  - matlab/path/sparse_count_matrix.m
   - matlab/path/spectral_peak_candidates.m
   - matlab/path/spike_dither_surrogate.m
   - matlab/path/spike_raster_sparse.m
+  - matlab/path/spike_triggered_average.m
   - matlab/path/spike_waveform_average.m
   - matlab/path/spike_waveform_extraction.m
   - matlab/path/stability_selection.m
