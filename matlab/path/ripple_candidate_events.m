@@ -2,6 +2,9 @@ function events = ripple_candidate_events(signal,srate,band_hz,onset_z,peak_z)
 %RIPPLE_CANDIDATE_EVENTS Robust-envelope high-frequency candidate screen.
 % Liu et al. (2022): detections require review before claiming sharp-wave ripples.
 % Defaults 120..200 Hz, suitable only if Nyquist > 200 Hz.
+% EVENTS table: start_s, stop_s (one sample after the last active sample),
+% duration_s, peak_robust_z and peak_s (time of the envelope maximum).
+% Use peak_s, start_s or a stated midpoint as alignment anchor.
 %
 %   SYNTAX
 %     events = ripple_candidate_events(signal,srate,band_hz,onset_z,peak_z)
@@ -37,18 +40,19 @@ z=(a-baseline)/sigma;
 active=z>=onset_z;
 starts=find(diff([false;active])==1);
 stops=find(diff([active;false])==-1);
-rows=zeros(0,4);
+rows=zeros(0,5);
 for k=1:numel(starts)
     first=starts(k); last=stops(k);
     length_s=(last-first+1)/srate;
     if first==1 || last==numel(x) || length_s<.025 || length_s>.150
         continue
     end
-    peak=max(z(first:last));
+    [peak,peak_idx]=max(z(first:last));
     if peak>=peak_z
-        rows(end+1,:)=[(first-1)/srate,last/srate,length_s,peak]; %#ok<AGROW>
+        peak_s=(first+peak_idx-2)/srate;
+        rows(end+1,:)=[(first-1)/srate,last/srate,length_s,peak,peak_s]; %#ok<AGROW>
     end
 end
 events=array2table(rows,'VariableNames', ...
-    {'start_s','stop_s','duration_s','peak_robust_z'});
+    {'start_s','stop_s','duration_s','peak_robust_z','peak_s'});
 end

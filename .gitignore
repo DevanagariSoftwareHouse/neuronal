@@ -38,6 +38,9 @@ books/formal_foundations/mathematics/pedagogical_graph.json
 # Generated MATLAB outputs and analysis runs
 /analysis/results/
 *.mat
+# Local CI runs (ci/run.sh, ci/local.sh)
+/.ci-logs/
+/.ci-venv/
 
 # Local CON2PHYS battle-test output
 /analysis/results/

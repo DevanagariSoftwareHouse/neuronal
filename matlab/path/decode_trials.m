@@ -1,5 +1,17 @@
 function [score,detail] = decode_trials(x,y,seed)
-%DECODE_TRIALS Balanced accuracy from five contiguous held-out folds.
+%DECODE_TRIALS Contiguous five-fold multiclass ridge decoder of trial labels.
+% [SCORE, DETAIL] = DECODE_TRIALS(X, Y, SEED)
+% X is trials x features; Y is a column of finite numeric class labels.
+% Rows with any nonfinite feature or label are dropped first.
+% Folds are five contiguous blocks in row order; z-scoring and the ridge
+% one-vs-rest least-squares fit (penalty 1, intercept unpenalized) are
+% learned on the training rows only. SCORE is balanced accuracy (mean
+% per-class recall), NaN with < 2 classes, < 25 rows or a missing recall.
+% Folds whose training rows lack two examples of every class are SKIPPED
+% silently; their rows keep predicted = NaN.
+% DETAIL.probability is a softmax of least-squares scores, NOT calibrated.
+% SEED is recorded as metadata only: the procedure is deterministic.
+% See also decoded_mi, crossvalidated_ridge_decoder, blocked_cross_validation.
     % Five contiguous held-out folds; preprocessing learned on training only.
     % Fixed ridge one-vs-rest model, no tuned hyperparameters.
 %
