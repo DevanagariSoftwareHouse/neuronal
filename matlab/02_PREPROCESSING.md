@@ -21,6 +21,72 @@ Note the layout: these functions take **channels x samples**, whereas
 `neuronal_read` returns samples x channels ([01_STORAGE.md](01_STORAGE.md)).
 Transpose a bounded block, never the whole recording.
 
+## Primer: every transformation changes the measurement
+
+Start with “Which unwanted contribution am I trying to suppress, and which
+biological contribution might be suppressed with it?” Referencing operates
+across space; temporal filtering operates across time. Neither operation
+can identify an artifact from its name alone.
+
+For a linear time-invariant filter, the output is a weighted sum of input
+samples:
+
+$$
+y[n]=\sum_k h[k]x[n-k],
+$$
+
+where $h[k]$ is the impulse response and $n$ is the sample index. A localized
+input can therefore affect many output samples. Forward-backward filtering
+has zero phase in its ideal interior response, but uses future samples:
+it can spread a post-event transient into pre-event time. Zero phase does
+not mean unchanged waveform or valid online prediction.
+
+### Toy experiment: an impulse becomes an oscillatory waveform
+
+```matlab
+run('matlab/neuronal_startup.m')
+fs = 500;
+t = (0:10*fs-1)'/fs;
+impulse = zeros(size(t));
+impulse(round(5*fs)+1) = 1;
+filtered = bandpass_lfp(impulse, fs, [6 10], 4);
+plot(t, impulse, 'k', t, filtered, 'b');
+xlim([4 6]); xlabel('Time (s)'); ylabel('Amplitude (input units)');
+legend('Input impulse', 'Bandpassed output'); grid on
+```
+
+The input contains one transient, yet the bandpassed trace has alternating
+lobes. This is a demonstration of the filter, not evidence for an ongoing
+8 Hz neural generator. Compare the impulse response for `[4 12]` and
+`[7 9]` Hz; narrower frequency selection generally spreads activity over
+more time. Inspect the actual response rather than treating the two-second
+edge margin used elsewhere as a universal guarantee.
+
+### Spatial transformations answer different questions
+
+For electrode voltage $v_c(t)$, common-median reference forms
+$v_c(t)-\operatorname{median}_j v_j(t)$. A component identical across all
+channels vanishes, whether it came from interference or a shared neural
+source. Bipolar differences emphasize spatial changes. CSD takes a second
+spatial difference under a physical geometry and conductivity model.
+Comparing these representations is a sensitivity analysis, not a vote
+between interchangeable estimates.
+
+For CON²PHYS, inspect raw channels and artifacts first, choose a reference
+with anatomical justification, filter padded blocks, and retain only the
+interior interval for downstream analysis. Keep masks for excluded samples;
+joining disconnected valid intervals creates artificial temporal neighbours.
+In predictive analyses, preprocessing must also respect the train/test
+boundary and the information available at prediction time.
+
+**Exercise.** Add an identical sine wave to every channel, then apply common
+median reference. Which scientific questions become impossible after that
+shared component is removed?
+
+**Reading.** de Cheveigné & Nelken (2019), *Filters: When, Why, and How (Not)
+to Use Them*, [doi:10.1016/j.neuron.2019.02.039](https://doi.org/10.1016/j.neuron.2019.02.039),
+develops the impulse-response interpretation and the reporting implications.
+
 ## 1. Common-mode and bipolar references
 
 ```matlab

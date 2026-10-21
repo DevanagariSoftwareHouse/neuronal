@@ -9,6 +9,67 @@ trial variability and train distances. Alignment to external events is the
 subject of [06_EVENT_ALIGNMENT.md](06_EVENT_ALIGNMENT.md); population
 structure, of [08_POPULATION.md](08_POPULATION.md).
 
+## Primer: counts become rates only after defining exposure
+
+The scientific question can concern total activity, time-varying rate, or
+precise timing. Those questions require different representations. A point
+process retains timestamps; binning replaces them with counts and loses
+within-bin timing information.
+
+For spike times $t_i$ and bin edges $e_j$, define
+
+$$
+N_j=\sum_i\mathbf{1}\{e_j\leq t_i<e_{j+1}\},\qquad
+\widehat r_j=\frac{N_j}{e_{j+1}-e_j}.
+$$
+
+$N_j$ is a count and $\widehat r_j$ is in spikes/s. For irregular bins,
+divide each count by its own exposure. Missing recording time is missing
+exposure, not evidence of zero firing.
+
+### Toy experiment: boundaries and unequal durations
+
+```matlab
+run('matlab/neuronal_startup.m')
+spike_s = [0; .1; .1; .4; .9; 1];
+edges = [0 .1 .5 1];
+counts = spike_counts_edges(spike_s, edges);
+exposure_s = diff(edges(:));
+rate_hz = counts ./ exposure_s;
+assert(isequal(counts, [1; 3; 1])) % final timestamp at 1 s is excluded
+disp(table(exposure_s, counts, rate_hz))
+pooled_rate = sum(counts)/sum(exposure_s); % 5 Hz
+mean_bin_rate = mean(rate_hz);            % 6.5 Hz; a different weighting
+```
+
+Two events at the same timestamp remain two events. Binary occupancy would
+lose that multiplicity. Repeat with wider bins to see the trade-off:
+fine temporal resolution gives noisier rate estimates; wider bins smooth
+changes and may merge distinct responses.
+
+### Variability and co-occurrence need a reference model
+
+For repeated counts with the same exposure, the Fano factor is
+$F=s_N^2/\overline N$. A Poisson count model has equal mean and variance,
+but empirical Fano values fluctuate with sample size. Mixing low- and
+high-rate conditions adds between-condition variance; this alone can
+produce $F>1$ without an overdispersed within-condition mechanism.
+
+A correlogram asks how counts co-occur at different lags. Shared task
+modulation can create a peak even without direct interaction. Compare
+within-condition trials, preserve the recording support, and choose a
+surrogate that retains the slow variation irrelevant to the timing question.
+An autocorrelogram's zero-lag self-pairs must be distinguished from pairs
+of different spikes.
+
+For a CON²PHYS comparison, compute counts and valid exposure for each
+cluster and trial, keep animal and condition IDs, then specify whether the
+summary weights clusters, trials, exposure or animals equally.
+
+**Exercise.** Construct two trains with identical total counts but different
+event times. Their full-recording rates agree. Which bin widths,
+correlogram lags and Victor–Purpura costs distinguish them?
+
 ## 1. Counts on half-open bins
 
 ```matlab
@@ -71,7 +132,8 @@ d = victor_purpura_distance(train_a_s, train_b_s, 10);   % q in 1/s
 `NaN` where the mean is zero; mixing conditions inflates it.
 `victor_purpura_distance` is the edit distance where inserting or deleting a
 spike costs 1 and shifting it from `t` to `s` costs `q*abs(t-s)`; `1/q` is
-the time scale at which a shift equals a deletion plus an insertion.
+the time shift costing one edit; at `2/q`, shifting costs as much as
+a deletion plus an insertion (for `q > 0`). At `q = 0`, timing is ignored.
 
 ## Tests
 

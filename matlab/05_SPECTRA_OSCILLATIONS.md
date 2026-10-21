@@ -14,6 +14,71 @@ Several outputs here are **event sources** for
 [06_EVENT_ALIGNMENT.md](06_EVENT_ALIGNMENT.md): phase, envelope, cycle
 onsets, oscillatory episodes and ripple candidates.
 
+## Primer: how is variance distributed over frequency and time?
+
+A mean and a variance do not specify a waveform. Two zero-mean sinusoids
+can have identical variance while oscillating at different frequencies.
+The power spectral density (PSD) describes how mean-square fluctuation is
+distributed over frequency. It is a density: integrating it over a band
+gives power in that band, in squared input units.
+
+For a demeaned stationary signal with one-sided PSD $S_{xx}(f)$,
+
+$$
+\operatorname{Var}(x)\approx\int_0^{f_s/2}S_{xx}(f)\,df.
+$$
+
+Finite data, windowing and detrending affect the numerical approximation.
+An ordinate of the PSD is not itself band power. Likewise, averaging dB
+values differs from taking the dB of an arithmetic mean of linear power.
+
+### Toy experiment: same mean and variance, different frequency
+
+```matlab
+run('matlab/neuronal_startup.m')
+fs = 500;
+t = (0:20*fs-1)'/fs;
+x8 = sin(2*pi*8*t);
+x20 = sin(2*pi*20*t);
+disp([mean(x8) var(x8,1); mean(x20) var(x20,1)])
+[f, p8] = welch_psd(x8, fs, 4, .5);
+[~, p20] = welch_psd(x20, fs, 4, .5);
+plot(f, p8, f, p20); xlim([0 30]);
+xlabel('Frequency (Hz)'); ylabel('PSD (input units squared/Hz)');
+legend('8 Hz', '20 Hz'); grid on
+power8_total = trapz(f, p8); % approximately 0.5 for this example
+```
+
+Both signals have variance 0.5 (up to rounding), but their peaks differ.
+Add broadband noise, then shorten the analysis window. The peak becomes
+harder to distinguish. A longer FFT can provide a denser frequency grid;
+it does not create the resolving power of a longer observed window.
+
+### Distinguish frequency content from sustained oscillation
+
+Welch averages windowed estimates, trading temporal detail for a more
+stable spectrum. A wavelet follows changes over time, trading temporal
+precision against frequency precision. A bandpass/Hilbert representation
+provides phase and envelope within a chosen band. Cycle and episode
+analyses ask whether oscillatory structure persists across successive
+cycles. These are related questions, not equivalent proofs of an oscillator.
+
+A broadband transient has energy over many frequencies; filtering can
+make it look rhythmic. A spectrum can also change because its aperiodic
+background changes. Before interpreting a band-power difference, inspect
+the spectrum, fit range, excluded peaks and time-domain waveform. The
+simple background fit here does not perform full spectral parameterization.
+
+For CON²PHYS, select valid recording blocks and channels before averaging.
+Keep per-animal and per-condition spectra if the final comparison is across
+animals. Frequency bins are coordinates of one estimate; they are not
+independent biological replicates for a bootstrap.
+
+**Exercise.** Replace the sustained 8 Hz sine wave with a brief 8 Hz burst.
+Compare a full-recording PSD with a time-frequency representation. Which
+plot answers “at what frequency?” and which also answers “when?” Then
+repeat the impulse example in [02_PREPROCESSING.md](02_PREPROCESSING.md).
+
 ## 1. Power spectra
 
 ```matlab
@@ -100,7 +165,7 @@ endpoint artifacts and stopping-rule bias need inspection.
 ## 5. Oscillatory episodes (BOSC)
 
 ```matlab
-res = bosc_detect(x(1:60*fs), fs, 4:2:30, .95, 3, 6);
+res = bosc_detect(x(1:min(numel(x),60*fs)), fs, 4:2:30, .95, 3, 6);
 k = find(res.frequency_hz == 8);
 episodes_8hz = res.episodes{k};                    % start_s, stop_s, duration_s, cycles
 [ep, mask, fraction] = oscillation_episode( ...

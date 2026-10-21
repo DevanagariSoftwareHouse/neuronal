@@ -10,6 +10,77 @@ a column vector. Coefficients describe conditional predictive dependence
 under the model, not synapses or causation, and a decoding score is only as
 honest as the folds that produced it.
 
+## Primer: what can be predicted on observations not used for fitting?
+
+An encoding model predicts activity from covariates. A decoder predicts
+a condition or behavioural variable from activity. Neither establishes
+that the brain uses the fitted computation. Their evidence comes from
+held-out performance against a relevant baseline.
+
+For bin count $y_t$, covariate vector $x_t$, and exposure $\Delta t$,
+a log-link Poisson model uses
+
+$$
+y_t\sim\operatorname{Poisson}(\mu_t),\qquad
+\mu_t=\Delta t\exp(\beta_0+x_t^\mathsf{T}\beta).
+$$
+
+The exponential predicts a rate; multiplying by exposure predicts a count.
+The `log(bin_seconds)` offset encodes this distinction. A coefficient is a
+conditional log-rate change per unit change in its covariate, given the
+other included covariates and this model specification.
+
+### Toy experiment: leakage from repeated observations
+
+This indexing example needs only base MATLAB. It shows why repeated bins
+from one trial cannot be split as if they were separate experiments.
+
+```matlab
+trial_id = repelem((1:12)', 10); % 10 observations from each trial
+n = numel(trial_id);
+interleaved_test = mod((1:n)', 5) == 0;
+shared_trials = intersect(unique(trial_id(interleaved_test)), ...
+    unique(trial_id(~interleaved_test)));
+assert(numel(shared_trials) == 12)
+
+group_test = ismember(trial_id, [3 6 9 12]);
+assert(isempty(intersect(unique(trial_id(group_test)), ...
+    unique(trial_id(~group_test)))))
+```
+
+Interleaving has placed every trial on both sides of the split. A model
+can exploit trial-specific structure that will not generalize to a new
+trial. Group separation removes that particular overlap. It does not
+guarantee independence across adjacent trials, nor generalization to a new
+animal. Choose the split according to the intended deployment population.
+
+### Evaluate the whole fitted pipeline
+
+Training includes standardization, missing-value handling, feature
+selection, PCA, rank choice and regularization selection. Fit these steps
+inside the training partition. Hyperparameter selection needs an inner
+validation split; the outer test partition estimates generalization.
+Temporal filtering and smoothing also require care across split boundaries.
+
+For binary decoding, report the confusion matrix, class-specific recall,
+balanced accuracy, ordinary accuracy, and prediction coverage. Balanced
+accuracy is the mean of the two recalls; a majority-class predictor has
+balanced accuracy 0.5 when both classes are evaluated, even if ordinary
+accuracy is high. A skipped prediction should be reported, not silently
+removed from the description of performance.
+
+For CON²PHYS, distinguish predicting later trials of a recorded animal
+from predicting trials of an unseen animal. The latter requires animal-level
+separation and a feature definition that transfers across animals. For a
+Poisson model, inspect held-out likelihood and residuals in addition to
+coefficient plots; apparent convergence does not establish an adequate
+generative model.
+
+**Exercise.** Give each trial a random label and a unique, repeated feature
+vector. Compare a nearest-neighbour decoder with interleaved versus
+trial-disjoint splits. Explain how excellent interleaved performance can
+coexist with no generalizable relation between features and labels.
+
 ## 1. Spike-history design and Poisson GLM
 
 ```matlab
@@ -26,8 +97,9 @@ glm = poisson_spike_glm(X, counts(valid, 1), bin_s, 1e-4);
 `log(bin_seconds)` and an unpenalised intercept by penalised Newton/IRLS;
 it returns `intercept`, `coefficients`, `expected_count`, `iterations`
 and a `note`. The linear predictor is clipped to `[-20, 20]`, which changes
-the objective whenever it is active. Shared latent drive, refractoriness
-and overdispersion are not modelled.
+the objective whenever it is active. Shared latent drive and overdispersion are not handled automatically.
+History covariates can represent refractory dependence, but the primitive
+does not impose or validate a physiological refractory model.
 
 ## 2. Coupled multi-unit filters
 

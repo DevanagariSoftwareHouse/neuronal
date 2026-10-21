@@ -7,6 +7,78 @@ array layouts, randomness and scope that the later chapters assume, so they
 do not repeat them. Each function's help text remains the authority for its
 exact inputs, defaults and outputs (`help name`, `help Contents`).
 
+## Primer: start with a question and an observation unit
+
+Before choosing a function, write a sentence containing the measured
+quantity, the comparison, and the population to which it should apply.
+For example: “Estimate the mean within-animal difference in trial firing
+rate between conditions B and A.” This specifies an **estimand**: the
+population quantity the analysis attempts to estimate. A rate, a rate
+difference, and a probability of correct decoding are different estimands.
+
+A recording has several axes that play different roles:
+
+| Axis | What one entry represents | What it does not automatically provide |
+| --- | --- | --- |
+| Sample | One voltage measurement on a clock | An independent replicate |
+| Event | One timestamp used as an anchor | An independent trial |
+| Cluster | A label assigned to detected spikes | A verified single neuron |
+| Channel | An electrode measurement | An independent neural source |
+| Trial | One experimental episode | Independence from adjacent trials |
+| Animal | One biological subject | Many subjects when many channels are recorded |
+
+Keep these identifiers beside derived features. Averaging over an axis
+removes information: after pooling all spikes across animals, their
+between-animal variability cannot be reconstructed from the pooled rate.
+Likewise, pairing requires identities, not merely two equally long vectors.
+
+### A small example of weighting
+
+Suppose one animal contributes two trial rates, `[2 4]` Hz, and another
+contributes four, `[8 10 12 14]` Hz. The mean over all trials weights animals
+by their trial counts; the mean of animal means weights animals equally.
+Neither is an arithmetic error, but they answer different questions.
+
+```matlab
+animal_rates = {[2; 4], [8; 10; 12; 14]};
+pooled_trial_mean = mean(vertcat(animal_rates{:})); % 50/6 Hz
+equal_animal_mean = mean(cellfun(@mean, animal_rates)); % 7 Hz
+```
+
+For animal means $m_a$ and trial counts $n_a$, these estimators are
+
+$$
+\widehat\mu_{\mathrm{pooled}}=\frac{\sum_a n_a m_a}{\sum_a n_a},
+\qquad
+\widehat\mu_{\mathrm{animal}}=\frac{1}{A}\sum_{a=1}^{A}m_a.
+$$
+
+Here $A$ is the number of animals. Unequal observation time introduces a
+second distinction: total counts divided by total exposure is an
+exposure-weighted rate, not the unweighted mean of interval rates.
+
+### Clock arithmetic before signal analysis
+
+```matlab
+fs = 500;
+sample_idx = (1:5)';
+sample_time_s = (sample_idx - 1)/fs;
+event_s = .0031;
+containing_idx = floor(event_s*fs) + 1; % 2
+nearest_idx = round(event_s*fs) + 1;    % 3
+```
+
+The clock step is 2 ms; the event itself need not lie on that grid. Preserve
+its original timestamp when sub-sample timing matters. For a block starting
+at global sample `first`, its origin is `(first-1)/fs`, and event times
+passed to functions assuming time zero must have that origin subtracted.
+
+**Exercise.** Duplicate every trial of the first animal. Which mean changes?
+Should duplicating stored observations create new biological evidence?
+Use this distinction when choosing the resampling axis in
+[11_INFERENCE.md](11_INFERENCE.md). Inference is planned here, even when its
+numerical implementation appears near the end of the reading order.
+
 ## Reading order
 
 | # | Chapter | Covers |
@@ -27,8 +99,9 @@ exact inputs, defaults and outputs (`help name`, `help Contents`).
 
 The order follows the data: stored arrays are read (01), cleaned (02),
 reduced to spikes (03-04) or band-limited signals (05), aligned to events
-(06), related to each other (07-08), modelled (09), and only then tested
-(10-11).
+(06), related to each other (07-08), modelled (09), and evaluated with null models and uncertainty (10-11).
+The estimand, experimental unit and validation design are chosen before
+these operations; their detailed computational treatment appears later.
 
 ## 1. Units
 

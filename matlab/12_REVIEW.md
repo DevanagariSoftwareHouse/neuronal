@@ -2,6 +2,67 @@
 
 [Índice](README.md) · [Anterior](11_INFERENCE.md)
 
+## Como avaliar a evidência apresentada no primer
+
+Este capítulo funciona como registro de revisão e guia de validação. Uma
+equação correta, uma função que aceita as entradas e um resultado
+cientificamente interpretável exigem evidências diferentes. A tabela evita
+que a existência de um exemplo seja confundida com uma validação completa.
+
+| Camada | Pergunta | Evidência necessária |
+| --- | --- | --- |
+| Contrato | As dimensões, unidades e bordas estão corretas? | Casos pequenos com resultados conhecidos |
+| Identidade matemática | O código calcula a expressão documentada? | Comparação independente e identidades numéricas |
+| Recuperação | O método recupera um efeito simulado conhecido? | Variação de ruído, tamanho amostral e parâmetros |
+| Calibração | ICs cobrem e testes rejeitam na frequência esperada? | Muitas simulações completas sob modelos explícitos |
+| Robustez | A conclusão depende de escolhas razoáveis? | Referência, bins, filtros, inclusão e modelos alternativos |
+| Aplicação | O modelo representa adequadamente o registro? | Metadados, diagnósticos e controles nos dados reais |
+
+### Um exercício integrado antes do registro real
+
+Simule animais com taxas basais diferentes e duas condições por animal.
+Escolha uma diferença populacional conhecida. Gere trials dentro de cada
+animal, retenha suas identidades e estime uma média por condição e animal.
+Calcule o contraste pareado, reamostre animais mantendo as condições juntas
+e construa o intervalo. Repita o experimento inteiro para estudar cobertura.
+
+Aumente separadamente o número de animais, trials e bins. Verifique quais
+fontes de incerteza diminuem em cada caso. Depois introduza dependência
+temporal ou durações desiguais e registre quais pressupostos deixaram de
+ser atendidos. Esse exercício conecta armazenamento, contagem, estimando
+e inferência sem exigir uma gravação privada.
+
+### Como registrar uma execução
+
+Para cada exemplo executado, registre o commit, versão do MATLAB, toolboxes,
+seed, configuração, dados sintéticos ou identificador do registro, comando,
+resultado esperado e resultado observado. Separe falha de execução de
+discordância numérica. Uma execução em Octave é evidência sobre aquela
+execução e não equivale automaticamente à execução no MATLAB.
+
+As seções históricas abaixo preservam o contexto das revisões anteriores.
+Expressões como “nesta sessão” ou “desta rodada” se referem à entrada datada,
+não a uma garantia permanente sobre o estado atual do repositório.
+
+### Expansão didática de 2026-10-20
+
+Os capítulos ganharam perguntas científicas, equações com símbolos definidos,
+exemplos sintéticos, interpretação, aplicações ao CON²PHYS e exercícios.
+Os exemplos novos foram confrontados com as assinaturas consultadas;
+**não foram executados em MATLAB nesta expansão**, pois o runtime não estava
+disponível. A revisão de documentação não estabelece calibração estatística.
+
+Correções conceituais: custo de deslocamento Victor–Purpura igual a duas
+edições em `2/q`; distinção entre autocorrelação circular e linear;
+interpretação condicional da largura de jitter; substituição do passeio
+aleatório por processo AR(1) estacionário no exemplo de bootstrap.
+
+Achado de código ainda aberto: em `block_bootstrap_ci`, a ramificação
+`stationary=false` intercala inícios de blocos ao aplicar `reshape` em ordem
+de colunas. Precisa concatenar blocos inteiros e verificar a sequência de
+índices para estatísticas sensíveis à ordem. Os exemplos didáticos usam
+explicitamente `stationary=true`. Nenhum algoritmo foi alterado nesta rodada.
+
 ## Correcoes desta rodada
 
 - `linear_discriminability`: `nb=size(b,1)`; regressao com grupos de tamanhos diferentes e covariancia calculada independentemente.

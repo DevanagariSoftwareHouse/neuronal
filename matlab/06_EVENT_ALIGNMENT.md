@@ -29,6 +29,76 @@ valid.
 | Summary of point events | `peri_event_histogram` | bin centres, rate, trial counts |
 | Display | `plot_event_aligned` | image, one row per event |
 
+## Primer: what changes around an event?
+
+Alignment replaces absolute time by time relative to an anchor. It does
+not by itself remove a baseline, normalize a signal, or identify causation.
+The same construction can ask about a voltage around stimuli, spike counts
+around an envelope peak, or an envelope around behavioural transitions.
+
+Let $x_c(t)$ be signal $c$, $t_k$ the time of event $k$, and $\tau_j$ a
+relative lag. The aligned array and its average are
+
+$$
+X_{kjc}=x_c(t_k+\tau_j),\qquad
+\overline X_{jc}=\frac{1}{K_j}\sum_{k\in\mathcal V_j}X_{kjc},
+$$
+
+where $\mathcal V_j$ contains events observed at lag $j$ and
+$K_j=|\mathcal V_j|$. With boundary padding, $K_j$ may vary across lags.
+This changes the contributing event population as well as the precision.
+For a circular variable such as phase, use a circular summary of the
+extracted angles; ordinary arithmetic averaging fails near the wrap point.
+
+### Toy experiment: a response with a known latency
+
+```matlab
+run('matlab/neuronal_startup.m')
+rng(31)
+fs = 500;
+t = (0:30*fs-1)'/fs;
+event_s = (2:2:28)';
+x = .5*randn(size(t));
+for k = 1:numel(event_s)
+    x = x + exp(-.5*((t-event_s(k)-.1)/.025).^2);
+end
+[segments, lag_s, meta] = event_aligned_segments( ...
+    x, event_s, fs, [-.3 .4], [], 'Boundary', 'drop');
+average = mean(segments, 1);
+subplot(2,1,1)
+imagesc(lag_s, 1:size(segments,1), segments);
+xlabel('Lag (s)'); ylabel('Event'); colorbar
+subplot(2,1,2)
+plot(lag_s, average); xlabel('Lag (s)');
+ylabel('Mean amplitude'); grid on
+```
+
+The generating waveform peaks 100 ms after each event; the average should
+reveal that latency despite independent noise. Add random latency shifts
+to the waveform while keeping the anchors fixed. The average broadens and
+its peak falls even when each event's response amplitude is unchanged.
+Therefore a smaller average peak need not mean weaker single-event responses.
+
+### Controls that distinguish alignment from explanation
+
+If events are maxima of `x`, aligning `x` to those events must produce a
+central maximum by construction. This is useful for waveform description,
+but it cannot establish an independent response. Similarly, overlapping
+windows reuse samples; their rows cannot automatically be treated as
+independent trials. Resample independent trials, blocks or animals while
+preserving the event structure required by the question.
+
+For a block beginning at global time `origin_s`, pass
+`event_s - origin_s` to the extractor. Retain the original event IDs using
+`meta.event_indices`, especially after dropping boundary events. For spike
+counts, average counts and divide by bin exposure to obtain Hz; for LFP,
+retain voltage units. A baseline subtraction should name its time window
+and specify whether it is performed per event or after averaging.
+
+**Exercise.** Include an event near time zero and compare default padding
+with `'Boundary','drop'`. Plot the number of finite observations at every
+lag. Explain why replacing missing values by zero biases the average.
+
 ## 1. Point events on the sample grid
 
 ```matlab

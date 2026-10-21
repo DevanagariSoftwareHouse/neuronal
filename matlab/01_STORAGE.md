@@ -8,6 +8,69 @@ Cloud storage and NWB export are future work. This is the entry point of
 the analysis order: every later chapter starts from a bounded block read
 here ([00_CONVENTIONS.md](00_CONVENTIONS.md)).
 
+## Primer: a numeric array needs a scientific description
+
+The storage question is: “Can I retrieve the intended channel and time
+interval without changing its meaning?” A binary file contains values, but
+its bytes do not identify sampling rate, units, electrode order, or clock
+origin. The descriptor and acquisition metadata supply that interpretation.
+Matching byte counts establishes structural consistency, not correct units
+or correct channel identities.
+
+For $N$ samples, $C$ channels and $b$ bytes per value, an uncompressed matrix
+occupies $NCb$ bytes. With MATLAB column-major samples-by-channels storage,
+sample $k$ of channel $c$ begins at the zero-based byte offset
+
+$$
+o(k,c)=b\big[(k-1)+N(c-1)\big].
+$$
+
+This explains why a channel is contiguous on disk. The memory map makes
+selective access possible; subsequent conversion to `double`, filtering,
+or array construction can still allocate copies.
+
+### Toy round trip with visible channel identities
+
+This self-contained example uses a temporary file, and checks storage
+ordering with base MATLAB `fread`. Production analysis should use validated
+catalog descriptors and `neuronal_read`, as shown below.
+
+```matlab
+run('matlab/neuronal_startup.m')
+original = single([11 12 13 14; 21 22 23 24]); % channels x samples
+filename = [tempname '.bin'];
+info = neuronal_write_binary(original, filename, 'SampleAxis', 2);
+fid = fopen(filename, 'r', 'ieee-le');
+assert(fid >= 0)
+restored = fread(fid, info.shape, '*single');
+fclose(fid);
+assert(isequal(restored, original.'))
+disp(restored(:,2)) % 21, 22, 23, 24: second channel
+delete(filename)
+```
+
+### Carry the block origin into the next chapter
+
+```matlab
+% Prerequisites: m is a validated map; fs and event_s share its clock.
+first = 1 + round(20*fs);
+last = first + round(10*fs) - 1;
+block = double(neuronal_read(m, first:last, 1:4));
+origin_s = (first - 1)/fs;
+local_event_s = event_s(:) - origin_s;
+```
+
+Keep `origin_s`, selected channel IDs, sampling rate, units and source
+descriptor with every result. A waveform can look plausible even when a
+20-second origin error aligns it to the wrong events. Confirm the absolute
+timestamp origin from acquisition metadata before applying this conversion.
+
+**Exercise.** Read the toy file as channels-by-samples without transposing
+the stored layout. Explain why correct byte length does not catch this
+mistake. For real CON²PHYS data, compare selected original and stored
+samples from the beginning, middle and end of each channel before relying
+on the normalized files.
+
 ## Public functions
 
 | Function | Role |

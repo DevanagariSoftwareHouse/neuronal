@@ -15,6 +15,81 @@ null from [10_SURROGATES.md](10_SURROGATES.md) and an inference unit from
 Two finite vectors of equal length sampled at `srate` from time zero are
 the default input; phases are radians.
 
+## Primer: a relationship between measurements needs an explanation
+
+Begin with the type of relationship: shared frequency-specific variation,
+consistent phase difference, amplitude conditional on phase, or improved
+prediction from another signal's past. These determine the statistic.
+The same numerical association can arise from interaction, common input,
+shared reference, task locking, or mixing of sources.
+
+For Fourier-domain auto-spectra $S_{xx},S_{yy}$ and cross-spectrum $S_{xy}$,
+magnitude-squared coherence is
+
+$$
+C_{xy}(f)=\frac{|S_{xy}(f)|^2}{S_{xx}(f)S_{yy}(f)}.
+$$
+
+For paired phase observations, phase-locking value is
+
+$$
+\mathrm{PLV}=\left|\frac{1}{N}\sum_{n=1}^{N}
+e^{i[\phi_x(n)-\phi_y(n)]}\right|.
+$$
+
+The first uses spectral amplitudes and phases; the second summarizes only
+phase differences. Both require enough effective observations. Thousands
+of adjacent phase samples may represent far fewer independent cycles.
+
+### Toy experiment: common drive creates apparent coupling
+
+```matlab
+run('matlab/neuronal_startup.m')
+rng(41)
+fs = 500;
+t = (0:30*fs-1)'/fs;
+shared = sin(2*pi*8*t);
+x = shared + .6*randn(size(t));
+y = shared + .6*randn(size(t));
+[px, ~] = analytic_phase(bandpass_lfp(x, fs, [6 10]));
+[py, ~] = analytic_phase(bandpass_lfp(y, fs, [6 10]));
+valid = t >= 2 & t < 28;
+plv = phase_locking_value(px(valid), py(valid));
+disp(plv)
+```
+
+The channels share the same drive, but the generating code contains no
+interaction from `x` to `y` or vice versa. A high PLV correctly describes
+their phase relationship; it does not identify its mechanism. Set `shared`
+to zero and compare. For finite, narrow-band independent signals, do not
+expect PLV to be exactly zero.
+
+### Choose controls that preserve the competing explanation
+
+| Possible explanation | Useful comparison | What remains unresolved |
+| --- | --- | --- |
+| Shared reference | Compare justified referencing schemes | Each scheme changes the measured sources |
+| Common task locking | Shuffle matched trials within condition | Unmeasured state differences may remain |
+| Unequal event counts | Match counts or use a suitable bias-aware estimator | Rate and dependence can still differ |
+| Non-sinusoidal waveform | Inspect cycles, harmonics and transient events | Waveform shape may itself have biological meaning |
+| Apparent directionality | Known-delay simulation and model diagnostics | Predictive direction is not intervention causality |
+
+For CON²PHYS, retain anatomical channel/cluster identity and compare the
+same valid intervals. Match analysis settings across conditions. Report
+the descriptive effect before its surrogate tail probability, and define
+the family of frequencies, channel pairs or lags searched.
+
+**Exercise.** Shift `y` by a fixed delay. A consistent phase difference can
+retain high PLV. Explain why PLV magnitude cannot reveal the direction of
+that delay. Then add a shared transient and inspect phase-amplitude metrics.
+
+**Reading.** Bastos & Schoffelen (2016),
+[doi:10.3389/fnsys.2015.00175](https://doi.org/10.3389/fnsys.2015.00175),
+illustrates common-reference, common-input and sample-size pitfalls.
+Aru et al. (2015), *Untangling cross-frequency coupling in neuroscience*,
+discusses how nonstationarity can create apparent cross-frequency coupling
+without interactions between oscillatory components.
+
 ## 1. Spectral coherence
 
 ```matlab

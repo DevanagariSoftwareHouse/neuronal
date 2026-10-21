@@ -14,6 +14,78 @@ LFADS, jPCA or dPCA; `tensor_cp_als` is not TCA; `gaussian_process_smoothing`
 is not GPFA. Fit every projection, rank and penalty on **training** data
 only ([09_MODELS_DECODING.md](09_MODELS_DECODING.md)).
 
+## Primer: which patterns vary together across units?
+
+Population analysis treats each observation as a point in a space with
+one coordinate per unit. Choosing rows as time bins emphasizes temporal
+variation; choosing rows as trial responses emphasizes trial variation.
+Changing that choice changes the scientific meaning of the geometry.
+
+For an $N\times U$ matrix $X$ (observations by units), subtract each column's
+mean to obtain $X_c$. PCA diagonalizes the sample covariance:
+
+$$
+C=\frac{X_c^\mathsf{T}X_c}{N-1}=V\Lambda V^\mathsf{T},
+\qquad Z=X_cV_k.
+$$
+
+Columns of $V_k$ are directions in unit space; columns of $Z$ are the
+corresponding coordinates of observations. Eigenvalues measure variance
+along those directions. A large eigenvalue does not identify a cell type,
+a causal source, or a task-relevant variable.
+
+### Toy experiment: recover a shared two-dimensional subspace
+
+```matlab
+run('matlab/neuronal_startup.m')
+rng(51)
+n = 600; units = 20;
+latent = randn(n,2);
+[basis, ~] = qr(randn(units,2), 0);
+activity = latent*basis.' + .05*randn(n,units);
+model = population_pca(activity, 2);
+subspace_error = norm(model.loadings*model.loadings.' - ...
+    basis*basis.', 'fro');
+reconstruction = model.scores*model.loadings.' + model.mean;
+relative_error = norm(activity-reconstruction,'fro') / ...
+    norm(activity-model.mean,'fro');
+disp([subspace_error relative_error])
+```
+
+These are continuous simulated activities, not spike counts. The recovered
+plane should be close to the known plane when noise is small. Individual
+axes can rotate when variances are similar, and eigenvector signs are
+arbitrary. Compare projection matrices or held-out reconstruction rather
+than expecting identical loading signs.
+
+### Dimensionality depends on measurement and preprocessing
+
+The participation ratio is
+
+$$
+D_{\mathrm{PR}}=\frac{(\sum_j\lambda_j)^2}{\sum_j\lambda_j^2}.
+$$
+
+It equals one for a single nonzero eigenvalue and $d$ for $d$ equal
+nonzero eigenvalues. It need not be an integer. Noise, unit subsampling,
+rate differences, bin width and z-scoring change the spectrum. Compare
+these choices explicitly before describing a dimension as intrinsic.
+
+For simultaneous CON²PHYS units, build a matrix within each recording and
+preserve unit order. Combining units from different animals into columns
+does not create a simultaneous population: that produces a pseudopopulation
+with different assumptions about covariance. For prediction, fit centering,
+scaling and projection on training observations, then apply those fixed
+parameters to held-out observations.
+
+**Exercise.** Multiply one unit by 100. Compare raw PCA and PCA after
+unit-wise standardization. Which question does each representation answer?
+For assemblies, also ask whether shared task modulation explains coactivation.
+
+**Reading.** Cunningham & Yu (2014),
+[doi:10.1038/nn.3776](https://doi.org/10.1038/nn.3776), connects population
+questions to dimensionality-reduction choices and their interpretation.
+
 ## 1. Variance structure and dimensionality
 
 ```matlab
@@ -21,7 +93,7 @@ counts = spike_bins(units_s, 0:.05:duration_s);         % bins x units
 pca = population_pca(counts, 10);                        % mean, loadings, scores
 pr = participation_ratio(counts);
 scale = population_dimension_scaling(counts, [5 10 20], 25, 42);
-fit = eigenspectrum_powerlaw(pca.eigenvalues(1:50));
+fit = eigenspectrum_powerlaw(pca.eigenvalues(1:min(50,numel(pca.eigenvalues))));
 ```
 
 `population_pca` centres columns and returns `mean`, `loadings`, `scores`,

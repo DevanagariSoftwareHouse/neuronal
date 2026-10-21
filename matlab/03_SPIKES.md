@@ -10,6 +10,70 @@ Everything in this chapter needs **broadband action-potential data** at the
 real acquisition rate (for example 30 kHz). The CON²PHYS LFP at 500 Hz has
 a 250 Hz Nyquist and cannot resolve spike waveforms.
 
+## Primer: from voltage excursions to labelled events
+
+“When did a detectable extracellular event occur?” and “Which source
+generated it?” are different questions. Detection finds candidates in a
+voltage trace. Sorting assigns labels using waveform and other structure.
+Quality assessment asks whether a labelled cluster is stable and adequately
+isolated. A cluster ID is an identifier, not proof of a single neuron.
+
+A simplified recording model is
+
+$$
+x_c[n]=\sum_u\sum_i a_{ui}w_{cu}[n-n_{ui}]+\epsilon_c[n],
+$$
+
+where $c$ indexes channels, $u$ putative sources, $n_{ui}$ event samples,
+$w_{cu}$ templates, $a_{ui}$ amplitude changes, and $\epsilon_c$ background.
+Overlapping templates and changing amplitudes explain why thresholding
+alone cannot recover all source identities.
+
+### Toy experiment: recover known event times
+
+```matlab
+run('matlab/neuronal_startup.m')
+rng(21)
+fs_ap = 30000;
+t = (0:2*fs_ap-1)'/fs_ap;
+truth_s = (.2:.2:1.8)';
+ap = .15*randn(size(t));
+for k = 1:numel(truth_s)
+    ap = ap - 3*exp(-.5*((t-truth_s(k))/.00015).^2);
+end
+[detected_s, detected_idx, threshold] = ...
+    spike_threshold_detection(ap, fs_ap, 4, .001);
+agreement = spike_sorting_agreement(truth_s, detected_s, .0005);
+disp(agreement)
+plot(t, ap); hold on
+plot(detected_s, ap(detected_idx), 'ro'); hold off
+xlim([.19 .21]); xlabel('Time (s)'); ylabel('Voltage (arbitrary units)');
+```
+
+This deliberately simple negative-pulse model is a detection exercise,
+not a physiological waveform simulation. Increasing the threshold tends
+to trade false detections for missed events. Increasing noise or adding
+overlapping pulses tests different failure mechanisms. Report both
+precision and recall: either alone hides part of the trade-off.
+
+### Quality criteria must match the downstream question
+
+Refractory violations can reveal duplicates or merged sources, but low
+violation counts do not establish purity. A high presence ratio can reflect
+a high rate; a low ratio can reflect genuine sparse activity. Template
+similarity can reflect duplicate clusters. Examine several diagnostics
+jointly and state inclusion rules before comparing brain areas.
+
+For CON²PHYS analyses based on supplied clusters, preserve the mapping
+between spike labels, waveform labels and brain areas. Use the supplied
+spike timestamps directly; the 500 Hz LFP cannot be used to reconstruct
+the broadband events in this example. If a question is about clusters,
+report cluster-level results and the inclusion criteria explicitly.
+
+**Exercise.** Add a second event 0.5 ms after each known event. How does the
+detector's minimum separation change the apparent event count? Distinguish
+this algorithmic exclusion from a biological refractory period.
+
 ## 1. Threshold candidates
 
 ```matlab

@@ -8,12 +8,57 @@ de implementação é **uma função pública por arquivo `.m`** em [path](path)
 O arquivo [METHODS.tsv](METHODS.tsv) registra 97 entradas bibliográficas (incluindo 2 referências excluídas por escopo)
 e associa artigos a primitivas, limitações e métodos ainda não reproduzidos.
 
+## Um primer para aprender análise eletrofisiológica com a toolbox
+
+O percurso começa com uma pergunta científica, explicita a quantidade a
+estimar e acompanha sua construção até a interpretação. Os capítulos
+combinam fundamentos, exemplos sintéticos pequenos e o uso das primitivas.
+Para consultar argumentos e saídas exatos, use também `help nome_da_funcao`.
+
+Cada capítulo de análise apresenta uma pergunta, a intuição e a expressão
+matemática, um exemplo com mecanismo conhecido, o significado do resultado,
+um caso que pode induzir erro e um exercício. Os capítulos de convenções,
+armazenamento e revisão estabelecem as condições para aplicar esse percurso
+com rastreabilidade. Os blocos intitulados “Toy experiment” ou “Toy example”
+definem suas entradas; os exemplos com dados reais indicam pré-requisitos.
+Execute cada exemplo em seu próprio workspace, a partir da raiz do repositório.
+
+### Escolha uma primeira pergunta
+
+| Pergunta | Percurso sugerido | Resultado a interpretar |
+| --- | --- | --- |
+| A atividade de um cluster muda entre condições? | 00 → 01 → 04 → 06 → 11 | Diferença de taxas com exposição e pareamento explícitos |
+| Há atividade oscilatória em um intervalo? | 00 → 01 → 02 → 05 | Espectro, forma temporal e duração dos episódios |
+| Dois sinais apresentam uma relação além do controle escolhido? | 02 → 05 → 07 → 10 → 11 | Efeito descritivo e comparação com um modelo nulo |
+| A atividade populacional prediz uma condição nova? | 04 → 08 → 09 | Desempenho fora da amostra com separação adequada |
+
+A inferência é planejada desde o capítulo 00. A ordem de leitura acompanha
+a construção dos dados, mas não significa escolher a unidade experimental
+somente depois de observar o resultado. Diferencie amostras, eventos,
+clusters, canais, trials, sessões e animais em todas as etapas.
+
+### Como usar um exemplo
+
+1. Escreva o que espera observar antes de executar.
+2. Confira dimensões, unidades, origem temporal e exposição.
+3. Execute a configuração inicial e interprete cada saída.
+4. Mude um parâmetro: ruído, tamanho amostral, janela ou dependência.
+5. Identifique uma situação em que a interpretação inicial falha.
+6. Só então adapte o exemplo a um recorte real, mantendo os identificadores.
+
+Os exemplos são material de ensino e pontos de partida para validação.
+Sua presença não significa execução confirmada ou equivalência com o
+pipeline completo de um artigo. Consulte [12_REVIEW.md](12_REVIEW.md) para
+o registro das verificações e limitações, e [11_INFERENCE.md](11_INFERENCE.md)
+para separar eixo de reamostragem, dependência e construção do intervalo.
+
 ## Ordem de leitura
 
 A documentação segue a ordem dos dados: armazenar e ler, limpar, reduzir a
-spikes ou a sinais em banda, alinhar a eventos, relacionar, modelar e só
-então testar. As funções de [path](path) são apresentadas por família; os quatro aliases
-de compatibilidade estão documentados no capítulo de alinhamento.
+spikes ou a sinais em banda, alinhar a eventos, relacionar, modelar e avaliar
+incerteza. O desenho inferencial é definido desde o início. As funções de
+[path](path) são apresentadas por família; os quatro aliases de compatibilidade
+estão documentados no capítulo de alinhamento.
 
 | # | Capítulo | Funções |
 |---|---|---|
