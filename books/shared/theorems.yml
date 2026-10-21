@@ -211,6 +211,7 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/bandpass_lfp.m
+      - matlab/path/eegfilt.m
       - matlab/path/lfp_envelope_moments.m
       - matlab/path/ripple_candidate_events.m
   - id: ARS-FILT-002
@@ -521,6 +522,8 @@ theorems:
 definitional_methods:
   - matlab/path/aaft_surrogate.m
   - matlab/path/amplitude_threshold_events.m
+  - matlab/path/balanced_bootstrap_ci.m
+  - matlab/path/bayesian_bootstrap_ci.m
   - matlab/path/block_bootstrap_ci.m
   - matlab/path/block_shuffle_surrogate.m
   - matlab/path/blocked_cross_validation.m
@@ -566,3 +569,4 @@ definitional_methods:
   - matlab/path/surrogate_test.m
   - matlab/path/trial_shuffle_surrogate.m
   - matlab/path/waveform_trough_to_peak.m
+  - matlab/path/wild_bootstrap_ci.m

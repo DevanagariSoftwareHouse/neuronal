@@ -684,3 +684,25 @@ The entries are maintained against the current source; these additional specific
 {Definitional; no theorem needed.}
 {Apply the permutation consistently to the variable whose trial alignment is to be destroyed; repeated trial structure defines the null.}
 
+
+\section{Additional resampling and legacy filtering specifications}
+\methodentry{balanced_bootstrap_ci.m}
+{Resamples rows from a shuffled pool containing each observation exactly B times, then returns percentile bounds of the statistic.}
+{Definitional; finite resampling construction.}
+{Rows must be independent and exchangeable. Balancing is across replicates; it does not preserve temporal dependence.}
+
+\methodentry{bayesian_bootstrap_ci.m}
+{Draws normalized exponential observation weights, equivalent to a Dirichlet distribution with all parameters equal to one, and returns weighted-statistic quantiles.}
+{Definitional; Dirichlet-weight construction.}
+{These are Bayesian-bootstrap credible bounds. The statistic must accept normalized weights; observations must be independent.}
+
+\methodentry{wild_bootstrap_ci.m}
+{Fits ordinary least squares and refits responses formed from fitted values plus HC2-adjusted residuals times Rademacher or Mammen multipliers.}
+{Definitional; fixed-design residual resampling.}
+{Requires a full-rank design and independent rows with leverage below one. Percentile coefficient intervals are exploratory; dependence is not retained.}
+
+\methodentry{eegfilt.m}
+{Designs a least-squares or windowed FIR filter and applies causal or forward--backward filtering separately to each epoch.}
+{\texttt{ARS-FILT-001}.}
+{Legacy EEGLAB implementation; channels are rows. Requires Signal Processing Toolbox. Forward--backward filtering squares the magnitude response; short epochs and transients require care. Retains its upstream GPL notice.}
+
