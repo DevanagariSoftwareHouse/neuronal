@@ -80,5 +80,5 @@ jobs:
       - name: Install dependencies in an isolated venv
         run: |
           python3 -m venv .ci-venv
-          .ci-venv/bin/python -m pip install '.[dev]'
+          .ci-venv/bin/python -m pip install '.[dev,panel]'
       - run: .ci-venv/bin/python -m pytest -q
