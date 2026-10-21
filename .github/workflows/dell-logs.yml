@@ -27,7 +27,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     timeout-minutes: 180
     env:
-      CI_LOG_DIR: ${{ runner.temp }}/ci-logs
+      CI_LOG_DIR: ${{ github.workspace }}/.ci-logs
       CI_BASE_SHA: ${{ github.event.before || github.sha }}
       SUITES: ${{ inputs.suites }}
     steps:

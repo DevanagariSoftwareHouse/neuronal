@@ -43,11 +43,18 @@ export CARGO_TERM_COLOR=never
 [ -d "$HOME/.elan/bin" ] && export PATH="$HOME/.elan/bin:$PATH"
 
 redact() {
-  local args=()
-  [ -n "${NEURONAL_DATA_ROOT:-}" ]    && args+=(-e "s#${NEURONAL_DATA_ROOT}#<data-root>#g")
-  [ -n "${NEURONAL_CATALOG_PATH:-}" ] && args+=(-e "s#${NEURONAL_CATALOG_PATH}#<catalog>#g")
-  args+=(-e "s#${HOME}#~#g" -e 's/\x1b\[[0-9;]*[mK]//g')
-  sed -u "${args[@]}"
+  # Literal replacements: paths may contain sed delimiters or regex syntax.
+  python3 -u -c '
+import os, re, sys
+pairs = [(os.environ.get(key, ""), replacement) for key, replacement in (
+    ("NEURONAL_DATA_ROOT", "<data-root>"),
+    ("NEURONAL_CATALOG_PATH", "<catalog>"), ("HOME", "~"))]
+pairs = sorted((pair for pair in pairs if pair[0]), key=lambda pair: -len(pair[0]))
+for line in sys.stdin:
+    for source, replacement in pairs:
+        line = line.replace(source, replacement)
+    sys.stdout.write(re.sub(r"\x1b\[[0-9;]*[mK]", "", line))
+'
 }
 
 step() { echo "\$ $*"; "$@"; }
@@ -82,9 +89,10 @@ suite_matlab() {
   [ -n "$MATLAB_BIN" ] || { echo "MATLAB not found (set MATLAB_BIN or put matlab-r2019a on PATH)"; return 1; }
   echo "MATLAB_BIN=$MATLAB_BIN"
   step test -f matlab/tests/run_scientific_suite.m
-  step "$MATLAB_BIN" -batch "assert(license('test','Signal_Toolbox')==1); ver; run('$ROOT/matlab/tests/run_scientific_suite.m')"
-  local rc=$?
-  [ -f matlab/build/scientific-tests.log ] && cp matlab/build/scientific-tests.log "$OUT/matlab-scientific-tests.log"
+  rm -f matlab/build/scientific-tests.log
+  local rc=0
+  step "$MATLAB_BIN" -batch "assert(license('test','Signal_Toolbox')==1); ver; run('$ROOT/matlab/tests/run_scientific_suite.m')" || rc=$?
+  [ -f matlab/build/scientific-tests.log ] && redact < matlab/build/scientific-tests.log > "$OUT/matlab-scientific-tests.log"
   return $rc
 }
 
@@ -110,7 +118,9 @@ for s in "${SUITES[@]}"; do
   echo "==> $s"
   t0=$SECONDS
   ( set -e; "suite_$s" ) 2>&1 | redact > "$OUT/$s.log"
-  rc=${PIPESTATUS[0]}
+  pipeline_status=("${PIPESTATUS[@]}")
+  rc=${pipeline_status[0]}
+  [ "${pipeline_status[1]}" -eq 0 ] || rc=${pipeline_status[1]}
   dt=$((SECONDS - t0))
   if [ "$rc" -eq 0 ]; then st=pass; else st="FAIL($rc)"; OVERALL=1; fi
   printf '%s\t%s\t%s\n' "$s" "$st" "$dt" >> "$OUT/status.tsv"
