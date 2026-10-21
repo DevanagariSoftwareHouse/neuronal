@@ -34,3 +34,7 @@ books/formal_foundations/mathematics/pedagogical_graph.json
 
 # Local recordings and converted binary datasets (not source code)
 /data/
+
+# Generated MATLAB outputs and analysis runs
+/analysis/results/
+*.mat

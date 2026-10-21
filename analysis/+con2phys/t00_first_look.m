@@ -9,6 +9,7 @@ run(fullfile(matlab_dir,'neuronal/analysis/a00_startup.m'))
 %%
 catalog = neuronal_catalog()
 data = catalog.data
+
 %%
 for d = 1 : numel(data)
     for f = 1 : numel(data(d).file)
@@ -19,80 +20,47 @@ for d = 1 : numel(data)
     
 end
 %%
+%%
 
-data(1)
+band = struct();
+
+band(1).name  = 'delta';
+band(1).lo    = 0.5;
+band(1).hi    = 3.8;
+band(1).color = 'g';
+
+band(2).name  = 'theta';
+band(2).lo    = 4.1;
+band(2).hi    = 10;
+band(2).color = 'r';
 
 %%
-time_of_analysis = struct()
-time_of_analysis(1).init = 1/500
-time_of_analysis(1).end = 100
-time_of_analysis(1).srate = 500
+times          = struct();
+times(1).init  = 1/500;
+times(1).end   = 100;
+times(1).srate = 500;
 
-for t = 1 : data(1).n_lfp_samples/500
-    time = time_of_analysis(1)
-    time.t = time.init:(1/time.srate):time.end
-    time.id = unique(floor(time.init*time.srate:time.end*time.srate))
+for dd = 1 : numel(data)
+    d = data(dd);
+ 
+    for t = 1 : numel(times)
+        time = times(t);
+        time.t = time.init:(1/time.srate):time.end;
+        time.id = unique(floor(time.init*time.srate:time.end*time.srate));
     
-    break
+        d.time(t) = time;
+        
+        for cc = 1 : size(d.lfp_1.Data.x,2)
+            sample = d.lfp_1.Data.x(time.id,cc);
+            for b = 1 : numel(band)
+                d.time(t).band(b).sample = eegfilt(sample',time.srate,band(b).lo,band(b).hi);
+            end
+        end
+        data(dd).time = d.time;
+    end
     
 end
-%%
-for t = 1 : numel(time_of_analysis)
-    sample = data(1).lfp_1.Data.x(time.id,15)
-end
 
-%%
-
-WINDOW = time.srate*10;
-NOVERLAP = WINDOW/2;
-F = 0:1:200;
-Fs = 500;
-[Pxx,F] = pwelch(sample,WINDOW,NOVERLAP,F,Fs);
-plot(F,Pxx)
-xlim([0 20])
-
-%%
-
-delta = bandpass_lfp(sample,500,[1 4])
-theta = bandpass_lfp(sample,500,[4 10])
-
-%%
-clf
-plot(time.t,delta,'g')
-hold on
-plot(time.t,theta,'r')
-plot(time.t,sample,'k')
-
-%%
-
-band = struct()
-band(1).name = 'delta'
-band(1).lo   = 0.1
-band(1).hi = 3.8
-band(1).color = 'g'
-band(2).name = 'theta'
-band(2).lo   = 4.1
-band(2).hi = 10
-band(2).color = 'r'
-band(3).name = 'low'
-band(3).lo   = .1
-band(3).hi = 10
-band(3).color = 'p'
-
-%%
-for b = 1 : numel(band)
-    band(b).sample = eegfilt(sample',time.srate,band(b).lo,band(b).hi);
-end
-%%
-
-clf
-plot(time.t,zscore(sample),'k')
-
-hold on
-for b = 1 : numel(band)
-plot(time.t,zscore(band(b).sample),'r')
-end
-hold off
 %%
 
 for b = 1 : numel(band)
