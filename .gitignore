@@ -38,3 +38,6 @@ books/formal_foundations/mathematics/pedagogical_graph.json
 # Local CI runs (ci/run.sh, ci/local.sh)
 /.ci-logs/
 /.ci-venv/
+
+# Local CON2PHYS battle-test output
+/analysis/results/

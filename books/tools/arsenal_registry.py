@@ -6,7 +6,7 @@ shared/theorems.yml consistent.
     python3 books/tools/arsenal_registry.py --write   # regenerate the ARS block
 
 Sources of truth:
-  * matlab/path/*.m                                 -- the functions
+  * matlab/path/*.m (except Contents.m)              -- the functions
   * electrophysiology/chapters/12_method_specifications.tex
         \\methodentry{<file>.m}{computes}{relies on: ARS ids}{review}
   * formal_foundations/chapters/10_arsenal/*.tex
@@ -32,7 +32,8 @@ ENTRY = re.compile(r"\\methodentry\{([A-Za-z0-9_]+)\.m\}\s*\n\{.*?\}\s*\n\{(.*?)
 
 
 def functions():
-    return sorted(p.stem for p in MATLAB.glob("*.m"))
+    # MATLAB's conventional Contents.m is a help index, not a callable method.
+    return sorted(p.stem for p in MATLAB.glob("*.m") if p.name != "Contents.m")
 
 
 def theorems():

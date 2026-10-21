@@ -1,7 +1,7 @@
 \chapter[Method specifications]{Method specifications for every function in \texttt{matlab/path}}\label{ch:method-specifications}
-This chapter gives, for each of the 88 functions in \path{matlab/path/}, three things: the mathematical object the code \emph{actually computes}, written as a formula; the results it depends on, by theorem identifier; and review notes recording conventions, assumptions and every place where the implementation departs from the idealised mathematics. Identifiers of the form \texttt{ARS-FAMILY-NNN} are proved in the arsenal chapters of \emph{Formal Foundations} and registered in \path{books/shared/theorems.yml}. This volume does not reproduce those proofs; it uses them.
+This chapter gives, for each of the functions in \path{matlab/path/}, three things: the mathematical object the code \emph{actually computes}, written as a formula; the results it depends on, by theorem identifier; and review notes recording conventions, assumptions and every place where the implementation departs from the idealised mathematics. Identifiers of the form \texttt{ARS-FAMILY-NNN} are proved in the arsenal chapters of \emph{Formal Foundations} and registered in \path{books/shared/theorems.yml}. This volume does not reproduce those proofs; it uses them.
 
-The entries were written from a line-by-line reading of the source on 12 October 2026, including the helpers consolidated from \texttt{paper\_con2phys} in commit \texttt{e9b4782}. A specification is a statement about the code, not a validation of the method: the review notes are the place where scientific caution starts.
+The entries are maintained against the current source; these additional specifications were checked against the implementation on 20 October 2026. A specification is a statement about the code, not a validation of the method: the review notes are the place where scientific caution starts.
 
 \paragraph{Shared conventions.} Unless stated otherwise: time is in seconds and frequency in hertz; matrices have observations (samples, bins, trials) in rows; spike times are timestamps measured from the same origin as sample $1$ of any accompanying signal, where sample $n$ is taken at $(n-1)/f_s$; intervals are half-open $[a,b)$ (\texttt{ARS-COUNT-001}).
 
@@ -527,3 +527,160 @@ The entries were written from a line-by-line reading of the source on 12 October
 {Write numeric matrices in channel-contiguous little-endian layout.}
 {Chunked column-major serialization.}
 {Explicit overwrite is required; source files and physical metadata remain the caller responsibility.}
+
+\section{Additional resampling, null models, and validation methods}
+\methodentry{aaft_surrogate.m}
+{Rank-map $x$ to Gaussian scores, randomise Fourier phases, then map back to the original ranks.}
+{Definitional; no theorem needed.}
+{Approximate spectrum only; prefer IAAFT when spectral fidelity matters. The marginal distribution is preserved exactly.}
+
+\methodentry{block_bootstrap_ci.m}
+{Percentile interval from circular moving-block or stationary-bootstrap resamples of length $L$.}
+{Definitional; no theorem needed.}
+{Rows are resampled synchronously across channels; the block scheme and length must reflect dependence. The result is marked as a draft.}
+
+\methodentry{block_shuffle_surrogate.m}
+{Random permutation of nonoverlapping contiguous blocks of $x$.}
+{Definitional; no theorem needed.}
+{Within-block structure is preserved while between-block order is disrupted; conclusions depend on the chosen block length.}
+
+\methodentry{blocked_cross_validation.m}
+{Contiguous test folds with a configurable exclusion gap; returns complementary training indices.}
+{Definitional; no theorem needed.}
+{Use a gap large enough to limit temporal leakage. This partitions observations; it does not balance labels.}
+
+\methodentry{bootstrap_ci.m}
+{IID bootstrap percentile, basic, or BCa interval for a caller-supplied statistic.}
+{Definitional; no theorem needed.}
+{Rows must be independent experimental units. Do not resample correlated time bins as IID observations.}
+
+\methodentry{bootstrap_t_ci.m}
+{Studentised IID bootstrap interval using caller-supplied statistic and standard-error functions.}
+{Definitional; no theorem needed.}
+{Requires independent rows and a stable standard-error estimate; scalar statistic and standard error are expected.}
+
+\methodentry{cluster_permutation_test.m}
+{Permutation test using the maximum cluster mass over ordered features, formed from thresholded absolute two-sample statistics.}
+{Definitional; no theorem needed.}
+{Exchangeability is required at the independent-unit level. A significant cluster does not localise every sample within it.}
+
+\methodentry{delete_group_jackknife.m}
+{Leave-one-group-out estimates and their jackknife standard error.}
+{Definitional; no theorem needed.}
+{The equal-weight standard error is most defensible for comparable groups; requires at least three groups.}
+
+\methodentry{group_cross_validation.m}
+{Randomised folds in which all observations from a group remain in one fold.}
+{Definitional; no theorem needed.}
+{Choose groups to match the independent sampling unit, such as animal or subject; no group is split across train and test.}
+
+\methodentry{hierarchical_bootstrap_ci.m}
+{Nested resampling of animals and then trials to form a percentile interval.}
+{Definitional; no theorem needed.}
+{Assumes trials are nested within animals; crossed sampling axes need a design-specific resampling scheme. This implementation is marked as a draft.}
+
+\methodentry{iaaft_surrogate.m}
+{Iteratively alternates rank remapping to the observed marginal and Fourier-amplitude adjustment.}
+{Definitional; no theorem needed.}
+{The marginal is preserved exactly and the spectrum approximately. Inspect convergence and spectral error diagnostics.}
+
+\methodentry{interval_jitter_surrogate.m}
+{Uniformly relocate each spike within its aligned fixed-width interval.}
+{Definitional; no theorem needed.}
+{Preserves counts per interval but not refractory periods or fine temporal patterns; alignment origin and window are part of the null.}
+
+\methodentry{jackknife_ci.m}
+{Normal-approximation interval from delete-one-row jackknife estimates.}
+{Definitional; no theorem needed.}
+{Rows must be independent units and the statistic should have an approximately normal sampling distribution.}
+
+\methodentry{jackknife_estimate.m}
+{Delete-one-row jackknife replicates and bias-corrected point estimate for a caller-supplied statistic.}
+{Definitional; no theorem needed.}
+{Rows must be independent experimental units, not adjacent LFP time samples.}
+
+\methodentry{local_permutation_surrogate.m}
+{Heuristic conditional surrogate formed by shuffling among nearby conditioning-space neighbours.}
+{Definitional; no theorem needed.}
+{This is not an exact conditional randomisation test; calibrate the procedure before using it for transfer-entropy inference.}
+
+\methodentry{maxstat_permutation_test.m}
+{Two-sample label permutation with the maximum absolute statistic across features for familywise correction.}
+{Definitional; no theorem needed.}
+{Requires exchangeability of independent rows under the null; dependence within a row is retained.}
+
+\methodentry{monte_carlo_null_test.m}
+{Monte Carlo tail probability for an observed statistic using datasets generated under a supplied null model.}
+{Definitional; no theorem needed.}
+{Validity depends on the null generator representing the scientific null and the requested tail convention.}
+
+\methodentry{multivariate_phase_surrogate.m}
+{Applies a shared random Fourier phase at each frequency across channels.}
+{Definitional; no theorem needed.}
+{Preserves the cross-spectral matrix at each frequency, subject to finite-record Fourier conventions; intended for stationary signals.}
+
+\methodentry{paired_difference_ci.m}
+{Bootstrap interval for the mean matched difference $b-a$.}
+{Definitional; no theorem needed.}
+{Rows must be correctly paired, and pairs must be independent across rows.}
+
+\methodentry{paired_permutation_test.m}
+{Sign-flip randomisation test on matched differences.}
+{Definitional; no theorem needed.}
+{Requires independent paired units and sign symmetry under the null; it is not an unpaired label-permutation test.}
+
+\methodentry{parametric_bootstrap_ci.m}
+{Fit a model, simulate datasets from the fitted model, and form a percentile interval for the target statistic.}
+{Definitional; no theorem needed.}
+{Validity depends on model fit and simulator adequacy. This implementation is marked as a draft.}
+
+\methodentry{permutation_test.m}
+{Two-sample label-permutation test for a caller-supplied statistic.}
+{Definitional; no theorem needed.}
+{Rows must be independent and exchangeable between groups under the null.}
+
+\methodentry{posterior_predictive_check.m}
+{Compares an observed statistic with statistics from posterior-predictive replicated datasets.}
+{Definitional; no theorem needed.}
+{Posterior-predictive tail areas are diagnostic probabilities, not generally uniform frequentist $p$-values.}
+
+\methodentry{sensitivity_analysis.m}
+{Evaluates a statistic across caller-supplied configurations and returns the values and their range and mean.}
+{Definitional; no theorem needed.}
+{The result describes the supplied configuration set; it is not a probability distribution or uncertainty interval.}
+
+\methodentry{simultaneous_confidence_band.m}
+{Max-$t$ band around a point estimate using joint bootstrap replicates.}
+{Definitional; no theorem needed.}
+{Replicates must preserve dependence across features, and the centred bootstrap error distribution must approximate estimation error.}
+
+\methodentry{spike_dither_surrogate.m}
+{Adds independent uniform timing jitter within a fixed half-width around each spike.}
+{Definitional; no theorem needed.}
+{Does not preserve interval counts or refractory structure and is not equivalent to interval jitter; assess false-positive behaviour for the design.}
+
+\methodentry{stability_selection.m}
+{Selection frequency for each feature over random subsamples passed to a caller-supplied selector.}
+{Definitional; no theorem needed.}
+{Frequencies are descriptive; formal error bounds require additional assumptions and a specified selection procedure.}
+
+\methodentry{subsampling_ci.m}
+{Interval based on scaled differences between the full-sample estimate and estimates from subsamples of size $m$.}
+{Definitional; no theorem needed.}
+{Requires independent rows and a suitable asymptotic regime and subsample size; $m$ is not arbitrary.}
+
+\methodentry{surrogate_maxstat_test.m}
+{Familywise corrected tail probability from the maximum statistic across each joint surrogate draw.}
+{Definitional; no theorem needed.}
+{Null draws must be generated jointly across features; the two-sided convention assumes a zero-centred null.}
+
+\methodentry{surrogate_test.m}
+{Monte Carlo tail probability comparing the observed statistic with statistics from caller-generated surrogates.}
+{Definitional; no theorem needed.}
+{The exchangeability interpretation under the null depends on the surrogate generator and the scientific null.}
+
+\methodentry{trial_shuffle_surrogate.m}
+{Permutes trial identities to disrupt cross-trial correspondence while retaining each trial's within-trial data.}
+{Definitional; no theorem needed.}
+{Apply the permutation consistently to the variable whose trial alignment is to be destroyed; repeated trial structure defines the null.}
+

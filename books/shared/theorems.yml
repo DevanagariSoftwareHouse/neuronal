@@ -519,8 +519,26 @@ theorems:
     matlab:
       - matlab/path/template_match_waveforms.m
 definitional_methods:
+  - matlab/path/aaft_surrogate.m
   - matlab/path/amplitude_threshold_events.m
+  - matlab/path/block_bootstrap_ci.m
+  - matlab/path/block_shuffle_surrogate.m
+  - matlab/path/blocked_cross_validation.m
+  - matlab/path/bootstrap_ci.m
+  - matlab/path/bootstrap_t_ci.m
+  - matlab/path/cluster_permutation_test.m
+  - matlab/path/delete_group_jackknife.m
   - matlab/path/event_aligned_raster.m
+  - matlab/path/group_cross_validation.m
+  - matlab/path/hierarchical_bootstrap_ci.m
+  - matlab/path/iaaft_surrogate.m
+  - matlab/path/interval_jitter_surrogate.m
+  - matlab/path/jackknife_ci.m
+  - matlab/path/jackknife_estimate.m
+  - matlab/path/local_permutation_surrogate.m
+  - matlab/path/maxstat_permutation_test.m
+  - matlab/path/monte_carlo_null_test.m
+  - matlab/path/multivariate_phase_surrogate.m
   - matlab/path/neuronal_catalog.m
   - matlab/path/neuronal_file_path.m
   - matlab/path/neuronal_memmap.m
@@ -528,10 +546,23 @@ definitional_methods:
   - matlab/path/neuronal_register.m
   - matlab/path/neuronal_validate_file.m
   - matlab/path/neuronal_write_binary.m
+  - matlab/path/paired_difference_ci.m
+  - matlab/path/paired_permutation_test.m
+  - matlab/path/parametric_bootstrap_ci.m
+  - matlab/path/permutation_test.m
   - matlab/path/phase_crossing_events.m
   - matlab/path/plot_event_raster.m
+  - matlab/path/posterior_predictive_check.m
+  - matlab/path/sensitivity_analysis.m
+  - matlab/path/simultaneous_confidence_band.m
   - matlab/path/spectral_peak_candidates.m
+  - matlab/path/spike_dither_surrogate.m
   - matlab/path/spike_raster_sparse.m
   - matlab/path/spike_waveform_average.m
   - matlab/path/spike_waveform_extraction.m
+  - matlab/path/stability_selection.m
+  - matlab/path/subsampling_ci.m
+  - matlab/path/surrogate_maxstat_test.m
+  - matlab/path/surrogate_test.m
+  - matlab/path/trial_shuffle_surrogate.m
   - matlab/path/waveform_trough_to_peak.m

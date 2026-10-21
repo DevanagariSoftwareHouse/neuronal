@@ -1,0 +1,137 @@
+# Function-to-analysis coverage
+
+Static invocation coverage: **131/131** functions in `matlab/path`. This is not evidence of successful MATLAB execution. A skipped or failed module is not runtime coverage.
+
+| Function | Scripts | Purpose |
+|---|---|---|
+| `aaft_surrogate` | a11_surrogate_invariants.m | AAFT_SURROGATE Amplitude-adjusted FT surrogate (approximate spectrum). |
+| `amplitude_threshold_events` | a04_oscillations_events.m | AMPLITUDE_THRESHOLD_EVENTS Extract threshold excursions from an envelope. |
+| `analytic_phase` | a04_oscillations_events.m; a05_phase_connectivity.m | ANALYTIC_PHASE Hilbert analytic signal, phase (rad), amplitude (input units). |
+| `aperiodic_slope` | a03_spectrum.m | APERIODIC_SLOPE Log-log linear 1/f fit; NOT full FOOOF/specparam. |
+| `assembly_expression` | a07_population.m | ASSEMBLY_EXPRESSION Pairwise assembly coactivation excluding diagonal terms. |
+| `assembly_pca` | a07_population.m | ASSEMBLY_PCA Z-scored PCA templates for population coactivation patterns. |
+| `autocorrelogram` | a02_spike_statistics.m | AUTOCORRELOGRAM Binned spike-train autocorrelation (count coincidences). |
+| `bandpass_lfp` | a04_oscillations_events.m; a05_phase_connectivity.m | BANDPASS_LFP Zero-phase Butterworth filter for a finite LFP vector. |
+| `bipolar_reference_lfp` | a10_fields_control.m | BIPOLAR_REFERENCE_LFP Adjacent laminar voltage differences. |
+| `block_bootstrap_ci` | a12_animal_uncertainty.m | BLOCK_BOOTSTRAP_CI Draft circular moving-block/stationary bootstrap. |
+| `block_shuffle_surrogate` | a11_surrogate_invariants.m | BLOCK_SHUFFLE_SURROGATE Permute nonoverlapping contiguous blocks. |
+| `blocked_cross_validation` | a08_trials_decoding.m | BLOCKED_CROSS_VALIDATION Contiguous held-out folds with exclusion gap. |
+| `bootstrap_ci` | a12_animal_uncertainty.m | BOOTSTRAP_CI Draft IID confidence intervals: percentile, basic, BCa. |
+| `bootstrap_percentile` | a12_animal_uncertainty.m | BOOTSTRAP_PERCENTILE IID percentile CI of the arithmetic mean. |
+| `bootstrap_t_ci` | a12_animal_uncertainty.m | BOOTSTRAP_T_CI Draft studentized IID bootstrap for scalar statistic. |
+| `bosc_detect` | a04_oscillations_events.m | BOSC_DETECT Better OSCillation detection: wavelet power over 1/f background. |
+| `circular_mean` | a05_phase_connectivity.m | CIRCULAR_MEAN Weighted circular mean in radians, Berens (2009) CircStat. |
+| `circular_shift_surrogate` | a05_phase_connectivity.m; a11_surrogate_invariants.m | CIRCULAR_SHIFT_SURROGATE Circular temporal shift, preserving sample distribution. |
+| `cluster_permutation_test` | a13_inference_controls.m | CLUSTER_PERMUTATION_TEST 1D cluster-mass permutation over ordered features. |
+| `coherence_spectrum` | a05_phase_connectivity.m | COHERENCE_SPECTRUM Welch magnitude-squared coherence, 0..1. |
+| `common_median_reference` | a10_fields_control.m | COMMON_MEDIAN_REFERENCE Subtract median across channels at each sample. |
+| `communication_subspace_projection` | a07_population.m | COMMUNICATION_SUBSPACE_PROJECTION Coordinates of predictive source axes. |
+| `condition_marginalization` | a08_trials_decoding.m | CONDITION_MARGINALIZATION Separate condition means from trial residuals. |
+| `coupling_filters` | a06_predictive_dependence.m | COUPLING_FILTERS Fit coupled multineuron Poisson GLMs to lagged spikes. |
+| `crosscorrelogram` | a02_spike_statistics.m | CROSSCORRELOGRAM Lagged binned coincidence counts, without trial correction. |
+| `crossvalidated_ridge_decoder` | a08_trials_decoding.m | CROSSVALIDATED_RIDGE_DECODER Binary held-out ridge least-squares classifier. |
+| `current_source_density` | a10_fields_control.m | CURRENT_SOURCE_DENSITY Finite-difference laminar CSD (interior contacts). |
+| `cycle_by_cycle` | a04_oscillations_events.m | CYCLE_BY_CYCLE Describe individual cycles from a prefiltered oscillation. |
+| `decode_trials` | a08_trials_decoding.m | Five contiguous held-out folds; preprocessing learned on training only. |
+| `decoded_mi` | a08_trials_decoding.m | ok=isfinite(y) & isfinite(pred); y=y(ok); pred=pred(ok); info=nan; |
+| `delete_group_jackknife` | a12_animal_uncertainty.m | DELETE_GROUP_JACKKNIFE Leave-one-group-out sensitivity estimates. |
+| `eigenspectrum_powerlaw` | a07_population.m | EIGENSPECTRUM_POWERLAW Log-log rank-eigenvalue exponent. |
+| `empirical_mode_decomposition` | a15_adaptive_decomposition.m | EMPIRICAL_MODE_DECOMPOSITION Exploratory Huang et al. (1998) EMD sifting. |
+| `ensemble_empirical_mode_decomposition` | a15_adaptive_decomposition.m | ENSEMBLE_EMPIRICAL_MODE_DECOMPOSITION Exploratory noise-assisted EEMD. |
+| `event_aligned_raster` | a04_oscillations_events.m | EVENT_ALIGNED_RASTER Extract a trial x peri-event bin count matrix. |
+| `field_potential_forward` | a10_fields_control.m | FIELD_POTENTIAL_FORWARD Apply supplied linear lead field to source currents. |
+| `field_potential_inverse_tikhonov` | a10_fields_control.m | FIELD_POTENTIAL_INVERSE_TIKHONOV Ridge-regularized inverse lead-field map. |
+| `firing_rate` | a02_spike_statistics.m | FIRING_RATE Mean firing rate from spike timestamps in seconds. |
+| `gaussian_process_smoothing` | a07_population.m | GAUSSIAN_PROCESS_SMOOTHING Squared-exponential temporal GP smoother. |
+| `granger_causality` | a06_predictive_dependence.m | GRANGER_CAUSALITY Conditional multivariate autoregressive Granger score. |
+| `greedy_modularity` | a07_population.m | s=sum(w(:)); best=nan; if s<=0, return; end |
+| `group_cross_validation` | a12_animal_uncertainty.m | GROUP_CROSS_VALIDATION Group-disjoint K-fold splits, e.g. by animal. |
+| `hierarchical_bootstrap_ci` | a12_animal_uncertainty.m | HIERARCHICAL_BOOTSTRAP_CI Draft nested resampling: animals then trials. |
+| `iaaft_surrogate` | a11_surrogate_invariants.m | IAAFT_SURROGATE Iterative amplitude adjusted Fourier transform surrogate. |
+| `interspike_intervals` | a02_spike_statistics.m | INTERSPIKE_INTERVALS Successive sorted event separations (seconds). |
+| `interval_jitter_surrogate` | a11_surrogate_invariants.m | INTERVAL_JITTER_SURROGATE Fixed-bin conditional uniform spike resampling. |
+| `irasa_decomposition` | a03_spectrum.m | IRASA_DECOMPOSITION Exploratory irregular-resampling autospectral analysis. |
+| `jackknife_ci` | a12_animal_uncertainty.m | JACKKNIFE_CI Normal-approximation jackknife confidence intervals. |
+| `jackknife_estimate` | a12_animal_uncertainty.m | JACKKNIFE_ESTIMATE Delete-one-row jackknife for vector-valued statistics. |
+| `jitter_spike_surrogate` | a11_surrogate_invariants.m | JITTER_SPIKE_SURROGATE Uniform jitter inside fixed non-overlapping windows. |
+| `jpca_dynamics` | a07_population.m | JPCA_DYNAMICS Skew-symmetric least-squares rotational dynamics. |
+| `lfp_envelope_moments` | a04_oscillations_events.m | LFP_ENVELOPE_MOMENTS Sliding moments of band-limited LFP Hilbert envelopes. |
+| `linear_discriminability` | a08_trials_decoding.m | LINEAR_DISCRIMINABILITY Pooled-covariance linear d-prime squared. |
+| `local_permutation_surrogate` | a11_surrogate_invariants.m | LOCAL_PERMUTATION_SURROGATE Approximate conditional nearest-neighbor shuffle. |
+| `maxstat_permutation_test` | a13_inference_controls.m | MAXSTAT_PERMUTATION_TEST Joint label permutation and max-T correction. |
+| `modulation_index` | a05_phase_connectivity.m | MODULATION_INDEX Tort et al. (2010) phase-amplitude modulation index. |
+| `monte_carlo_null_test` | a13_inference_controls.m | MONTE_CARLO_NULL_TEST Parametric Monte Carlo null with simulated datasets. |
+| `morlet_wavelet` | a04_oscillations_events.m | MORLET_WAVELET Complex Morlet convolution at one central frequency. |
+| `multitaper_coherence` | a05_phase_connectivity.m | MULTITAPER_COHERENCE Magnitude-squared coherency from averaged DPSS spectra. |
+| `multitaper_psd` | a03_spectrum.m | MULTITAPER_PSD Thomson multitaper PSD from orthogonal DPSS tapers. |
+| `multivariate_phase_surrogate` | a11_surrogate_invariants.m | MULTIVARIATE_PHASE_SURROGATE Shared random Fourier phase across channels. |
+| `mutual_information` | a06_predictive_dependence.m | MUTUAL_INFORMATION Empirical discrete plug-in MI in bits. |
+| `neuronal_catalog` | a00_prepare.m; a01_storage.m | NEURONAL_CATALOG Load the persistent dataset index (never loads raw arrays). |
+| `neuronal_file_path` | a01_storage.m | NEURONAL_FILE_PATH Resolve a catalog file descriptor against a project root. |
+| `neuronal_memmap` | a00_prepare.m; a01_storage.m; a12_animal_uncertainty.m; a17_average_waveforms.m | NEURONAL_MEMMAP Create a read-only memory map from a catalog file entry. |
+| `neuronal_read` | a00_prepare.m; a01_storage.m; a17_average_waveforms.m | NEURONAL_READ Read a time x channels window without mapping whole file into RAM. |
+| `neuronal_register` | a01_storage.m | NEURONAL_REGISTER Publish a dataset's normalized records to catalog.mat. |
+| `neuronal_validate_file` | a01_storage.m | NEURONAL_VALIDATE_FILE Check raw binary schema, byte length, and host endian. |
+| `neuronal_write_binary` | a01_storage.m | NEURONAL_WRITE_BINARY Persist a numeric matrix as a headerless little-endian BIN. |
+| `noise_correlation` | a08_trials_decoding.m | NOISE_CORRELATION Trial residual correlations, subtracting each condition mean. |
+| `oscillation_episode` | a04_oscillations_events.m | OSCILLATION_EPISODE Find sustained oscillatory runs by minimum cycle count. |
+| `pac_mean_vector_length` | a05_phase_connectivity.m | PAC_MEAN_VECTOR_LENGTH Canolty et al. (2006); Huelsemann et al. (2019). |
+| `paired_difference_ci` | a12_animal_uncertainty.m | PAIRED_DIFFERENCE_CI Draft bootstrap for matched differences B-A. |
+| `paired_permutation_test` | a12_animal_uncertainty.m | PAIRED_PERMUTATION_TEST Random sign flips of matched differences. |
+| `paired_signflip_test` | a12_animal_uncertainty.m | PAIRED_SIGNFLIP_TEST Two-sided paired sign-flip randomization test. |
+| `pairwise_phase_consistency` | a05_phase_connectivity.m | PAIRWISE_PHASE_CONSISTENCY Pairwise phase consistency (PPC). |
+| `parametric_bootstrap_ci` | a14_count_models.m | PARAMETRIC_BOOTSTRAP_CI Fit model then simulate estimator distribution. |
+| `participation_ratio` | a07_population.m | PARTICIPATION_RATIO Covariance effective dimensionality: tr(C)^2/tr(C^2). |
+| `peri_event_histogram` | a04_oscillations_events.m | PERI_EVENT_HISTOGRAM Event-aligned firing rate and trial-by-bin counts. |
+| `permutation_entropy` | a03_spectrum.m | PERMUTATION_ENTROPY Normalized ordinal-pattern entropy (0 to 1). |
+| `permutation_test` | a13_inference_controls.m | PERMUTATION_TEST Two-sample label permutation for exchangeable rows. |
+| `phase_crossing_events` | a04_oscillations_events.m | PHASE_CROSSING_EVENTS Detect forward crossings of an oscillatory phase. |
+| `phase_lag_index` | a05_phase_connectivity.m | PHASE_LAG_INDEX Absolute mean sign of phase lag (Stam et al. 2007). |
+| `phase_locking_value` | a05_phase_connectivity.m | PHASE_LOCKING_VALUE Resultant magnitude of phase differences, [0,1]. |
+| `phase_randomized_surrogate` | a11_surrogate_invariants.m | PHASE_RANDOMIZED_SURROGATE Real-valued Fourier phase randomization. |
+| `phase_slope_index` | a05_phase_connectivity.m | PHASE_SLOPE_INDEX Frequency-neighbor coherency phase-slope statistic. |
+| `plot_event_raster` | a04_oscillations_events.m | PLOT_EVENT_RASTER Display event x bin spike counts without losing multiples. |
+| `poisson_spike_glm` | a06_predictive_dependence.m | POISSON_SPIKE_GLM Binned log-link point-process approximation by IRLS. |
+| `population_dimension_scaling` | a07_population.m | POPULATION_DIMENSION_SCALING Participation ratio for sampled units. |
+| `population_pca` | a07_population.m | POPULATION_PCA PCA by SVD; rows observations, columns neuronal units. |
+| `posterior_predictive_check` | a14_count_models.m | POSTERIOR_PREDICTIVE_CHECK Simulated replicated data from posterior. |
+| `rayleigh_test` | a05_phase_connectivity.m | RAYLEIGH_TEST Rayleigh's test against circular uniformity. |
+| `reduced_rank_regression` | a07_population.m | REDUCED_RANK_REGRESSION Low-rank multivariate ridge prediction. |
+| `ripple_candidate_events` | a04_oscillations_events.m | RIPPLE_CANDIDATE_EVENTS Robust-envelope high-frequency candidate screen. |
+| `sensitivity_analysis` | a06_predictive_dependence.m; a13_inference_controls.m | SENSITIVITY_ANALYSIS Evaluate statistic across caller-specified settings. |
+| `simultaneous_confidence_band` | a12_animal_uncertainty.m | SIMULTANEOUS_CONFIDENCE_BAND Draft max-t bootstrap band. |
+| `spectral_entropy` | a03_spectrum.m | SPECTRAL_ENTROPY Shannon entropy of a nonnegative PSD, normalized 0..1. |
+| `spectral_peak_candidates` | a03_spectrum.m | SPECTRAL_PEAK_CANDIDATES Find local excess above a median spectral baseline. |
+| `spike_bin_counts` | a02_spike_statistics.m | SPIKE_BIN_COUNTS Count events in half-open [start,stop) bins. |
+| `spike_bins` | a00_prepare.m; a16_trial_tensor.m | counts=zeros(numel(edges)-1,numel(spikes)); |
+| `spike_count_fano` | a02_spike_statistics.m | SPIKE_COUNT_FANO Variance-to-mean of spike counts across repeated trials. |
+| `spike_counts_edges` | a02_spike_statistics.m | SPIKE_COUNTS_EDGES Event counts for explicit, possibly irregular [left,right) bins. |
+| `spike_dither_surrogate` | a11_surrogate_invariants.m | SPIKE_DITHER_SURROGATE Spike-centered independent uniform dithering. |
+| `spike_field_coherence` | a05_phase_connectivity.m | SPIKE_FIELD_COHERENCE Magnitude-squared coherence of binned spikes and LFP. |
+| `spike_field_ppc` | a05_phase_connectivity.m | SPIKE_FIELD_PPC Spike-LFP pairwise phase consistency at spike timestamps. |
+| `spike_history_design` | a06_predictive_dependence.m | SPIKE_HISTORY_DESIGN Causal spike-count regressors for coupled Poisson GLMs. |
+| `spike_presence_ratio` | a02_spike_statistics.m | SPIKE_PRESENCE_RATIO Fraction of time bins containing any sorted spike. |
+| `spike_raster_sparse` | a04_oscillations_events.m | SPIKE_RASTER_SPARSE Bin timestamped spikes into a sparse cluster x time matrix. |
+| `spike_refractory_violations` | a02_spike_statistics.m | SPIKE_REFRACTORY_VIOLATIONS Adjacent short-ISI proportion; not contamination. |
+| `spike_sorting_agreement` | a09_waveforms_control.m | SPIKE_SORTING_AGREEMENT One-to-one temporal event matching for a unit. |
+| `spike_threshold_detection` | a09_waveforms_control.m | SPIKE_THRESHOLD_DETECTION Negative extracellular transient candidates. |
+| `spike_triggered_average` | a04_oscillations_events.m | SPIKE_TRIGGERED_AVERAGE Average LFP samples relative to point-process events. |
+| `spike_waveform_average` | a09_waveforms_control.m | SPIKE_WAVEFORM_AVERAGE Mean +/- SEM of aligned waveform snippets. |
+| `spike_waveform_extraction` | a09_waveforms_control.m | SPIKE_WAVEFORM_EXTRACTION Event-aligned AP snippets from multichannel data. |
+| `spike_waveform_pca` | a09_waveforms_control.m; a17_average_waveforms.m | SPIKE_WAVEFORM_PCA PCA features of aligned extracellular waveforms. |
+| `spike_waveform_snr` | a09_waveforms_control.m | SPIKE_WAVEFORM_SNR Template peak amplitude divided by robust noise. |
+| `stability_selection` | a12_animal_uncertainty.m | STABILITY_SELECTION Selection frequencies across random subsamples. |
+| `subsampling_ci` | a12_animal_uncertainty.m | SUBSAMPLING_CI Subsampling CI via scaled estimator differences. |
+| `surrogate_maxstat_test` | a13_inference_controls.m | SURROGATE_MAXSTAT_TEST Familywise max-statistic corrected p-values. |
+| `surrogate_test` | a05_phase_connectivity.m | SURROGATE_TEST Monte Carlo surrogate hypothesis test. |
+| `targeted_dimensionality_reduction` | a08_trials_decoding.m | TARGETED_DIMENSIONALITY_REDUCTION dDR signal and noise plane. |
+| `template_match_waveforms` | a09_waveforms_control.m | TEMPLATE_MATCH_WAVEFORMS Cosine waveform-template similarities. |
+| `tensor_cp_als` | a16_trial_tensor.m | TENSOR_CP_ALS CANDECOMP/PARAFAC ALS for neuron x time x trial tensor. |
+| `transfer_entropy` | a06_predictive_dependence.m | TRANSFER_ENTROPY First-order DISCRETE lagged conditional mutual information. |
+| `trial_features` | a00_prepare.m | x=nan(size(windows,1),numel(spikes)); |
+| `trial_shuffle_surrogate` | a11_surrogate_invariants.m | TRIAL_SHUFFLE_SURROGATE Permute trial identities of one variable. |
+| `victor_purpura_distance` | a02_spike_statistics.m | VICTOR_PURPURA_DISTANCE Spike-train edit distance; Victor & Purpura 1997. |
+| `waveform_trough_to_peak` | a09_waveforms_control.m; a17_average_waveforms.m | WAVEFORM_TROUGH_TO_PEAK Trough to subsequent positive peak time in ms. |
+| `wavelet_coherence` | a05_phase_connectivity.m | WAVELET_COHERENCE Exploratory time-smoothed Morlet coherence. |
+| `weighted_phase_lag_index` | a05_phase_connectivity.m | WEIGHTED_PHASE_LAG_INDEX Imaginary-cross-spectrum weighted PLI. |
+| `welch_psd` | a03_spectrum.m | WELCH_PSD One-sided Welch power spectral density (power units^2/Hz). |
