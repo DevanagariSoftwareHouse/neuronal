@@ -8,6 +8,27 @@ function [times_s, events] = amplitude_threshold_events(envelope, srate, thresho
 % Timestamp zero corresponds to the first sample. [start_s,stop_s)
 % describes each run, with stop_s one sample after the last active sample.
 % This is a general envelope detector, NOT a validated ripple classifier.
+%
+%   SYNTAX
+%     [times_s, events] = amplitude_threshold_events(envelope, srate, threshold, varargin)
+%
+%   INPUTS
+%     envelope: Finite nonnegative amplitude vector.
+%     srate: Positive sampling rate in Hz.
+%     threshold: Nonnegative scalar in envelope units; equality is included.
+%     varargin: Name/value pairs: Anchor (peak/onset/midpoint), MinDuration and MinSeparation
+%       in seconds; defaults peak, 0, 0.
+%
+%   OUTPUTS
+%     times_s: Column of retained anchor timestamps in seconds.
+%     events: Table with start_s, stop_s, peak_s, peak_amplitude and anchor_s.
+%
+%   EXAMPLE
+%     env = zeros(1000,1); env(201:250) = 3;
+%     [times_s, events] = amplitude_threshold_events(env,500,2, ...
+%         'Anchor','onset','MinDuration',0.05);
+%     % The run starts at 0.4 s and lasts 0.1 s.
+%
 validateattributes(envelope, {'numeric'}, {'vector','real','finite','nonnegative'});
 validateattributes(srate, {'numeric'}, {'scalar','real','finite','positive'});
 validateattributes(threshold, {'numeric'}, {'scalar','real','finite','nonnegative'});

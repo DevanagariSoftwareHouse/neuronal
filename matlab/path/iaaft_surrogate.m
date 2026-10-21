@@ -3,6 +3,26 @@ function [y,diagnostics] = iaaft_surrogate(x,max_iter,tolerance)
 % Preserves empirical marginal exactly (up to permutation); matches Fourier
 % amplitudes approximately. Schreiber & Schmitz (1996).
 % Nonconvergence and residual spectral error MUST be inspected.
+%
+%   SYNTAX
+%     [y,diagnostics] = iaaft_surrogate(x,max_iter,tolerance)
+%
+%   INPUTS
+%     x: Finite real vector with at least 8 samples.
+%     max_iter: Positive integer iteration limit; default 1000.
+%     tolerance: Nonnegative stopping tolerance on change in relative spectral error; default
+%       1e-8.
+%
+%   OUTPUTS
+%     y: Same-shaped surrogate preserving the sorted amplitudes.
+%     diagnostics: Struct with iterations, relative_spectral_error, converged (stopped before
+%       limit), error_history.
+%
+%   EXAMPLE
+%     rng(7); x = filter(1,[1 -0.8],randn(1000,1));
+%     [y, diagnostics] = iaaft_surrogate(x,500,1e-8);
+%     % Inspect spectral error even when the convergence flag is true.
+%
 if nargin<2||isempty(max_iter), max_iter=1000; end
 if nargin<3||isempty(tolerance), tolerance=1e-8; end
 assert(isvector(x)&&isreal(x)&&all(isfinite(x(:)))&&numel(x)>=8);

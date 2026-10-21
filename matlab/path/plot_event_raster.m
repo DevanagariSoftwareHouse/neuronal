@@ -2,6 +2,23 @@ function h = plot_event_raster(counts, lags_s)
 %PLOT_EVENT_RASTER Display event x bin spike counts without losing multiples.
 % H = PLOT_EVENT_RASTER(COUNTS, LAGS_S) plots log(1+count) for visibility.
 % NaN-padded samples are transparent. Raw COUNTS are not modified.
+%
+%   SYNTAX
+%     h = plot_event_raster(counts, lags_s)
+%
+%   INPUTS
+%     counts: Nonempty events-by-bins numeric matrix, nonnegative values or NaN padding.
+%     lags_s: Finite vector in seconds, one value per column.
+%
+%   OUTPUTS
+%     h: Image graphics handle displaying log(1+counts); NaNs are transparent. Draws in the
+%       current axes.
+%
+%   EXAMPLE
+%     counts = [0 1 2 0 1;1 0 1 0 0]; lags_s = -0.2:0.1:0.2;
+%     figure; h = plot_event_raster(counts,lags_s);
+%     % Color encodes transformed counts; multiple spikes remain distinguishable.
+%
 validateattributes(counts, {'numeric'}, {'2d','real'});
 validateattributes(lags_s, {'numeric'}, {'vector','real','finite'});
 assert(all(isnan(counts(:)) | (isfinite(counts(:)) & counts(:)>=0)), ...

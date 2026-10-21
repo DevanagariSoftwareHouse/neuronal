@@ -1,4 +1,21 @@
 function best=greedy_modularity(w)
+%GREEDY_MODULARITY Greedy weighted undirected modularity score.
+%
+%   SYNTAX
+%     best=greedy_modularity(w)
+%
+%   INPUTS
+%     w: Square symmetric nonnegative weighted adjacency matrix; normally zero diagonal.
+%
+%   OUTPUTS
+%     best: Scalar modularity achieved by greedy positive-gain community merges; NaN if total
+%       weight <=0; community labels are not returned.
+%
+%   EXAMPLE
+%     w = [0 1 .1 0;1 0 0 .1;.1 0 0 1;0 .1 1 0];
+%     q = greedy_modularity(w);
+%     % q is the score of the greedy partition, not a guaranteed global optimum.
+%
     s=sum(w(:)); best=nan; if s<=0, return; end
     k=sum(w,2); b=w-k*k'/s; group=1:size(w,1);
     best=sum(diag(b))/s;

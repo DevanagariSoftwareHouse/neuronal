@@ -1,6 +1,28 @@
 function info = neuronal_validate_file(descriptor, root)
 %NEURONAL_VALIDATE_FILE Check raw binary schema, byte length, and host endian.
 %   This validates storage, not equivalence to the original experiment.
+%
+%   SYNTAX
+%     info = neuronal_validate_file(descriptor, root)
+%
+%   INPUTS
+%     descriptor: Struct with path, supported numeric dtype, positive-integer shape, endian
+%       (ieee-le/ieee-be), optional offset_bytes=0.
+%     root: Root for relative paths; default repository root.
+%
+%   OUTPUTS
+%     info: Struct with resolved path, bytes, dtype, shape and offset_bytes; errors on absent
+%       file, non-native endian or mismatched byte count.
+%
+%   The writer fixture validates on a little-endian host.
+%
+%   EXAMPLE
+%     filename = [tempname '.bin'];
+%     descriptor = neuronal_write_binary(single(reshape(1:200,100,2)),filename);
+%     info = neuronal_validate_file(descriptor);
+%     % 100*2 single-precision values occupy 800 bytes.
+%     delete(filename);
+%
     if nargin < 2, root = []; end
     filename = neuronal_file_path(descriptor,root);
     assert(isfile(filename),'neuronal:storage:Missing','Missing %s',filename);
