@@ -38,3 +38,6 @@ books/formal_foundations/mathematics/pedagogical_graph.json
 # Generated MATLAB outputs and analysis runs
 /analysis/results/
 *.mat
+
+# Local CON2PHYS battle-test output
+/analysis/results/
