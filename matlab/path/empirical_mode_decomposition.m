@@ -3,6 +3,26 @@ function [imfs,residual] = empirical_mode_decomposition(signal,max_imfs,max_sift
 % PCHIP envelope interpolation with endpoint anchoring; NOT a reference-grade
 % boundary treatment or standardized S-number stopping criterion.
 % Analyze bounded input segments, not millions of samples in one call.
+%
+%   SYNTAX
+%     [imfs,residual] = empirical_mode_decomposition(signal,max_imfs,max_sifts,tolerance)
+%
+%   INPUTS
+%     signal: Finite vector with at least 16 samples.
+%     max_imfs: Positive integer maximum modes; default 5.
+%     max_sifts: Positive integer maximum sifts per mode; default 40.
+%     tolerance: Relative squared-change stopping tolerance in (0,1); default 0.05.
+%
+%   OUTPUTS
+%     imfs: Samples-by-extracted-modes matrix; may have fewer than max_imfs columns.
+%     residual: Samples-by-1 remainder; signal(:) = sum(imfs,2)+residual.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     [imfs, residual] = empirical_mode_decomposition(x,3,40,0.05);
+%     % Inspect reconstruction and boundary behavior before interpreting modes.
+%
 if nargin<2 || isempty(max_imfs), max_imfs=5; end
 if nargin<3 || isempty(max_sifts), max_sifts=40; end
 if nargin<4 || isempty(tolerance), tolerance=.05; end

@@ -14,6 +14,29 @@ function [score,detail] = decode_trials(x,y,seed)
 % See also decoded_mi, crossvalidated_ridge_decoder, blocked_cross_validation.
     % Five contiguous held-out folds; preprocessing learned on training only.
     % Fixed ridge one-vs-rest model, no tuned hyperparameters.
+%
+%   SYNTAX
+%     [score,detail] = decode_trials(x,y,seed)
+%
+%   INPUTS
+%     x: Trials-by-features matrix; rows with nonfinite features/labels are removed.
+%     y: Trials-by-1 numeric class labels; use a column vector.
+%     seed: Required metadata value stored in detail; the fixed contiguous folds do not use it
+%       for randomization.
+%
+%   OUTPUTS
+%     score: Balanced accuracy across classes with finite predictions, or NaN when insufficient
+%       data.
+%     detail: Struct with observed, predicted and probability (softmax-transformed ridge
+%       scores, not calibrated probabilities); on the full path also classes, fold,
+%       retained_rows and seed.
+%
+%   EXAMPLE
+%     rng(7); y = repmat([0;1],30,1); x = [y+randn(60,1),randn(60,2)];
+%     [score, detail] = decode_trials(x,y,7);
+%     coverage = mean(isfinite(detail.predicted));
+%     % Check coverage: folds lacking training examples can remain unpredicted.
+%
     keep=all(isfinite(x),2) & isfinite(y); x=x(keep,:); y=y(keep);
     classes=unique(y); n=numel(y); pred=nan(n,1); prob=nan(n,numel(classes));
     score=nan; detail=struct('observed',y,'predicted',pred,'probability',prob);

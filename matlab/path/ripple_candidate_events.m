@@ -5,6 +5,29 @@ function events = ripple_candidate_events(signal,srate,band_hz,onset_z,peak_z)
 % EVENTS table: start_s, stop_s (one sample after the last active sample),
 % duration_s, peak_robust_z and peak_s (time of the envelope maximum).
 % Use peak_s, start_s or a stated midpoint as alignment anchor.
+%
+%   SYNTAX
+%     events = ripple_candidate_events(signal,srate,band_hz,onset_z,peak_z)
+%
+%   INPUTS
+%     signal: Finite real signal vector long enough for bandpass_lfp.
+%     srate: Positive sampling rate in Hz; default band requires >400 Hz.
+%     band_hz: [low high] strictly inside (0,srate/2); default [120 200].
+%     onset_z: Envelope excursion threshold in robust z units; default 2.
+%     peak_z: Minimum within-event robust z peak; default 5.
+%
+%   OUTPUTS
+%     events: Table with start_s, exclusive stop_s, duration_s and peak_robust_z; only 25-150
+%       ms nonboundary candidates retained; may be empty.
+%
+%   Requires Signal Processing Toolbox (filtering and hilbert).
+%
+%   EXAMPLE
+%     rng(7); fs = 1000; t = (0:4999)'/fs;
+%     x = 0.1*randn(size(t))+sin(2*pi*150*t).*exp(-((t-2)/0.03).^2);
+%     events = ripple_candidate_events(x,fs,[120 200],2,5);
+%     % A detected candidate still needs artifact and physiological checks.
+%
 if nargin<3 || isempty(band_hz), band_hz=[120 200]; end
 if nargin<4 || isempty(onset_z), onset_z=2; end
 if nargin<5 || isempty(peak_z), peak_z=5; end

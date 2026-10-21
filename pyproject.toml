@@ -5,15 +5,15 @@ build-backend = "maturin"
 [project]
 name = "neuronal-rs"
 version = "0.1.0"
-description = "Neural simulation in Rust, accessible from Python"
+description = "Electrophysiology analysis with a Rust numerical core, accessible from Python"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "José Henrique Targino Dias Gois" }]
-keywords = ["neuroscience", "simulation", "rust"]
+keywords = ["neuroscience", "electrophysiology", "signal-processing", "rust"]
 classifiers = ["Development Status :: 2 - Pre-Alpha", "Programming Language :: Python :: 3", "Programming Language :: Rust", "Topic :: Scientific/Engineering"]
 requires-python = ">=3.10"
-dependencies = ["nicegui>=3.18,<4"]
+dependencies = ["numpy>=1.24"]
 
 [project.urls]
 Repository = "https://github.com/ze-gois/neuronal"
@@ -22,6 +22,7 @@ Issues = "https://github.com/ze-gois/neuronal/issues"
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 plot = ["matplotlib>=3.8"]
+panel = ["nicegui>=3.18,<4"]
 
 [tool.maturin]
 manifest-path = "crates/neuronal-python/Cargo.toml"
