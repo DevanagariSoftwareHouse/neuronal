@@ -47,6 +47,20 @@ if isempty(L), L=max(1,min(n-1,round(sqrt(n)))); end
 validateattributes(L,{'numeric'},{'scalar','integer','>=',1,'<=',n});
 % Some toolbox primitives use the global stream. Restore it even on error.
 old=rng; cleanup=onCleanup(@()rng(old)); rng(seed,'twister'); %#ok<NASGU>
+% Ordered means resample row IDs, so callbacks must dereference values.
+mean_values=[]; minimum=3;
+if isfield(cfg,'minimum_finite_rows'), minimum=cfg.minimum_finite_rows; end
+if is_mean && isfield(cfg,'current_mean_values')
+    mean_values=cfg.current_mean_values(:);
+    assert(numel(mean_values)==n && isequal(x,(1:n)'), ...
+        'questionnaire:RowIDs','Ordered mean values require the complete row-ID grid.');
+    if isempty(opt.weighted_statfun)
+        opt.weighted_statfun=@(ids,w)ordered_weighted_mean(ids,w,mean_values,minimum);
+    end
+    if isempty(opt.sefun)
+        opt.sefun=@(ids)ordered_mean_se(ids,mean_values,minimum);
+    end
+end
 draws=[];
 try
 switch method
@@ -86,7 +100,13 @@ switch method
     case 'wild'
         assert(is_mean,'questionnaire:Estimand', ...
             'Wild OLS is supported only for a scalar mean (intercept-only model).');
-        [ci,theta,draws]=wild_bootstrap_ci(ones(n,1),x,B,opt.level,seed);
+        response=x;
+        if ~isempty(mean_values)
+            assert(all(isfinite(mean_values)), 'questionnaire:MissingWildRows', ...
+                'Wild resampling requires complete aligned mean observations; missing rows cannot be compressed without changing pairing.');
+            response=mean_values;
+        end
+        [ci,theta,draws]=wild_bootstrap_ci(ones(n,1),response,B,opt.level,seed);
     case 'subsampling'
         [ci,theta,draws]=subsampling_ci(x,statfun,opt.subsample_size,B,opt.level);
     case 'jackknife'
@@ -115,4 +135,19 @@ for k=1:numel(names)
     assert(isfield(out,names{k}),'questionnaire:Option','Unknown inference option: %s',names{k});
     out.(names{k})=in.(names{k});
 end
+end
+
+function value=ordered_weighted_mean(ids,w,values,minimum)
+a=values(ids); good=isfinite(a);
+if sum(good)<minimum
+    error('questionnaire:InsufficientFiniteRows','Too few finite observations.');
+end
+value=sum(a(good).*w(good))/sum(w(good));
+end
+function value=ordered_mean_se(ids,values,minimum)
+a=values(ids); a=a(isfinite(a));
+if numel(a)<minimum
+    error('questionnaire:InsufficientFiniteRows','Too few finite observations.');
+end
+value=std(a)/sqrt(numel(a));
 end

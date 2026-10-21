@@ -91,4 +91,37 @@ for test_area=1:3
     expected=participation_ratio(vertcat(q13.trials{test_area}{:}));
     assert(abs(expected-q13.summary.mean(test_area))<1e-10);
 end
+
+% Ordered mean callbacks must dereference row IDs, preserving common draws.
+ordered=(1:40)'.^2/17+sin((1:40)'); labels={'A';'B';'C'};
+for method={'bayesian','studentized','wild'}
+    opt=struct('bootstrap',40,'seed',72,'current_question','q02', ...
+        'inference',struct('method',method{1},'allow_iid',true));
+    r=summarize_questionnaire({ordered,ordered+10,ordered+20},labels, ...
+        'units','ordered means',opt,'trial');
+    assert(all(abs(r.summary.mean-(mean(ordered)+[0;10;20]))<1e-10));
+    assert(all(isfinite(r.summary.ci_low)) && all(isfinite(r.summary.ci_high)));
+    if strcmp(method{1},'wild')
+        [expected_ci,~,expected_draws]=wild_bootstrap_ci(ones(40,1),ordered,40,.95,72);
+        assert(max(abs(r.inference{1}.draws-expected_draws))<1e-10);
+        assert(max(abs(r.inference{1}.ci-expected_ci(:)'))<1e-10);
+    elseif strcmp(method{1},'bayesian')
+        assert(max(abs(r.inference{2}.draws-r.inference{1}.draws-10))<1e-10);
+    end
+end
+% Bayesian weights renormalize over observed values without closing gaps.
+missing=ordered; missing([3 17])=NaN;
+opt.inference.method='bayesian';
+r=summarize_questionnaire({missing,ordered,ordered+20},labels, ...
+    'units','missing ordered means',opt,'trial');
+assert(isequaln(r.observation_grid(:,1),missing));
+assert(abs(r.summary.mean(1)-mean(missing(isfinite(missing))))<1e-10);
+opt.inference.method='wild'; caught=false;
+try
+    summarize_questionnaire({missing,ordered,ordered+20},labels,'units','wild gaps',opt,'trial');
+catch err
+    caught=strcmp(err.identifier,'questionnaire:MissingWildRows');
+end
+assert(caught,'Wild bootstrap must reject missing aligned rows explicitly.');
+
 end

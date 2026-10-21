@@ -20,7 +20,7 @@ if ~strcmp(axis,'unit') && is_mean
             statistics{k}=@(ids)questionnaire_nanmean(ids,column,minimum);
         end
     end
-    out=questionnaire_joint_summary((1:lengths(1))',statistics,labels,units,description,cfg,axis);
+    out=questionnaire_joint_summary((1:lengths(1))',statistics,labels,units,description,cfg,axis,grid);
     out.observation_grid=grid;
     out.summary.n_finite=sum(isfinite(grid),1)';
     out.minimum_finite_rows=minimum;
