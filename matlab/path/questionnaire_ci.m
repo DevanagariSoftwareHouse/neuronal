@@ -56,7 +56,11 @@ switch method
         [ci,theta,draws]=balanced_bootstrap_ci(x,statfun,B,opt.level,seed);
     case 'bayesian'
         weighted=opt.weighted_statfun;
-        if isempty(weighted)&&is_mean, weighted=@(a,w)sum(a.*w); end
+        if isempty(weighted)&&is_mean
+            assert(isvector(x),'questionnaire:Callback', ...
+                'Default Bayesian weighted mean requires vector observations; supply weighted_statfun for feature matrices.');
+            weighted=@(a,w)sum(a(:).*w(:));
+        end
         assert(isa(weighted,'function_handle'),'questionnaire:Callback', ...
             'Bayesian bootstrap requires weighted_statfun for this estimand.');
         [ci,theta,draws]=bayesian_bootstrap_ci(x,weighted,B,opt.level,seed);
