@@ -3,6 +3,26 @@ function result = cluster_permutation_test(a,b,threshold,B)
 % Independent units in rows, ordered samples/frequencies in columns.
 % Uses absolute Welch-like t statistic and max cluster mass.
 % A significant cluster does NOT localize the effect to every sample.
+%
+%   SYNTAX
+%     result = cluster_permutation_test(a,b,threshold,B)
+%
+%   INPUTS
+%     a: Finite group-A observations-by-ordered-features matrix, at least 2 rows.
+%     b: Finite group-B matrix with matching columns and at least 2 rows.
+%     threshold: Positive cluster-forming absolute t threshold; default 2.
+%     B: Integer permutation count >=19; default 999.
+%
+%   OUTPUTS
+%     result: Struct: statistic (1-by-features), cluster_labels (0 outside clusters),
+%       cluster_masses, cluster_p and max_null (B-by-1).
+%
+%   EXAMPLE
+%     rng(7); a = randn(20,30); b = randn(20,30);
+%     a(:,10:15) = a(:,10:15)+1;
+%     result = cluster_permutation_test(a,b,2,199);
+%     % cluster_p tests cluster mass, not significance at each member sample.
+%
 if nargin<3||isempty(threshold), threshold=2; end
 if nargin<4||isempty(B), B=999; end
 assert(isnumeric(a)&&isnumeric(b)&&size(a,2)==size(b,2));
