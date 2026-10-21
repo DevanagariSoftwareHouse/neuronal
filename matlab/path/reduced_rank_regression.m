@@ -2,6 +2,26 @@ function model = reduced_rank_regression(source,target,rank,ridge)
 %REDUCED_RANK_REGRESSION Low-rank multivariate ridge prediction.
 % Semedo et al. (2019), doi:10.1016/j.neuron.2019.01.026.
 % Observations x units; training only. Rank and ridge require CV selection.
+%
+%   SYNTAX
+%     model = reduced_rank_regression(source,target,rank,ridge)
+%
+%   INPUTS
+%     source: Finite observations-by-source-units training matrix, >=3 rows.
+%     target: Finite matching observations-by-target-units training matrix.
+%     rank: Positive integer <=min(source units,target units) and available prediction singular
+%       vectors.
+%     ridge: Finite nonnegative ridge penalty; default 1e-6.
+%
+%   OUTPUTS
+%     model: Struct: coefficients (source-by-target), source_mean/target_mean, prediction,
+%       source_axes/target_axes (units-by-rank), rank and ridge.
+%
+%   EXAMPLE
+%     rng(7); x = randn(60,4); y = x(:,1:2)+0.2*randn(60,2);
+%     model = reduced_rank_regression(x,y,2,1);
+%     % Select rank/ridge on training folds before evaluating held-out prediction.
+%
 if nargin<4 || isempty(ridge), ridge=1e-6; end
 x=double(source); y=double(target);
 [n,p]=size(x); [ny,q]=size(y);

@@ -246,7 +246,7 @@ The entries are maintained against the current source; these additional specific
 {Pure duration decision; any calibration comes from the threshold upstream.}
 
 \methodentry{ripple_candidate_events.m}
-{Envelope $a=|z|$ of a bandpassed signal, robust $z=(a-\operatorname{med}a)/(1.4826\operatorname{MAD})$; runs above onset of $25$--$150$ ms with peak above \texttt{peak\_z}, excluding runs touching the record edges.}
+{Envelope $a=|z|$ of a bandpassed signal, robust $z=(a-\operatorname{med}a)/(1.4826\operatorname{MAD})$; runs above onset of $25$--$150$ ms with peak above \texttt{peak\_z}, excluding runs touching the record edges; start, stop, duration, peak $z$ and peak time.}
 {\texttt{ARS-ROB-001}, \texttt{ARS-FILT-001}, \texttt{ARS-FILT-002}.}
 {The envelope is not Gaussian, so the robust $z$ is a scale convention, not a probability. Default band requires $f_s>400$ Hz.}
 
@@ -328,10 +328,10 @@ The entries are maintained against the current source; these additional specific
 {The raw value scales with amplitude; only the normalised value lies in $[0,1]$. Requires surrogates for inference.}
 
 \section{Spike--field relations}
-\methodentry{spike_triggered_average.m}
-{$\frac1K\sum_kx[n_k+\ell]$ for $\ell\in[-B,A]$, $n_k=\operatorname{round}(t_kf_s)+1$, skipping incomplete windows.}
+\methodentry{event_triggered_average.m}
+{$\frac1K\sum_kx[n_k+\ell]$ for $\ell\in[-B,A]$, $n_k=\operatorname{round}(t_kf_s)+1$, skipping incomplete windows; with spike times as events this is the spike-triggered average.}
 {\texttt{ARS-COUNT-001} (index conventions).}
-{Uses the \emph{nearest} sample, whereas \path{spike_field_coherence} uses the \emph{containing} sample $\lfloor t f_s\rfloor+1$; the two differ by up to one sample. Common stimulus locking is not removed.}
+{Accumulates one complete window at a time using the \emph{nearest}-sample anchor, whereas \path{spike_field_coherence} uses the \emph{containing} sample $\lfloor t f_s\rfloor+1$; the two differ by up to one sample. Common stimulus locking is not removed.}
 
 \methodentry{spike_field_coherence.m}
 {Welch coherence between the LFP and a spike-count series binned at the LFP sampling rate.}
@@ -473,8 +473,121 @@ The entries are maintained against the current source; these additional specific
 {Thresholding and linear sample-time conversion.}
 {An envelope detector, not a validated ripple classifier; spacing is greedy.}
 
-\methodentry{event_aligned_raster.m}
-{Event-by-lag count matri…1494 tokens truncated…of the null.}
+\methodentry{event_aligned_segments.m}
+{Event-by-lag(-by-row) segments of any row-by-sample signal: sparse counts, LFP, envelopes or phase.}
+{Discrete indexing with inclusive rounded lag endpoints.}
+{Lag zero is the containing sample $\lfloor tf_s\rfloor+1$ by default or the nearest sample on request; boundary samples are NaN or the event is dropped. Values are copied unchanged, so counts keep their multiplicity.}
+
+\methodentry{phase_crossing_events.m}
+{Interpolated forward crossings of a selected circular phase.}
+{Wrapped phase differences and linear interpolation.}
+{Requires phase increments below pi radians per sample and appropriate band filtering.}
+
+\methodentry{plot_event_aligned.m}
+{Event-by-lag image: $\log(1+\text{count})$ for counts, raw values otherwise, with transparent missing samples.}
+{A monotone display transform.}
+{Counts retain multiplicity; the display is not an estimator.}
+
+\methodentry{sparse_count_matrix.m}
+{Sparse label-by-sample counts of labelled timestamps (spike clusters, TTL lines), preserving repeated events.}
+{Half-open bins and summation of repeated sparse indices.}
+{Invalid times are discarded; original labels and count metadata are retained.}
+
+\methodentry{neuronal_catalog.m}
+{Load the persistent metadata catalog.}
+{MAT-file deserialization and schema checks.}
+{Loads metadata only; raw recordings are separate files.}
+
+\methodentry{neuronal_file_path.m}
+{Resolve a descriptor path against the repository or an explicit root.}
+{Filesystem path composition.}
+{Relative paths must share the documented root.}
+
+\methodentry{neuronal_memmap.m}
+{Read-only native-endian mapping of a validated binary descriptor.}
+{Column-major binary layout.}
+{Requires exact byte length and host-compatible endianness.}
+
+\methodentry{neuronal_read.m}
+{Read selected sample and channel indices from a mapped matrix.}
+{One-based matrix indexing.}
+{Stored shape is samples by channels; requesting all samples may allocate a large result.}
+
+\methodentry{neuronal_register.m}
+{Validate records and publish a dataset catalog through a temporary file.}
+{Unique record IDs and single-writer replacement.}
+{No concurrent-writer coordination or whole-dataset rollback.}
+
+\methodentry{neuronal_validate_file.m}
+{Check data type, shape, byte offset, length and endianness.}
+{Byte count equals offset plus element count times element size.}
+{Structural validation does not establish equivalence to source recordings.}
+
+\methodentry{neuronal_write_binary.m}
+{Write numeric matrices in channel-contiguous little-endian layout.}
+{Chunked column-major serialization.}
+{Explicit overwrite is required; source files and physical metadata remain the caller responsibility.}
+
+\section{Additional resampling, null models, and validation methods}
+\methodentry{aaft_surrogate.m}
+{Rank-map $x$ to Gaussian scores, randomise Fourier phases, then map back to the original ranks.}
+{Definitional; no theorem needed.}
+{Approximate spectrum only; prefer IAAFT when spectral fidelity matters. The marginal distribution is preserved exactly.}
+
+\methodentry{block_bootstrap_ci.m}
+{Percentile interval from circular moving-block or stationary-bootstrap resamples of length $L$.}
+{Definitional; no theorem needed.}
+{Rows are resampled synchronously across channels; the block scheme and length must reflect dependence. The result is marked as a draft.}
+
+\methodentry{block_shuffle_surrogate.m}
+{Random permutation of nonoverlapping contiguous blocks of $x$.}
+{Definitional; no theorem needed.}
+{Within-block structure is preserved while between-block order is disrupted; conclusions depend on the chosen block length.}
+
+\methodentry{blocked_cross_validation.m}
+{Contiguous test folds with a configurable exclusion gap; returns complementary training indices.}
+{Definitional; no theorem needed.}
+{Use a gap large enough to limit temporal leakage. This partitions observations; it does not balance labels.}
+
+\methodentry{bootstrap_ci.m}
+{IID bootstrap percentile, basic, or BCa interval for a caller-supplied statistic.}
+{Definitional; no theorem needed.}
+{Rows must be independent experimental units. Do not resample correlated time bins as IID observations.}
+
+\methodentry{bootstrap_t_ci.m}
+{Studentised IID bootstrap interval using caller-supplied statistic and standard-error functions.}
+{Definitional; no theorem needed.}
+{Requires independent rows and a stable standard-error estimate; scalar statistic and standard error are expected.}
+
+\methodentry{cluster_permutation_test.m}
+{Permutation test using the maximum cluster mass over ordered features, formed from thresholded absolute two-sample statistics.}
+{Definitional; no theorem needed.}
+{Exchangeability is required at the independent-unit level. A significant cluster does not localise every sample within it.}
+
+\methodentry{delete_group_jackknife.m}
+{Leave-one-group-out estimates and their jackknife standard error.}
+{Definitional; no theorem needed.}
+{The equal-weight standard error is most defensible for comparable groups; requires at least three groups.}
+
+\methodentry{group_cross_validation.m}
+{Randomised folds in which all observations from a group remain in one fold.}
+{Definitional; no theorem needed.}
+{Choose groups to match the independent sampling unit, such as animal or subject; no group is split across train and test.}
+
+\methodentry{hierarchical_bootstrap_ci.m}
+{Nested resampling of animals and then trials to form a percentile interval.}
+{Definitional; no theorem needed.}
+{Assumes trials are nested within animals; crossed sampling axes need a design-specific resampling scheme. This implementation is marked as a draft.}
+
+\methodentry{iaaft_surrogate.m}
+{Iteratively alternates rank remapping to the observed marginal and Fourier-amplitude adjustment.}
+{Definitional; no theorem needed.}
+{The marginal is preserved exactly and the spectrum approximately. Inspect convergence and spectral error diagnostics.}
+
+\methodentry{interval_jitter_surrogate.m}
+{Uniformly relocate each spike within its aligned fixed-width interval.}
+{Definitional; no theorem needed.}
+{Preserves counts per interval but not refractory periods or fine temporal patterns; alignment origin and window are part of the null.}
 
 \methodentry{jackknife_ci.m}
 {Normal-approximation interval from delete-one-row jackknife estimates.}
@@ -571,6 +684,47 @@ The entries are maintained against the current source; these additional specific
 {Definitional; no theorem needed.}
 {Apply the permutation consistently to the variable whose trial alignment is to be destroyed; repeated trial structure defines the null.}
 
+
+\section{Additional resampling and legacy filtering specifications}
+\methodentry{balanced_bootstrap_ci.m}
+{Resamples rows from a shuffled pool containing each observation exactly B times, then returns percentile bounds of the statistic.}
+{Definitional; finite resampling construction.}
+{Rows must be independent and exchangeable. Balancing is across replicates; it does not preserve temporal dependence.}
+
+\methodentry{bayesian_bootstrap_ci.m}
+{Draws normalized exponential observation weights, equivalent to a Dirichlet distribution with all parameters equal to one, and returns weighted-statistic quantiles.}
+{Definitional; Dirichlet-weight construction.}
+{These are Bayesian-bootstrap credible bounds. The statistic must accept normalized weights; observations must be independent.}
+
+\methodentry{wild_bootstrap_ci.m}
+{Fits ordinary least squares and refits responses formed from fitted values plus HC2-adjusted residuals times Rademacher or Mammen multipliers.}
+{Definitional; fixed-design residual resampling.}
+{Requires a full-rank design and independent rows with leverage below one. Percentile coefficient intervals are exploratory; dependence is not retained.}
+
+\methodentry{eegfilt.m}
+{Designs a least-squares or windowed FIR filter and applies causal or forward--backward filtering separately to each epoch.}
+{\texttt{ARS-FILT-001}.}
+{Legacy EEGLAB implementation; channels are rows. Requires Signal Processing Toolbox. Forward--backward filtering squares the magnitude response; short epochs and transients require care. Retains its upstream GPL notice.}
+
+\methodentry{spike_raster_sparse.m}
+{Compatibility entry point for \path{sparse_count_matrix}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{event_aligned_raster.m}
+{Compatibility entry point for \path{event_aligned_segments}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{plot_event_raster.m}
+{Compatibility entry point for \path{plot_event_aligned}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\methodentry{spike_triggered_average.m}
+{Compatibility entry point for \path{event_triggered_average}.}
+{Delegation to the generic implementation.}
+{Preserves the legacy output layout and metadata; use the generic name in new analyses.}
 
 \section{Spectrograms and filter banks}
 \methodentry{filter_bank_lfp.m}

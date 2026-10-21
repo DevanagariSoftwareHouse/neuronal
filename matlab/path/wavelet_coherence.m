@@ -1,6 +1,32 @@
 function [coherence,frequency,time] = wavelet_coherence(a,b,srate,frequencies,cycles,smoothing_seconds)
 %WAVELET_COHERENCE Exploratory time-smoothed Morlet coherence.
 % No cross-scale smoothing; exclude edge samples before inference.
+%
+%   SYNTAX
+%     [coherence,frequency,time] = wavelet_coherence(a,b,srate,frequencies,cycles,smoothing_seconds)
+%
+%   INPUTS
+%     a: Finite real signal vector.
+%     b: Matching synchronous finite real signal vector.
+%     srate: Positive sampling rate in Hz.
+%     frequencies: Frequency vector strictly inside (0,srate/2).
+%     cycles: Morlet width in cycles >=3; default 6.
+%     smoothing_seconds: Positive smoothing duration; default 0.5; input longer than
+%       max(3,round(smoothing_seconds*srate)); samples*frequencies <=5e6.
+%
+%   OUTPUTS
+%     coherence: Frequencies-by-samples magnitude-squared coherence with wavelet edges marked
+%       NaN.
+%     frequency: Column of requested frequencies in Hz.
+%     time: Samples-by-1 time vector in seconds, starting at zero.
+%
+%   EXAMPLE
+%     fs = 500; t = (0:4999)'/fs;
+%     x = sin(2*pi*8*t) + 0.2*randn(size(t));
+%     y = x+randn(size(x));
+%     [c, f, time] = wavelet_coherence(x,y,fs,4:2:30,6,0.5);
+%     % NaN edge regions must be excluded from summaries.
+%
 if nargin<5 || isempty(cycles), cycles=6; end
 if nargin<6 || isempty(smoothing_seconds), smoothing_seconds=.5; end
 x=double(a(:)); y=double(b(:)); frequency=double(frequencies(:));

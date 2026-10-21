@@ -3,9 +3,17 @@ import asyncio
 import socket
 from uuid import uuid4
 
-from fastapi import FastAPI
-from nicegui import ui
-import uvicorn
+import numpy as np
+
+try:
+    from fastapi import FastAPI
+    from nicegui import ui
+    import uvicorn
+except ImportError as error:  # pragma: no cover - depends on installed extras
+    raise ImportError(
+        "neuronal.panel needs the optional NiceGUI stack: "
+        "pip install 'neuronal-rs[panel]'"
+    ) from error
 
 from . import time_axis
 
@@ -18,7 +26,7 @@ class TimeAxisPanel:
 
     def __init__(self, samples=1000, dt_ms=0.1):
         self.parameters = {"samples": samples, "dt_ms": dt_ms}
-        self.result = []
+        self.result = np.empty(0)
         self.closed = False
         self.path = f"/panel/{uuid4().hex}"
         self.url = None
@@ -59,13 +67,13 @@ class TimeAxisPanel:
 
             ui.button("Calculate", on_click=calculate)
         ui.label(f"{len(self.result)} samples; last instant: "
-                 f"{self.result[-1] if self.result else None} ms")
+                 f"{self.result[-1] if len(self.result) else None} ms")
         # Bound the displayed points, while retaining the complete numerical result.
         stride = max(1, (len(self.result) + 1999) // 2000)
         ui.echart({"xAxis": {"type": "value", "name": "sample"},
                    "yAxis": {"type": "value", "name": "time (ms)"},
                    "series": [{"type": "line", "showSymbol": False,
-                               "data": [[i, self.result[i]]
+                               "data": [[i, float(self.result[i])]
                                         for i in range(0, len(self.result), stride)]}]}).classes("w-full h-64")
 
     def build(self):

@@ -5,6 +5,25 @@ function result = coupling_filters(spike_counts,lags,bin_seconds,ridge)
 % Input: time bins x units, nonnegative binned spike counts.
 % Output filters: target unit x source unit x lag (lags in time bins).
 % Coefficients denote conditional log-rate effects, NOT synaptic causality.
+%
+%   SYNTAX
+%     result = coupling_filters(spike_counts,lags,bin_seconds,ridge)
+%
+%   INPUTS
+%     spike_counts: Finite nonnegative time-bin-by-unit matrix, at least 2 units.
+%     lags: Positive integer number of previous bins to include.
+%     bin_seconds: Positive bin exposure in seconds.
+%     ridge: Positive ridge penalty; default 1.
+%
+%   OUTPUTS
+%     result: Struct with filters (target-by-source-by-lag), intercept (units-by-1), log_rate
+%       (valid bins-by-units), valid_bins, lag_seconds and ridge.
+%
+%   EXAMPLE
+%     rng(7); counts = double(rand(300,3)<0.2);
+%     result = coupling_filters(counts,3,0.02,1);
+%     % result.filters(1,2,:) gives source-2 effects on target 1.
+%
 if nargin<4 || isempty(ridge), ridge=1; end
 counts=double(spike_counts);
 assert(ismatrix(counts) && size(counts,2)>=2 && ...

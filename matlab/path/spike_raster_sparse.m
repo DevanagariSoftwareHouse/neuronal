@@ -1,33 +1,33 @@
 function [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, spike_clusters, srate, n_samples)
-%SPIKE_RASTER_SPARSE Bin timestamped spikes into a sparse cluster x time matrix.
-% [RASTERGRAM, CLUSTER_IDS, INFO] = SPIKE_RASTER_SPARSE(TIMES, IDS, FS, N)
-% TIMES are seconds since the recording start; IDS are original cluster labels.
-% Columns represent half-open intervals [(k-1)/FS, k/FS), k=1,...,N.
-% Multiple spikes in the same bin and cluster are SUMMED (not binarized).
-% Nonfinite and out-of-recording spike times are discarded. Cluster labels
-% remain in sorted order, including clusters whose spikes were discarded.
-assert(isempty(spike_times_s) || isvector(spike_times_s), 'Expected a vector or empty input.');
-validateattributes(spike_times_s, {'numeric'}, {'real'});
-assert(isempty(spike_clusters) || isvector(spike_clusters), 'Expected a vector or empty input.');
-validateattributes(spike_clusters, {'numeric'}, {'real','finite'});
-validateattributes(srate, {'numeric'}, {'scalar','real','finite','positive'});
-validateattributes(n_samples, {'numeric'}, {'scalar','real','finite','integer','positive'});
-assert(numel(spike_times_s) == numel(spike_clusters), ...
-    'Spike timestamps and cluster labels must have equal lengths.');
-
-times = double(spike_times_s(:));
-[cluster_ids, ~, rows] = unique(spike_clusters(:));
-duration_s = double(n_samples) / double(srate);
-keep = isfinite(times) & times >= 0 & times < duration_s;
-cols = floor(times(keep) .* double(srate)) + 1;
-% Guard against a floating-point boundary rounding to an invalid column.
-good_col = cols >= 1 & cols <= n_samples;
-selected_rows = double(rows(keep));
-rastergram = sparse(selected_rows(good_col), cols(good_col), ones(nnz(good_col),1), ...
-    numel(cluster_ids), double(n_samples));
-
-info = struct('sampling_rate_hz', double(srate), ...
-    'n_samples', double(n_samples), 'duration_s', duration_s, ...
-    'spikes_input', numel(times), 'spikes_kept', nnz(good_col), ...
-    'spikes_discarded', numel(times) - nnz(good_col));
+%SPIKE_RASTER_SPARSE Compatibility name for sparse_count_matrix.
+% [S, IDS, INFO] = SPIKE_RASTER_SPARSE(TIMES, CLUSTERS, FS, N)
+% Preserves the original spikes_* metadata fields. New code should use
+% sparse_count_matrix for any labelled point events, including spikes.
+%
+%   SYNTAX
+%     [rastergram, cluster_ids, info] = spike_raster_sparse(spike_times_s, spike_clusters, srate, n_samples)
+%
+%   INPUTS
+%     spike_times_s: Real timestamp vector in seconds; invalid/out-of-range values discarded.
+%     spike_clusters: Matching finite numeric cluster labels; labels need not be consecutive.
+%     srate: Positive bin sampling rate in Hz.
+%     n_samples: Positive integer number of recording bins.
+%
+%   OUTPUTS
+%     rastergram: Sparse clusters-by-n_samples count matrix; multiple events are summed.
+%     cluster_ids: Sorted unique original labels, one per raster row, including labels with no
+%       retained spikes.
+%     info: Struct with sampling_rate_hz, n_samples, duration_s, spikes_input, spikes_kept and
+%       spikes_discarded.
+%
+%   EXAMPLE
+%     [raster, ids, info] = spike_raster_sparse([0.1 0.1 0.4],[7 7 42],500,500);
+%     % ids=[7;42]; raster(1,51)=2 counts, not a binary flag.
+%
+[rastergram, cluster_ids, meta] = sparse_count_matrix( ...
+    spike_times_s, spike_clusters, srate, n_samples);
+info = struct('sampling_rate_hz',meta.sampling_rate_hz, ...
+    'n_samples',meta.n_samples,'duration_s',meta.duration_s, ...
+    'spikes_input',meta.events_input,'spikes_kept',meta.events_kept, ...
+    'spikes_discarded',meta.events_discarded);
 end
