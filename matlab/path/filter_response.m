@@ -31,7 +31,7 @@ function response = filter_response(b, a, srate, nfft, zero_phase)
         phase = zeros(size(h));
         delay = zeros(size(h));
         % Centered impulse from a finite sampled approximation of |H|^2.
-        n = 2*nfft;
+        n = 2*nfft+1;
         [hw, ~] = freqz(b,a,n,'whole');
         spectrum = abs(hw).^2;
         impulse = real(fftshift(ifft(spectrum)));
