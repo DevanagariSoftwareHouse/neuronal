@@ -1,0 +1,6 @@
+[submodule "star/vitor/Hipp-LFP-embedding"]
+	path = star/vitor/Hipp-LFP-embedding
+	url = https://github.com/vitorlds/Hipp-LFP-embedding
+[submodule "star/vitor/emd"]
+	path = star/vitor/emd
+	url = https://gitlab.com/emd-dev/emd

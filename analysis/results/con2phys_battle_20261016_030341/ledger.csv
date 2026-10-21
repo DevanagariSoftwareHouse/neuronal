@@ -1,0 +1,18 @@
+script,status,seconds,message,identifier
+a01_storage.m,passed,0.063936,,
+a02_spike_statistics.m,failed,0.166139,Undefined function 'tiledlayout' for input arguments of type 'double'.,MATLAB:UndefinedFunction
+a03_spectrum.m,passed,2.993249,,
+a04_oscillations_events.m,passed,0.774188,,
+a05_phase_connectivity.m,passed,0.394908,,
+a06_predictive_dependence.m,passed,0.060646,,
+a07_population.m,passed,0.125984,,
+a08_trials_decoding.m,skipped,0.00754,Set cfg.label_field to a verified numeric trial column.,battle:skip
+a09_waveforms_control.m,passed,0.08535,,
+a10_fields_control.m,passed,0.018053,,
+a11_surrogate_invariants.m,passed,0.064341,,
+a12_animal_uncertainty.m,failed,1.063216,Not enough input arguments.,MATLAB:minrhs
+a13_inference_controls.m,passed,0.043953,,
+a14_count_models.m,passed,0.105774,,
+a15_adaptive_decomposition.m,passed,0.074175,,
+a16_trial_tensor.m,passed,0.048516,,
+a17_average_waveforms.m,passed,0.037984,,
