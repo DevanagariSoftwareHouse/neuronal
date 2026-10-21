@@ -1,5 +1,10 @@
 function counts = spike_bins(spikes,edges)
-%SPIKE_BINS Half-open bin counts for a cell array of spike trains.
+%SPIKE_BINS Bin several spike trains on shared explicit edges.
+% COUNTS = SPIKE_BINS(SPIKES, EDGES) with SPIKES a cell array of timestamp
+% vectors (seconds), one per unit, returns bins x units counts.
+% Each column is spike_counts_edges(SPIKES{u}, EDGES): half-open
+% [left,right) bins, empty trains valid, nonfinite timestamps discarded.
+% See also spike_counts_edges, sparse_count_matrix, trial_features.
 %
 %   SYNTAX
 %     counts = spike_bins(spikes,edges)

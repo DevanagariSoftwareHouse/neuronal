@@ -1,6 +1,8 @@
 function [average,lags_s,used] = spike_triggered_average(signal,spike_times,srate,pre_s,post_s)
-%SPIKE_TRIGGERED_AVERAGE Average LFP samples relative to point-process events.
-% Excludes spikes with incomplete windows; not corrected for shared trial drive.
+%SPIKE_TRIGGERED_AVERAGE Compatibility name for event_triggered_average.
+% [AVG, LAGS, USED] = SPIKE_TRIGGERED_AVERAGE(X, TIMES, FS, PRE, POST)
+% Nearest-sample anchors, complete windows only, column-vector outputs.
+% Use event_triggered_average for spikes, stimuli or other event timestamps.
 %
 %   SYNTAX
 %     [average,lags_s,used] = spike_triggered_average(signal,spike_times,srate,pre_s,post_s)
@@ -23,18 +25,5 @@ function [average,lags_s,used] = spike_triggered_average(signal,spike_times,srat
 %     [average, lags_s, used] = spike_triggered_average(x,[1 2 3],fs,0.1,0.2);
 %     % Event centers use round(time*fs)+1, and incomplete windows are skipped.
 %
-x=double(signal(:)); t=double(spike_times(:));
-assert(all(isfinite(x)) && all(isfinite(t)) && srate>0 && pre_s>=0 && post_s>=0);
-before=round(pre_s*srate); after=round(post_s*srate);
-lags=(-before:after)'; lags_s=lags/srate;
-sum_window=zeros(numel(lags),1); used=0;
-indices=round(t*srate)+1;
-for k=1:numel(indices)
-    idx=indices(k)+lags;
-    if idx(1)<1 || idx(end)>numel(x), continue; end
-    sum_window=sum_window+x(idx);
-    used=used+1;
-end
-average=nan(numel(lags),1);
-if used>0, average=sum_window/used; end
+[average,lags_s,used] = event_triggered_average(signal,spike_times,srate,pre_s,post_s);
 end

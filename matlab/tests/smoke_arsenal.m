@@ -43,7 +43,8 @@ assert(isfinite(spectral_entropy(p)))
 csd=current_source_density((0:4)'.^2,1,1);
 assert(abs(csd(3)+2)<1e-8)
 [events]=ripple_candidate_events(x,fs,[120 200],2,5);
-assert(istable(events))
+assert(istable(events) && any(strcmp(events.Properties.VariableNames,'peak_s')))
+assert(all(events.peak_s>=events.start_s & events.peak_s<events.stop_s))
 [bin,center,edges]=spike_bin_counts([.1 .2 .9 1],0,1,.1);
 assert(sum(bin)==3 && numel(center)==numel(bin) && numel(edges)==11)
 assert(firing_rate([0 .2 1],0,1)==2)
@@ -57,7 +58,7 @@ assert(numel(centers)==numel(rate) && size(by_trial,1)==2)
 assert(abs(spike_count_fano([1;2;3])-.5)<1e-10)
 [ppc,spike_phase]=spike_field_ppc(y,[1.0 2.0 3.0],fs,.2);
 assert(isfinite(ppc) && numel(spike_phase)==3)
-sta=spike_triggered_average(x,[1 2 3],fs,.05,.05);
+sta=event_triggered_average(x,[1 2 3],fs,.05,.05);
 assert(numel(sta)==51)
 wave=sin(linspace(0,2*pi,100));
 assert(isfinite(waveform_trough_to_peak(wave,30000)))
