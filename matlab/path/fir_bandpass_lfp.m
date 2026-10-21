@@ -24,7 +24,8 @@ function filtered = fir_bandpass_lfp(signal, srate, band_hz, order, beta)
     if nargin < 5 || isempty(beta), beta = 8; end
 
     validateattributes(order, {'numeric'}, ...
-        {'scalar', 'integer', 'positive', 'even'});
+        {'scalar', 'integer', 'positive'});
+    assert(mod(order, 2) == 0, 'FIR order must be even');
     validateattributes(beta, {'numeric'}, ...
         {'scalar', 'real', 'finite', 'nonnegative'});
 
