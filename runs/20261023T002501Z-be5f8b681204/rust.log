@@ -1,0 +1,7 @@
+$ cargo --version
+cargo 1.99.0-nightly (7c83d4cc0 2026-07-29)
+$ cargo fmt --all -- --check
+$ cargo build --workspace --locked
+    Updating crates.io index
+error: cannot update the lock file ~/actions-runner/_work/neuronal/neuronal/Cargo.lock because --locked was passed to prevent this
+help: to generate the lock file without accessing the network, remove the --locked flag and use --offline instead.
