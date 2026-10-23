@@ -1,18 +1,18 @@
-# neuronal run 20261023T031051Z-3b93ac62a7da
+# neuronal run 20261023T202111Z-5cb242eb369d
 
 - overall: FAIL
-- commit: `3b93ac62a7da` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/39893268701
+- commit: `5cb242eb369d` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40017737781
 - host: Linux 7.2.9-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
 | registry | FAIL(2) | 0 |
-| rust | pass | 31 |
+| rust | pass | 49 |
 | python | pass | 20 |
-| matlab | pass | 25 |
-| lean | pass | 243 |
+| matlab | pass | 36 |
+| lean | pass | 201 |
 
 ## registry — last 40 lines
 
