@@ -5,21 +5,22 @@
 % Sessions, not individual units, are independent sampling clusters.
 run analysis/a00_startup.m
 %%
-B = 5000;
+B = 50000;
 seed = 42;
 lfp_srate = 500;
 rng(seed, 'twister');
 
 n_sessions = numel(data);
-area_id = [1 2 3];
-n_area = numel(area_id);
-counts = zeros(n_sessions, n_area);
-session_mean = nan(n_sessions, n_area);
-rate_cell = cell(n_sessions, n_area);
+area_id    = [1 2 3];
+n_area     = numel(area_id);
+counts     = zeros(n_sessions, n_area);
 
-session_col = cell(n_sessions, 1);
-area_col = cell(n_sessions, 1);
-rate_col = cell(n_sessions, 1);
+session_mean = nan(n_sessions, n_area);
+rate_cell    = cell(n_sessions, n_area);
+
+session_col  = cell(n_sessions, 1);
+area_col     = cell(n_sessions, 1);
+rate_col     = cell(n_sessions, 1);
 
 for d = 1:n_sessions
     duration = double(data(d).n_lfp_samples) / lfp_srate;
@@ -38,11 +39,13 @@ for d = 1:n_sessions
     spike_counts = accumarray(loc(matched), 1, [numel(ids), 1], @sum, 0);
     rate = spike_counts / duration;
 
-    data(d).duration = duration;
-    data(d).spike_count = spike_counts;
+    data(d).duration        = duration;
+    
+    data(d).spike_count     = spike_counts;
     data(d).spike_frequency = rate;
 
     session_col{d} = repmat(d, numel(rate), 1);
+    
     area_col{d} = areas;
     rate_col{d} = rate;
 
