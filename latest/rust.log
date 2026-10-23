@@ -3,5 +3,31 @@ cargo 1.99.0-nightly (7c83d4cc0 2026-07-29)
 $ cargo fmt --all -- --check
 $ cargo build --workspace --locked
     Updating crates.io index
-error: cannot update the lock file ~/actions-runner/_work/neuronal/neuronal/Cargo.lock because --locked was passed to prevent this
-help: to generate the lock file without accessing the network, remove the --locked flag and use --offline instead.
+warning: spurious network error (3 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (3 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (3 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (3 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (3 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (2 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (2 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (2 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (2 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (2 tries remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (1 try remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (1 try remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (1 try remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (1 try remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+warning: spurious network error (1 try remaining): transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
+error: failed to get `thiserror` as a dependency of package `neuronal-core v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-core)`
+
+Caused by:
+  failed to load source for dependency `thiserror`
+
+Caused by:
+  unable to update registry `crates-io`
+
+Caused by:
+  download of th/is/thiserror failed
+
+Caused by:
+  transfer too slow: failed to transfer more than 10 bytes in 30s (transferred 0 bytes)
