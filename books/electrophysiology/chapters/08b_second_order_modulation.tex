@@ -218,9 +218,19 @@ deviation $0.18$ across six seeds, while $c_0=0.008$: a meaningless number.
 
 \paragraph{A null for the second order.} Circularly shifting $\hat\phi_s$
 by at least $10$\,s, while leaving $(\hat\phi_m,\hat A_f,\hat d_f)$ in
-place, preserves first-order coupling, every within-band property and the
-autocorrelation of each series, and destroys only the relation to the slow
-phase. It encodes ``no dependence of the coupling on $\phi_s$''. In $40$
+place, preserves first-order coupling and the circular within-series
+structure. The reference distribution is appropriate only when admissible
+relative shifts are exchangeable under the chosen null and disrupt the
+dependence measured by $\Delta$. It does not universally encode ``no
+dependence of the coupling on $\phi_s$''. For a periodic slow phase,
+$\phi_s(t-\tau)=\phi_s(t)-\omega_s\tau$ modulo $2\pi$, a shift can simply
+rotate the coupling profile: its preferred phase changes while its
+first-harmonic amplitude stays unchanged. The test can then lack power
+even when second-order modulation is present. A nonsignificant result
+does not establish absence of dependence; phase diffusion and the shift
+range must be assessed for each recording. The zero-phase-diffusion
+regression in \path{matlab/tests/test_second_order_modulation.m} retains
+this failure case explicitly. In $40$
 null realisations ($\kappa=\lambda=0$, $120$\,s, $99$ shifts) the
 nominal-$5\%$ test rejected $0/40$ times for AM and $3/40$ for PM
 ($P(\ge3)\approx0.32$ under a $5\%$ rate); the NumPy mirror gave $0/40$
@@ -387,7 +397,8 @@ state, conventional band choices and envelope-dependent noise. A claim of
 second-order modulation in data therefore requires at least: bands
 justified by the separation conditions above, waveform-shape controls,
 the phase-deviation (not instantaneous-frequency) PM estimator, the
-absolute term $\Delta$ with a slow-phase-shift null, and a matched
+absolute term $\Delta$ with a surrogate reference justified by the observed
+phase dynamics (including an assessment of circular-shift power), and a matched
 simulation showing that the observed $\Delta$ exceeds what the confounds
 produce at the data's signal-to-noise ratio.
 

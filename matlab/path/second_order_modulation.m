@@ -32,10 +32,14 @@ function result = second_order_modulation(lfp,srate,band_hz,varargin)
 %     'MinShiftSeconds'  minimum circular shift [10]
 %     'Seed'             private RandStream seed for surrogates [0]
 %
-%   The surrogate rotates phi_s relative to (phi_m, A_f, d_f). It keeps
-%   first-order coupling and every within-band property, and destroys only
-%   the slow-phase relation, so it tests "no second-order dependence". It
-%   does NOT control waveform harmonics of the middle rhythm or modulator
+%   The surrogate shifts phi_s relative to (phi_m, A_f, d_f), retaining
+%   first-order coupling and circular within-series structure. Its null
+%   requires admissible relative shifts to be exchangeable and to disrupt
+%   the dependence measured by delta. For a periodic slow phase, shifts
+%   may only rotate the coupling profile, preserving its harmonic amplitude
+%   and leaving the test without power. A nonsignificant p-value therefore
+%   does not establish absence of second-order dependence. The shifts do
+%   NOT control waveform harmonics of the middle rhythm or modulator
 %   frequency modulation interacting with filter roll-off (see book,
 %   chapter on second-order modulation); both produce genuine, surrogate-
 %   significant slow-phase dependence without a second-order mechanism.
@@ -105,6 +109,9 @@ result.first_order.preferred_phase_rad = angle(zbar);
 result.first_order.pm_index = 2*abs(mean((dev_f-mean(dev_f)).*carrier));
 result.surrogate = struct('count',cfg.Surrogates,'am_delta',[],'pm_delta',[], ...
     'am_p',NaN,'pm_p',NaN);
+result.surrogate.note = ['Circular-shift reference; validity requires ' ...
+    'exchangeable relative shifts under the chosen null. A periodic slow ' ...
+    'phase may rotate the profile without reducing delta, leaving no power.'];
 if cfg.Surrogates>0
     stream = RandStream('mt19937ar','Seed',cfg.Seed);
     n = numel(phi_s);

@@ -168,6 +168,51 @@ The entries are maintained against the current source; these additional specific
 {The estimate lives in the row space of $G$; null-space currents are invisible. $\lambda$ needs a principled choice (noise level, L-curve, cross-validation).}
 
 \section{Filtering, analytic signals, and adaptive decompositions}
+\methodentry{lowpass_lfp.m}
+{Butterworth lowpass in second-order sections, applied forward and backward to samples-by-channels input.}
+{\texttt{ARS-FILT-001}.}
+{The effective magnitude response is squared; finite-record edge transients remain. A lowpass alone does not perform rate conversion.}
+
+\methodentry{highpass_lfp.m}
+{Butterworth highpass in second-order sections, applied forward and backward to samples-by-channels input.}
+{\texttt{ARS-FILT-001}.}
+{Acausal filtering can alter spike shapes and slow potentials. Inspect the effective response and finite-record boundaries.}
+
+\methodentry{fir_filter_lfp.m}
+{Even-order windowed FIR lowpass, highpass, bandpass or bandstop design followed by forward--backward filtering.}
+{\texttt{ARS-FILT-001}.}
+{The causal design is linear phase, but the applied response is magnitude squared. Window choice, transition width and padding affect interpretation.}
+
+\methodentry{filter_response.m}
+{Frequency response, group delay, impulse and step diagnostics for supplied coefficients; optional idealized forward--backward response.}
+{\texttt{ARS-FILT-001}.}
+{The zero-phase mode describes the infinite-record interior response, not finite-record padding. Its centered impulse is a finite sampled approximation.}
+
+\methodentry{filter_edge_mask.m}
+{Smallest symmetric radius around an odd-length centered kernel retaining the requested fraction of squared kernel energy; excludes that radius at record edges.}
+{Definitional; finite kernel-energy calculation.}
+{An energy-tail heuristic only: it is not a bound on signal-dependent boundary error and does not reproduce filter-specific padding.}
+
+\methodentry{filter_probe.m}
+{Compares linear convolution and zero-padded FFT application of one unit-energy Gabor kernel, Hilbert reconstruction of its real output, and Morlet convolution.}
+{\texttt{ARS-FILT-002}, \texttt{ARS-FILT-004}.}
+{Only the convolution and FFT paths use identical kernels. Hilbert approximately preserves narrow-band envelope amplitude; Morlet admissibility and boundary effects prevent general equality.}
+
+\methodentry{filter_compare.m}
+{Calls filter\_probe over supplied center frequencies and cycle counts, retaining one diagnostic structure per kernel.}
+{Delegation to filter\_probe; no additional theorem needed.}
+{This is a diagnostic sweep, not a spectral peak detector or evidence of an oscillator. Compare kernels and edge masks explicitly.}
+
+\methodentry{line_noise_harmonics.m}
+{Sequential zero-phase Butterworth bandstop filtering at the supplied line frequency and its harmonics whose full notch bands fit below Nyquist.}
+{\texttt{ARS-FILT-001}.}
+{Diagnose line interference before filtering. Notches also remove neuronal activity in their rejected frequency ranges and can smear transients.}
+
+\methodentry{resample_lfp.m}
+{Rational rate conversion using MATLAB's polyphase resample implementation with FIR antialias filtering; returns the new sample rate and time grid.}
+{Definitional; delegates rate conversion to MATLAB resample.}
+{Assumes uniformly sampled input. Digital conversion cannot recover content lost or aliased at acquisition; record the original acquisition filters.}
+
 \methodentry{bandpass_lfp.m}
 {Butterworth bandpass of nominal order $m$ (so $2m$ poles) in second-order sections, applied forward and backward.}
 {\texttt{ARS-FILT-001}.}
@@ -335,7 +380,7 @@ The entries are maintained against the current source; these additional specific
 \methodentry{second_order_modulation.m}
 {Per slow-phase bin, $2|\overline{(\hat A_f-\bar{\hat A}_f)e^{i\hat\phi_m}}|/\bar{\hat A}_f$ and $2|\overline{(\hat d_f-\bar{\hat d}_f)e^{i\hat\phi_m}}|$, $\hat d_f$ the high-passed unwrapped fast phase; least-squares first harmonic over bins, amplitude divided by $\sin(\pi/M)/(\pi/M)$; optional null by circular shifts of $\hat\phi_s$ only.}
 {\texttt{ARS-FILT-001}, \texttt{ARS-FILT-002}, \texttt{ARS-CIRC-001}.}
-{Centring removes phase-clustering leakage. The ratio $\Delta/c_0$ is unstable when $c_0\approx0$. The null does not control waveform harmonics, modulator FM against filter roll-off, or AM-to-PM leakage through phase noise; each yields significant slow-phase dependence without second-order coupling.}
+{Centring removes phase-clustering leakage. The ratio $\Delta/c_0$ is unstable when $c_0\approx0$. Shift validity requires exchangeability under the chosen null. A periodic slow phase can preserve $\Delta$ under shifts, leaving the test without power. The null does not control waveform harmonics, modulator FM against filter roll-off, or AM-to-PM leakage through phase noise; each yields significant slow-phase dependence without second-order coupling.}
 
 \section{Spike--field relations}
 \methodentry{event_triggered_average.m}
@@ -716,6 +761,62 @@ The entries are maintained against the current source; these additional specific
 {\texttt{ARS-FILT-001}.}
 {Legacy EEGLAB implementation; channels are rows. Requires Signal Processing Toolbox. Forward--backward filtering squares the magnitude response; short epochs and transients require care. Retains its upstream GPL notice.}
 
+
+\section{Questionnaire estimands and reporting}
+\methodentry{questionnaire_balanced_accuracy.m}
+{Mean class recall over a fixed class list using observed labels and held-out predictions.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{A missing class remains undefined; predictions are not refitted during resampling.}
+
+\methodentry{questionnaire_ci.m}
+{Dispatches a scalar statistic to the explicitly selected resampling method with axis, callback and finite-result checks.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Ordered rows require a dependence-preserving method or explicit IID override. No automatic fallback; intervals are conditional on the recording.}
+
+\methodentry{questionnaire_decide.m}
+{Forms three pairwise contrasts from compatible statistic-scale draws, with centered-bootstrap p-values, Holm adjustment and Bonferroni basic intervals.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Approximate within-recording inference. Pairing and compatible resampling plans are required; waveform classes do not establish physiological excitation or inhibition.}
+
+\methodentry{questionnaire_joint_summary.m}
+{Evaluates scalar group statistics on shared observation rows using common seeds and records marginal intervals and guarded paired decisions.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Callbacks for weighted, hierarchical and parametric methods are group-specific. Row-ID statistics are not automatically treated as raw sample means.}
+
+\methodentry{questionnaire_nanmean.m}
+{Evaluates the finite-observation arithmetic mean at resampled row IDs, enforcing a minimum finite count.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Keeps missing positions in the observation grid; insufficient replicates raise an explicit error rather than silently changing the resampling plan.}
+
+\methodentry{questionnaire_spec.m}
+{Returns the original fifteen question prompts, units, analysis scope and limitations.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Metadata only; these descriptions do not validate estimates.}
+
+\methodentry{questionnaire_trial_participation.m}
+{Concatenates selected whole-trial time-bin by unit matrices and recomputes covariance participation ratio.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Units stay fixed; resampling trials is conditional on the observed recording and selected units.}
+
+\methodentry{summarize_questionnaire.m}
+{Builds group summaries and intervals, using common row IDs for ordered mean analyses and independent streams for independent unit groups.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Ordered means retain missing positions; across-animal inference requires an additional explicitly defined sampling level.}
+
+\methodentry{trial_times.m}
+{Extracts four event-time columns and two label columns using an explicit distinct-column mapping, and flags finite ordered in-recording trials.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Column semantics and time units must be supplied correctly by the caller.}
+
+\methodentry{waveform_class.m}
+{Measures trough-to-subsequent-peak width and compares it with the configured narrow-waveform threshold.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Invalid waveforms remain undefined. Width is a waveform proxy and does not identify physiological excitation or inhibition.}
+
+\methodentry{write_questionnaire_tex.m}
+{Serializes recorded question outputs, interval interpretation and execution status to a LaTeX report.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Does not run analyses or invent missing answers; unavailable estimates remain unavailable.}
 \methodentry{spike_raster_sparse.m}
 {Compatibility entry point for \path{sparse_count_matrix}.}
 {Delegation to the generic implementation.}
@@ -735,3 +836,34 @@ The entries are maintained against the current source; these additional specific
 {Compatibility entry point for \path{event_triggered_average}.}
 {Delegation to the generic implementation.}
 {Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\section{Spectrograms and filter banks}
+\methodentry{filter_bank_lfp.m}
+{Applies a zero-phase Butterworth bandpass independently to each channel and selected frequency band.}
+{\texttt{ARS-FILT-001}.}
+{Samples are rows; outputs retain channel and band axes. Defaults omit bands crossing Nyquist; edge transients require exclusion.}
+
+\methodentry{fir_bandpass_lfp.m}
+{Designs an even-order Kaiser-window FIR bandpass and applies forward--backward filtering.}
+{\texttt{ARS-FILT-001}.}
+{Noncausal response with squared magnitude; requires more than three filter orders of samples. Vector orientation is preserved.}
+
+\methodentry{notch_lfp.m}
+{Applies a second-order Butterworth bandstop prototype in second-order sections, forward and backward.}
+{\texttt{ARS-FILT-001}.}
+{The stopband must lie inside Nyquist; nearby oscillations and transients can be distorted.}
+
+\methodentry{wavelet_spectrogram.m}
+{Convolves each channel with a unit-energy Morlet kernel at each requested frequency and returns squared coefficient magnitudes.}
+{Definitional; discrete convolution and squared modulus.}
+{Power is wavelet energy, not density per hertz. The validity mask excludes the truncated kernel support at recording boundaries.}
+
+\methodentry{welch_spectrogram.m}
+{Computes one-sided Hann-window periodogram densities in overlapping complete windows.}
+{Definitional; windowed Fourier power density.}
+{Each time column is a single periodogram rather than an average across Welch segments. Overlapping windows are dependent.}
+
+\methodentry{multitaper_spectrogram.m}
+{Averages one-sided periodogram densities across DPSS tapers within each complete sliding window.}
+{Definitional; equal-weight multitaper spectral estimation.}
+{Density is in squared signal units per hertz. Taper count must be below twice the time-bandwidth product; overlapping windows are dependent.}
