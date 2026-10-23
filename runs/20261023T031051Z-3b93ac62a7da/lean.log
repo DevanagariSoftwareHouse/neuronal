@@ -1,0 +1,93 @@
+$ lake --version
+Lake version 5.0.0-src+293d5d0 (Lean version 4.34.0)
+$ lake exe cache get
+info: mathlib: cloning https://github.com/leanprover-community/mathlib4
+info: mathlib: checking out revision '5ed2965256430c3649e86755f9576b54eca72435'
+info: plausible: cloning https://github.com/leanprover-community/plausible
+info: plausible: checking out revision '118aa17ee84656b8bd727fef7c458ee8c833385c'
+info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+info: LeanSearchClient: checking out revision 'ddf04cf3949fa556442341e87d47f9f6e6074707'
+info: importGraph: cloning https://github.com/leanprover-community/import-graph
+info: importGraph: checking out revision 'e928b72544873815af278d38681b31c0293588e3'
+info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+info: proofwidgets: checking out revision '106ff4fafc74ef4ac99d81dbf3ab399118f497a5'
+info: aesop: cloning https://github.com/leanprover-community/aesop
+info: aesop: checking out revision '355695d523e41d0554926416cba2a2b3544fbbc9'
+info: Qq: cloning https://github.com/leanprover-community/quote4
+info: Qq: checking out revision '6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259'
+info: batteries: cloning https://github.com/leanprover-community/batteries
+info: batteries: checking out revision 'f2effa3d803fda822b1f97b806c47cf2adfbcbc2'
+info: Cli: cloning https://github.com/leanprover/lean4-cli
+info: Cli: checking out revision 'e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204'
+✔ [1/5] Built Cache.Cli (239ms)
+✔ [2/5] Built Cache.Lean (302ms)
+✔ [8/42] Built Cache.Cli:c.o (92ms)
+✔ [9/42] Built Cache.Lean:c.o (98ms)
+✔ [10/42] Built Cache.Env (202ms)
+✔ [11/42] Built Cache.Env:c.o (114ms)
+✔ [12/42] Built Cache.Infra (352ms)
+✔ [13/42] Built Cache.Infra:c.o (133ms)
+✔ [14/42] Built Cache.IO (962ms)
+✔ [15/42] Built Cache.Hashing (523ms)
+✔ [16/42] Built Cache.Hashing:c.o (255ms)
+✔ [17/42] Built Cache.IO:c.o (943ms)
+✔ [18/42] Built Cache.Requests (1.2s)
+✔ [19/42] Built Cache.Marker (332ms)
+✔ [20/42] Built Cache.Marker:c.o (63ms)
+✔ [21/42] Built Cache.Upload.Dest (370ms)
+✔ [22/42] Built Cache.Query (443ms)
+✔ [23/42] Built Cache.Upload.Dest:c.o (80ms)
+✔ [24/42] Built Cache.Query:c.o (203ms)
+✔ [25/42] Built Cache.Upload.Curl (483ms)
+✔ [26/42] Built Cache.Upload.Rclone (455ms)
+✔ [27/42] Built Cache.Warning (493ms)
+✔ [28/42] Built Cache.Upload.Curl:c.o (136ms)
+✔ [29/42] Built Cache.Upload.Rclone:c.o (125ms)
+✔ [30/42] Built Cache.Warning:c.o (163ms)
+✔ [31/42] Built Cache.Upload.Azure (429ms)
+✔ [32/42] Built Cache.Upload.S3 (542ms)
+✔ [33/42] Built Cache.Requests:c.o (1.7s)
+✔ [34/42] Built Cache.Upload.Azure:c.o (91ms)
+✔ [35/42] Built Cache.Upload.S3:c.o (193ms)
+✔ [36/42] Built Cache.Upload.Defs (405ms)
+✔ [37/42] Built Cache.Upload.Defs:c.o (83ms)
+✔ [38/42] Built Cache.Upload (356ms)
+✔ [39/42] Built Cache.Upload:c.o (69ms)
+✔ [40/42] Built Cache.Main (756ms)
+✔ [41/42] Built Cache.Main:c.o (543ms)
+✔ [42/42] Built cache:exe (859ms)
+Current branch: HEAD
+Using cache from origin: (some leanprover-community/mathlib4)
+Decompressing 8716 already-cached file(s) (192 already decompressed)
+No files to download
+Decompressed 8716 already-cached file(s)
+Completed successfully in 37531 ms!
+$ lake build
+ℹ [8924/8928] Built Con2physFormal.Logic (76s)
+info: Con2physFormal/Logic.lean:32:0: 'Con2physFormal.Logic.deMorganAnd' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Logic.lean:33:0: 'Con2physFormal.Logic.deMorganOr' does not depend on any axioms
+info: Con2physFormal/Logic.lean:34:0: 'Con2physFormal.Logic.contrapositive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Logic.lean:35:0: 'Con2physFormal.Logic.notForall' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Logic.lean:36:0: 'Con2physFormal.Logic.notExists' depends on axioms: [propext]
+ℹ [8925/8928] Built Con2physFormal.Bridges (76s)
+info: Con2physFormal/Bridges.lean:140:0: 'Con2physFormal.Bridges.natural_pairs_countable' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Bridges.lean:142:0: 'Con2physFormal.Bridges.inverse_iff_bijective' depends on axioms: [Classical.choice]
+info: Con2physFormal/Bridges.lean:144:0: 'Con2physFormal.Bridges.image_union_bridge' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Bridges.lean:145:0: 'Con2physFormal.Bridges.preimage_inter_bridge' does not depend on any axioms
+info: Con2physFormal/Bridges.lean:146:0: 'Con2physFormal.Bridges.preimage_union_bridge' does not depend on any axioms
+info: Con2physFormal/Bridges.lean:148:0: 'Con2physFormal.Bridges.equivalence_class_cover' does not depend on any axioms
+info: Con2physFormal/Bridges.lean:149:0: 'Con2physFormal.Bridges.equivalence_classes_equal_of_overlap' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/Bridges.lean:151:0: 'Con2physFormal.Bridges.relation_composition_associative' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/Bridges.lean:153:0: 'Con2physFormal.Bridges.cartesian_membership' does not depend on any axioms
+info: Con2physFormal/Bridges.lean:154:0: 'Con2physFormal.Bridges.cartesian_empty_left' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/Bridges.lean:155:0: 'Con2physFormal.Bridges.cartesian_empty_right' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/Bridges.lean:157:0: 'Con2physFormal.Bridges.subset_antisymm_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Bridges.lean:158:0: 'Con2physFormal.Bridges.subset_reflexive' does not depend on any axioms
+info: Con2physFormal/Bridges.lean:159:0: 'Con2physFormal.Bridges.subset_transitive' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Con2physFormal/Bridges.lean:160:0: 'Con2physFormal.Bridges.subset_antisymmetric' depends on axioms: [propext, Classical.choice, Quot.sound]
+ℹ [8926/8928] Built Con2physFormal.BridgesNumbers (76s)
+info: Con2physFormal/BridgesNumbers.lean:54:0: 'Con2physFormal.BridgesNumbers.integerPairRel_equivalence' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/BridgesNumbers.lean:55:0: 'Con2physFormal.BridgesNumbers.integerPairAdd_respects' depends on axioms: [propext, Quot.sound]
+info: Con2physFormal/BridgesNumbers.lean:57:0: 'Con2physFormal.BridgesNumbers.add_assoc_induction' depends on axioms: [propext]
+✔ [8927/8928] Built Con2physFormal (5.2s)
+Build completed successfully (8928 jobs).
