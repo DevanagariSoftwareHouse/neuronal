@@ -4,7 +4,7 @@
 % Primary estimand: equal-session-weight paired area mean difference.
 % Sessions, not individual units, are independent sampling clusters.
 run analysis/a00_startup.m
-
+%%
 B = 5000;
 seed = 42;
 lfp_srate = 500;
@@ -23,6 +23,7 @@ rate_col = cell(n_sessions, 1);
 
 for d = 1:n_sessions
     duration = double(data(d).n_lfp_samples) / lfp_srate;
+    
     assert(isscalar(duration) && isfinite(duration) && duration > 0, ...
         'Invalid LFP duration in session %d', d);
 
