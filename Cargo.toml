@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/neuronal-core", "crates/neuronal-python"]
+members = ["crates/neuronal-core", "crates/neuronal-python", "rust/a00_first_look"]
 resolver = "2"
 
 [workspace.package]
