@@ -30,7 +30,7 @@ Symbolic Math Toolbox                                 Version 8.3         (R2019
 Text Analytics Toolbox                                Version 1.3         (R2019a)
 Wavelet Toolbox                                       Version 5.2         (R2019a)
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 76ac6b65704b5698ca90aa7caf9f2648afe9fcbe
+Commit under test: 02c1c8eade7b211599d11e17acd7952b4fe9ba57
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -101,6 +101,394 @@ PASS smoke_population.m
 RUN smoke_resampling_extensions.m
 Resampling extension smoke tests passed.
 PASS smoke_resampling_extensions.m
+
+RUN smoke_second_order_study.m
+A. recovery (2 x 60 s)
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 79)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 79)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+B. null calibration (6 x 60 s)
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study (line 95)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+C. no coupling
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 108)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 108)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+D. harmonics
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 113)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 113)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 114)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 114)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+E. modulator FM and roll-off
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 118)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 118)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 119)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 119)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 120)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 120)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+F. instantaneous-frequency estimator
+G. AM leaking into PM
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 125)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 125)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 126)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 126)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 127)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 127)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 128)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In second_order_modulation_study>confound_case (line 153)
+  In second_order_modulation_study>@(args,bands,nsur)confound_case(args,bands,nsur,nc,cfg.Duration) (line 106)
+  In second_order_modulation_study (line 128)
+  In smoke_second_order_study (line 10)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+done in 0.1 min; outputs in /tmp/tp55be359c_ee2e_4a82_a1cd_51d01f5e338b
+smoke_second_order_study: outputs written in 3.6 s
+PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m
 CON2PHYS runtime regression checks passed.
@@ -247,6 +635,60 @@ RUN test_questionnaire_resampling.m
 Questionnaire method dispatch and q01:q15 synthetic smoke passed.
 PASS test_questionnaire_resampling.m
 
+RUN test_second_order_modulation.m
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In test_second_order_modulation (line 53)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In test_second_order_modulation (line 71)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: Spectral separation constraints violated; see RESULT.constraints.] 
+[> In simulate_lfp_modulation (line 168)
+  In test_second_order_modulation (line 78)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In test_second_order_modulation (line 83)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
+Use column vectors if you meant to specify a transfer function.] 
+[> In coder.internal.warning (line 8)
+  In filtfilt>getCoeffsAndInitialConditions (line 164)
+  In filtfilt>efiltfilt (line 129)
+  In filtfilt (line 89)
+  In second_order_modulation (line 80)
+  In test_second_order_modulation (line 94)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+test_second_order_modulation: all checks passed
+PASS test_second_order_modulation.m
+
 RUN test_spectral_extensions.m
 spectral extensions tests passed
 PASS test_spectral_extensions.m
@@ -255,8 +697,11 @@ RUN test_spectral_methods_comparison.m
 spectral methods comparison tests passed
 PASS test_spectral_methods_comparison.m
 
+RUN test_tortlab_minimal_macro.m
+PASS test_tortlab_minimal_macro.m
+
 RUN test_wavelet_filter_bank.m
 wavelet filter-bank tests passed
 PASS test_wavelet_filter_bank.m
 
-PASS: 23 scientific scripts
+PASS: 26 scientific scripts
