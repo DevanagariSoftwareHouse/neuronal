@@ -372,6 +372,16 @@ The entries are maintained against the current source; these additional specific
 {\texttt{ARS-CIRC-001}.}
 {The raw value scales with amplitude; only the normalised value lies in $[0,1]$. Requires surrogates for inference.}
 
+\methodentry{simulate_lfp_modulation.m}
+{$x=a_s\cos\phi_s+A_m(\cos\phi_m+\sum_kh_k\cos k\phi_m)+A_f\cos\phi_f+\xi$ with first-order AM/PM of the middle rhythm by $\phi_s$, AM depth $m_0(1+\kappa\cos(\phi_s-\psi_2))$ and PM index $b_0(1+\lambda\cos(\phi_s-\chi_2))$ of the fast rhythm by $\phi_m$, Wiener phase diffusion, $1/f^\chi$ background (Chapter~\ref{ch:second-order-modulation}).}
+{Bedrosian's theorem; Carson's rule (an approximation).}
+{Private \texttt{RandStream}. Returns exact phases, envelopes, $m_f(t)$, $b_f(t)$, Carson-derived bands with margin $c$, and logical flags for Nyquist, band disjointness, Bedrosian at both levels and harmonics inside the fast band. Rejects $m_0(1+\kappa)>1$. Validates estimators under the model only.}
+
+\methodentry{second_order_modulation.m}
+{Per slow-phase bin, $2|\overline{(\hat A_f-\bar{\hat A}_f)e^{i\hat\phi_m}}|/\bar{\hat A}_f$ and $2|\overline{(\hat d_f-\bar{\hat d}_f)e^{i\hat\phi_m}}|$, $\hat d_f$ the high-passed unwrapped fast phase; least-squares first harmonic over bins, amplitude divided by $\sin(\pi/M)/(\pi/M)$; optional null by circular shifts of $\hat\phi_s$ only.}
+{\texttt{ARS-FILT-001}, \texttt{ARS-FILT-002}, \texttt{ARS-CIRC-001}.}
+{Centring removes phase-clustering leakage. The ratio $\Delta/c_0$ is unstable when $c_0\approx0$. Shift validity requires exchangeability under the chosen null. A periodic slow phase can preserve $\Delta$ under shifts, leaving the test without power. The null does not control waveform harmonics, modulator FM against filter roll-off, or AM-to-PM leakage through phase noise; each yields significant slow-phase dependence without second-order coupling.}
+
 \section{Spike--field relations}
 \methodentry{event_triggered_average.m}
 {$\frac1K\sum_kx[n_k+\ell]$ for $\ell\in[-B,A]$, $n_k=\operatorname{round}(t_kf_s)+1$, skipping incomplete windows; with spike times as events this is the spike-triggered average.}
