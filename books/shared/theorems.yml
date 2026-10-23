@@ -212,7 +212,15 @@ theorems:
     matlab:
       - matlab/path/bandpass_lfp.m
       - matlab/path/eegfilt.m
+      - matlab/path/filter_bank_lfp.m
+      - matlab/path/filter_response.m
+      - matlab/path/fir_bandpass_lfp.m
+      - matlab/path/fir_filter_lfp.m
+      - matlab/path/highpass_lfp.m
       - matlab/path/lfp_envelope_moments.m
+      - matlab/path/line_noise_harmonics.m
+      - matlab/path/lowpass_lfp.m
+      - matlab/path/notch_lfp.m
       - matlab/path/ripple_candidate_events.m
   - id: ARS-FILT-002
     name: "The discrete analytic signal recovers amplitude and phase of a bin-centred sinusoid"
@@ -222,6 +230,7 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/analytic_phase.m
+      - matlab/path/filter_probe.m
       - matlab/path/lfp_envelope_moments.m
       - matlab/path/ripple_candidate_events.m
       - matlab/path/spike_field_ppc.m
@@ -243,6 +252,7 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/bosc_detect.m
+      - matlab/path/filter_probe.m
       - matlab/path/morlet_wavelet.m
   - id: ARS-GLM-001
     name: "Poisson log-link likelihood: concavity, Newton, separability"
@@ -533,6 +543,8 @@ definitional_methods:
   - matlab/path/delete_group_jackknife.m
   - matlab/path/event_aligned_raster.m
   - matlab/path/event_aligned_segments.m
+  - matlab/path/filter_compare.m
+  - matlab/path/filter_edge_mask.m
   - matlab/path/group_cross_validation.m
   - matlab/path/hierarchical_bootstrap_ci.m
   - matlab/path/iaaft_surrogate.m
@@ -542,6 +554,7 @@ definitional_methods:
   - matlab/path/local_permutation_surrogate.m
   - matlab/path/maxstat_permutation_test.m
   - matlab/path/monte_carlo_null_test.m
+  - matlab/path/multitaper_spectrogram.m
   - matlab/path/multivariate_phase_surrogate.m
   - matlab/path/neuronal_catalog.m
   - matlab/path/neuronal_file_path.m
@@ -565,6 +578,7 @@ definitional_methods:
   - matlab/path/questionnaire_nanmean.m
   - matlab/path/questionnaire_spec.m
   - matlab/path/questionnaire_trial_participation.m
+  - matlab/path/resample_lfp.m
   - matlab/path/sensitivity_analysis.m
   - matlab/path/simultaneous_confidence_band.m
   - matlab/path/sparse_count_matrix.m
@@ -583,5 +597,7 @@ definitional_methods:
   - matlab/path/trial_times.m
   - matlab/path/waveform_class.m
   - matlab/path/waveform_trough_to_peak.m
+  - matlab/path/wavelet_spectrogram.m
+  - matlab/path/welch_spectrogram.m
   - matlab/path/wild_bootstrap_ci.m
   - matlab/path/write_questionnaire_tex.m

@@ -168,6 +168,51 @@ The entries are maintained against the current source; these additional specific
 {The estimate lives in the row space of $G$; null-space currents are invisible. $\lambda$ needs a principled choice (noise level, L-curve, cross-validation).}
 
 \section{Filtering, analytic signals, and adaptive decompositions}
+\methodentry{lowpass_lfp.m}
+{Butterworth lowpass in second-order sections, applied forward and backward to samples-by-channels input.}
+{\texttt{ARS-FILT-001}.}
+{The effective magnitude response is squared; finite-record edge transients remain. A lowpass alone does not perform rate conversion.}
+
+\methodentry{highpass_lfp.m}
+{Butterworth highpass in second-order sections, applied forward and backward to samples-by-channels input.}
+{\texttt{ARS-FILT-001}.}
+{Acausal filtering can alter spike shapes and slow potentials. Inspect the effective response and finite-record boundaries.}
+
+\methodentry{fir_filter_lfp.m}
+{Even-order windowed FIR lowpass, highpass, bandpass or bandstop design followed by forward--backward filtering.}
+{\texttt{ARS-FILT-001}.}
+{The causal design is linear phase, but the applied response is magnitude squared. Window choice, transition width and padding affect interpretation.}
+
+\methodentry{filter_response.m}
+{Frequency response, group delay, impulse and step diagnostics for supplied coefficients; optional idealized forward--backward response.}
+{\texttt{ARS-FILT-001}.}
+{The zero-phase mode describes the infinite-record interior response, not finite-record padding. Its centered impulse is a finite sampled approximation.}
+
+\methodentry{filter_edge_mask.m}
+{Smallest symmetric radius around an odd-length centered kernel retaining the requested fraction of squared kernel energy; excludes that radius at record edges.}
+{Definitional; finite kernel-energy calculation.}
+{An energy-tail heuristic only: it is not a bound on signal-dependent boundary error and does not reproduce filter-specific padding.}
+
+\methodentry{filter_probe.m}
+{Compares linear convolution and zero-padded FFT application of one unit-energy Gabor kernel, Hilbert reconstruction of its real output, and Morlet convolution.}
+{\texttt{ARS-FILT-002}, \texttt{ARS-FILT-004}.}
+{Only the convolution and FFT paths use identical kernels. Hilbert approximately preserves narrow-band envelope amplitude; Morlet admissibility and boundary effects prevent general equality.}
+
+\methodentry{filter_compare.m}
+{Calls filter\_probe over supplied center frequencies and cycle counts, retaining one diagnostic structure per kernel.}
+{Delegation to filter\_probe; no additional theorem needed.}
+{This is a diagnostic sweep, not a spectral peak detector or evidence of an oscillator. Compare kernels and edge masks explicitly.}
+
+\methodentry{line_noise_harmonics.m}
+{Sequential zero-phase Butterworth bandstop filtering at the supplied line frequency and its harmonics whose full notch bands fit below Nyquist.}
+{\texttt{ARS-FILT-001}.}
+{Diagnose line interference before filtering. Notches also remove neuronal activity in their rejected frequency ranges and can smear transients.}
+
+\methodentry{resample_lfp.m}
+{Rational rate conversion using MATLAB's polyphase resample implementation with FIR antialias filtering; returns the new sample rate and time grid.}
+{Definitional; delegates rate conversion to MATLAB resample.}
+{Assumes uniformly sampled input. Digital conversion cannot recover content lost or aliased at acquisition; record the original acquisition filters.}
+
 \methodentry{bandpass_lfp.m}
 {Butterworth bandpass of nominal order $m$ (so $2m$ poles) in second-order sections, applied forward and backward.}
 {\texttt{ARS-FILT-001}.}
@@ -781,3 +826,34 @@ The entries are maintained against the current source; these additional specific
 {Compatibility entry point for \path{event_triggered_average}.}
 {Delegation to the generic implementation.}
 {Preserves the legacy output layout and metadata; use the generic name in new analyses.}
+
+\section{Spectrograms and filter banks}
+\methodentry{filter_bank_lfp.m}
+{Applies a zero-phase Butterworth bandpass independently to each channel and selected frequency band.}
+{\texttt{ARS-FILT-001}.}
+{Samples are rows; outputs retain channel and band axes. Defaults omit bands crossing Nyquist; edge transients require exclusion.}
+
+\methodentry{fir_bandpass_lfp.m}
+{Designs an even-order Kaiser-window FIR bandpass and applies forward--backward filtering.}
+{\texttt{ARS-FILT-001}.}
+{Noncausal response with squared magnitude; requires more than three filter orders of samples. Vector orientation is preserved.}
+
+\methodentry{notch_lfp.m}
+{Applies a second-order Butterworth bandstop prototype in second-order sections, forward and backward.}
+{\texttt{ARS-FILT-001}.}
+{The stopband must lie inside Nyquist; nearby oscillations and transients can be distorted.}
+
+\methodentry{wavelet_spectrogram.m}
+{Convolves each channel with a unit-energy Morlet kernel at each requested frequency and returns squared coefficient magnitudes.}
+{Definitional; discrete convolution and squared modulus.}
+{Power is wavelet energy, not density per hertz. The validity mask excludes the truncated kernel support at recording boundaries.}
+
+\methodentry{welch_spectrogram.m}
+{Computes one-sided Hann-window periodogram densities in overlapping complete windows.}
+{Definitional; windowed Fourier power density.}
+{Each time column is a single periodogram rather than an average across Welch segments. Overlapping windows are dependent.}
+
+\methodentry{multitaper_spectrogram.m}
+{Averages one-sided periodogram densities across DPSS tapers within each complete sliding window.}
+{Definitional; equal-weight multitaper spectral estimation.}
+{Density is in squared signal units per hertz. Taper count must be below twice the time-bandwidth product; overlapping windows are dependent.}
