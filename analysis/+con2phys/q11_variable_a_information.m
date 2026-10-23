@@ -1,34 +1,33 @@
-%% Q11: held-out decoded information about A over the WHOLE trial (no ITI).
-q00_prepare
-[t,labels,valid]=trial_times(data,qcfg); labels(~valid,:)=nan;
+%% Q11: conditional uncertainty of held-out decoded information about A.
+qid='q11'; con2phys.q00_prepare
+[t,labels,valid]=trial_times(data,qcfg);
+valid=valid & isfinite(labels(:,1)); t=t(valid,:); y=labels(valid,1);
+original_trials=find(valid);
 stream=RandStream('mt19937ar','Seed',qcfg.seed);
 m=min([qcfg.matched_units;arrayfun(@(a)sum(qctx.area==a),(1:3)')]);
-assert(m>=1,'Each area needs at least one mapped unit.');
-score=nan(3,1); ci=nan(3,2); null=nan(3,100); details=cell(3,1); selected=cell(3,1);
+assert(m>=1,'Each area needs mapped clusters.');
+null=nan(3,qcfg.null_replicates);
+details=cell(3,1); selected=cell(3,1); predictions=nan(numel(y),3);
 for a=1:3
-    units=find(qctx.area==a); units=units(randperm(stream,numel(units),m)); selected{a}=qctx.ids(units);
+    units=find(qctx.area==a); units=units(randperm(stream,numel(units),m));
+    selected{a}=qctx.ids(units);
     x=trial_features(qctx.spikes(units),t(:,[1 4]));
-    [~,d]=decode_trials(x,labels(:,1),qcfg.seed); details{a}=d;
-    y=d.observed; pred=d.predicted; ok=isfinite(pred); y=y(ok); pred=pred(ok);
-    if numel(y)<25, continue; end
-    score(a)=decoded_mi(y,pred); boot=nan(qcfg.bootstrap,1);
-    for b=1:qcfg.bootstrap
-        ix=randi(stream,numel(y),numel(y),1); boot(b)=decoded_mi(y(ix),pred(ix));
-    end
-    boot=sort(boot); ci(a,:)=boot(max(1,ceil([.025 .975]*numel(boot))));
-    % Refit after circular label shifts to retain label autocorrelation.
-    good=isfinite(labels(:,1)) & all(isfinite(x),2); yy=labels(good,1); xx=x(good,:);
-    for b=1:100
-        shifted=circshift(yy,randi(stream,numel(yy)-1));
-        [~,dnull]=decode_trials(xx,shifted,qcfg.seed);
+    assert(all(isfinite(x(:))),'All areas must use identical valid trials.');
+    [~,d]=decode_trials(x,y,qcfg.seed); details{a}=d;
+    predictions(:,a)=d.predicted;
+    for b=1:qcfg.null_replicates
+        shifted=circshift(y,randi(stream,numel(y)-1));
+        [~,dnull]=decode_trials(x,shifted,qcfg.seed);
         null(a,b)=decoded_mi(dnull.observed,dnull.predicted);
     end
 end
-q11=struct('summary',table(qctx.labels,score,ci(:,1),ci(:,2), ...
-    'VariableNames',{'group','mean','ci95_low','ci95_high'}), ...
-    'units','bits','config',qcfg,'decoding',{details},'selected_clusters',{selected}, ...
-    'null_bits',null,'answer','Pending across-animal analysis and null comparison', ...
-    'method','Whole-trial mean rate, matched unit count, blocked 5-fold ridge decoder; MI of held-out confusion matrix; conditional trial bootstrap CI.', ...
-    'limitations','Decoded information proxy with finite-sample bias; whole-trial averaging may hide transient coding. CIs condition on fitted models; do not estimate full neural MI.');
+assert(all(isfinite(predictions(:))), ...
+    'questionnaire:Coverage','Incomplete held-out coverage; inspect fold/class support before inference.');
+x=[y predictions]; statistics=cell(3,1);
+for a=1:3, column=a+1; statistics{a}=@(z)decoded_mi(z(:,1),z(:,column)); end
+q11=questionnaire_joint_summary(x,statistics,qctx.labels,'bits', ...
+    'MI of held-out predictions; joint trial resampling conditional on fitted models.',qcfg,'trial');
+q11.null_bits=null; q11.decoding=details; q11.selected_clusters=selected; q11.retained_trials=original_trials;
+q11.limitations='Does not include decoder-training uncertainty or estimate full neural MI. Surrogate null testing is separate from confidence intervals.';
 q11.provenance=qctx.provenance;
 disp(q11.summary)

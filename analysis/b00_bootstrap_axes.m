@@ -1,3 +1,5 @@
+a00_startup
+
 %% B00: Bootstrap axes, units of inference and storage (synthetic).
 % Signature: INPUT none (rng seed 700); OUTPUT axes_demo table.
 % Rows represent trials; columns represent time. Neither is automatically

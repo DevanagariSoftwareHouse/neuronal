@@ -1,5 +1,5 @@
 %% Q10: baseline spike-count autocorrelation decay across repeated trials.
-q00_prepare
+qid='q10'; con2phys.q00_prepare
 [t,~,valid]=trial_times(data,qcfg); baseline=[t(:,1)-1 t(:,1)];
 valid=valid & baseline(:,1)>=0;
 % Require a full one-second intertrial baseline, with no preceding trial overlap.
@@ -40,7 +40,7 @@ for u=1:numel(qctx.ids)
 end
 values=cell(3,1); for a=1:3, values{a}=tau(qctx.area==a); end
 q10=summarize_questionnaire(values,qctx.labels,'seconds', ...
-    '1 s pretrial nonoverlapping ITI baseline; across-trial 50 ms count correlations; A exp(-lag/tau)+C; unit bootstrap.',qcfg);
+    '1 s pretrial nonoverlapping ITI baseline; across-trial 50 ms count correlations; A exp(-lag/tau)+C; configured unit resampling.',qcfg,'unit');
 q10.unit=table(qctx.ids,qctx.area,tau,fit_r2,'VariableNames',{'cluster','area','tau_seconds','r2'});
 q10.acf=acf; q10.lag_seconds=lags; q10.baseline_windows=baseline;
 q10.fit_criteria='>=20 baseline trials, >=6 finite lags, positive A, tau 25-1000 ms, R2 >=0.5; accepted-fit selection bias possible.';

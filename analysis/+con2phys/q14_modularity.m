@@ -1,5 +1,5 @@
 %% Q14: positive weighted spike-correlation network modularity.
-q00_prepare
+qid='q14'; con2phys.q00_prepare
 counts=spike_bins(qctx.spikes,0:.1:qctx.duration);
 stream=RandStream('mt19937ar','Seed',qcfg.seed);
 m=min([qcfg.matched_units;arrayfun(@(a)sum(qctx.area==a),(1:3)')]);
@@ -18,7 +18,7 @@ for a=1:3
     values{a}=v;
 end
 q14=summarize_questionnaire(values,qctx.labels,'weighted Newman-Girvan Q', ...
-    '100 ms counts; fixed matched node subset; positive Pearson edges; greedy community merging per block; block bootstrap.',qcfg);
+    '100 ms counts; fixed matched node subset; positive Pearson edges; greedy community merging per block; configured resampling.',qcfg,'time_block');
 q14.selected_clusters=selected;
 q14.limitations='Mean local block modularity across recording, not one static whole-session graph. Negative edges discarded; greedy result is a lower bound on maximum Q. Inspect node-count, resolution and null-network sensitivity.';
 q14.provenance=qctx.provenance;

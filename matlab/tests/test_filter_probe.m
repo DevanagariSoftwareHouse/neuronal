@@ -16,6 +16,15 @@ function test_filter_probe()
         'FFT multiplication must match linear convolution');
     assert(all(isfinite(r.transfer)));
 
+    % A narrow-band complex kernel is nearly analytic. Reconstructing its
+    % analytic signal from its real part must retain the envelope scale.
+    % Use the interior to exclude convolution and Hilbert boundary effects.
+    interior = r.valid & r.time >= 0.5 & r.time <= t(end)-0.5;
+    envelope_ratio = median(abs(r.hilbert(interior))) ...
+        / median(abs(r.convolution(interior)));
+    assert(abs(envelope_ratio-1) < 0.01, ...
+        'Hilbert reconstruction must preserve narrow-band envelope amplitude');
+
     probes = filter_compare(x, fs, [50 80 120], [4 6 8]);
     assert(numel(probes) == 3);
     assert(all([probes.relative_fft_error] < 1e-10));

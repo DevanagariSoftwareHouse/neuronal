@@ -1,37 +1,32 @@
-%% Q12: compare C decoding in three trial segments using identical trial folds.
-q00_prepare
+%% Q12: paired segment decoding, conditional on fitted models.
+qid='q12'; con2phys.q00_prepare
 [t,labels,valid]=trial_times(data,qcfg);
 valid=valid & isfinite(labels(:,2)); t=t(valid,:); y=labels(valid,2);
 assert(all(ismember(unique(y),[1 2 3])),'Variable C must be categorical 1-3.');
-score=nan(3,1); ci=nan(3,2); detail=cell(3,1); null=nan(3,100);
+classes=unique(y); assert(numel(classes)==3,'All three C classes are required.');
 stream=RandStream('mt19937ar','Seed',qcfg.seed);
+null=nan(3,qcfg.null_replicates);
+detail=cell(3,1); predictions=nan(numel(y),3);
 for segment=1:3
     x=trial_features(qctx.spikes,t(:,segment:segment+1));
-    [score(segment),d]=decode_trials(x,y,qcfg.seed); detail{segment}=d;
-    if ~isfinite(score(segment)), continue; end
-    boot=nan(qcfg.bootstrap,1); classes=unique(y);
-    for b=1:qcfg.bootstrap
-        recall=nan(numel(classes),1);
-        for k=1:numel(classes)
-            ix=find(d.observed==classes(k) & isfinite(d.predicted));
-            if isempty(ix), continue; end
-            take=ix(randi(stream,numel(ix),numel(ix),1));
-            recall(k)=mean(d.predicted(take)==d.observed(take));
-        end
-        boot(b)=mean(recall);
-    end
-    boot=sort(boot); ci(segment,:)=boot(max(1,ceil([.025 .975]*numel(boot))));
-    for b=1:100
-        yy=circshift(y,randi(stream,numel(y)-1));
-        null(segment,b)=decode_trials(x,yy,qcfg.seed);
+    assert(all(isfinite(x(:))),'All segments must use identical valid trials.');
+    [~,d]=decode_trials(x,y,qcfg.seed); detail{segment}=d;
+    predictions(:,segment)=d.predicted;
+    for b=1:qcfg.null_replicates
+        shifted=circshift(y,randi(stream,numel(y)-1));
+        null(segment,b)=decode_trials(x,shifted,qcfg.seed);
     end
 end
-q12=struct('summary',table({'Trial start -> Stim';'Stim -> Outcome';'Outcome -> End'}, ...
-    score,ci(:,1),ci(:,2),'VariableNames',{'group','mean','ci95_low','ci95_high'}), ...
-    'units','balanced accuracy','config',qcfg,'decoding',{detail},'null_accuracy',null, ...
-    'method','All units, segment mean rates, identical contiguous 5-fold splits, training-only standardization, fixed ridge decoder; stratified held-out bootstrap.', ...
-    'answer','Pending paired segment contrasts across animals', ...
-    'limitations','Variable segment duration changes count precision; duration-matched sensitivity needed. CI conditions on fitted models.');
-q12.retained_trials=find(valid);
-q12.provenance=qctx.provenance;
+assert(all(isfinite(predictions(:))), ...
+    'questionnaire:Coverage','Incomplete held-out coverage; inspect fold/class support before inference.');
+x=[y predictions]; statistics=cell(3,1);
+for segment=1:3
+    column=segment+1;
+    statistics{segment}=@(z)questionnaire_balanced_accuracy(z,classes,column);
+end
+q12=questionnaire_joint_summary(x,statistics, ...
+    {'Trial start -> Stim';'Stim -> Outcome';'Outcome -> End'},'balanced accuracy', ...
+    'Common contiguous folds; joint trial resampling conditional on fitted models.',qcfg,'trial');
+q12.null_accuracy=null; q12.decoding=detail; q12.retained_trials=find(valid); q12.provenance=qctx.provenance;
+q12.limitations='Undefined replicates with absent classes raise an error; no class is silently discarded. Duration matching and training uncertainty need separate analysis.';
 disp(q12.summary)

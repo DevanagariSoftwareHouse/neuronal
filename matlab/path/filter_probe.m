@@ -13,7 +13,7 @@ function result = filter_probe(signal, srate, frequency_hz, cycles)
 %     convolution          Complex linear convolution, output 'same'.
 %     fourier              FFT multiplication with LINEAR zero-padding; same
 %                          discrete kernel and cropping as convolution.
-%     hilbert              Analytic signal of 2*real(convolution), with
+%     hilbert              Analytic signal of real(convolution), with
 %                          Fourier-domain Hilbert transform.
 %     wavelet              MORLET_WAVELET result (near, but not necessarily
 %                          identical: admissibility correction differs).
@@ -72,7 +72,7 @@ function result = filter_probe(signal, srate, frequency_hz, cycles)
 
     % The Hilbert projection of the REAL kernel result is a separate
     % analytic representation, not simply another way to apply kernel.
-    y_hilbert = hilbert(2*real(y_time));
+    y_hilbert = hilbert(real(y_time));
     y_wavelet = morlet_wavelet(x, srate, frequency_hz, cycles);
 
     valid = false(n, 1);

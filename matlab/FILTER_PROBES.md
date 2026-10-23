@@ -34,13 +34,15 @@ center crop, and (2) multiplication of padded FFTs with the same crop.
 Those paths are numerically equal to floating-point precision.
 No ideal rectangular FFT filter is used.
 
-`hilbert` applies an analytic-signal projection to twice the real
+`hilbert` applies an analytic-signal projection to the real
 output of that kernel. Since this Gaussian-modulated kernel is not
 perfectly one-sided, the Hilbert result is not guaranteed equal to
 the complex convolution. `morlet_wavelet` uses a zero-mean
 admissibility correction not applied to the plain Gabor kernel, so
-wavelet equality is **also not assumed**. Compare envelopes after
-explicit normalization and inspect phase as well.
+wavelet equality is **also not assumed**. For a narrow-band sinusoid,
+the Hilbert reconstruction approximately retains the complex convolution's
+envelope amplitude; no extra factor of two is applied. Inspect both
+envelopes and phase, and normalize explicitly when comparing Morlet kernels.
 
 ## Experiments
 
