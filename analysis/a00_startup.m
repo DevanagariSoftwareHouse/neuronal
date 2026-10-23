@@ -1,7 +1,6 @@
 %% Configure analysis paths without clearing caller data or changing directory.
-clc; clear all
+clear all
 neuronal_path = fileparts(fileparts(mfilename('fullpath')));
-run(fullfile(neuronal_path,'matlab','neuronal_startup.m'));
 addpath(fullfile(neuronal_path,'analysis'));
 
 
@@ -12,12 +11,24 @@ matlab_dir = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/';
 run(fullfile(matlab_dir,'neuronal/startup.m'))
 
 %%
-catalog = neuronal_catalog()
-data    = catalog.data
+catalog =neuronal_catalog();
+%%
+data = catalog.data();
 
 %%
 
-run('analysis/a00_startup.m')
+for d = 1 : numel(data)
+    for f = 1 : numel(data(d).file)
+        data(d).(data(d).file(f).name) = neuronal_memmap(data(d).file(f));
+    end
+    data(d).waveform_id = data(d).brain_areas.cluster_id;
+    data(d).waveform_area = data(d).brain_areas.brain_area;
+
+end
+
+data
+data(1)
+%%
 
 qcfg = struct();
 

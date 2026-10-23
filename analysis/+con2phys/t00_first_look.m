@@ -1,27 +1,34 @@
-
-matlab_dir = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/';
-run(fullfile(matlab_dir,'startup.m'))
-
-matlab_dir = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/';
-run(fullfile(matlab_dir,'neuronal/startup.m'))
-run(fullfile(matlab_dir,'neuronal/analysis/a00_startup.m'))
-
+neuronal_path = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal';
+run(fullfile(neuronal_path,'analysis','a00_startup.m'))
 %%
-catalog = neuronal_catalog()
-data = catalog.data
-
-%%
-for d = 1 : numel(data)
-    for f = 1 : numel(data(d).file)
-        data(d).(data(d).file(f).name) = neuronal_memmap(data(d).file(f))
+for d = 1 : 18
+    data(d).duration = data(d).n_lfp_samples/500;
+    for wid = 1:numel(data(d).waveform_id)
+        id = data(d).waveform_id(wid) == data(d).spike_cluster.Data.x;
+        n_spikes = sum(id);
+        data(d).spike_count(wid) = n_spikes;
     end
-    data(d).waveform_id = data(d).brain_areas.cluster_id
-    data(d).waveform_area = data(d).brain_areas.brain_area
-
 end
 %%
+spike_count = {data.spike_count}
+session_duration = [data.duration]
+
+%%
+spike_frequency = cell(1,18)
+for s = 1 : 18
+    spike_frequency{s} = spike_count{s}/session_duration(s);
+end
+spike_area = {data.waveform_area};
+spike_area = cellfun(@(x)int64(x),spike_area,'UniformOutput',false);
+%%
+spike_frequency = cell2mat(spike_frequency)
+spike_area = cell2mat(spike_area)
+
 %%
 
+boxplot(spike_frequency,spike_area)
+
+%%
 band = struct();
 
 band(1).name  = 'delta';
