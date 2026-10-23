@@ -3,6 +3,26 @@ function result = granger_causality(activity,source,target,lags)
 % Barnett & Seth (2014); Dhamala et al. (2008) use related spectral methods.
 % Rows=time bins, cols=variables. Score=log(var_reduced/var_full).
 % Predictive dependence is NOT physical causality. Validate model residuals.
+%
+%   SYNTAX
+%     result = granger_causality(activity,source,target,lags)
+%
+%   INPUTS
+%     activity: Finite time-by-variable matrix with at least 2 variables.
+%     source: 1-based source column index.
+%     target: Different 1-based target column index.
+%     lags: Positive integer VAR order; n-lags must exceed variables*lags+3.
+%
+%   OUTPUTS
+%     result: Struct with log_variance_ratio, full_variance, reduced_variance, samples, lags,
+%       source and target; no inferential p-value.
+%
+%   EXAMPLE
+%     rng(7); x = randn(500,2);
+%     x(2:end,2) = x(2:end,2)+0.5*x(1:end-1,1);
+%     result = granger_causality(x,1,2,1);
+%     % The score measures conditional linear predictability.
+%
 x=double(activity); [n,p]=size(x);
 assert(all(isfinite(x(:))) && p>=2 && source~=target && ...
     source>=1 && source<=p && target>=1 && target<=p);

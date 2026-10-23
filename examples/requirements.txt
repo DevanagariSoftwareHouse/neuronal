@@ -6,3 +6,4 @@ matplotlib>=3.8,<4
 numpy>=1.26,<3
 maturin>=1.9,<2
 pytest>=8,<10
+nicegui>=3.18,<4  # panel notebook; the package itself keeps it optional

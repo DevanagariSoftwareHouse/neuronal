@@ -4,4 +4,10 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
-description = "Numerical core for neuronal simulation"
+description = "Numerical core for electrophysiology analysis, independent of Python"
+
+[dependencies]
+thiserror = "2"
+
+[dev-dependencies]
+proptest = "1"

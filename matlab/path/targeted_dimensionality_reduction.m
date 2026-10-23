@@ -2,6 +2,24 @@ function model = targeted_dimensionality_reduction(activity,labels)
 %TARGETED_DIMENSIONALITY_REDUCTION dDR signal and noise plane.
 % Heller & David (2022), doi:10.1371/journal.pone.0271136.
 % Use training data only; never fit projection using held-out trials.
+%
+%   SYNTAX
+%     model = targeted_dimensionality_reduction(activity,labels)
+%
+%   INPUTS
+%     activity: Finite trials-by-units matrix with >=2 units.
+%     labels: One label per trial; exactly 2 conditions with >=2 trials each and nonzero mean
+%       difference.
+%
+%   OUTPUTS
+%     model: Struct with basis (units-by-2 signal/noise axes), center (1-by-units), scores
+%       (trials-by-2), conditions and note; errors if noise direction is unresolved.
+%
+%   EXAMPLE
+%     rng(7); labels = repelem([1;2],20); x = randn(40,5); x(21:end,1)=x(21:end,1)+1;
+%     model = targeted_dimensionality_reduction(x,labels);
+%     % Learn this basis only from training trials in a decoding workflow.
+%
 x=double(activity); labels=labels(:);
 assert(size(x,1)==numel(labels) && size(x,2)>=2 && all(isfinite(x(:))));
 c=condition_marginalization(x,labels);
