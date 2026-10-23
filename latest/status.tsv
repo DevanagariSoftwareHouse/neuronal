@@ -1,6 +1,6 @@
 suite	status	seconds
 registry	pass	0
-rust	FAIL(101)	132
-python	pass	23
-matlab	pass	27
-lean	pass	389
+rust	pass	51
+python	pass	21
+matlab	pass	35
+lean	pass	232

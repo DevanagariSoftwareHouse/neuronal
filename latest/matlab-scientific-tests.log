@@ -1,5 +1,5 @@
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 13abbb9eb35efbad17ddaf21998256261581749c
+Commit under test: 76ac6b65704b5698ca90aa7caf9f2648afe9fcbe
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -78,6 +78,18 @@ PASS test_con2phys_battle_regressions.m
 RUN test_event_alignment.m
 event alignment regression checks completed
 PASS test_event_alignment.m
+
+RUN test_filter_probe.m
+filter probe tests passed
+PASS test_filter_probe.m
+
+RUN test_filter_utilities.m
+filter utilities tests passed
+PASS test_filter_utilities.m
+
+RUN test_lfp_basic_filters.m
+basic LFP filter tests passed
+PASS test_lfp_basic_filters.m
 
 RUN test_lfp_envelope_moments.m
 LFP envelope sliding-moments synthetic checks passed.
@@ -204,4 +216,16 @@ RUN test_questionnaire_resampling.m
 Questionnaire method dispatch and q01:q15 synthetic smoke passed.
 PASS test_questionnaire_resampling.m
 
-PASS: 17 scientific scripts
+RUN test_spectral_extensions.m
+spectral extensions tests passed
+PASS test_spectral_extensions.m
+
+RUN test_spectral_methods_comparison.m
+spectral methods comparison tests passed
+PASS test_spectral_methods_comparison.m
+
+RUN test_wavelet_filter_bank.m
+wavelet filter-bank tests passed
+PASS test_wavelet_filter_bank.m
+
+PASS: 23 scientific scripts
