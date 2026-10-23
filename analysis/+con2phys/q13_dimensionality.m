@@ -1,35 +1,25 @@
-%% Q13: covariance participation ratio during stimulus-to-outcome.
-q00_prepare
-[t,~,valid]=trial_times(data,qcfg); t=t(valid,:);
+%% Q13: participation ratio for a fixed matched cluster subset per area.
+qid='q13'; con2phys.q00_prepare
+[t,~,valid]=trial_times(data,qcfg); t=t(valid,:); original_trials=find(valid);
+% Require >=2 full 100 ms bins in each trial, identically across areas.
+keep=arrayfun(@(k)numel(t(k,2):.1:t(k,3))>=3,(1:size(t,1))');
+t=t(keep,:); original_trials=original_trials(keep);
 stream=RandStream('mt19937ar','Seed',qcfg.seed);
 m=min([qcfg.matched_units;arrayfun(@(a)sum(qctx.area==a),(1:3)')]);
-assert(m>=2,'Dimensionality requires >=2 units per area.');
-point=nan(3,1); ci=nan(3,2); repeats=cell(3,1); retained=zeros(3,1);
+assert(m>=2,'Dimensionality requires >=2 clusters per area.');
+statistics=cell(3,1); selected=cell(3,1); area_trials=cell(3,1);
 for a=1:3
-    units=find(qctx.area==a); trials=cell(size(t,1),1);
+    units=find(qctx.area==a); units=units(randperm(stream,numel(units),m));
+    selected{a}=qctx.ids(units); trials=cell(size(t,1),1);
     for k=1:size(t,1)
-        edges=t(k,2):.1:t(k,3);
-        if numel(edges)>=3, trials{k}=spike_bins(qctx.spikes(units),edges); end
+        trials{k}=spike_bins(qctx.spikes(units),t(k,2):.1:t(k,3));
     end
-    trials=trials(~cellfun(@isempty,trials)); retained(a)=numel(trials);
-    if numel(trials)<2, continue; end
-    allx=vertcat(trials{:}); subs=nan(100,1);
-    for b=1:100
-        cols=randperm(stream,numel(units),m); subs(b)=participation(allx(:,cols));
-    end
-    point(a)=mean(subs,'omitnan'); boot=nan(qcfg.bootstrap,1);
-    for b=1:qcfg.bootstrap
-        ix=randi(stream,numel(trials),numel(trials),1);
-        x=vertcat(trials{ix}); cols=randperm(stream,numel(units),m);
-        boot(b)=participation(x(:,cols));
-    end
-    repeats{a}=boot; boot=sort(boot(isfinite(boot)));
-    if numel(boot)>=2, ci(a,:)=boot(max(1,ceil([.025 .975]*numel(boot)))); end
+    area_trials{a}=trials;
+    statistics{a}=@(ids)questionnaire_trial_participation(ids,trials);
 end
-q13=struct('summary',table(qctx.labels,point,ci(:,1),ci(:,2),retained, ...
-    'VariableNames',{'group','mean','ci95_low','ci95_high','trials'}), ...
-    'units','effective dimensions','config',qcfg,'matched_units',m,'bootstrap',{repeats}, ...
-    'method','100 ms counts within stim-outcome only; covariance PR=(trace C)^2/trace(C^2); matched unit subsampling and trial bootstrap.', ...
-    'answer','Pending across-animal comparison','limitations','CI includes random unit-subset variability. Raw covariance weights high-variance units; task and noise both contribute.');
-q13.provenance=qctx.provenance;
+q13=questionnaire_joint_summary((1:size(t,1))',statistics,qctx.labels, ...
+    'effective dimensions','Whole-trial resampling; fixed matched cluster subset; PR recomputed per replicate.',qcfg,'trial');
+q13.selected_clusters=selected; q13.matched_units=m; q13.retained_trials=original_trials;
+q13.trials=area_trials; q13.provenance=qctx.provenance;
+q13.limitations='Conditional on the selected cluster subset. Longer trials contribute more bins; raw covariance weights high-variance units. Vary the seed separately for subset sensitivity.';
 disp(q13.summary)

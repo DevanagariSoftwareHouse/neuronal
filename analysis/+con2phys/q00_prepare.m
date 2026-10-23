@@ -1,11 +1,10 @@
-a00_startup
-%% Shared SCRIPT preparation for q01:q15; run a01_probing first.
+%% Shared SCRIPT preparation for q01:q15; provide one raw recording in data.
 % Optional qcfg overrides persist. No data reload, clear, or figures.
-assert(exist('data','var')==1 && isstruct(data),'Run a01_probing first.');
+assert(exist('data','var')==1 && isstruct(data),'Provide one raw recording in data.');
 if ~exist('qcfg','var'), qcfg = struct(); end
-qdefaults = struct('seed',42,'bootstrap',1000,'block_seconds',30, ...
+qdefaults = struct('seed',42,'bootstrap',1000,'null_replicates',100,'block_seconds',30, ...
     'waveform_srate',30000,'narrow_ms',0.4,'minimum_spikes',50, ...
-    'matched_units',5,'trial_columns',[],'lfp_channels',[1 1 1]);
+    'matched_units',5,'trial_columns',[],'lfp_channels',[1 1 1],'inference',struct(),'questions',struct());
 qnames = fieldnames(qdefaults);
 for qi = 1:numel(qnames)
     if ~isfield(qcfg,qnames{qi}), qcfg.(qnames{qi}) = qdefaults.(qnames{qi}); end
@@ -15,6 +14,10 @@ validateattributes(qcfg.block_seconds,{'numeric'},{'scalar','finite','>=',4});
 validateattributes(qcfg.matched_units,{'numeric'},{'scalar','integer','positive'});
 validateattributes(qcfg.waveform_srate,{'numeric'},{'scalar','finite','positive'});
 validateattributes(qcfg.lfp_channels,{'numeric'},{'vector','numel',3,'integer','positive'});
+assert(exist('qid','var')==1,'Run a q01-q15 script.');
+qcfg.current_question=qid;
+validateattributes(qcfg.null_replicates,{'numeric'},{'scalar','integer','nonnegative'});
+validateattributes(qcfg.seed,{'numeric'},{'scalar','integer','nonnegative'});
 qctx = struct();
 qctx.fs = double(data.srate);
 assert(isscalar(qctx.fs) && isfinite(qctx.fs) && qctx.fs>0);

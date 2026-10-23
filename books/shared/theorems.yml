@@ -558,6 +558,13 @@ definitional_methods:
   - matlab/path/plot_event_aligned.m
   - matlab/path/plot_event_raster.m
   - matlab/path/posterior_predictive_check.m
+  - matlab/path/questionnaire_balanced_accuracy.m
+  - matlab/path/questionnaire_ci.m
+  - matlab/path/questionnaire_decide.m
+  - matlab/path/questionnaire_joint_summary.m
+  - matlab/path/questionnaire_nanmean.m
+  - matlab/path/questionnaire_spec.m
+  - matlab/path/questionnaire_trial_participation.m
   - matlab/path/sensitivity_analysis.m
   - matlab/path/simultaneous_confidence_band.m
   - matlab/path/sparse_count_matrix.m
@@ -569,8 +576,12 @@ definitional_methods:
   - matlab/path/spike_waveform_extraction.m
   - matlab/path/stability_selection.m
   - matlab/path/subsampling_ci.m
+  - matlab/path/summarize_questionnaire.m
   - matlab/path/surrogate_maxstat_test.m
   - matlab/path/surrogate_test.m
   - matlab/path/trial_shuffle_surrogate.m
+  - matlab/path/trial_times.m
+  - matlab/path/waveform_class.m
   - matlab/path/waveform_trough_to_peak.m
   - matlab/path/wild_bootstrap_ci.m
+  - matlab/path/write_questionnaire_tex.m

@@ -706,6 +706,62 @@ The entries are maintained against the current source; these additional specific
 {\texttt{ARS-FILT-001}.}
 {Legacy EEGLAB implementation; channels are rows. Requires Signal Processing Toolbox. Forward--backward filtering squares the magnitude response; short epochs and transients require care. Retains its upstream GPL notice.}
 
+
+\section{Questionnaire estimands and reporting}
+\methodentry{questionnaire_balanced_accuracy.m}
+{Mean class recall over a fixed class list using observed labels and held-out predictions.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{A missing class remains undefined; predictions are not refitted during resampling.}
+
+\methodentry{questionnaire_ci.m}
+{Dispatches a scalar statistic to the explicitly selected resampling method with axis, callback and finite-result checks.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Ordered rows require a dependence-preserving method or explicit IID override. No automatic fallback; intervals are conditional on the recording.}
+
+\methodentry{questionnaire_decide.m}
+{Forms three pairwise contrasts from compatible statistic-scale draws, with centered-bootstrap p-values, Holm adjustment and Bonferroni basic intervals.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Approximate within-recording inference. Pairing and compatible resampling plans are required; waveform classes do not establish physiological excitation or inhibition.}
+
+\methodentry{questionnaire_joint_summary.m}
+{Evaluates scalar group statistics on shared observation rows using common seeds and records marginal intervals and guarded paired decisions.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Callbacks for weighted, hierarchical and parametric methods are group-specific. Row-ID statistics are not automatically treated as raw sample means.}
+
+\methodentry{questionnaire_nanmean.m}
+{Evaluates the finite-observation arithmetic mean at resampled row IDs, enforcing a minimum finite count.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Keeps missing positions in the observation grid; insufficient replicates raise an explicit error rather than silently changing the resampling plan.}
+
+\methodentry{questionnaire_spec.m}
+{Returns the original fifteen question prompts, units, analysis scope and limitations.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Metadata only; these descriptions do not validate estimates.}
+
+\methodentry{questionnaire_trial_participation.m}
+{Concatenates selected whole-trial time-bin by unit matrices and recomputes covariance participation ratio.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Units stay fixed; resampling trials is conditional on the observed recording and selected units.}
+
+\methodentry{summarize_questionnaire.m}
+{Builds group summaries and intervals, using common row IDs for ordered mean analyses and independent streams for independent unit groups.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Ordered means retain missing positions; across-animal inference requires an additional explicitly defined sampling level.}
+
+\methodentry{trial_times.m}
+{Extracts four event-time columns and two label columns using an explicit distinct-column mapping, and flags finite ordered in-recording trials.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Column semantics and time units must be supplied correctly by the caller.}
+
+\methodentry{waveform_class.m}
+{Measures trough-to-subsequent-peak width and compares it with the configured narrow-waveform threshold.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Invalid waveforms remain undefined. Width is a waveform proxy and does not identify physiological excitation or inhibition.}
+
+\methodentry{write_questionnaire_tex.m}
+{Serializes recorded question outputs, interval interpretation and execution status to a LaTeX report.}
+{Definitional; questionnaire orchestration and estimand conventions.}
+{Does not run analyses or invent missing answers; unavailable estimates remain unavailable.}
 \methodentry{spike_raster_sparse.m}
 {Compatibility entry point for \path{sparse_count_matrix}.}
 {Delegation to the generic implementation.}
