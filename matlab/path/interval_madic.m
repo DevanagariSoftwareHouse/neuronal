@@ -7,7 +7,13 @@ function node = interval_madic(N, fs, base, level, overlap, k)
 % Example: w = interval_madic(3000,500,3,2,.5,4);
 % Omit final k (or pass []) to return the number of complete/available windows.
 % Counting uses O(1) memory and does not build an interval bank.
+% Pass 'all' as final k to return a column struct array of every window.
+% Bulk output uses O(number of windows) memory; no sample masks are created.
 
+if nargin == 6 && ischar(k) && isequal(k,'all')
+    node = interval_collect(@interval_madic,{N,fs,base,level,overlap});
+    return
+end
 if nargin < 6, k = []; end
 T = interval_session(N,fs);
 validateattributes(base, {'numeric'}, {'scalar','real','finite','integer','>=',2});

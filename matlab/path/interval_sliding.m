@@ -6,7 +6,13 @@ function node = interval_sliding(N, fs, width_s, hop_s, k)
 % Example: w = interval_sliding(1000,500,.5,.25,3);
 % Omit final k (or pass []) to return the number of complete/available windows.
 % Counting uses O(1) memory and does not build an interval bank.
+% Pass 'all' as final k to return a column struct array of every window.
+% Bulk output uses O(number of windows) memory; no sample masks are created.
 
+if nargin == 5 && ischar(k) && isequal(k,'all')
+    node = interval_collect(@interval_sliding,{N,fs,width_s,hop_s});
+    return
+end
 T = interval_session(N,fs);
 validateattributes(width_s, {'numeric'}, {'scalar','real','finite','positive','<=',T});
 validateattributes(hop_s, {'numeric'}, {'scalar','real','finite','positive'});

@@ -14,7 +14,13 @@ function node = interval_at(N, fs, level, overlap, k)
 % See also interval_madic, interval_sliding, interval_from_bounds.
 % Omit final k (or pass []) to return the number of complete/available windows.
 % Counting uses O(1) memory and does not build an interval bank.
+% Pass 'all' as final k to return a column struct array of every window.
+% Bulk output uses O(number of windows) memory; no sample masks are created.
 
+if nargin == 5 && ischar(k) && isequal(k,'all')
+    node = interval_collect(@interval_at,{N,fs,level,overlap});
+    return
+end
 if nargin < 5, k = []; end
 node = interval_dyadic(N,fs,level,overlap,k);
 end

@@ -216,3 +216,20 @@ assert(interval_periodic(100,10,.01,pi,.5)==0);
 % Existing optional parameters still default in count queries.
 assert(interval_changepoint(20,10,ones(1,20),1)==1);
 disp('interval count/index API checks completed');
+
+% Explicit bulk lookup must be identical to indexed lookup for each family.
+for j = 1:size(formula_cases,1)
+    generator = formula_cases{j,1}; args = formula_cases{j,2};
+    count = generator(args{:});
+    bank = generator(args{:},'all');
+    assert(isstruct(bank) && isequal(size(bank),[count 1]));
+    for k = 1:count
+        assert(isequal(bank(k),generator(args{:},k)));
+    end
+end
+bank = interval_dyadic(1000,500,1,.5,'all');
+assert(isequal([bank.first],[1 251 501]));
+assert(isequal([bank.last],[500 750 1000]));
+assert(isequal([bank.n_windows],[3 3 3]));
+assert(isempty(interval_periodic(100,10,.01,pi,.5,'all')));
+disp('interval explicit bulk lookup checks completed');

@@ -13,6 +13,7 @@ solicita a contagem. O caso sem intervalos retorna zero.
 
 ```matlab
 n = interval_dyadic(N,fs,3,.5); % 15
+bank = interval_dyadic(N,fs,3,.5,'all'); % 15 registros em coluna
 for k = 1:n
     node = interval_dyadic(N,fs,3,.5,k);
 end
@@ -25,7 +26,8 @@ bank = interval_event(N,fs,events_s,.1,.2,'all');
 antes retornavam todos os registros quando chamados sem índice. Agora essas
 chamadas retornam a contagem; acrescente `'all'` para obter os registros.
 Os exemplos abaixo já usam essa forma explícita. As famílias analíticas
-continuam consultáveis uma janela por vez, sem construir um banco.
+também aceitam `'all'`; omitir `k` apenas conta, e fornecer um índice
+continua consultando uma janela por vez sem construir um banco.
 
 Contagens e consultas de famílias baseadas em dados ainda fazem a varredura
 ou regeneram as mesmas realizações aleatórias usando a semente. Em análises

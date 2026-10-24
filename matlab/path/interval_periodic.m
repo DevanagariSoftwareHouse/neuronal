@@ -7,7 +7,13 @@ function node = interval_periodic(N, fs, frequency_hz, phase_rad, duty, k)
 % Example: w = interval_periodic(1000,500,1,-pi/2,.5,1);
 % Omit final k (or pass []) to return the number of complete/available windows.
 % Counting uses O(1) memory and does not build an interval bank.
+% Pass 'all' as final k to return a column struct array of every window.
+% Bulk output uses O(number of windows) memory; no sample masks are created.
 
+if nargin == 6 && ischar(k) && isequal(k,'all')
+    node = interval_collect(@interval_periodic,{N,fs,frequency_hz,phase_rad,duty});
+    return
+end
 T = interval_session(N,fs);
 validateattributes(frequency_hz, {'numeric'}, {'scalar','real','finite','positive'});
 validateattributes(phase_rad, {'numeric'}, {'scalar','real','finite'});
