@@ -30,7 +30,7 @@ Symbolic Math Toolbox                                 Version 8.3         (R2019
 Text Analytics Toolbox                                Version 1.3         (R2019a)
 Wavelet Toolbox                                       Version 5.2         (R2019a)
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 863064b29159bf26d4d3242794228f19a12678e9
+Commit under test: deae6d7e65984e91c29ea166a1761a0343be5384
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -486,8 +486,8 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.1 min; outputs in /tmp/tp445f9e94_c3bc_4b83_b156_18e065c0cb78
-smoke_second_order_study: outputs written in 3.1 s
+done in 0.0 min; outputs in /tmp/tp103eb0a8_9cb7_42d0_98ae_65a8e483e3d5
+smoke_second_order_study: outputs written in 2.2 s
 PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m
@@ -510,202 +510,22 @@ RUN test_interval_at.m
 interval_at lazy interval checks completed
 PASS test_interval_at.m
 
-RUN test_lfp_basic_filters.m
-basic LFP filter tests passed
-PASS test_lfp_basic_filters.m
+RUN test_interval_families.m
+{Error using interval_from_bounds (line 14)
+Expected input to be an array with number of columns equal to 2.
 
-RUN test_lfp_envelope_moments.m
-LFP envelope sliding-moments synthetic checks passed.
-PASS test_lfp_envelope_moments.m
+Error in interval_renewal (line 14)
+nodes = interval_from_bounds(N,fs,[edges(1:end-1),edges(2:end)]);
 
-RUN test_neuronal_raw_storage.m
-Neuronal raw storage synthetic checks passed.
-PASS test_neuronal_raw_storage.m
+Error in test_interval_families (line 128)
+assert(isempty(interval_renewal(100,10,[])));
 
-RUN test_questionnaire_decisions.m
-Questionnaire contrast and missing-grid regressions passed.
-PASS test_questionnaire_decisions.m
+Error in run (line 91)
+evalin('caller', strcat(script, ';'));
 
-RUN test_questionnaire_report.m
-Questionnaire TeX report tests passed.
-PASS test_questionnaire_report.m
+Error in run_scientific_suite (line 19)
+    run(fullfile(neuronal_ci_root,neuronal_ci_name));
 
-RUN test_questionnaire_resampling.m
-     group      mean    ci_low    ci_high    n
-    ________    ____    ______    _______    _
-
-    'Area 1'     12       12        12       4
-    'Area 2'     12       12        12       4
-    'Area 3'     12       12        12       4
-
-     group       mean      ci_low     ci_high    n_finite
-    ________    _______    _______    _______    ________
-
-    'Area 1'     0.3921    0.38912    0.39532       30   
-    'Area 2'    0.39819    0.39641    0.40059       30   
-    'Area 3'    0.39136    0.38763    0.39386       30   
-
-     group      mean    ci_low    ci_high    n_finite
-    ________    ____    ______    _______    ________
-
-    'Area 1'     0        0          0          30   
-    'Area 2'     0        0          0          30   
-    'Area 3'     0        0          0          30   
-
-     group       mean      ci_low     ci_high    n_finite
-    ________    _______    _______    _______    ________
-
-    'Area 1'    0.11195     0.1004    0.12201       30   
-    'Area 2'    0.12058    0.11484    0.12663       30   
-    'Area 3'    0.11379    0.10556    0.12405       30   
-
-        group          mean       ci_low     ci_high    n_finite
-    ______________    _______    ________    _______    ________
-
-    'Area 1 <-> 2'    0.14724     0.12527    0.19754       30   
-    'Area 1 <-> 3'    0.12677     0.10663    0.13764       30   
-    'Area 2 <-> 3'    0.11234    0.087175    0.11983       30   
-
-        group          mean       ci_low     ci_high     n_finite
-    _____________    ________    ________    ________    ________
-
-    'Area 1 -> 2'    0.024625    0.022175    0.027614       30   
-    'Area 3 -> 2'    0.024011    0.017346    0.029885       30   
-    'Area 3 -> 1'     0.02131    0.017306    0.024993       30   
-
-     group      mean      ci_low      ci_high    n
-    ________    ____    __________    _______    _
-
-    'Area 1'    0.5     1.1102e-16        1      4
-    'Area 2'    0.5              0        1      4
-    'Area 3'    0.5     1.1102e-16     0.75      4
-
-     group         mean          ci_low        ci_high      n
-    ________    ___________    ___________    __________    _
-
-    'Area 1'     3.0607e-05    -0.00047702    0.00052888    4
-    'Area 2'    -0.00014966    -0.00041884    3.5224e-05    4
-    'Area 3'     0.00016066    -0.00014794    0.00046926    4
-
-     group      mean    ci_low      ci_high      n    broad_units    narrow_units
-    ________    ____    _______    __________    _    ___________    ____________
-
-    'Area 1'     1            0    9.0072e+15    4         2              2      
-    'Area 2'     1            0           Inf    4         2              2      
-    'Area 3'     1      0.33333    9.0072e+15    4         2              2      
-
-     group      mean    ci_low    ci_high    n
-    ________    ____    ______    _______    _
-
-    'Area 1'    NaN      NaN        NaN      0
-    'Area 2'    NaN      NaN        NaN      0
-    'Area 3'    NaN      NaN        NaN      0
-
-     group         mean         ci_low      ci_high 
-    ________    __________    __________    ________
-
-    'Area 1'       0.13324      0.024352     0.32753
-    'Area 2'     0.0030821    0.00023759     0.10552
-    'Area 3'    0.00071321    0.00023759    0.038605
-
-            group             mean      ci_low     ci_high
-    _____________________    _______    _______    _______
-
-    'Trial start -> Stim'    0.24444    0.17778    0.31071
-    'Stim -> Outcome'        0.24444    0.15194    0.36111
-    'Outcome -> End'         0.22222    0.11485    0.32083
-
-     group       mean     ci_low    ci_high
-    ________    ______    ______    _______
-
-    'Area 1'    2.9573    2.7444    2.9951 
-    'Area 2'    2.9773    2.9022    2.9878 
-    'Area 3'    2.9442    2.8611    2.9918 
-
-     group         mean          ci_low         ci_high      n_finite
-    ________    ___________    ___________    ___________    ________
-
-    'Area 1'    -1.4079e-17    -3.1581e-17      5.838e-20       27   
-    'Area 2'    -1.6883e-17    -2.4534e-17    -5.5706e-19       25   
-    'Area 3'    -8.7249e-18    -1.7617e-17     2.1403e-18       28   
-
-     group       mean      ci_low     ci_high    n_finite
-    ________    _______    _______    _______    ________
-
-    'Area 1'    0.99763    0.99725    0.99789       45   
-    'Area 2'    0.99822    0.99796    0.99837       45   
-    'Area 3'    0.99826    0.99805    0.99842       45   
-
-Questionnaire method dispatch and q01:q15 synthetic smoke passed.
-PASS test_questionnaire_resampling.m
-
-RUN test_second_order_modulation.m
-[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
-Use column vectors if you meant to specify a transfer function.] 
-[> In coder.internal.warning (line 8)
-  In filtfilt>getCoeffsAndInitialConditions (line 164)
-  In filtfilt>efiltfilt (line 129)
-  In filtfilt (line 89)
-  In second_order_modulation (line 80)
-  In test_second_order_modulation (line 53)
-  In run (line 91)
-  In run_scientific_suite (line 19)
-  In run (line 91)] 
-[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
-Use column vectors if you meant to specify a transfer function.] 
-[> In coder.internal.warning (line 8)
-  In filtfilt>getCoeffsAndInitialConditions (line 164)
-  In filtfilt>efiltfilt (line 129)
-  In filtfilt (line 89)
-  In second_order_modulation (line 80)
-  In test_second_order_modulation (line 71)
-  In run (line 91)
-  In run_scientific_suite (line 19)
-  In run (line 91)] 
-[Warning: Spectral separation constraints violated; see RESULT.constraints.] 
-[> In simulate_lfp_modulation (line 168)
-  In test_second_order_modulation (line 78)
-  In run (line 91)
-  In run_scientific_suite (line 19)
-  In run (line 91)] 
-[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
-Use column vectors if you meant to specify a transfer function.] 
-[> In coder.internal.warning (line 8)
-  In filtfilt>getCoeffsAndInitialConditions (line 164)
-  In filtfilt>efiltfilt (line 129)
-  In filtfilt (line 89)
-  In second_order_modulation (line 80)
-  In test_second_order_modulation (line 83)
-  In run (line 91)
-  In run_scientific_suite (line 19)
-  In run (line 91)] 
-[Warning: The first two inputs are interpreted as an SOS matrix and G vector.
-Use column vectors if you meant to specify a transfer function.] 
-[> In coder.internal.warning (line 8)
-  In filtfilt>getCoeffsAndInitialConditions (line 164)
-  In filtfilt>efiltfilt (line 129)
-  In filtfilt (line 89)
-  In second_order_modulation (line 80)
-  In test_second_order_modulation (line 94)
-  In run (line 91)
-  In run_scientific_suite (line 19)
-  In run (line 91)] 
-test_second_order_modulation: all checks passed
-PASS test_second_order_modulation.m
-
-RUN test_spectral_extensions.m
-spectral extensions tests passed
-PASS test_spectral_extensions.m
-
-RUN test_spectral_methods_comparison.m
-spectral methods comparison tests passed
-PASS test_spectral_methods_comparison.m
-
-RUN test_tortlab_minimal_macro.m
-PASS test_tortlab_minimal_macro.m
-
-RUN test_wavelet_filter_bank.m
-wavelet filter-bank tests passed
-PASS test_wavelet_filter_bank.m
-
-PASS: 27 scientific scripts
+Error in run (line 91)
+evalin('caller', strcat(script, ';'));
+} 
