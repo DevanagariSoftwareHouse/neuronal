@@ -24,8 +24,8 @@ assert(isreal(value) || strcmp(metadata.representation,'complex_coefficients'), 
 folder=char(folder); assert(~isempty(folder),'Folder must be nonempty');
 assert(exist(folder,'file')==0,'Destination already exists; choose a new artifact folder');
 parent=fileparts(folder); if isempty(parent), parent=pwd; end
-if ~exist(parent,'dir'), [ok,msg]=mkdir(parent); assert(ok,msg); end
-stage=tempname(parent); [ok,msg]=mkdir(stage); assert(ok,msg);
+if ~exist(parent,'dir'), [ok,msg]=mkdir(parent); assert(ok==1,msg); end
+stage=tempname(parent); [ok,msg]=mkdir(stage); assert(ok==1,msg);
 cleanup=onCleanup(@() cleanup_stage(stage));
 fid=fopen(fullfile(stage,'data.bin'),'w','ieee-le');
 assert(fid>=0,'Cannot open binary output');
@@ -48,7 +48,7 @@ manifest=struct('version',1,'shape',size(value),'precision',precision, ...
     'bytes',numel(value)*bytes*(1+is_complex),'metadata',metadata);
 save(fullfile(stage,'manifest.mat'),'manifest','-v7');
 assert(exist(folder,'file')==0,'Destination appeared while writing');
-[ok,msg]=movefile(stage,folder); assert(ok,msg);
+[ok,msg]=movefile(stage,folder); assert(ok==1,msg);
 clear cleanup
 end
 

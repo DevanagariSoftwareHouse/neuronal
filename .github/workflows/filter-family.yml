@@ -19,7 +19,7 @@ jobs:
       - name: Run filter contracts in MATLAB R2019a
         shell: bash
         run: |
-          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); assert(license('test','Signal_Toolbox')); assert(license('test','Wavelet_Toolbox')); test_filter_family" 2>&1 | tee filter-family-tests.log
+          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); assert(license('test','Signal_Toolbox')==1); assert(license('test','Wavelet_Toolbox')==1); test_filter_family" 2>&1 | tee filter-family-tests.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
