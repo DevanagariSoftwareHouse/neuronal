@@ -4,6 +4,41 @@ As 16 famílias têm implementações em `path/interval_*.m`. Todas usam `N`
 (número de amostras), `fs` (Hz), segundos e limites temporais **[t0,t1)**.
 Não são intervalos de confiança. Não exigem toolboxes adicionais.
 
+
+## Contar ou consultar
+
+Todos os geradores usam a mesma convenção: omitir o último argumento `k`
+retorna a contagem escalar; fornecer `k` retorna um registro. `[]` também
+solicita a contagem. O caso sem intervalos retorna zero.
+
+```matlab
+n = interval_dyadic(N,fs,3,.5); % 15
+for k = 1:n
+    node = interval_dyadic(N,fs,3,.5,k);
+end
+n = interval_event(N,fs,events_s,.1,.2);
+node = interval_event(N,fs,events_s,.1,.2,1);
+bank = interval_event(N,fs,events_s,.1,.2,'all');
+```
+
+**Mudança de API:** os geradores baseados em dados e `interval_from_bounds`
+antes retornavam todos os registros quando chamados sem índice. Agora essas
+chamadas retornam a contagem; acrescente `'all'` para obter os registros.
+Os exemplos abaixo já usam essa forma explícita. As famílias analíticas
+continuam consultáveis uma janela por vez, sem construir um banco.
+
+Contagens e consultas de famílias baseadas em dados ainda fazem a varredura
+ou regeneram as mesmas realizações aleatórias usando a semente. Em análises
+repetidas, gere `'all'` uma vez para evitar repetir esse custo. O estado global
+de RNG é preservado tanto para contar quanto para consultar.
+
+Para `interval_threshold` e `interval_changepoint`, preencha respectivamente
+`min_duration_s` e `min_samples` antes de fornecer `k` ou `'all'`. Seus valores
+padrão continuam disponíveis quando se solicita somente a contagem.
+`interval_wavelet` retorna contagem 0 ou 1 para o suporte fornecido.
+`interval_jitter_surrogate` não é um gerador de intervalos: sua saída continua
+sendo um vetor de spikes reamostrados, e sua assinatura não muda.
+
 ## Contrato comum
 
 Cada registro contém `t0`, `t1`, `duration_s`, `first`, `last`, `n_samples`,
@@ -33,16 +68,16 @@ Cada registro contém `t0`, `t1`, `duration_s`, `first`, `last`, `n_samples`,
 | m-ádica | `interval_madic(N,fs,base,level,overlap,k)` | Largura T/base^level; O(1) |
 | Geométrica | `interval_geometric(N,fs,first_width_s,ratio,k)` | Larguras crescentes, ratio≥1; inclui cauda parcial; O(1) |
 | Periódica | `interval_periodic(N,fs,frequency_hz,phase_rad,duty,k)` | Cada trecho positivo individual, bordas recortadas; O(1) |
-| Wavelet | `interval_wavelet(N,fs,support,scale_s,translation_s)` | Suporte afim; não calcula transformada |
-| Eventos | `interval_event(N,fs,events_s,pre_s,post_s)` | Janelas em torno dos eventos; O(K) |
-| Entre eventos | `interval_between_events(N,fs,events_s)` | Tempos não decrescentes; empates vazios removidos; O(K) |
-| Quantílica | `interval_quantile(N,fs,timestamps_s,n_bins)` | Quantis temporais interpolados; O(K log K) pela ordenação |
-| Adaptativa | `interval_adaptive(N,fs,mass,target)` | Fecha blocos ao acumular massa-alvo; O(N) |
-| Change-point | `interval_changepoint(N,fs,x,penalty,min_samples)` | Segmentação binária gulosa da média; pior caso O(N²) |
-| Limiar | `interval_threshold(N,fs,x,threshold,min_duration_s)` | Excursões estritamente acima; NaN interrompe; O(N) |
-| Estocástica | `interval_stochastic(N,fs,n_windows,width_range_s,seed)` | Larguras e inícios uniformes condicionais; O(K) |
-| Renewal / Poisson | `interval_renewal(N,fs,durations_s)` e `interval_poisson(N,fs,rate_hz,seed)` | Esperas fornecidas ou exponenciais; O(K) |
-| Comportamental | `interval_behavioral(N,fs,starts_s,stops_s)` | Trials pareados, preservando sobreposição; O(K) |
+| Wavelet | `interval_wavelet(N,fs,support,scale_s,translation_s, 'all')` | Suporte afim; não calcula transformada |
+| Eventos | `interval_event(N,fs,events_s,pre_s,post_s, 'all')` | Janelas em torno dos eventos; O(K) |
+| Entre eventos | `interval_between_events(N,fs,events_s, 'all')` | Tempos não decrescentes; empates vazios removidos; O(K) |
+| Quantílica | `interval_quantile(N,fs,timestamps_s,n_bins, 'all')` | Quantis temporais interpolados; O(K log K) pela ordenação |
+| Adaptativa | `interval_adaptive(N,fs,mass,target, 'all')` | Fecha blocos ao acumular massa-alvo; O(N) |
+| Change-point | `interval_changepoint(N,fs,x,penalty,min_samples, 'all')` | Segmentação binária gulosa da média; pior caso O(N²) |
+| Limiar | `interval_threshold(N,fs,x,threshold,min_duration_s, 'all')` | Excursões estritamente acima; NaN interrompe; O(N) |
+| Estocástica | `interval_stochastic(N,fs,n_windows,width_range_s,seed, 'all')` | Larguras e inícios uniformes condicionais; O(K) |
+| Renewal / Poisson | `interval_renewal(N,fs,durations_s, 'all')` e `interval_poisson(N,fs,rate_hz,seed, 'all')` | Esperas fornecidas ou exponenciais; O(K) |
+| Comportamental | `interval_behavioral(N,fs,starts_s,stops_s, 'all')` | Trials pareados, preservando sobreposição; O(K) |
 
 `interval_at(N,fs,level,overlap,k)` continua disponível e mantém todos os
 campos anteriores. Agora compartilha a implementação m-ádica e a conversão de
@@ -94,11 +129,11 @@ controla diretamente o overlap entre janelas consecutivas.
 ```matlab
 % Energia acumulada por bloco: target nas mesmas unidades de sum(mass).
 x = sin(2*pi*8*(0:N-1)/fs);
-energy_windows = interval_adaptive(N,fs,abs(x).^2/fs,.2);
-excursions = interval_threshold(N,fs,x,.8,.01);
-changes = interval_changepoint(N,fs,x,1,20);
-events = interval_event(N,fs,[.2 .8 1.5],.1,.2);
-trials = interval_behavioral(N,fs,[0 .7],[.5 1.9]);
+energy_windows = interval_adaptive(N,fs,abs(x).^2/fs,.2, 'all');
+excursions = interval_threshold(N,fs,x,.8,.01, 'all');
+changes = interval_changepoint(N,fs,x,1,20, 'all');
+events = interval_event(N,fs,[.2 .8 1.5],.1,.2, 'all');
+trials = interval_behavioral(N,fs,[0 .7],[.5 1.9], 'all');
 ```
 
 A segmentação adaptativa inclui a amostra que cruza o alvo e conserva o excesso
@@ -111,9 +146,9 @@ wavelets de suporte infinito precisam de truncamento escolhido pelo chamador.
 ## Aleatoriedade e renovação
 
 ```matlab
-random_windows = interval_stochastic(N,fs,20,[.1 .4],42);
-poisson_windows = interval_poisson(N,fs,5,42);
-renewal_windows = interval_renewal(N,fs,[.1 .2 .7 .5]);
+random_windows = interval_stochastic(N,fs,20,[.1 .4],42, 'all');
+poisson_windows = interval_poisson(N,fs,5,42, 'all');
+renewal_windows = interval_renewal(N,fs,[.1 .2 .7 .5], 'all');
 ```
 
 As funções aleatórias restauram o estado global de `rng`, inclusive em erro.

@@ -1,6 +1,8 @@
-function nodes = interval_from_bounds(N, fs, bounds)
+function nodes = interval_from_bounds(N, fs, bounds, k)
 %INTERVAL_FROM_BOUNDS Convert K-by-2 time bounds in seconds to sampled interval records.
-% nodes = interval_from_bounds(N, fs, bounds)
+% count = interval_from_bounds(N, fs, bounds)
+% node = interval_from_bounds(N, fs, bounds, k)
+% nodes = interval_from_bounds(N, fs, bounds, 'all')
 % Clips each [t0,t1) to [0,N/fs); drops empty intersections. Input rows
 % are never sorted or merged. source_index preserves the input row number.
 % Clock: t=(sample-1)/fs. first:last are inclusive, and can be empty for
@@ -8,8 +10,12 @@ function nodes = interval_from_bounds(N, fs, bounds)
 % are snapped within 8 ULP to stabilize arithmetic at grid boundaries.
 % Common fields: t0, t1, duration_s, first, last, n_samples, window,
 % n_windows, source_index. Empty output is a typed 0-by-1 struct array.
-% Example: w = interval_from_bounds(1000,500,[-1 .5; .25 1]);
+% Example: w = interval_from_bounds(1000,500,[-1 .5; .25 1], 'all');
+% Omit final k (or pass []) to return the scalar number of intervals.
+% Pass a positive integer k to retrieve one record; pass 'all' for all records.
+% Count/index queries still scan the input data or regenerate seeded draws.
 
+if nargin < 4, k = []; end
 T = interval_session(N,fs);
 validateattributes(bounds, {'numeric'}, {'2d','real','finite','ncols',2});
 bounds = double(bounds);
@@ -33,4 +39,5 @@ for j = 1:numel(source)
         'n_samples',max(0,last-first+1),'window',j, ...
         'n_windows',numel(source),'source_index',i);
 end
+nodes = interval_select(nodes,k);
 end

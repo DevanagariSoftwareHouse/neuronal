@@ -13,10 +13,6 @@ function node = interval_dyadic(N, fs, level, overlap, k)
 %       w = interval_dyadic(1000,500,3,.5,k);
 %   end
 
-if nargin < 5
-    first_node = interval_madic(N,fs,2,level,overlap,1);
-    node = first_node.n_windows;
-else
-    node = interval_madic(N,fs,2,level,overlap,k);
-end
+if nargin < 5, k = []; end
+node = interval_madic(N,fs,2,level,overlap,k);
 end

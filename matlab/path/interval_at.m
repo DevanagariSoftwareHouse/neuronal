@@ -12,6 +12,9 @@ function node = interval_at(N, fs, level, overlap, k)
 %   w = get(2,.5,3);
 %   % segment = signal(w.first:w.last);
 % See also interval_madic, interval_sliding, interval_from_bounds.
+% Omit final k (or pass []) to return the number of complete/available windows.
+% Counting uses O(1) memory and does not build an interval bank.
 
+if nargin < 5, k = []; end
 node = interval_dyadic(N,fs,level,overlap,k);
 end
