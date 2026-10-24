@@ -1,9 +1,9 @@
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 5cb242eb369d4254b3beb712b8d45116d54f0bb1
+Commit under test: 863064b29159bf26d4d3242794228f19a12678e9
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
-Operating System: Linux 7.2.9-arch1-1 #1 SMP PREEMPT_DYNAMIC Sat, 03 Oct 2026 11:43:28 +0000 x86_64
+Operating System: Linux 7.2.11-arch1-1 #1 SMP PREEMPT_DYNAMIC Fri, 16 Oct 2026 00:28:58 +0000 x86_64
 Java Version: Java 1.8.0_181-b13 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
 -----------------------------------------------------------------------------------------------------
 MATLAB                                                Version 9.6         (R2019a)
@@ -455,8 +455,8 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.1 min; outputs in /tmp/tpc744c4f3_ed5d_4e0d_9492_aa056e0342b1
-smoke_second_order_study: outputs written in 4.6 s
+done in 0.1 min; outputs in /tmp/tp445f9e94_c3bc_4b83_b156_18e065c0cb78
+smoke_second_order_study: outputs written in 3.1 s
 PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m
@@ -474,6 +474,10 @@ PASS test_filter_probe.m
 RUN test_filter_utilities.m
 filter utilities tests passed
 PASS test_filter_utilities.m
+
+RUN test_interval_at.m
+interval_at lazy interval checks completed
+PASS test_interval_at.m
 
 RUN test_lfp_basic_filters.m
 basic LFP filter tests passed
@@ -673,4 +677,4 @@ RUN test_wavelet_filter_bank.m
 wavelet filter-bank tests passed
 PASS test_wavelet_filter_bank.m
 
-PASS: 26 scientific scripts
+PASS: 27 scientific scripts

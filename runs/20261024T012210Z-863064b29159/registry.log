@@ -1,0 +1,14 @@
+$ make -C books check
+make: Entering directory '~/actions-runner/_work/neuronal/neuronal/books'
+python3 tools/check_sources.py
+Validated 87 LaTeX files in two books and 48 mathematical bridges.
+python3 tools/check_language_boundaries.py
+Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
+python3 tools/arsenal_registry.py --check
+matlab/path/assembly_mp_significance.m has no \methodentry in 12_method_specifications.tex
+matlab/path/interval_at.m has no \methodentry in 12_method_specifications.tex
+matlab/path/pac_comodulogram.m has no \methodentry in 12_method_specifications.tex
+matlab/path/phase_binned_plv.m has no \methodentry in 12_method_specifications.tex
+matlab/path/phase_phase_coupling.m has no \methodentry in 12_method_specifications.tex
+make: *** [Makefile:8: check] Error 1
+make: Leaving directory '~/actions-runner/_work/neuronal/neuronal/books'
