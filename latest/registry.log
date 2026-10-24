@@ -7,5 +7,5 @@ Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
 python3 tools/arsenal_registry.py --check
 Arsenal registry consistent: 190 methods, 55 ARS theorems.
 make: Leaving directory '~/actions-runner/_work/neuronal/neuronal/books'
-$ git diff --check 3dafd34f50d0cc33cdc651e722fc92fca25fa808 HEAD
+$ git diff --check 09718ec58b1ebc57247e17c5d6f358a525a84767 HEAD
 $ check: no submodules or .lake/ tracked

@@ -1,0 +1,6 @@
+suite	status	seconds
+registry	pass	0
+rust	pass	37
+python	pass	11
+matlab	FAIL(1)	19
+lean	pass	242
