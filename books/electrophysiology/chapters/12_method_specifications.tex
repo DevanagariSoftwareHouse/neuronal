@@ -867,3 +867,118 @@ The entries are maintained against the current source; these additional specific
 {Averages one-sided periodogram densities across DPSS tapers within each complete sliding window.}
 {Definitional; equal-weight multitaper spectral estimation.}
 {Density is in squared signal units per hertz. Taper count must be below twice the time-bandwidth product; overlapping windows are dependent.}
+
+\methodentry{interval_adaptive.m}
+{Partition samples by accumulated nonnegative mass.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_at.m}
+{Lazily calculate a multiscale overlapping session interval.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_behavioral.m}
+{Generate intervals from paired behavioral or trial boundaries.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_between_events.m}
+{Generate gaps between consecutive ordered events.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_changepoint.m}
+{Partition by greedy binary segmentation of changes in mean.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_dyadic.m}
+{Lazily generate a dyadic interval with explicit overlap.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_event.m}
+{Generate windows around event times.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_from_bounds.m}
+{Convert K-by-2 time bounds in seconds to sampled interval records.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_geometric.m}
+{Lazily generate contiguous geometrically growing intervals.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_madic.m}
+{Lazily generate an m-adic interval, optionally overlapping.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_periodic.m}
+{Lazily generate a positive run of a periodic square wave.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_poisson.m}
+{Generate exponential renewal intervals for a homogeneous Poisson model.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_quantile.m}
+{Partition time at empirical timestamp quantiles.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_renewal.m}
+{Generate renewal intervals from supplied positive waiting times.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_sliding.m}
+{Lazily generate the Kth complete sliding window.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_stochastic.m}
+{Draw complete random windows with reproducible local RNG state.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_threshold.m}
+{Generate contiguous runs strictly above a scalar threshold.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_uniform.m}
+{Lazily select an equal-duration partition.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{interval_wavelet.m}
+{Generate the affine support interval of a wavelet atom.}
+{Definitional; the interval construction is specified by its documented algorithm.}
+{Uses half-open temporal bounds and inclusive sample indices. See the MATLAB help and interval regression tests for clipping, ordering, and numerical conventions.}
+
+\methodentry{assembly_mp_significance.m}
+{Screens correlation eigenvalues against the iid Marchenko--Pastur upper edge.}
+{\texttt{ARS-PCA-004}.}
+{This is a screening heuristic; dependence and finite samples require surrogate checks.}
+
+\methodentry{pac_comodulogram.m}
+{Computes normalized phase-amplitude modulation indices across frequency-band pairs.}
+{\texttt{ARS-INFO-001}.}
+{Descriptive filter-Hilbert analysis; transients and waveform shape can produce spurious coupling.}
+
+\methodentry{phase_binned_plv.m}
+{Computes phase-locking values conditional on reference-phase bins.}
+{Definitional; circular sample averages.}
+{Sparse bins return missing values; conditional locking is descriptive.}
+
+\methodentry{phase_phase_coupling.m}
+{Computes the resultant length of integer-weighted phase differences.}
+{Definitional; circular sample averages.}
+{Descriptive synchronization does not establish mechanistic interaction.}

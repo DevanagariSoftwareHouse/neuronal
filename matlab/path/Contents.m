@@ -229,3 +229,24 @@
 %   event_aligned_raster - Compatibility wrapper; see event_aligned_segments.
 %   plot_event_raster - Compatibility wrapper; see plot_event_aligned.
 %   spike_triggered_average - Compatibility wrapper; see event_triggered_average.
+
+% INTERVAL GENERATORS (see ../INTERVALS.md)
+%   interval_adaptive - Partition samples by accumulated nonnegative mass.
+%   interval_at - Lazily calculate a multiscale overlapping session interval.
+%   interval_behavioral - Generate intervals from paired behavioral or trial boundaries.
+%   interval_between_events - Generate gaps between consecutive ordered events.
+%   interval_changepoint - Partition by greedy binary segmentation of changes in mean.
+%   interval_dyadic - Lazily generate a dyadic interval with explicit overlap.
+%   interval_event - Generate windows around event times.
+%   interval_from_bounds - Convert K-by-2 time bounds in seconds to sampled interval records.
+%   interval_geometric - Lazily generate contiguous geometrically growing intervals.
+%   interval_madic - Lazily generate an m-adic interval, optionally overlapping.
+%   interval_periodic - Lazily generate a positive run of a periodic square wave.
+%   interval_poisson - Generate exponential renewal intervals for a homogeneous Poisson model.
+%   interval_quantile - Partition time at empirical timestamp quantiles.
+%   interval_renewal - Generate renewal intervals from supplied positive waiting times.
+%   interval_sliding - Lazily generate the Kth complete sliding window.
+%   interval_stochastic - Draw complete random windows with reproducible local RNG state.
+%   interval_threshold - Generate contiguous runs strictly above a scalar threshold.
+%   interval_uniform - Lazily select an equal-duration partition.
+%   interval_wavelet - Generate the affine support interval of a wavelet atom.

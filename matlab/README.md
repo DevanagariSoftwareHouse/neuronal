@@ -454,3 +454,6 @@ Implementar testes de referência por artigo, aferir streaming/memmap,
 controle de borda em convoluções, qualidade de unidade, jitter condicional
 rigoroso, null models para assemblies, surrogates de PAC, ICSD inversa,
 cluster permutations, GPFA/LFADS/dPCA e benchmarking de spike sorting.
+
+Consulte [INTERVALS.md](INTERVALS.md) para as 16 famílias de geradores temporais,
+consulta sob demanda, overlap e convenções de indexação.

@@ -1,0 +1,21 @@
+function node = interval_madic(N, fs, base, level, overlap, k)
+%INTERVAL_MADIC Lazily generate an m-adic interval, optionally overlapping.
+% node = interval_madic(N, fs, base, level, overlap, k)
+% Width = (N/fs)/base^level; hop = width*(1-overlap). Base >= 2.
+% With overlap=0 the levels form a nested tree; with overlap>0 they form
+% a multiscale cover, without a unique parent for every window.
+% Example: w = interval_madic(3000,500,3,2,.5,4);
+
+T = interval_session(N,fs);
+validateattributes(base, {'numeric'}, {'scalar','real','finite','integer','>=',2});
+validateattributes(level, {'numeric'}, {'scalar','real','finite','integer','nonnegative'});
+validateattributes(overlap, {'numeric'}, {'scalar','real','finite','>=',0,'<',1});
+parts = double(base)^double(level);
+assert(isfinite(parts) && parts <= double(N), 'interval:Resolution', 'Nominal width must be at least one sample.');
+width = T/parts;
+node = interval_sliding(N,fs,width,width*(1-double(overlap)),k);
+node.base = double(base); node.level = double(level); node.overlap = double(overlap);
+node.frequency_hz = 1/(2*width);
+node.phase_rad = mod(-2*pi*node.frequency_hz*node.t0,2*pi);
+node.phase_step_rad = pi*(1-double(overlap));
+end

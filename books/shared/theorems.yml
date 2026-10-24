@@ -291,6 +291,7 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/modulation_index.m
+      - matlab/path/pac_comodulogram.m
       - matlab/path/permutation_entropy.m
       - matlab/path/spectral_entropy.m
   - id: ARS-INFO-002
@@ -398,6 +399,7 @@ theorems:
     lean: null
     status: cited
     matlab:
+      - matlab/path/assembly_mp_significance.m
       - matlab/path/assembly_pca.m
   - id: ARS-PCA-005
     name: "The dDR basis is orthonormal"
@@ -551,7 +553,26 @@ definitional_methods:
   - matlab/path/group_cross_validation.m
   - matlab/path/hierarchical_bootstrap_ci.m
   - matlab/path/iaaft_surrogate.m
+  - matlab/path/interval_adaptive.m
+  - matlab/path/interval_at.m
+  - matlab/path/interval_behavioral.m
+  - matlab/path/interval_between_events.m
+  - matlab/path/interval_changepoint.m
+  - matlab/path/interval_dyadic.m
+  - matlab/path/interval_event.m
+  - matlab/path/interval_from_bounds.m
+  - matlab/path/interval_geometric.m
   - matlab/path/interval_jitter_surrogate.m
+  - matlab/path/interval_madic.m
+  - matlab/path/interval_periodic.m
+  - matlab/path/interval_poisson.m
+  - matlab/path/interval_quantile.m
+  - matlab/path/interval_renewal.m
+  - matlab/path/interval_sliding.m
+  - matlab/path/interval_stochastic.m
+  - matlab/path/interval_threshold.m
+  - matlab/path/interval_uniform.m
+  - matlab/path/interval_wavelet.m
   - matlab/path/jackknife_ci.m
   - matlab/path/jackknife_estimate.m
   - matlab/path/local_permutation_surrogate.m
@@ -570,7 +591,9 @@ definitional_methods:
   - matlab/path/paired_permutation_test.m
   - matlab/path/parametric_bootstrap_ci.m
   - matlab/path/permutation_test.m
+  - matlab/path/phase_binned_plv.m
   - matlab/path/phase_crossing_events.m
+  - matlab/path/phase_phase_coupling.m
   - matlab/path/plot_event_aligned.m
   - matlab/path/plot_event_raster.m
   - matlab/path/posterior_predictive_check.m
