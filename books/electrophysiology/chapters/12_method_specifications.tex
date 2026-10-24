@@ -982,3 +982,194 @@ The entries are maintained against the current source; these additional specific
 {Computes the resultant length of integer-weighted phase differences.}
 {Definitional; circular sample averages.}
 {Descriptive synchronization does not establish mechanistic interaction.}
+
+\section{Layered filter family}
+\methodentry{filter_analytic.m}
+{Complex Hilbert analytic signal of each already filtered channel.}
+{Definitional; documented construction or named backend contract.}
+{No implicit band selection; meaningful phase requires suitable narrowband input.}
+
+\methodentry{filter_butterworth.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_causal.m}
+{Forward recurrence over samples with returned per-section delay states.}
+{Definitional; documented construction or named backend contract.}
+{Chunk equivalence requires identical design, sample order and channel identity.}
+
+\methodentry{filter_chebyshev1.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_chebyshev2.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_csd.m}
+{Negative conductivity times the unequal-spacing second spatial derivative.}
+{Definitional; documented construction or named backend contract.}
+{Volts and meters required; only interior contacts; homogeneous one-dimensional medium, not inverse or kernel CSD.}
+
+\methodentry{filter_cwt.m}
+{Backend analytic continuous-wavelet coefficients and cone of influence.}
+{Definitional; documented construction or named backend contract.}
+{Single-channel adapter; no DC component or automatic PSD normalization.}
+
+\methodentry{filter_design.m}
+{FIR coefficients or an IIR second-order-section design record.}
+{Definitional; documented construction or named backend contract.}
+{Band endpoints select lowpass, highpass or identity. Different designs give different cutoff meanings.}
+
+\methodentry{filter_despike.m}
+{Linear interpolation of the union of explicitly marked sample neighborhoods.}
+{Definitional; documented construction or named backend contract.}
+{Cannot remove spread from previous filtering; boundary gaps without bracketing data are rejected.}
+
+\methodentry{filter_dyadic.m}
+{Uniform frequency intervals with count equal to two to the specified level.}
+{Definitional; documented construction or named backend contract.}
+{Count, single-index and bulk conventions match the interval family.}
+
+\methodentry{filter_elliptic.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_emd.m}
+{MATLAB empirical-mode decomposition into modes and residual.}
+{Definitional; documented construction or named backend contract.}
+{Mode indices are not fixed frequency bands across sessions.}
+
+\methodentry{filter_equiripple_fir.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_forward_backward.m}
+{MATLAB forward-backward filtering of the entire supplied record.}
+{Definitional; documented construction or named backend contract.}
+{Interior magnitude is squared; default backend padding and endpoint transients remain.}
+
+\methodentry{filter_joint_decorrelation.m}
+{Whiten a regularized reference covariance and diagonalize the target covariance.}
+{Definitional; documented construction or named backend contract.}
+{Weights are sorted by descending variance ratio; regularization and arbitrary signs affect interpretation.}
+
+\methodentry{filter_line_regression.m}
+{Joint least-squares sinusoidal regression, subtracting only harmonic terms.}
+{Definitional; documented construction or named backend contract.}
+{The intercept is retained; amplitudes and phases are stationary within one call.}
+
+\methodentry{filter_logarithmic.m}
+{Constant-ratio intervals with width one over bands-per-octave in log-two frequency.}
+{Definitional; documented construction or named backend contract.}
+{DC is excluded and the final partial interval is omitted.}
+
+\methodentry{filter_modwpt.m}
+{Backend full-rate terminal packet coefficients and frequency metadata.}
+{Definitional; documented construction or named backend contract.}
+{Coefficients differ from reconstructed time-aligned contributions.}
+
+\methodentry{filter_modwpt_details.m}
+{Backend terminal reconstructed packet contributions.}
+{Definitional; documented construction or named backend contract.}
+{The sum reconstructs the original record up to floating-point error; boundary effects remain.}
+
+\methodentry{filter_multitaper.m}
+{Equal-weight DPSS-tapered one-sided periodogram averages in sliding windows.}
+{Definitional; documented construction or named backend contract.}
+{Returns density per hertz through the existing multitaper spectrogram helper.}
+
+\methodentry{filter_open.m}
+{Read-only memory map after format and byte-count validation.}
+{Definitional; documented construction or named backend contract.}
+{Little-endian host required; size checks do not detect arbitrary bit corruption.}
+
+\methodentry{filter_overlap.m}
+{Complete sliding frequency intervals of explicit width in hertz.}
+{Definitional; documented construction or named backend contract.}
+{Only complete intervals are returned; linear overlap is a shared fraction of width.}
+
+\methodentry{filter_pad.m}
+{Reflection, replication or zero extension and indices of original samples.}
+{Definitional; documented construction or named backend contract.}
+{Explicit padding is additional to any downstream backend padding.}
+
+\methodentry{filter_phase.m}
+{Wrapped complex argument in radians, NaN at zero amplitude.}
+{Definitional; documented construction or named backend contract.}
+{Phase of real broadband voltage is not a substitute for analytic narrowband phase.}
+
+\methodentry{filter_power.m}
+{Squared modulus of each supplied coefficient.}
+{Definitional; documented construction or named backend contract.}
+{No smoothing, density normalization or mean-power convention is implied.}
+
+\methodentry{filter_read.m}
+{Indexed real-plane or complex-plane read from a mapped artifact.}
+{Definitional; documented construction or named backend contract.}
+{Only requested data are materialized unless no indices are supplied.}
+
+\methodentry{filter_rereference.m}
+{Channel-wise common mean, common median or explicit bipolar differences.}
+{Definitional; documented construction or named backend contract.}
+{Common neural signal can be removed along with common noise.}
+
+\methodentry{filter_robust_detrend.m}
+{Huber IRLS polynomial trend fitting with MAD residual scale.}
+{Definitional; documented construction or named backend contract.}
+{Explicit regression variant, not a complete reproduction of NoiseTools preprocessing.}
+
+\methodentry{filter_spectrum_interpolation.m}
+{Linear interpolation of contaminated positive FFT magnitudes with retained phases and Hermitian reconstruction.}
+{Definitional; documented construction or named backend contract.}
+{Assumes periodic record boundaries; this defined variant is not an exact replication of all published settings.}
+
+\methodentry{filter_ssd.m}
+{Generalized eigenvectors contrasting target-band covariance with average noise-band covariance.}
+{Definitional; documented construction or named backend contract.}
+{Returns projections of centered broadband data; fitting includes backend endpoint samples.}
+
+\methodentry{filter_state.m}
+{Zero delay-state arrays with recorded design and channel count.}
+{Definitional; documented construction or named backend contract.}
+{States are suitable only for causal continuation with that exact design.}
+
+\methodentry{filter_stft.m}
+{Raw Fourier coefficients of periodic-Hann-windowed complete segments.}
+{Definitional; documented construction or named backend contract.}
+{Not a power spectral density and not a reconstructed voltage.}
+
+\methodentry{filter_uniform.m}
+{Complete intervals of width Nyquist/count and hop width times one minus overlap.}
+{Definitional; documented construction or named backend contract.}
+{A non-divisible hop leaves an uncovered tail; bounds are design requests, not measured responses.}
+
+\methodentry{filter_vmd.m}
+{MATLAB variational-mode decomposition into modes and residual.}
+{Definitional; documented construction or named backend contract.}
+{Requires the VMD backend introduced in R2020a; R2019a fails explicitly.}
+
+\methodentry{filter_windowed_fir.m}
+{Delegates the named classical design to the shared filter design constructor.}
+{Definitional; documented construction or named backend contract.}
+{Returns coefficients and provenance; application policy is chosen separately.}
+
+\methodentry{filter_wpt.m}
+{Backend decimated packet coefficients reordered by Gray-code tree positions.}
+{Definitional; documented construction or named backend contract.}
+{Nominal frequency ordering does not imply exact brick-wall responses or original sample alignment.}
+
+\methodentry{filter_write.m}
+{Immutable binary array serialization with typed shape and provenance manifest.}
+{Definitional; documented construction or named backend contract.}
+{Temporary-directory staging; single writer per target; no transform streaming or automatic cache fingerprint.}
+
+\methodentry{filter_zapline.m}
+{Calls original NoiseTools ZapLine with frequency in cycles per sample.}
+{Definitional; documented construction or named backend contract.}
+{External dependency; component count is explicit; not Zapline-plus.}
