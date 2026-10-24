@@ -1,0 +1,11 @@
+$ make -C books check
+make: Entering directory '~/actions-runner/_work/neuronal/neuronal/books'
+python3 tools/check_sources.py
+Validated 87 LaTeX files in two books and 48 mathematical bridges.
+python3 tools/check_language_boundaries.py
+Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
+python3 tools/arsenal_registry.py --check
+Arsenal registry consistent: 190 methods, 55 ARS theorems.
+make: Leaving directory '~/actions-runner/_work/neuronal/neuronal/books'
+$ git diff --check 3dafd34f50d0cc33cdc651e722fc92fca25fa808 HEAD
+$ check: no submodules or .lake/ tracked

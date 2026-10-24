@@ -1,18 +1,18 @@
-# neuronal run 20261024T013636Z-deae6d7e6598
+# neuronal run 20261024T015453Z-09718ec58b1e
 
 - overall: FAIL
-- commit: `deae6d7e6598` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40050384442
+- commit: `09718ec58b1e` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40051339792
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
 | registry | pass | 0 |
-| rust | pass | 35 |
-| python | pass | 11 |
-| matlab | FAIL(1) | 23 |
-| lean | pass | 184 |
+| rust | pass | 45 |
+| python | pass | 20 |
+| matlab | FAIL(1) | 30 |
+| lean | pass | 581 |
 
 ## matlab — last 40 lines
 
@@ -39,14 +39,14 @@ interval_at lazy interval checks completed
 PASS test_interval_at.m
 
 RUN test_interval_families.m
-{Error using interval_from_bounds (line 14)
+{Error using interval_from_bounds (line 20)
 Expected input to be an array with number of columns equal to 2.
 
-Error in interval_renewal (line 14)
-nodes = interval_from_bounds(N,fs,[edges(1:end-1),edges(2:end)]);
+Error in interval_renewal (line 20)
+nodes = interval_from_bounds(N,fs,[edges(1:end-1),edges(2:end)], 'all');
 
 Error in test_interval_families (line 128)
-assert(isempty(interval_renewal(100,10,[])));
+assert(isempty(interval_renewal(100,10,[], 'all')));
 
 Error in run (line 91)
 evalin('caller', strcat(script, ';'));
