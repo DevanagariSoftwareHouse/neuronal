@@ -1,0 +1,28 @@
+name: Storage family contracts
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'matlab/path/storage_*.m'
+      - 'matlab/path/private/storage_*.m'
+      - 'matlab/tests/test_storage_family.m'
+      - '.github/workflows/storage-family.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  storage:
+    runs-on: [self-hosted, linux, x64, dell]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run storage contracts in MATLAB R2019a
+        shell: bash
+        run: |
+          set -o pipefail
+          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); test_storage_family" 2>&1 | tee storage-family-tests.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: storage-family-evidence
+          path: storage-family-tests.log

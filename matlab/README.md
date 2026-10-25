@@ -464,3 +464,8 @@ See [FILTERS.md](FILTERS.md) for lazy frequency geometry, FIR/IIR design,
 stateful application, decompositions, artifact/spatial methods, and typed
 binary persistence. Start with `help filter_dyadic` and the executable
 [`filter_family_demo.m`](../examples/matlab/filters/filter_family_demo.m).
+
+## Persistência de arrays e catálogo
+
+Veja [STORAGE.md](STORAGE.md) para a família `storage_*`: HDF5, binário, MAT,
+catálogo SQLite e armazenamento híbrido, com leitura por intervalo e testes.
