@@ -6,6 +6,9 @@ on:
       - 'matlab/path/storage_*.m'
       - 'matlab/path/private/storage_*.m'
       - 'matlab/tests/test_storage_family.m'
+      - 'matlab/path/spike_interval_*.m'
+      - 'matlab/tests/test_spike_interval_features.m'
+      - 'analysis/t03_spike_lfp_intervals.m'
       - '.github/workflows/storage-family.yml'
   workflow_dispatch:
 permissions:
@@ -20,7 +23,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); test_storage_family" 2>&1 | tee storage-family-tests.log
+          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); test_storage_family; test_spike_interval_features" 2>&1 | tee storage-family-tests.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
