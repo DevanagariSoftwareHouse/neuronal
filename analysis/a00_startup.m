@@ -11,17 +11,20 @@ matlab_dir = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/';
 run(fullfile(matlab_dir,'neuronal/startup.m'))
 
 %%
-catalog =neuronal_catalog();
+data  = neuronal_catalog();
 %%
-data = catalog.data();
+data = data.data();
+
 
 %%
 
 for d = 1 : numel(data)
+    
+    data(d).srate = 500;
     for f = 1 : numel(data(d).file)
         data(d).(data(d).file(f).name) = neuronal_memmap(data(d).file(f));
     end
-    data(d).waveform_id = data(d).brain_areas.cluster_id;
+    data(d).waveform_id = int32(data(d).brain_areas.cluster_id);
     data(d).waveform_area = data(d).brain_areas.brain_area;
 
 end
