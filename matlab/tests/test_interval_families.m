@@ -3,11 +3,11 @@ interval_test_dir = fileparts(mfilename('fullpath'));
 addpath(fullfile(interval_test_dir,'..','path'));
 
 % Direct conversion: clipping, source rows, exact grid edges, empty results.
-w = interval_from_bounds(10,10,[-1 .2; .3 .6; 2 3; .8 .8]);
+w = interval_from_bounds(10,10,[-1 .2; .3 .6; 2 3; .8 .8], 'all');
 assert(isequal([w.first],[1 4]) && isequal([w.last],[2 6]));
 assert(isequal([w.source_index],[1 2]));
-assert(isempty(interval_from_bounds(10,10,zeros(0,2))));
-w = interval_from_bounds(10,10,[.01 .02]);
+assert(isempty(interval_from_bounds(10,10,zeros(0,2), 'all')));
+w = interval_from_bounds(10,10,[.01 .02], 'all');
 assert(w.n_samples==0 && isempty(w.first:w.last));
 
 % Exhaustive small odd/even partitions: coverage once and lazy consistency.
@@ -70,77 +70,77 @@ for phase = [0 -pi/2 pi/3 2*pi]
 end
 w = interval_periodic(100,10,.05,0,.5,1); % whole session positive
 assert(w.first==1 && w.last==100);
-w = interval_wavelet(100,10,[-3 3],.5,1);
+w = interval_wavelet(100,10,[-3 3],.5,1, 'all');
 assert(w.t0==0 && w.t1==2.5 && w.last==25);
-assert(isempty(interval_wavelet(100,10,[-1 1],1,20)));
+assert(isempty(interval_wavelet(100,10,[-1 1],1,20, 'all')));
 
 % Events and behavioral rows preserve source identity through clipping.
-w = interval_event(100,10,[-10 0 9.9],.2,.3);
+w = interval_event(100,10,[-10 0 9.9],.2,.3, 'all');
 assert(isequal([w.source_index],[2 3]) && w(1).first==1 && w(2).last==100);
-w = interval_between_events(100,10,[1 1 3 11]);
+w = interval_between_events(100,10,[1 1 3 11], 'all');
 assert(isequal([w.source_index],[2 3]) && w(end).t1==10);
-w = interval_behavioral(100,10,[-2 1 11],[-1 3 12]);
+w = interval_behavioral(100,10,[-2 1 11],[-1 3 12], 'all');
 assert(numel(w)==1 && w.source_index==2 && w.first==11 && w.last==30);
-assert(isempty(interval_event(100,10,[],1,1)));
-assert(isempty(interval_between_events(100,10,[])));
-assert(isempty(interval_behavioral(100,10,[],[])));
+assert(isempty(interval_event(100,10,[],1,1, 'all')));
+assert(isempty(interval_between_events(100,10,[], 'all')));
+assert(isempty(interval_behavioral(100,10,[],[], 'all')));
 
 % Quantile ties collapse borders, while retaining full temporal coverage.
-w = interval_quantile(100,10,[1 2 3 4],2);
+w = interval_quantile(100,10,[1 2 3 4],2, 'all');
 assert(numel(w)==2 && w(1).t1==2.5 && w(2).first==26);
-w = interval_quantile(100,10,[2 2 2 2],4);
+w = interval_quantile(100,10,[2 2 2 2],4, 'all');
 assert(numel(w)==2 && w(1).first==1 && w(end).last==100);
-w = interval_quantile(100,10,2,1);
+w = interval_quantile(100,10,2,1, 'all');
 assert(numel(w)==1 && w.first==1 && w.last==100);
 
 % Excursions break at NaN; accumulated mass closes on the crossing sample.
-w = interval_threshold(7,10,[0 2 3 NaN 4 0 5],1,0);
+w = interval_threshold(7,10,[0 2 3 NaN 4 0 5],1,0, 'all');
 assert(isequal([w.first],[2 5 7]) && isequal([w.last],[3 5 7]));
-w = interval_threshold(7,10,[0 2 3 NaN 4 0 5],1,.15);
+w = interval_threshold(7,10,[0 2 3 NaN 4 0 5],1,.15, 'all');
 assert(numel(w)==1 && w.first==2 && w.last==3);
-assert(isempty(interval_threshold(3,10,zeros(1,3),1)));
-w = interval_adaptive(6,10,[0 2 1 0 4 0],3);
+assert(isempty(interval_threshold(3,10,zeros(1,3),1,0, 'all')));
+w = interval_adaptive(6,10,[0 2 1 0 4 0],3, 'all');
 assert(isequal([w.first],[1 4 6]) && isequal([w.last],[3 5 6]));
-w = interval_adaptive(6,10,zeros(1,6),1);
+w = interval_adaptive(6,10,zeros(1,6),1, 'all');
 assert(numel(w)==1 && w.n_samples==6);
-w = interval_changepoint(20,10,[zeros(1,10) ones(1,10)],1,2);
+w = interval_changepoint(20,10,[zeros(1,10) ones(1,10)],1,2, 'all');
 assert(isequal([w.first],[1 11]) && isequal([w.last],[10 20]));
-w = interval_changepoint(20,10,ones(1,20),0,2);
+w = interval_changepoint(20,10,ones(1,20),0,2, 'all');
 assert(numel(w)==1 && w.n_samples==20);
 
 % Random generators are reproducible and do not consume caller RNG state.
 rng(123); state_before = rng;
-a = interval_stochastic(1000,100,20,[.1 .5],42);
+a = interval_stochastic(1000,100,20,[.1 .5],42, 'all');
 assert(isequal(rng,state_before));
-b = interval_stochastic(1000,100,20,[.1 .5],42);
+b = interval_stochastic(1000,100,20,[.1 .5],42, 'all');
 assert(isequal(a,b) && all([a.t0]>=0) && all([a.t1]<=10));
 assert(all([a.duration_s]>=.1-1e-12 & [a.duration_s]<=.5+1e-12));
-assert(isempty(interval_stochastic(1000,100,0,[.1 .5],42)));
-a = interval_poisson(1000,100,5,42);
+assert(isempty(interval_stochastic(1000,100,0,[.1 .5],42, 'all')));
+a = interval_poisson(1000,100,5,42, 'all');
 assert(isequal(rng,state_before));
-b = interval_poisson(1000,100,5,42);
+b = interval_poisson(1000,100,5,42, 'all');
 assert(isequal(a,b) && a(1).t0==0 && a(end).t1==10);
 assert(all([a(1:end-1).t1]==[a(2:end).t0]));
-w = interval_renewal(100,10,[1 2 20]);
+w = interval_renewal(100,10,[1 2 20], 'all');
 assert(isequal([w.t0],[0 1 3]) && isequal([w.t1],[1 3 10]));
-w = interval_renewal(100,10,[1 2]);
+w = interval_renewal(100,10,[1 2], 'all');
 assert(w(end).t1==3);
-assert(isempty(interval_renewal(100,10,[])));
+assert(isempty(interval_renewal(100,10,[], 'all')));
 
 % Invalid inputs must fail before returning misleading intervals.
 bad_calls = {@() interval_at(10,10,4,0,1), ...
     @() interval_madic(100,10,1,1,0,1), ...
     @() interval_sliding(100,10,1,0,1), ...
     @() interval_uniform(100,10,2,3), ...
-    @() interval_from_bounds(100,10,[2 1]), ...
+    @() interval_from_bounds(100,10,[2 1], 'all'), ...
     @() interval_periodic(100,10,1,0,0,1), ...
-    @() interval_between_events(100,10,[2 1]), ...
-    @() interval_quantile(100,10,[1 10],2), ...
-    @() interval_adaptive(2,10,[1 -1],1), ...
-    @() interval_changepoint(2,10,[1 NaN],1), ...
-    @() interval_renewal(100,10,[1 0]), ...
-    @() interval_stochastic(100,10,2,[3 1],1), ...
-    @() interval_poisson(100,10,0,1)};
+    @() interval_between_events(100,10,[2 1], 'all'), ...
+    @() interval_quantile(100,10,[1 10],2, 'all'), ...
+    @() interval_adaptive(2,10,[1 -1],1, 'all'), ...
+    @() interval_changepoint(2,10,[1 NaN],1,2, 'all'), ...
+    @() interval_renewal(100,10,[1 0], 'all'), ...
+    @() interval_stochastic(100,10,2,[3 1],1, 'all'), ...
+    @() interval_poisson(100,10,0,1, 'all')};
 for j = 1:numel(bad_calls)
     failed = false;
     try
@@ -151,3 +151,85 @@ for j = 1:numel(bad_calls)
     assert(failed);
 end
 disp('interval family regression and invariant checks completed');
+
+% Every interval generator supports count-without-index and indexed lookup.
+formula_cases = {
+    @interval_at, {1000,500,3,.5};
+    @interval_dyadic, {1000,500,3,.5};
+    @interval_madic, {1000,500,3,2,.5};
+    @interval_uniform, {1000,500,7};
+    @interval_sliding, {1000,500,.4,.2};
+    @interval_geometric, {1000,500,.1,2};
+    @interval_periodic, {1000,500,2,-pi/2,.5}
+};
+assert(interval_dyadic(1000,500,3,.5)==15);
+assert(interval_at(1000,500,0,.5)==1);
+for j = 1:size(formula_cases,1)
+    generator = formula_cases{j,1}; args = formula_cases{j,2};
+    count = generator(args{:});
+    assert(isscalar(count) && count>0 && count==floor(count));
+    assert(generator(args{:},[])==count);
+    last_node = generator(args{:},count);
+    assert(last_node.n_windows==count && last_node.window==count);
+    failed = false;
+    try, generator(args{:},count+1); catch, failed = true; end
+    assert(failed);
+end
+bulk_cases = {
+    @interval_from_bounds, {100,10,[-2 -1;1 3;4 6]};
+    @interval_event, {100,10,[0 2 9],.1,.2};
+    @interval_between_events, {100,10,[1 1 3 7]};
+    @interval_behavioral, {100,10,[-2 1 4],[-1 3 6]};
+    @interval_wavelet, {100,10,[-2 2],.5,3};
+    @interval_quantile, {100,10,[1 2 3 4],2};
+    @interval_threshold, {5,10,[0 2 0 3 4],1,0};
+    @interval_adaptive, {6,10,[0 2 1 0 4 0],3};
+    @interval_changepoint, {20,10,[zeros(1,10) ones(1,10)],1,2};
+    @interval_stochastic, {100,10,5,[.1 .5],42};
+    @interval_renewal, {100,10,[1 2 20]};
+    @interval_poisson, {100,10,2,42}
+};
+state_before = rng;
+for j = 1:size(bulk_cases,1)
+    generator = bulk_cases{j,1}; args = bulk_cases{j,2};
+    count = generator(args{:});
+    bank = generator(args{:},'all');
+    assert(isscalar(count) && count==numel(bank));
+    assert(generator(args{:},[])==count);
+    for k = 1:count
+        assert(isequal(generator(args{:},k),bank(k)));
+    end
+    for invalid = [0 count+1]
+        failed = false;
+        try, generator(args{:},invalid); catch, failed = true; end
+        assert(failed);
+    end
+end
+assert(isequal(rng,state_before));
+% Empty banks return zero, not an empty struct or an invalid first record.
+assert(interval_event(100,10,[],1,1)==0);
+assert(interval_from_bounds(100,10,zeros(0,2))==0);
+assert(interval_threshold(3,10,zeros(1,3),1)==0);
+assert(interval_stochastic(100,10,0,[.1 .5],42)==0);
+assert(interval_wavelet(100,10,[-1 1],1,20)==0);
+assert(interval_periodic(100,10,.01,pi,.5)==0);
+% Existing optional parameters still default in count queries.
+assert(interval_changepoint(20,10,ones(1,20),1)==1);
+disp('interval count/index API checks completed');
+
+% Explicit bulk lookup must be identical to indexed lookup for each family.
+for j = 1:size(formula_cases,1)
+    generator = formula_cases{j,1}; args = formula_cases{j,2};
+    count = generator(args{:});
+    bank = generator(args{:},'all');
+    assert(isstruct(bank) && isequal(size(bank),[count 1]));
+    for k = 1:count
+        assert(isequal(bank(k),generator(args{:},k)));
+    end
+end
+bank = interval_dyadic(1000,500,1,.5,'all');
+assert(isequal([bank.first],[1 251 501]));
+assert(isequal([bank.last],[500 750 1000]));
+assert(isequal([bank.n_windows],[3 3 3]));
+assert(isempty(interval_periodic(100,10,.01,pi,.5,'all')));
+disp('interval explicit bulk lookup checks completed');

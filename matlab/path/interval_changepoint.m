@@ -1,13 +1,19 @@
-function nodes = interval_changepoint(N, fs, x, penalty, min_samples)
+function nodes = interval_changepoint(N, fs, x, penalty, min_samples, k)
 %INTERVAL_CHANGEPOINT Partition by greedy binary segmentation of changes in mean.
-% nodes = interval_changepoint(N, fs, x, penalty, min_samples)
+% count = interval_changepoint(N, fs, x, penalty, min_samples)
+% node = interval_changepoint(N, fs, x, penalty, min_samples, k)
+% nodes = interval_changepoint(N, fs, x, penalty, min_samples, 'all')
 % Splits each segment at the largest reduction of within-segment SSE if
 % reduction > penalty; each child has at least min_samples (default 2).
 % Penalty has units of squared signal amplitude. This is greedy, not
 % globally optimal penalized segmentation and not a significance test.
 % Finite vector required. Worst-case O(N^2) time, O(N) workspace.
-% Example: w = interval_changepoint(20,10,[zeros(1,10) ones(1,10)],1,2);
+% Example: w = interval_changepoint(20,10,[zeros(1,10) ones(1,10)],1,2, 'all');
+% Omit final k (or pass []) to return the scalar number of intervals.
+% Pass a positive integer k to retrieve one record; pass 'all' for all records.
+% Count/index queries still scan the input data or regenerate seeded draws.
 
+if nargin < 6, k = []; end
 if nargin < 5, min_samples = 2; end
 interval_session(N,fs);
 validateattributes(x, {'numeric'}, {'vector','numel',double(N),'real','finite'});
@@ -37,5 +43,6 @@ while ~isempty(pending)
     end
 end
 result = sortrows(result,1);
-nodes = interval_from_bounds(N,fs,[(result(:,1)-1)/double(fs),result(:,2)/double(fs)]);
+nodes = interval_from_bounds(N,fs,[(result(:,1)-1)/double(fs),result(:,2)/double(fs)], 'all');
+nodes = interval_select(nodes,k);
 end
