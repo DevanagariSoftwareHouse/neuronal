@@ -1,5 +1,5 @@
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 422a5ad979072c4956c0a3ff849f382bdb8c47aa
+Commit under test: 5991cef97fd26931502aa71d996fc12ea60abcc4
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -455,7 +455,7 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.0 min; outputs in /tmp/tp076db3cb_f9ce_47f3_bf8b_646030d02e83
+done in 0.0 min; outputs in /tmp/tp5dd436e2_c579_4b99_8a86_fa8250ae8f47
 smoke_second_order_study: outputs written in 2.2 s
 PASS smoke_second_order_study.m
 

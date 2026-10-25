@@ -1,18 +1,18 @@
-# neuronal run 20261025T201857Z-422a5ad97907
+# neuronal run 20261025T224741Z-5991cef97fd2
 
 - overall: FAIL
-- commit: `422a5ad97907` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40229748242
+- commit: `5991cef97fd2` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40240847079
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
-| registry | FAIL(2) | 0 |
-| rust | pass | 20 |
-| python | pass | 11 |
-| matlab | FAIL(1) | 21 |
-| lean | pass | 161 |
+| registry | FAIL(2) | 1 |
+| rust | pass | 21 |
+| python | pass | 10 |
+| matlab | FAIL(1) | 17 |
+| lean | pass | 186 |
 
 ## registry — last 40 lines
 
@@ -25,6 +25,27 @@ python3 tools/check_language_boundaries.py
 Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
 python3 tools/arsenal_registry.py --check
 matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_append.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_benchmark.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_binary.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_capabilities.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_close.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_create.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_defaults.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_delete.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_exists.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_flush.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_hdf5.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_hybrid.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_info.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_key.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_list.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_mat.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_path.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_read.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_sqlite.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_validate.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_write.m has no \methodentry in 12_method_specifications.tex
 make: *** [Makefile:8: check] Error 1
 make: Leaving directory '~/actions-runner/_work/neuronal/neuronal/books'
 ```

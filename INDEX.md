@@ -1,5 +1,6 @@
 # runs (newest first)
 
+- `20261025T224741Z-5991cef97fd2` **FAIL** — `5991cef97fd2` on `main` — [summary](runs/20261025T224741Z-5991cef97fd2/summary.md)
 - `20261025T201857Z-422a5ad97907` **FAIL** — `422a5ad97907` on `main` — [summary](runs/20261025T201857Z-422a5ad97907/summary.md)
 - `20261025T080935Z-bdf074ecf8bb` **FAIL** — `bdf074ecf8bb` on `main` — [summary](runs/20261025T080935Z-bdf074ecf8bb/summary.md)
 - `20261025T065239Z-d38b6389a6cd` **FAIL** — `d38b6389a6cd` on `main` — [summary](runs/20261025T065239Z-d38b6389a6cd/summary.md)
