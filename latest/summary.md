@@ -1,18 +1,18 @@
-# neuronal run 20261025T224741Z-5991cef97fd2
+# neuronal run 20261025T232732Z-b984e6a64cfe
 
 - overall: FAIL
-- commit: `5991cef97fd2` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40240847079
+- commit: `b984e6a64cfe` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40244798645
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
-| registry | FAIL(2) | 1 |
-| rust | pass | 21 |
-| python | pass | 10 |
-| matlab | FAIL(1) | 17 |
-| lean | pass | 186 |
+| registry | FAIL(2) | 0 |
+| rust | pass | 26 |
+| python | pass | 12 |
+| matlab | FAIL(1) | 22 |
+| lean | pass | 208 |
 
 ## registry — last 40 lines
 
@@ -25,6 +25,8 @@ python3 tools/check_language_boundaries.py
 Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
 python3 tools/arsenal_registry.py --check
 matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
+matlab/path/spike_interval_features.m has no \methodentry in 12_method_specifications.tex
+matlab/path/spike_interval_plan.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_append.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_benchmark.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_binary.m has no \methodentry in 12_method_specifications.tex

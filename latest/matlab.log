@@ -30,7 +30,7 @@ Symbolic Math Toolbox                                 Version 8.3         (R2019
 Text Analytics Toolbox                                Version 1.3         (R2019a)
 Wavelet Toolbox                                       Version 5.2         (R2019a)
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 5991cef97fd26931502aa71d996fc12ea60abcc4
+Commit under test: b984e6a64cfed0992d28926d182da3bea4b5bf95
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -486,8 +486,8 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.0 min; outputs in /tmp/tp5dd436e2_c579_4b99_8a86_fa8250ae8f47
-smoke_second_order_study: outputs written in 2.2 s
+done in 0.0 min; outputs in /tmp/tp8acaf2ee_c92e_4173_9f0b_35d7ef31054e
+smoke_second_order_study: outputs written in 2.6 s
 PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m
