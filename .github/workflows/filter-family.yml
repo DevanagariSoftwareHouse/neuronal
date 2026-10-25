@@ -1,0 +1,27 @@
+name: Filter family contracts
+on:
+  push:
+    branches: [main, feat/filter-family]
+    paths:
+      - 'matlab/path/filter_*.m'
+      - 'matlab/path/private/filter_*.m'
+      - 'matlab/tests/test_filter_family.m'
+      - '.github/workflows/filter-family.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  filters:
+    runs-on: [self-hosted, linux, x64, dell]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run filter contracts in MATLAB R2019a
+        shell: bash
+        run: |
+          matlab-r2019a -batch "addpath('matlab/path'); addpath('matlab/tests'); assert(license('test','Signal_Toolbox')==1); assert(license('test','Wavelet_Toolbox')==1); test_filter_family" 2>&1 | tee filter-family-tests.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: filter-family-evidence
+          path: filter-family-tests.log

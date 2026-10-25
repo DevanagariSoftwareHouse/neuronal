@@ -457,3 +457,10 @@ cluster permutations, GPFA/LFADS/dPCA e benchmarking de spike sorting.
 
 Consulte [INTERVALS.md](INTERVALS.md) para as 16 famílias de geradores temporais,
 consulta sob demanda, overlap e convenções de indexação.
+
+## Layered filter family
+
+See [FILTERS.md](FILTERS.md) for lazy frequency geometry, FIR/IIR design,
+stateful application, decompositions, artifact/spatial methods, and typed
+binary persistence. Start with `help filter_dyadic` and the executable
+[`filter_family_demo.m`](../examples/matlab/filters/filter_family_demo.m).

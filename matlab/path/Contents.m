@@ -250,3 +250,43 @@
 %   interval_threshold - Generate contiguous runs strictly above a scalar threshold.
 %   interval_uniform - Lazily select an equal-duration partition.
 %   interval_wavelet - Generate the affine support interval of a wavelet atom.
+
+% LAYERED FILTER FAMILY (see matlab/FILTERS.md)
+%   filter_analytic                 - Hilbert analytic signal of already filtered real voltage.
+%   filter_butterworth              - Design butterworth coefficients for a frequency interval.
+%   filter_causal                   - Apply design to a chunk and return exact continuation states.
+%   filter_chebyshev1               - Design cheby1 coefficients for a frequency interval.
+%   filter_chebyshev2               - Design cheby2 coefficients for a frequency interval.
+%   filter_csd                      - One-dimensional finite-difference current-source density.
+%   filter_cwt                      - Analytic CWT for one channel using the Wavelet Toolbox backend.
+%   filter_design                   - Design a classical pass filter independently of application.
+%   filter_despike                  - Interpolate explicitly marked spike neighborhoods.
+%   filter_dyadic                   - Lazy dyadic frequency bank with interval_* conventions.
+%   filter_elliptic                 - Design elliptic coefficients for a frequency interval.
+%   filter_emd                      - Empirical mode decomposition using MATLAB EMD.
+%   filter_equiripple_fir           - Design equiripple_fir coefficients for a frequency interval.
+%   filter_forward_backward         - Offline zero-phase filtering of a complete record.
+%   filter_joint_decorrelation      - Whiten reference covariance and diagonalize target.
+%   filter_line_regression          - Remove fitted sinusoids at specified line frequencies.
+%   filter_logarithmic              - Lazy constant-ratio bands between FMIN and Nyquist.
+%   filter_modwpt                   - Full-rate terminal wavelet packet coefficients for one channel.
+%   filter_modwpt_details           - Reconstructed terminal packet contributions.
+%   filter_multitaper               - Thomson windowed PSD, in signal-units squared per Hz.
+%   filter_open                     - Validate and memory-map a FILTER_WRITE artifact, read-only.
+%   filter_overlap                  - Lazy sliding frequency intervals of explicit width in Hz.
+%   filter_pad                      - Explicit sample padding with indices to crop the result.
+%   filter_phase                    - Wrapped phase in radians of explicit analytic coefficients.
+%   filter_power                    - Squared magnitude of explicit real or complex coefficients.
+%   filter_read                     - Read selected array indices from a persistent filter artifact.
+%   filter_rereference              - Common mean/median or explicit bipolar channel pairs.
+%   filter_robust_detrend           - Polynomial trend fitted by Huber IRLS per channel.
+%   filter_spectrum_interpolation   - Replace contaminated FFT magnitudes.
+%   filter_ssd                      - Spatial-spectral decomposition with explicit target/noise designs.
+%   filter_state                    - Construct zero continuation states for a design and channels.
+%   filter_stft                     - Complex short-time Fourier coefficients, not filtered voltage.
+%   filter_uniform                  - Count or retrieve full-width frequency intervals over Nyquist.
+%   filter_vmd                      - Variational mode decomposition using MATLAB VMD.
+%   filter_windowed_fir             - Design windowed_fir coefficients for a frequency interval.
+%   filter_wpt                      - Decimated terminal wavelet packet coefficients in frequency order.
+%   filter_write                    - Persist an immutable typed array as binary plus manifest.
+%   filter_zapline                  - Adapter to the original NoiseTools NT_ZAPLINE implementation.

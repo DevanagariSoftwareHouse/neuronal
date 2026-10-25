@@ -548,8 +548,46 @@ definitional_methods:
   - matlab/path/delete_group_jackknife.m
   - matlab/path/event_aligned_raster.m
   - matlab/path/event_aligned_segments.m
+  - matlab/path/filter_analytic.m
+  - matlab/path/filter_butterworth.m
+  - matlab/path/filter_causal.m
+  - matlab/path/filter_chebyshev1.m
+  - matlab/path/filter_chebyshev2.m
   - matlab/path/filter_compare.m
+  - matlab/path/filter_csd.m
+  - matlab/path/filter_cwt.m
+  - matlab/path/filter_design.m
+  - matlab/path/filter_despike.m
+  - matlab/path/filter_dyadic.m
   - matlab/path/filter_edge_mask.m
+  - matlab/path/filter_elliptic.m
+  - matlab/path/filter_emd.m
+  - matlab/path/filter_equiripple_fir.m
+  - matlab/path/filter_forward_backward.m
+  - matlab/path/filter_joint_decorrelation.m
+  - matlab/path/filter_line_regression.m
+  - matlab/path/filter_logarithmic.m
+  - matlab/path/filter_modwpt.m
+  - matlab/path/filter_modwpt_details.m
+  - matlab/path/filter_multitaper.m
+  - matlab/path/filter_open.m
+  - matlab/path/filter_overlap.m
+  - matlab/path/filter_pad.m
+  - matlab/path/filter_phase.m
+  - matlab/path/filter_power.m
+  - matlab/path/filter_read.m
+  - matlab/path/filter_rereference.m
+  - matlab/path/filter_robust_detrend.m
+  - matlab/path/filter_spectrum_interpolation.m
+  - matlab/path/filter_ssd.m
+  - matlab/path/filter_state.m
+  - matlab/path/filter_stft.m
+  - matlab/path/filter_uniform.m
+  - matlab/path/filter_vmd.m
+  - matlab/path/filter_windowed_fir.m
+  - matlab/path/filter_wpt.m
+  - matlab/path/filter_write.m
+  - matlab/path/filter_zapline.m
   - matlab/path/group_cross_validation.m
   - matlab/path/hierarchical_bootstrap_ci.m
   - matlab/path/iaaft_surrogate.m
