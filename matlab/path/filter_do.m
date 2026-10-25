@@ -19,7 +19,7 @@ if ~isnumeric(x) || ~isreal(x)
     error('filter_do:Input','X must be a real numeric array.');
 end
 if isa(x,'gpuArray')
-    precision = underlyingType(x);
+    precision = classUnderlying(x);
 else
     precision = class(x);
 end
