@@ -35,7 +35,7 @@ switch action
             db=open_db(st); guard=onCleanup(@()close(db)); %#ok<NASGU>
             rows=fetch(db,'SELECT key FROM artifacts ORDER BY key');
             if istable(rows), rows=table2cell(rows); end
-            out=rows(:,1); if isempty(rows), out=cell(0,1); end
+            if isempty(rows), out=cell(0,1); else, out=rows(:,1); end
         else
             entries=dir(fullfile(st.root,'artifacts','**','metadata.mat'));
             out=cell(numel(entries),1); base=fullfile(st.root,'artifacts');
