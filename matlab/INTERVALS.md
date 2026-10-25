@@ -85,6 +85,12 @@ Cada registro contém `t0`, `t1`, `duration_s`, `first`, `last`, `n_samples`,
 campos anteriores. Agora compartilha a implementação m-ádica e a conversão de
 índices. Larguras nominais subamostrais são rejeitadas consistentemente.
 
+Nas famílias `interval_madic`, `interval_dyadic` e `interval_at`, `level` e
+`overlap` também aceitam vetores não vazios. Omitir `k` retorna a soma das
+contagens; `'all'` concatena o produto cartesiano em ordem nível-primeiro,
+com overlap variando mais rápido. Um índice numérico consulta a concatenação.
+Cada janela mantém os campos `level` e `overlap` que identificam sua origem.
+
 ## Consulta sob demanda e overlap
 
 ```matlab

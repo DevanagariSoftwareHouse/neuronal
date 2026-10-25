@@ -14,8 +14,11 @@ function node = interval_dyadic(N, fs, level, overlap, k)
 %   end
 % Pass 'all' as final k to return a column struct array of every window.
 % Bulk output uses O(number of windows) memory; no sample masks are created.
+% level and overlap may be vectors; 'all' returns their combined bank in
+% level-major order, with overlap varying fastest.
 
-if nargin == 5 && ischar(k) && isequal(k,'all')
+if nargin == 5 && ischar(k) && isequal(k,'all') && ...
+        isscalar(level) && isscalar(overlap)
     node = interval_collect(@interval_dyadic,{N,fs,level,overlap});
     return
 end

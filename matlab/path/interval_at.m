@@ -16,8 +16,10 @@ function node = interval_at(N, fs, level, overlap, k)
 % Counting uses O(1) memory and does not build an interval bank.
 % Pass 'all' as final k to return a column struct array of every window.
 % Bulk output uses O(number of windows) memory; no sample masks are created.
+% level and overlap may be vectors; 'all' returns their combined bank.
 
-if nargin == 5 && ischar(k) && isequal(k,'all')
+if nargin == 5 && ischar(k) && isequal(k,'all') && ...
+        isscalar(level) && isscalar(overlap)
     node = interval_collect(@interval_at,{N,fs,level,overlap});
     return
 end
