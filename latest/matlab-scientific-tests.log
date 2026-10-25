@@ -1,5 +1,5 @@
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 289f6315117840a4e62d90cf1ca5fc82b100d189
+Commit under test: d38b6389a6cd64971cf08ad189946d6778e5a93d
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
@@ -455,8 +455,8 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.0 min; outputs in /tmp/tpe6fccfcd_da57_4c3d_a6e8_3328225f8907
-smoke_second_order_study: outputs written in 2.4 s
+done in 0.0 min; outputs in /tmp/tpd3b70a1a_8e52_445f_949f_04cb6b57f12f
+smoke_second_order_study: outputs written in 2.2 s
 PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m
@@ -466,6 +466,23 @@ PASS test_con2phys_battle_regressions.m
 RUN test_event_alignment.m
 event alignment regression checks completed
 PASS test_event_alignment.m
+
+RUN test_filter_do.m
+[Warning: The CUDA driver must recompile the GPU libraries because your device
+is more recent than the libraries. Recompiling can take several minutes.] 
+[> In test_filter_do (line 20)
+  In run (line 91)
+  In run_scientific_suite (line 19)
+  In run (line 91)] 
+filter_do smoke tests passed.
+PASS test_filter_do.m
+
+RUN test_filter_family.m
+Current IMF  |  #Sift Iter  |  Relative Tol  |  Stop Criterion Hit  
+      1      |        1     |   3.2335e-05   |  SiftMaxRelativeTolerance
+The decomposition stopped because the current energy ratio is greater than 'MaxEnergyRatio'.
+filter family numerical contracts passed
+PASS test_filter_family.m
 
 RUN test_filter_probe.m
 filter probe tests passed

@@ -1,30 +1,45 @@
-# neuronal run 20261024T022214Z-289f63151178
+# neuronal run 20261025T065239Z-d38b6389a6cd
 
 - overall: FAIL
-- commit: `289f63151178` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40053235652
+- commit: `d38b6389a6cd` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40169841668
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
-| registry | pass | 0 |
-| rust | pass | 37 |
-| python | pass | 11 |
-| matlab | FAIL(1) | 19 |
-| lean | pass | 242 |
+| registry | FAIL(2) | 1 |
+| rust | pass | 20 |
+| python | pass | 10 |
+| matlab | FAIL(1) | 16 |
+| lean | pass | 149 |
+
+## registry — last 40 lines
+
+```
+$ make -C books check
+make: Entering directory '~/actions-runner/_work/neuronal/neuronal/books'
+python3 tools/check_sources.py
+Validated 87 LaTeX files in two books and 48 mathematical bridges.
+python3 tools/check_language_boundaries.py
+Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
+python3 tools/arsenal_registry.py --check
+matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
+make: *** [Makefile:8: check] Error 1
+make: Leaving directory '~/actions-runner/_work/neuronal/neuronal/books'
+```
 
 ## matlab — last 40 lines
 
 ```
+PASS test_filter_do.m
 
-RUN test_con2phys_battle_regressions.m
-CON2PHYS runtime regression checks passed.
-PASS test_con2phys_battle_regressions.m
-
-RUN test_event_alignment.m
-event alignment regression checks completed
-PASS test_event_alignment.m
+RUN test_filter_family.m
+Current IMF  |  #Sift Iter  |  Relative Tol  |  Stop Criterion Hit  
+      1      |        1     |   3.2335e-05   |  SiftMaxRelativeTolerance
+The decomposition stopped because the current energy ratio is greater than 'MaxEnergyRatio'.
+filter family numerical contracts passed
+PASS test_filter_family.m
 
 RUN test_filter_probe.m
 filter probe tests passed

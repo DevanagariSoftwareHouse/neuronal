@@ -1,0 +1,226 @@
+$ cargo --version
+cargo 1.99.0-nightly (7c83d4cc0 2026-07-29)
+$ cargo fmt --all -- --check
+$ cargo build --workspace --locked
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling autocfg v1.5.1
+   Compiling target-lexicon v0.13.5
+   Compiling libc v0.2.191
+   Compiling once_cell v1.21.4
+   Compiling smallvec v1.16.3
+   Compiling thiserror v2.0.21
+   Compiling arrayvec v0.7.8
+   Compiling cfg-if v1.0.5
+   Compiling version_check v0.9.5
+   Compiling zerocopy v0.8.63
+   Compiling linebender_resource_handle v0.1.1
+   Compiling parking_lot_core v0.9.12
+   Compiling log v0.4.34
+   Compiling fearless_simd v0.4.1
+   Compiling foldhash v0.2.0
+   Compiling scopeguard v1.2.0
+   Compiling unicode-general-category v1.1.0
+   Compiling polycool v0.4.0
+   Compiling heck v0.5.0
+   Compiling hashbrown v0.17.1
+   Compiling lock_api v0.4.14
+   Compiling emath v0.37.0
+   Compiling bitflags v2.13.2
+   Compiling ahash v0.8.12
+   Compiling rawpointer v0.2.1
+   Compiling self_cell v1.3.0
+   Compiling profiling v1.0.18
+   Compiling kurbo v0.13.1
+   Compiling unicode-segmentation v1.13.3
+   Compiling unicode-properties v0.1.4
+   Compiling indoc v2.0.8
+   Compiling num-traits v0.2.19
+   Compiling matrixmultiply v0.3.11
+   Compiling memoffset v0.9.1
+   Compiling either v1.19.0
+   Compiling unindent v0.2.4
+   Compiling ecolor v0.37.0
+   Compiling uuid v1.28.0
+   Compiling nohash-hasher v0.2.0
+   Compiling itertools v0.15.0
+   Compiling rustc-hash v2.1.3
+   Compiling pyo3-build-config v0.27.2
+   Compiling syn v3.0.9
+   Compiling syn v2.0.119
+   Compiling accesskit v0.25.1
+   Compiling euclid v0.22.14
+   Compiling num-complex v0.4.6
+   Compiling num-integer v0.1.47
+   Compiling ndarray v0.17.2
+   Compiling parking_lot v0.12.5
+   Compiling pyo3-macros-backend v0.27.2
+   Compiling pyo3-ffi v0.27.2
+   Compiling pyo3 v0.27.2
+   Compiling numpy v0.27.1
+   Compiling guillotiere v0.7.0
+   Compiling bytemuck_derive v1.12.1
+   Compiling thiserror-impl v2.0.21
+   Compiling bytemuck v1.25.2
+   Compiling neuronal-core v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-core)
+   Compiling color v0.3.3
+   Compiling font-types v0.12.7
+   Compiling read-fonts v0.41.0
+   Compiling peniko v0.6.1
+   Compiling vello_common v0.2.0
+   Compiling vello_cpu v0.2.0
+   Compiling pyo3-macros v0.27.2
+   Compiling skrifa v0.44.0
+   Compiling harfrust v0.12.0
+   Compiling neuronal-python v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-python)
+   Compiling epaint v0.37.0
+   Compiling egui v0.37.0
+   Compiling a00_first_look v0.1.0 (~/actions-runner/_work/neuronal/neuronal/rust/a00_first_look)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 9.88s
+$ cargo clippy --workspace --all-targets --locked -- -D warnings
+    Checking libc v0.2.191
+    Checking once_cell v1.21.4
+    Checking cfg-if v1.0.5
+    Checking smallvec v1.16.3
+    Checking bitflags v2.13.2
+    Checking arrayvec v0.7.8
+    Checking rand_core v0.10.1
+    Checking linebender_resource_handle v0.1.1
+   Compiling getrandom v0.4.3
+    Checking num-traits v0.2.19
+    Checking bytemuck v1.25.2
+    Checking thiserror v2.0.21
+    Checking foldhash v0.2.0
+    Checking scopeguard v1.2.0
+    Checking fearless_simd v0.4.1
+   Compiling rustix v1.1.5
+    Checking log v0.4.34
+    Checking zerocopy v0.8.63
+    Checking lock_api v0.4.14
+    Checking rawpointer v0.2.1
+    Checking emath v0.37.0
+    Checking linux-raw-sys v0.12.1
+    Checking hashbrown v0.17.1
+    Checking matrixmultiply v0.3.11
+    Checking memoffset v0.9.1
+    Checking unicode-general-category v1.1.0
+    Checking nohash-hasher v0.2.0
+    Checking unicode-segmentation v1.13.3
+    Checking polycool v0.4.0
+    Checking either v1.19.0
+    Checking fastrand v2.5.0
+    Checking color v0.3.3
+    Checking font-types v0.12.7
+    Checking unindent v0.2.4
+    Checking ecolor v0.37.0
+    Checking self_cell v1.3.0
+    Checking profiling v1.0.18
+    Checking unicode-properties v0.1.4
+    Checking uuid v1.28.0
+    Checking kurbo v0.13.1
+    Checking itertools v0.15.0
+    Checking bit-vec v0.10.1
+    Checking quick-error v1.2.3
+    Checking rustc-hash v2.1.3
+    Checking fnv v1.0.7
+    Checking cpufeatures v0.3.1
+    Checking rand_xorshift v0.5.0
+    Checking neuronal-core v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-core)
+    Checking chacha20 v0.10.2
+    Checking bit-set v0.11.1
+    Checking regex-syntax v0.8.11
+    Checking accesskit v0.25.1
+    Checking read-fonts v0.41.0
+    Checking unarray v0.1.4
+    Checking euclid v0.22.14
+    Checking num-integer v0.1.47
+    Checking num-complex v0.4.6
+    Checking core_detect v1.0.0
+    Checking parking_lot_core v0.9.12
+    Checking pyo3-ffi v0.27.2
+    Checking wait-timeout v0.2.1
+    Checking rand v0.10.3
+    Checking ndarray v0.17.2
+    Checking parking_lot v0.12.5
+    Checking guillotiere v0.7.0
+    Checking pyo3 v0.27.2
+    Checking peniko v0.6.1
+    Checking tempfile v3.27.0
+    Checking rusty-fork v0.3.1
+    Checking proptest v1.12.0
+    Checking vello_common v0.2.0
+    Checking vello_cpu v0.2.0
+    Checking ahash v0.8.12
+    Checking numpy v0.27.1
+    Checking neuronal-python v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-python)
+    Checking skrifa v0.44.0
+    Checking harfrust v0.12.0
+    Checking epaint v0.37.0
+    Checking egui v0.37.0
+    Checking a00_first_look v0.1.0 (~/actions-runner/_work/neuronal/neuronal/rust/a00_first_look)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5.31s
+$ cargo test --workspace --locked
+   Compiling bitflags v2.13.2
+   Compiling rand_core v0.10.1
+   Compiling linux-raw-sys v0.12.1
+   Compiling fastrand v2.5.0
+   Compiling wait-timeout v0.2.1
+   Compiling quick-error v1.2.3
+   Compiling fnv v1.0.7
+   Compiling cpufeatures v0.3.1
+   Compiling bit-vec v0.10.1
+   Compiling regex-syntax v0.8.11
+   Compiling unarray v0.1.4
+   Compiling core_detect v1.0.0
+   Compiling neuronal-python v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-python)
+   Compiling getrandom v0.4.3
+   Compiling rand_xorshift v0.5.0
+   Compiling chacha20 v0.10.2
+   Compiling harfrust v0.12.0
+   Compiling rand v0.10.3
+   Compiling bit-set v0.11.1
+   Compiling rustix v1.1.5
+   Compiling tempfile v3.27.0
+   Compiling rusty-fork v0.3.1
+   Compiling proptest v1.12.0
+   Compiling epaint v0.37.0
+   Compiling egui v0.37.0
+   Compiling neuronal-core v0.1.0 (~/actions-runner/_work/neuronal/neuronal/crates/neuronal-core)
+   Compiling a00_first_look v0.1.0 (~/actions-runner/_work/neuronal/neuronal/rust/a00_first_look)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.83s
+     Running unittests src/main.rs (target/debug/build/a00_first_look/16c69f1ac7edc36a/out/a00_first_look-16c69f1ac7edc36a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/build/neuronal-core/d9a28d3ed194858f/out/neuronal_core-d9a28d3ed194858f)
+
+running 11 tests
+test tests::known_values ... ok
+test tests::empty_and_single_sample ... ok
+test tests::overflow_is_reported ... ok
+test tests::error_messages_are_stable ... ok
+test units::tests::rate_and_step_round_trip ... ok
+test units::tests::conversions_fail_instead_of_saturating ... ok
+test units::tests::seconds_and_milliseconds_convert ... ok
+test tests::rejects_invalid_steps ... ok
+test units::tests::subnormal_conversion_is_rejected ... ok
+test tests::properties::axis_is_strictly_increasing ... ok
+test tests::properties::last_instant_equals_span ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/build/neuronal-python/394df54d0b1d5f4c/out/_native-394df54d0b1d5f4c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests neuronal_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
