@@ -1,0 +1,3907 @@
+{
+  "repository": "ze-gois/neuronal",
+  "branch": "main",
+  "snapshot_date": "2026-10-27",
+  "count": 263,
+  "inventory": {
+    "record_count": 263,
+    "narrative_primary_count": 259,
+    "appendix_only_aliases": 4,
+    "third_party_count": 1,
+    "public_matlab_path_after_relocation": 262,
+    "contents_index_reported_missing": 69,
+    "contents_index_reported_breakdown": {
+      "storage": 21,
+      "resource": 11,
+      "questionnaire": 7
+    },
+    "note": "264 top-level .m files at baseline including Contents.m; the moved eegfilt is retained as third-party and four compatibility wrappers are appendix-only."
+  },
+  "chapters": [
+    {
+      "id": "C01",
+      "part": "I",
+      "part_title": "Neural measurements",
+      "chapter_title": "Biophysical origins and extracellular forward/inverse problems",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex"
+      ]
+    },
+    {
+      "id": "C02",
+      "part": "I",
+      "part_title": "Neural measurements",
+      "chapter_title": "Electrodes, references and measurement geometry",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex"
+      ]
+    },
+    {
+      "id": "C03",
+      "part": "I",
+      "part_title": "Neural measurements",
+      "chapter_title": "Sampling, quantization and digital representations",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ]
+    },
+    {
+      "id": "C04",
+      "part": "I",
+      "part_title": "Neural measurements",
+      "chapter_title": "Instrumental noise, artifacts and uncertainty",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ]
+    },
+    {
+      "id": "C05",
+      "part": "II",
+      "part_title": "Signal processing",
+      "chapter_title": "Linear filters, design, state and boundaries",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ]
+    },
+    {
+      "id": "C06",
+      "part": "II",
+      "part_title": "Signal processing",
+      "chapter_title": "Spatial filtering and artifact removal",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ]
+    },
+    {
+      "id": "C07",
+      "part": "II",
+      "part_title": "Signal processing",
+      "chapter_title": "Spectral estimation and multitaper methods",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C08",
+      "part": "II",
+      "part_title": "Signal processing",
+      "chapter_title": "Time–frequency transforms and filter banks",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C09",
+      "part": "II",
+      "part_title": "Signal processing",
+      "chapter_title": "Adaptive signal decomposition",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C10",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Aperiodic spectra and oscillatory components",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C11",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Oscillation episode detection",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C12",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Analytic phase, amplitude and frequency",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ]
+    },
+    {
+      "id": "C13",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Cycle morphology and nonsinusoidal rhythms",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C14",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Dynamical systems and stochastic neural fluctuations",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07_dynamics.tex",
+        "books/electrophysiology/chapters/07c_dynamics_oscillators.tex"
+      ],
+      "planned_computational_companion": {
+        "language": "Rust",
+        "models": [
+          "Ornstein-Uhlenbeck",
+          "stochastic LIF"
+        ],
+        "status": "planned-not-implemented"
+      }
+    },
+    {
+      "id": "C15",
+      "part": "III",
+      "part_title": "Oscillations and neural dynamics",
+      "chapter_title": "Hopf, phase response curves and coupled oscillators",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07c_dynamics_oscillators.tex"
+      ],
+      "planned_computational_companion": {
+        "language": "Rust",
+        "models": [
+          "Hopf",
+          "phase response curves",
+          "Kuramoto"
+        ],
+        "status": "planned-not-implemented"
+      }
+    },
+    {
+      "id": "C16",
+      "part": "IV",
+      "part_title": "Neural events and spikes",
+      "chapter_title": "Spike event detection",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ]
+    },
+    {
+      "id": "C17",
+      "part": "IV",
+      "part_title": "Neural events and spikes",
+      "chapter_title": "Spike waveforms, sorting and quality control",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ]
+    },
+    {
+      "id": "C18",
+      "part": "IV",
+      "part_title": "Neural events and spikes",
+      "chapter_title": "Point processes, renewal statistics and Hawkes models",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ]
+    },
+    {
+      "id": "C19",
+      "part": "IV",
+      "part_title": "Neural events and spikes",
+      "chapter_title": "Poisson GLMs, spike history and coupling filters",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ]
+    },
+    {
+      "id": "C20",
+      "part": "IV",
+      "part_title": "Neural events and spikes",
+      "chapter_title": "Event alignment, trial responses and latency",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ]
+    },
+    {
+      "id": "C21",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Cross-spectra, coherence and common-source effects",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ]
+    },
+    {
+      "id": "C22",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Circular statistics and phase synchronization",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C23",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Cross-frequency coupling and higher-order modulation",
+      "existing_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C24",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Spike–field interactions",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ]
+    },
+    {
+      "id": "C25",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Neural information, entropy and spike-train distances",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ]
+    },
+    {
+      "id": "C26",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Directed dependence: Granger, transfer entropy, phase slope",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ]
+    },
+    {
+      "id": "C27",
+      "part": "V",
+      "part_title": "Neural interactions",
+      "chapter_title": "Causal identification, interventions and spectral factorization",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ]
+    },
+    {
+      "id": "C28",
+      "part": "VI",
+      "part_title": "Temporal geometry",
+      "chapter_title": "Interval algebra, measures and event counts",
+      "existing_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ]
+    },
+    {
+      "id": "C29",
+      "part": "VI",
+      "part_title": "Temporal geometry",
+      "chapter_title": "Dyadic, m-adic and multiscale interval banks",
+      "existing_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ]
+    },
+    {
+      "id": "C30",
+      "part": "VI",
+      "part_title": "Temporal geometry",
+      "chapter_title": "Data-adaptive and event-defined intervals",
+      "existing_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ]
+    },
+    {
+      "id": "C31",
+      "part": "VI",
+      "part_title": "Temporal geometry",
+      "chapter_title": "Joint time–frequency windows and physiological phase clocks",
+      "existing_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ]
+    },
+    {
+      "id": "C32",
+      "part": "VII",
+      "part_title": "Population activity",
+      "chapter_title": "Population rates, covariance and shared variability",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/07_dynamics.tex"
+      ]
+    },
+    {
+      "id": "C33",
+      "part": "VII",
+      "part_title": "Population activity",
+      "chapter_title": "Neural assemblies and collective expression",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ]
+    },
+    {
+      "id": "C34",
+      "part": "VII",
+      "part_title": "Population activity",
+      "chapter_title": "Population geometry, subspaces and low-rank regression",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ]
+    },
+    {
+      "id": "C35",
+      "part": "VII",
+      "part_title": "Population activity",
+      "chapter_title": "Population trajectories and latent dynamics",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07_dynamics.tex",
+        "books/electrophysiology/chapters/07c_dynamics_oscillators.tex"
+      ]
+    },
+    {
+      "id": "C36",
+      "part": "VII",
+      "part_title": "Population activity",
+      "chapter_title": "Decoding, encoding comparisons and validation",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ]
+    },
+    {
+      "id": "C37",
+      "part": "VIII",
+      "part_title": "Statistical inference",
+      "chapter_title": "Estimands and hierarchical observations",
+      "existing_tex": [
+        "books/electrophysiology/chapters/04_probability.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ]
+    },
+    {
+      "id": "C38",
+      "part": "VIII",
+      "part_title": "Statistical inference",
+      "chapter_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ]
+    },
+    {
+      "id": "C39",
+      "part": "VIII",
+      "part_title": "Statistical inference",
+      "chapter_title": "Surrogates, exchangeability and constrained nulls",
+      "existing_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ]
+    },
+    {
+      "id": "C40",
+      "part": "VIII",
+      "part_title": "Statistical inference",
+      "chapter_title": "Multiple comparisons and field-level inference",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ]
+    },
+    {
+      "id": "C41",
+      "part": "VIII",
+      "part_title": "Statistical inference",
+      "chapter_title": "Model checking, selection and honest validation",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ]
+    },
+    {
+      "id": "C42",
+      "part": "IX",
+      "part_title": "Computational practice",
+      "chapter_title": "Numerical correctness, conditioning and test invariants",
+      "existing_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ],
+      "existing_test_sources": [
+        "matlab/tests/check_arsenal_identities.m",
+        "matlab/tests/check_biophysical_derivations.m",
+        "matlab/tests/run_scientific_suite.m"
+      ],
+      "tests_note": "Representative sources, not an exhaustive count of MATLAB tests"
+    },
+    {
+      "id": "C43",
+      "part": "IX",
+      "part_title": "Computational practice",
+      "chapter_title": "Scientific storage and memory mapping",
+      "existing_tex": []
+    },
+    {
+      "id": "C44",
+      "part": "IX",
+      "part_title": "Computational practice",
+      "chapter_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "existing_tex": []
+    },
+    {
+      "id": "C45",
+      "part": "IX",
+      "part_title": "Computational practice",
+      "chapter_title": "Provenance, software contracts and workflows",
+      "existing_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ]
+    },
+    {
+      "id": "C46",
+      "part": "X",
+      "part_title": "Integrated applications",
+      "chapter_title": "Designing an electrophysiological investigation",
+      "existing_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ]
+    },
+    {
+      "id": "C47",
+      "part": "X",
+      "part_title": "Integrated applications",
+      "chapter_title": "LFP oscillations and modulation case study",
+      "existing_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex"
+      ]
+    },
+    {
+      "id": "C48",
+      "part": "X",
+      "part_title": "Integrated applications",
+      "chapter_title": "Spike trains and population case study",
+      "existing_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ]
+    },
+    {
+      "id": "C49",
+      "part": "X",
+      "part_title": "Integrated applications",
+      "chapter_title": "CON²PHYS end-to-end case study",
+      "existing_tex": [],
+      "code_location_proposal": "analysis/+con2phys; questionnaire_* currently located in matlab/path; no source files moved"
+    },
+    {
+      "id": "C50",
+      "part": "X",
+      "part_title": "Integrated applications",
+      "chapter_title": "Exercises, counterexamples and research projects",
+      "existing_tex": [
+        "books/electrophysiology/chapters/11_exercises.tex"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "function": "aaft_surrogate",
+      "path": "matlab/path/aaft_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "amplitude_threshold_events",
+      "path": "matlab/path/amplitude_threshold_events.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "analytic_phase",
+      "path": "matlab/path/analytic_phase.m",
+      "primary_chapter": "C12",
+      "primary_title": "Analytic phase, amplitude and frequency",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "aperiodic_slope",
+      "path": "matlab/path/aperiodic_slope.m",
+      "primary_chapter": "C10",
+      "primary_title": "Aperiodic spectra and oscillatory components",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "assembly_expression",
+      "path": "matlab/path/assembly_expression.m",
+      "primary_chapter": "C33",
+      "primary_title": "Neural assemblies and collective expression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "assembly_mp_significance",
+      "path": "matlab/path/assembly_mp_significance.m",
+      "primary_chapter": "C33",
+      "primary_title": "Neural assemblies and collective expression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "assembly_pca",
+      "path": "matlab/path/assembly_pca.m",
+      "primary_chapter": "C33",
+      "primary_title": "Neural assemblies and collective expression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "autocorrelogram",
+      "path": "matlab/path/autocorrelogram.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "balanced_bootstrap_ci",
+      "path": "matlab/path/balanced_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bandpass_lfp",
+      "path": "matlab/path/bandpass_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bayesian_bootstrap_ci",
+      "path": "matlab/path/bayesian_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bipolar_reference_lfp",
+      "path": "matlab/path/bipolar_reference_lfp.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "block_bootstrap_ci",
+      "path": "matlab/path/block_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "block_shuffle_surrogate",
+      "path": "matlab/path/block_shuffle_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "blocked_cross_validation",
+      "path": "matlab/path/blocked_cross_validation.m",
+      "primary_chapter": "C41",
+      "primary_title": "Model checking, selection and honest validation",
+      "part": "VIII",
+      "secondary_chapters": [
+        "C36"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bootstrap_ci",
+      "path": "matlab/path/bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [
+        "C37"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bootstrap_percentile",
+      "path": "matlab/path/bootstrap_percentile.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bootstrap_t_ci",
+      "path": "matlab/path/bootstrap_t_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "bosc_detect",
+      "path": "matlab/path/bosc_detect.m",
+      "primary_chapter": "C11",
+      "primary_title": "Oscillation episode detection",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "circular_mean",
+      "path": "matlab/path/circular_mean.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "circular_shift_surrogate",
+      "path": "matlab/path/circular_shift_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "cluster_permutation_test",
+      "path": "matlab/path/cluster_permutation_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "coherence_spectrum",
+      "path": "matlab/path/coherence_spectrum.m",
+      "primary_chapter": "C21",
+      "primary_title": "Cross-spectra, coherence and common-source effects",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "common_median_reference",
+      "path": "matlab/path/common_median_reference.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "communication_subspace_projection",
+      "path": "matlab/path/communication_subspace_projection.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "condition_marginalization",
+      "path": "matlab/path/condition_marginalization.m",
+      "primary_chapter": "C32",
+      "primary_title": "Population rates, covariance and shared variability",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/07_dynamics.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "coupling_filters",
+      "path": "matlab/path/coupling_filters.m",
+      "primary_chapter": "C19",
+      "primary_title": "Poisson GLMs, spike history and coupling filters",
+      "part": "IV",
+      "secondary_chapters": [
+        "C26"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "crosscorrelogram",
+      "path": "matlab/path/crosscorrelogram.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "crossvalidated_ridge_decoder",
+      "path": "matlab/path/crossvalidated_ridge_decoder.m",
+      "primary_chapter": "C36",
+      "primary_title": "Decoding, encoding comparisons and validation",
+      "part": "VII",
+      "secondary_chapters": [
+        "C41"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "current_source_density",
+      "path": "matlab/path/current_source_density.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "cycle_by_cycle",
+      "path": "matlab/path/cycle_by_cycle.m",
+      "primary_chapter": "C13",
+      "primary_title": "Cycle morphology and nonsinusoidal rhythms",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "decode_trials",
+      "path": "matlab/path/decode_trials.m",
+      "primary_chapter": "C36",
+      "primary_title": "Decoding, encoding comparisons and validation",
+      "part": "VII",
+      "secondary_chapters": [
+        "C41"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "decoded_mi",
+      "path": "matlab/path/decoded_mi.m",
+      "primary_chapter": "C25",
+      "primary_title": "Neural information, entropy and spike-train distances",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "delete_group_jackknife",
+      "path": "matlab/path/delete_group_jackknife.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "eegfilt",
+      "path": "matlab/third_party/eegfilt.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "third-party GPL-2.0-or-later; relocated unchanged"
+    },
+    {
+      "function": "eigenspectrum_powerlaw",
+      "path": "matlab/path/eigenspectrum_powerlaw.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "empirical_mode_decomposition",
+      "path": "matlab/path/empirical_mode_decomposition.m",
+      "primary_chapter": "C09",
+      "primary_title": "Adaptive signal decomposition",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "ensemble_empirical_mode_decomposition",
+      "path": "matlab/path/ensemble_empirical_mode_decomposition.m",
+      "primary_chapter": "C09",
+      "primary_title": "Adaptive signal decomposition",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "event_aligned_raster",
+      "path": "matlab/path/event_aligned_raster.m",
+      "primary_chapter": null,
+      "primary_title": null,
+      "part": null,
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "legacy-compatibility-alias; no narrative chapter",
+      "alias_of": "event_aligned_segments",
+      "placement": "appendix_only"
+    },
+    {
+      "function": "event_aligned_segments",
+      "path": "matlab/path/event_aligned_segments.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "event_triggered_average",
+      "path": "matlab/path/event_triggered_average.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "field_potential_forward",
+      "path": "matlab/path/field_potential_forward.m",
+      "primary_chapter": "C01",
+      "primary_title": "Biophysical origins and extracellular forward/inverse problems",
+      "part": "I",
+      "secondary_chapters": [
+        "C02",
+        "C06"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "field_potential_inverse_tikhonov",
+      "path": "matlab/path/field_potential_inverse_tikhonov.m",
+      "primary_chapter": "C01",
+      "primary_title": "Biophysical origins and extracellular forward/inverse problems",
+      "part": "I",
+      "secondary_chapters": [
+        "C02"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_analytic",
+      "path": "matlab/path/filter_analytic.m",
+      "primary_chapter": "C12",
+      "primary_title": "Analytic phase, amplitude and frequency",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_bank_lfp",
+      "path": "matlab/path/filter_bank_lfp.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_butterworth",
+      "path": "matlab/path/filter_butterworth.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_causal",
+      "path": "matlab/path/filter_causal.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [
+        "C42"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_chebyshev1",
+      "path": "matlab/path/filter_chebyshev1.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_chebyshev2",
+      "path": "matlab/path/filter_chebyshev2.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_compare",
+      "path": "matlab/path/filter_compare.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_csd",
+      "path": "matlab/path/filter_csd.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_cwt",
+      "path": "matlab/path/filter_cwt.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_design",
+      "path": "matlab/path/filter_design.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_despike",
+      "path": "matlab/path/filter_despike.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_do",
+      "path": "matlab/path/filter_do.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_dyadic",
+      "path": "matlab/path/filter_dyadic.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_edge_mask",
+      "path": "matlab/path/filter_edge_mask.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_elliptic",
+      "path": "matlab/path/filter_elliptic.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_emd",
+      "path": "matlab/path/filter_emd.m",
+      "primary_chapter": "C09",
+      "primary_title": "Adaptive signal decomposition",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_equiripple_fir",
+      "path": "matlab/path/filter_equiripple_fir.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_forward_backward",
+      "path": "matlab/path/filter_forward_backward.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_joint_decorrelation",
+      "path": "matlab/path/filter_joint_decorrelation.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_line_regression",
+      "path": "matlab/path/filter_line_regression.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_logarithmic",
+      "path": "matlab/path/filter_logarithmic.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_modwpt",
+      "path": "matlab/path/filter_modwpt.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_modwpt_details",
+      "path": "matlab/path/filter_modwpt_details.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_multitaper",
+      "path": "matlab/path/filter_multitaper.m",
+      "primary_chapter": "C07",
+      "primary_title": "Spectral estimation and multitaper methods",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_open",
+      "path": "matlab/path/filter_open.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_overlap",
+      "path": "matlab/path/filter_overlap.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_pad",
+      "path": "matlab/path/filter_pad.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_phase",
+      "path": "matlab/path/filter_phase.m",
+      "primary_chapter": "C12",
+      "primary_title": "Analytic phase, amplitude and frequency",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_power",
+      "path": "matlab/path/filter_power.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_probe",
+      "path": "matlab/path/filter_probe.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_read",
+      "path": "matlab/path/filter_read.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_rereference",
+      "path": "matlab/path/filter_rereference.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_response",
+      "path": "matlab/path/filter_response.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_robust_detrend",
+      "path": "matlab/path/filter_robust_detrend.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_spectrum_interpolation",
+      "path": "matlab/path/filter_spectrum_interpolation.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_ssd",
+      "path": "matlab/path/filter_ssd.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_state",
+      "path": "matlab/path/filter_state.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [
+        "C42"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_stft",
+      "path": "matlab/path/filter_stft.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_uniform",
+      "path": "matlab/path/filter_uniform.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_vmd",
+      "path": "matlab/path/filter_vmd.m",
+      "primary_chapter": "C09",
+      "primary_title": "Adaptive signal decomposition",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_windowed_fir",
+      "path": "matlab/path/filter_windowed_fir.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_wpt",
+      "path": "matlab/path/filter_wpt.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_write",
+      "path": "matlab/path/filter_write.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "filter_zapline",
+      "path": "matlab/path/filter_zapline.m",
+      "primary_chapter": "C06",
+      "primary_title": "Spatial filtering and artifact removal",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05b_biophysics_inverse.tex",
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "fir_bandpass_lfp",
+      "path": "matlab/path/fir_bandpass_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "fir_filter_lfp",
+      "path": "matlab/path/fir_filter_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "firing_rate",
+      "path": "matlab/path/firing_rate.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "gaussian_process_smoothing",
+      "path": "matlab/path/gaussian_process_smoothing.m",
+      "primary_chapter": "C35",
+      "primary_title": "Population trajectories and latent dynamics",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07_dynamics.tex",
+        "books/electrophysiology/chapters/07c_dynamics_oscillators.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "granger_causality",
+      "path": "matlab/path/granger_causality.m",
+      "primary_chapter": "C26",
+      "primary_title": "Directed dependence: Granger, transfer entropy, phase slope",
+      "part": "V",
+      "secondary_chapters": [
+        "C27"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "greedy_modularity",
+      "path": "matlab/path/greedy_modularity.m",
+      "primary_chapter": "C33",
+      "primary_title": "Neural assemblies and collective expression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "group_cross_validation",
+      "path": "matlab/path/group_cross_validation.m",
+      "primary_chapter": "C41",
+      "primary_title": "Model checking, selection and honest validation",
+      "part": "VIII",
+      "secondary_chapters": [
+        "C36"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "hierarchical_bootstrap_ci",
+      "path": "matlab/path/hierarchical_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [
+        "C37"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "highpass_lfp",
+      "path": "matlab/path/highpass_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "iaaft_surrogate",
+      "path": "matlab/path/iaaft_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interspike_intervals",
+      "path": "matlab/path/interspike_intervals.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_adaptive",
+      "path": "matlab/path/interval_adaptive.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_at",
+      "path": "matlab/path/interval_at.m",
+      "primary_chapter": "C28",
+      "primary_title": "Interval algebra, measures and event counts",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_behavioral",
+      "path": "matlab/path/interval_behavioral.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_between_events",
+      "path": "matlab/path/interval_between_events.m",
+      "primary_chapter": "C28",
+      "primary_title": "Interval algebra, measures and event counts",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_changepoint",
+      "path": "matlab/path/interval_changepoint.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_dyadic",
+      "path": "matlab/path/interval_dyadic.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_event",
+      "path": "matlab/path/interval_event.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_from_bounds",
+      "path": "matlab/path/interval_from_bounds.m",
+      "primary_chapter": "C28",
+      "primary_title": "Interval algebra, measures and event counts",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_geometric",
+      "path": "matlab/path/interval_geometric.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_jitter_surrogate",
+      "path": "matlab/path/interval_jitter_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_madic",
+      "path": "matlab/path/interval_madic.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_periodic",
+      "path": "matlab/path/interval_periodic.m",
+      "primary_chapter": "C31",
+      "primary_title": "Joint time–frequency windows and physiological phase clocks",
+      "part": "VI",
+      "secondary_chapters": [
+        "C15"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_poisson",
+      "path": "matlab/path/interval_poisson.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_quantile",
+      "path": "matlab/path/interval_quantile.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_renewal",
+      "path": "matlab/path/interval_renewal.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_sliding",
+      "path": "matlab/path/interval_sliding.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_stochastic",
+      "path": "matlab/path/interval_stochastic.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_threshold",
+      "path": "matlab/path/interval_threshold.m",
+      "primary_chapter": "C30",
+      "primary_title": "Data-adaptive and event-defined intervals",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_uniform",
+      "path": "matlab/path/interval_uniform.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "interval_wavelet",
+      "path": "matlab/path/interval_wavelet.m",
+      "primary_chapter": "C29",
+      "primary_title": "Dyadic, m-adic and multiscale interval banks",
+      "part": "VI",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "irasa_decomposition",
+      "path": "matlab/path/irasa_decomposition.m",
+      "primary_chapter": "C10",
+      "primary_title": "Aperiodic spectra and oscillatory components",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "jackknife_ci",
+      "path": "matlab/path/jackknife_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "jackknife_estimate",
+      "path": "matlab/path/jackknife_estimate.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "jitter_spike_surrogate",
+      "path": "matlab/path/jitter_spike_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "jpca_dynamics",
+      "path": "matlab/path/jpca_dynamics.m",
+      "primary_chapter": "C35",
+      "primary_title": "Population trajectories and latent dynamics",
+      "part": "VII",
+      "secondary_chapters": [
+        "C15",
+        "C34"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07_dynamics.tex",
+        "books/electrophysiology/chapters/07c_dynamics_oscillators.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "lfp_envelope_moments",
+      "path": "matlab/path/lfp_envelope_moments.m",
+      "primary_chapter": "C12",
+      "primary_title": "Analytic phase, amplitude and frequency",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "line_noise_harmonics",
+      "path": "matlab/path/line_noise_harmonics.m",
+      "primary_chapter": "C04",
+      "primary_title": "Instrumental noise, artifacts and uncertainty",
+      "part": "I",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "linear_discriminability",
+      "path": "matlab/path/linear_discriminability.m",
+      "primary_chapter": "C32",
+      "primary_title": "Population rates, covariance and shared variability",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/07_dynamics.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "local_permutation_surrogate",
+      "path": "matlab/path/local_permutation_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "lowpass_lfp",
+      "path": "matlab/path/lowpass_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "maxstat_permutation_test",
+      "path": "matlab/path/maxstat_permutation_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "modulation_index",
+      "path": "matlab/path/modulation_index.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [
+        "C47"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "monte_carlo_null_test",
+      "path": "matlab/path/monte_carlo_null_test.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "morlet_wavelet",
+      "path": "matlab/path/morlet_wavelet.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "multitaper_coherence",
+      "path": "matlab/path/multitaper_coherence.m",
+      "primary_chapter": "C21",
+      "primary_title": "Cross-spectra, coherence and common-source effects",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "multitaper_psd",
+      "path": "matlab/path/multitaper_psd.m",
+      "primary_chapter": "C07",
+      "primary_title": "Spectral estimation and multitaper methods",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "multitaper_spectrogram",
+      "path": "matlab/path/multitaper_spectrogram.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "multivariate_phase_surrogate",
+      "path": "matlab/path/multivariate_phase_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "mutual_information",
+      "path": "matlab/path/mutual_information.m",
+      "primary_chapter": "C25",
+      "primary_title": "Neural information, entropy and spike-train distances",
+      "part": "V",
+      "secondary_chapters": [
+        "C36"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_catalog",
+      "path": "matlab/path/neuronal_catalog.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_file_path",
+      "path": "matlab/path/neuronal_file_path.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_memmap",
+      "path": "matlab/path/neuronal_memmap.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [
+        "C43"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_read",
+      "path": "matlab/path/neuronal_read.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [
+        "C43"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_register",
+      "path": "matlab/path/neuronal_register.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_validate_file",
+      "path": "matlab/path/neuronal_validate_file.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "neuronal_write_binary",
+      "path": "matlab/path/neuronal_write_binary.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "noise_correlation",
+      "path": "matlab/path/noise_correlation.m",
+      "primary_chapter": "C32",
+      "primary_title": "Population rates, covariance and shared variability",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/07_dynamics.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "notch_lfp",
+      "path": "matlab/path/notch_lfp.m",
+      "primary_chapter": "C05",
+      "primary_title": "Linear filters, design, state and boundaries",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "oscillation_episode",
+      "path": "matlab/path/oscillation_episode.m",
+      "primary_chapter": "C11",
+      "primary_title": "Oscillation episode detection",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "pac_comodulogram",
+      "path": "matlab/path/pac_comodulogram.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "pac_mean_vector_length",
+      "path": "matlab/path/pac_mean_vector_length.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "paired_difference_ci",
+      "path": "matlab/path/paired_difference_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "paired_permutation_test",
+      "path": "matlab/path/paired_permutation_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "paired_signflip_test",
+      "path": "matlab/path/paired_signflip_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "pairwise_phase_consistency",
+      "path": "matlab/path/pairwise_phase_consistency.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "parametric_bootstrap_ci",
+      "path": "matlab/path/parametric_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "participation_ratio",
+      "path": "matlab/path/participation_ratio.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "peri_event_histogram",
+      "path": "matlab/path/peri_event_histogram.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "permutation_entropy",
+      "path": "matlab/path/permutation_entropy.m",
+      "primary_chapter": "C25",
+      "primary_title": "Neural information, entropy and spike-train distances",
+      "part": "V",
+      "secondary_chapters": [
+        "C10"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "permutation_test",
+      "path": "matlab/path/permutation_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_binned_plv",
+      "path": "matlab/path/phase_binned_plv.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_crossing_events",
+      "path": "matlab/path/phase_crossing_events.m",
+      "primary_chapter": "C13",
+      "primary_title": "Cycle morphology and nonsinusoidal rhythms",
+      "part": "III",
+      "secondary_chapters": [
+        "C31"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_lag_index",
+      "path": "matlab/path/phase_lag_index.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_locking_value",
+      "path": "matlab/path/phase_locking_value.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_phase_coupling",
+      "path": "matlab/path/phase_phase_coupling.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_randomized_surrogate",
+      "path": "matlab/path/phase_randomized_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "phase_slope_index",
+      "path": "matlab/path/phase_slope_index.m",
+      "primary_chapter": "C26",
+      "primary_title": "Directed dependence: Granger, transfer entropy, phase slope",
+      "part": "V",
+      "secondary_chapters": [
+        "C27"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "plot_event_aligned",
+      "path": "matlab/path/plot_event_aligned.m",
+      "primary_chapter": "C45",
+      "primary_title": "Provenance, software contracts and workflows",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/10_arsenal_crosswalk.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "plot_event_raster",
+      "path": "matlab/path/plot_event_raster.m",
+      "primary_chapter": null,
+      "primary_title": null,
+      "part": null,
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "legacy-compatibility-alias; no narrative chapter",
+      "alias_of": "plot_event_aligned",
+      "placement": "appendix_only"
+    },
+    {
+      "function": "poisson_spike_glm",
+      "path": "matlab/path/poisson_spike_glm.m",
+      "primary_chapter": "C19",
+      "primary_title": "Poisson GLMs, spike history and coupling filters",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "population_dimension_scaling",
+      "path": "matlab/path/population_dimension_scaling.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "population_pca",
+      "path": "matlab/path/population_pca.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "posterior_predictive_check",
+      "path": "matlab/path/posterior_predictive_check.m",
+      "primary_chapter": "C41",
+      "primary_title": "Model checking, selection and honest validation",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_balanced_accuracy",
+      "path": "matlab/path/questionnaire_balanced_accuracy.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_ci",
+      "path": "matlab/path/questionnaire_ci.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_decide",
+      "path": "matlab/path/questionnaire_decide.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_joint_summary",
+      "path": "matlab/path/questionnaire_joint_summary.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_nanmean",
+      "path": "matlab/path/questionnaire_nanmean.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_spec",
+      "path": "matlab/path/questionnaire_spec.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [
+        "C46"
+      ],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "questionnaire_trial_participation",
+      "path": "matlab/path/questionnaire_trial_participation.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "rayleigh_test",
+      "path": "matlab/path/rayleigh_test.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "reduced_rank_regression",
+      "path": "matlab/path/reduced_rank_regression.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resample_lfp",
+      "path": "matlab/path/resample_lfp.m",
+      "primary_chapter": "C03",
+      "primary_title": "Sampling, quantization and digital representations",
+      "part": "I",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_admit",
+      "path": "matlab/path/resource_admit.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_batch_size",
+      "path": "matlab/path/resource_batch_size.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_estimate",
+      "path": "matlab/path/resource_estimate.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_estimate_filter_do",
+      "path": "matlab/path/resource_estimate_filter_do.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_estimate_function",
+      "path": "matlab/path/resource_estimate_function.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_estimate_spike_interval_features",
+      "path": "matlab/path/resource_estimate_spike_interval_features.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_estimate_spike_interval_plan",
+      "path": "matlab/path/resource_estimate_spike_interval_plan.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_gpu_sync",
+      "path": "matlab/path/resource_gpu_sync.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_snapshot",
+      "path": "matlab/path/resource_snapshot.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_storage",
+      "path": "matlab/path/resource_storage.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [
+        "C43"
+      ],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "resource_wait",
+      "path": "matlab/path/resource_wait.m",
+      "primary_chapter": "C44",
+      "primary_title": "CPU/GPU parallelism, memory budgets and scheduling",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "ripple_candidate_events",
+      "path": "matlab/path/ripple_candidate_events.m",
+      "primary_chapter": "C11",
+      "primary_title": "Oscillation episode detection",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "second_order_modulation",
+      "path": "matlab/path/second_order_modulation.m",
+      "primary_chapter": "C23",
+      "primary_title": "Cross-frequency coupling and higher-order modulation",
+      "part": "V",
+      "secondary_chapters": [
+        "C47"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "sensitivity_analysis",
+      "path": "matlab/path/sensitivity_analysis.m",
+      "primary_chapter": "C41",
+      "primary_title": "Model checking, selection and honest validation",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "simulate_lfp_modulation",
+      "path": "matlab/path/simulate_lfp_modulation.m",
+      "primary_chapter": "C47",
+      "primary_title": "LFP oscillations and modulation case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/08b_second_order_modulation.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "simultaneous_confidence_band",
+      "path": "matlab/path/simultaneous_confidence_band.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "sparse_count_matrix",
+      "path": "matlab/path/sparse_count_matrix.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spectral_entropy",
+      "path": "matlab/path/spectral_entropy.m",
+      "primary_chapter": "C25",
+      "primary_title": "Neural information, entropy and spike-train distances",
+      "part": "V",
+      "secondary_chapters": [
+        "C10"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spectral_peak_candidates",
+      "path": "matlab/path/spectral_peak_candidates.m",
+      "primary_chapter": "C10",
+      "primary_title": "Aperiodic spectra and oscillatory components",
+      "part": "III",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_bin_counts",
+      "path": "matlab/path/spike_bin_counts.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_bins",
+      "path": "matlab/path/spike_bins.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_count_fano",
+      "path": "matlab/path/spike_count_fano.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_counts_edges",
+      "path": "matlab/path/spike_counts_edges.m",
+      "primary_chapter": "C18",
+      "primary_title": "Point processes, renewal statistics and Hawkes models",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_dither_surrogate",
+      "path": "matlab/path/spike_dither_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_field_coherence",
+      "path": "matlab/path/spike_field_coherence.m",
+      "primary_chapter": "C24",
+      "primary_title": "Spike–field interactions",
+      "part": "V",
+      "secondary_chapters": [
+        "C21",
+        "C48"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_field_ppc",
+      "path": "matlab/path/spike_field_ppc.m",
+      "primary_chapter": "C24",
+      "primary_title": "Spike–field interactions",
+      "part": "V",
+      "secondary_chapters": [
+        "C22",
+        "C48"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_history_design",
+      "path": "matlab/path/spike_history_design.m",
+      "primary_chapter": "C19",
+      "primary_title": "Poisson GLMs, spike history and coupling filters",
+      "part": "IV",
+      "secondary_chapters": [
+        "C18"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06a_glm_optimization.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_interval_features",
+      "path": "matlab/path/spike_interval_features.m",
+      "primary_chapter": "C31",
+      "primary_title": "Joint time–frequency windows and physiological phase clocks",
+      "part": "VI",
+      "secondary_chapters": [
+        "C48"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_interval_plan",
+      "path": "matlab/path/spike_interval_plan.m",
+      "primary_chapter": "C31",
+      "primary_title": "Joint time–frequency windows and physiological phase clocks",
+      "part": "VI",
+      "secondary_chapters": [
+        "C48"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/02b_measure_probability.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_presence_ratio",
+      "path": "matlab/path/spike_presence_ratio.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_raster_sparse",
+      "path": "matlab/path/spike_raster_sparse.m",
+      "primary_chapter": null,
+      "primary_title": null,
+      "part": null,
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "legacy-compatibility-alias; no narrative chapter",
+      "alias_of": "sparse_count_matrix",
+      "placement": "appendix_only"
+    },
+    {
+      "function": "spike_refractory_violations",
+      "path": "matlab/path/spike_refractory_violations.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_sorting_agreement",
+      "path": "matlab/path/spike_sorting_agreement.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_threshold_detection",
+      "path": "matlab/path/spike_threshold_detection.m",
+      "primary_chapter": "C16",
+      "primary_title": "Spike event detection",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_triggered_average",
+      "path": "matlab/path/spike_triggered_average.m",
+      "primary_chapter": null,
+      "primary_title": null,
+      "part": null,
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "legacy-compatibility-alias; no narrative chapter",
+      "alias_of": "event_triggered_average",
+      "placement": "appendix_only"
+    },
+    {
+      "function": "spike_waveform_average",
+      "path": "matlab/path/spike_waveform_average.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_waveform_extraction",
+      "path": "matlab/path/spike_waveform_extraction.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_waveform_pca",
+      "path": "matlab/path/spike_waveform_pca.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "spike_waveform_snr",
+      "path": "matlab/path/spike_waveform_snr.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "stability_selection",
+      "path": "matlab/path/stability_selection.m",
+      "primary_chapter": "C41",
+      "primary_title": "Model checking, selection and honest validation",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex",
+        "books/electrophysiology/chapters/04_probability.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_append",
+      "path": "matlab/path/storage_append.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_benchmark",
+      "path": "matlab/path/storage_benchmark.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [
+        "C44"
+      ],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_binary",
+      "path": "matlab/path/storage_binary.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_capabilities",
+      "path": "matlab/path/storage_capabilities.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_close",
+      "path": "matlab/path/storage_close.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_create",
+      "path": "matlab/path/storage_create.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_defaults",
+      "path": "matlab/path/storage_defaults.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_delete",
+      "path": "matlab/path/storage_delete.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_exists",
+      "path": "matlab/path/storage_exists.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_flush",
+      "path": "matlab/path/storage_flush.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_hdf5",
+      "path": "matlab/path/storage_hdf5.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_hybrid",
+      "path": "matlab/path/storage_hybrid.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_info",
+      "path": "matlab/path/storage_info.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_key",
+      "path": "matlab/path/storage_key.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_list",
+      "path": "matlab/path/storage_list.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_mat",
+      "path": "matlab/path/storage_mat.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_path",
+      "path": "matlab/path/storage_path.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_read",
+      "path": "matlab/path/storage_read.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_sqlite",
+      "path": "matlab/path/storage_sqlite.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_validate",
+      "path": "matlab/path/storage_validate.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "storage_write",
+      "path": "matlab/path/storage_write.m",
+      "primary_chapter": "C43",
+      "primary_title": "Scientific storage and memory mapping",
+      "part": "IX",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "subsampling_ci",
+      "path": "matlab/path/subsampling_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "summarize_questionnaire",
+      "path": "matlab/path/summarize_questionnaire.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "surrogate_maxstat_test",
+      "path": "matlab/path/surrogate_maxstat_test.m",
+      "primary_chapter": "C40",
+      "primary_title": "Multiple comparisons and field-level inference",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "surrogate_test",
+      "path": "matlab/path/surrogate_test.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "targeted_dimensionality_reduction",
+      "path": "matlab/path/targeted_dimensionality_reduction.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "template_match_waveforms",
+      "path": "matlab/path/template_match_waveforms.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "tensor_cp_als",
+      "path": "matlab/path/tensor_cp_als.m",
+      "primary_chapter": "C34",
+      "primary_title": "Population geometry, subspaces and low-rank regression",
+      "part": "VII",
+      "secondary_chapters": [
+        "C35"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/08_foundational_nine.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "transfer_entropy",
+      "path": "matlab/path/transfer_entropy.m",
+      "primary_chapter": "C26",
+      "primary_title": "Directed dependence: Granger, transfer entropy, phase slope",
+      "part": "V",
+      "secondary_chapters": [
+        "C25",
+        "C27"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "trial_features",
+      "path": "matlab/path/trial_features.m",
+      "primary_chapter": "C32",
+      "primary_title": "Population rates, covariance and shared variability",
+      "part": "VII",
+      "secondary_chapters": [
+        "C48"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/07a_population_geometry.tex",
+        "books/electrophysiology/chapters/07_dynamics.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "trial_shuffle_surrogate",
+      "path": "matlab/path/trial_shuffle_surrogate.m",
+      "primary_chapter": "C39",
+      "primary_title": "Surrogates, exchangeability and constrained nulls",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/07b_dependence_causality.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "trial_times",
+      "path": "matlab/path/trial_times.m",
+      "primary_chapter": "C20",
+      "primary_title": "Event alignment, trial responses and latency",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "victor_purpura_distance",
+      "path": "matlab/path/victor_purpura_distance.m",
+      "primary_chapter": "C25",
+      "primary_title": "Neural information, entropy and spike-train distances",
+      "part": "V",
+      "secondary_chapters": [
+        "C18"
+      ],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/04b_gaussian_toolkit.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "waveform_class",
+      "path": "matlab/path/waveform_class.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "waveform_trough_to_peak",
+      "path": "matlab/path/waveform_trough_to_peak.m",
+      "primary_chapter": "C17",
+      "primary_title": "Spike waveforms, sorting and quality control",
+      "part": "IV",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/06_point_processes.tex",
+        "books/electrophysiology/chapters/06b_spike_renewal_spectra.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "wavelet_coherence",
+      "path": "matlab/path/wavelet_coherence.m",
+      "primary_chapter": "C21",
+      "primary_title": "Cross-spectra, coherence and common-source effects",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex",
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "wavelet_spectrogram",
+      "path": "matlab/path/wavelet_spectrogram.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "weighted_phase_lag_index",
+      "path": "matlab/path/weighted_phase_lag_index.m",
+      "primary_chapter": "C22",
+      "primary_title": "Circular statistics and phase synchronization",
+      "part": "V",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "welch_psd",
+      "path": "matlab/path/welch_psd.m",
+      "primary_chapter": "C07",
+      "primary_title": "Spectral estimation and multitaper methods",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05_harmonic_analysis.tex",
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "welch_spectrogram",
+      "path": "matlab/path/welch_spectrogram.m",
+      "primary_chapter": "C08",
+      "primary_title": "Time–frequency transforms and filter banks",
+      "part": "II",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/05c_wavelets_spectral_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "wild_bootstrap_ci",
+      "path": "matlab/path/wild_bootstrap_ci.m",
+      "primary_chapter": "C38",
+      "primary_title": "Bootstrap, jackknife, subsampling and uncertainty",
+      "part": "VIII",
+      "secondary_chapters": [],
+      "source_tex": [
+        "books/electrophysiology/chapters/07b_dependence_causality.tex",
+        "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
+      ],
+      "status": "proposed-mapping-not-manuscript-integration"
+    },
+    {
+      "function": "write_questionnaire_tex",
+      "path": "matlab/path/write_questionnaire_tex.m",
+      "primary_chapter": "C49",
+      "primary_title": "CON²PHYS end-to-end case study",
+      "part": "X",
+      "secondary_chapters": [],
+      "source_tex": [],
+      "status": "proposed-mapping-not-manuscript-integration"
+    }
+  ],
+  "appendices": [
+    {
+      "id": "A",
+      "title": "Mathematical prerequisites and Formal Foundations concordance",
+      "source_tex": [],
+      "status": "proposed-appendix"
+    },
+    {
+      "id": "B",
+      "title": "Neuronal MATLAB function specifications and alias index",
+      "source_tex": [
+        "books/electrophysiology/chapters/12_method_specifications.tex"
+      ],
+      "status": "proposed-appendix"
+    },
+    {
+      "id": "C",
+      "title": "Verified mathematical properties and proofs",
+      "source_tex": [
+        "books/electrophysiology/chapters/09_proofs.tex"
+      ],
+      "status": "proposed-appendix"
+    },
+    {
+      "id": "D",
+      "title": "Simulations and controlled numerical experiments",
+      "source_tex": [],
+      "status": "proposed-appendix"
+    },
+    {
+      "id": "E",
+      "title": "MATLAB, Rust, hardware and reproducibility",
+      "source_tex": [],
+      "status": "proposed-appendix"
+    },
+    {
+      "id": "F",
+      "title": "Symbols, notation and glossary",
+      "source_tex": [],
+      "status": "proposed-appendix"
+    }
+  ],
+  "source_disposition": {
+    "books/electrophysiology/chapters/00_guide.tex": {
+      "destination": "frontmatter",
+      "status": "keep",
+      "reason": "Reader guide, not numbered scientific chapter"
+    },
+    "books/electrophysiology/chapters/01_logic_sets.tex": {
+      "destination": "books/formal_foundations/chapters/00_language",
+      "electrophysiology_pointer": "Appendix A",
+      "status": "proposed-migration-not-yet-moved"
+    },
+    "books/electrophysiology/chapters/02_analysis.tex": {
+      "destination": "books/formal_foundations/chapters/02_analysis",
+      "electrophysiology_pointer": "Appendix A",
+      "status": "proposed-migration-not-yet-moved"
+    },
+    "books/electrophysiology/chapters/03_linear_algebra.tex": {
+      "destination": "books/formal_foundations/chapters/03_linear",
+      "electrophysiology_pointer": "Appendix A",
+      "status": "proposed-migration-not-yet-moved"
+    },
+    "books/electrophysiology/chapters/12_method_specifications.tex": {
+      "destination": "Appendix B",
+      "status": "existing-chapter-content-to-be-reclassified-during-migration"
+    }
+  },
+  "migration": {
+    "pilot_part": "II",
+    "pilot_chapters": [
+      "C05",
+      "C06",
+      "C07",
+      "C08",
+      "C09"
+    ],
+    "policy": "No one-shot main.tex rewrite; keep theorem labels and source content; preserve current main.tex until the Part II pilot is validated.",
+    "tests": [
+      "matlab/tests/test_filter_*",
+      "matlab/tests/test_wavelet_filter_bank.m",
+      "matlab/tests/test_spectral_*"
+    ],
+    "build": "LaTeX integrated build and label/reference checks before migrating other Parts"
+  },
+  "licensing_notes": {
+    "eegfilt": "GPL-2.0-or-later explicitly in source; relocated unchanged to matlab/third_party/eegfilt.m, with local GPL-2.0 text. Outside default public MATLAB path."
+  },
+  "inference_notes": {
+    "maxT": "Strong family-wise error control needs appropriate conditions such as subset pivotality, not exchangeability alone."
+  }
+}
