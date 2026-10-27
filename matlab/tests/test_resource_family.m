@@ -42,10 +42,11 @@ catch ME
     assert(strcmp(ME.identifier,'resource_wait:GPU'));
 end
 try
-    resource_wait(r,'timeout',0,'gpu',true);
+    resource_wait(struct('cpu_bytes',1,'gpu_bytes',0,'disk_bytes',1),...
+        'timeout',0);
+    error('test_resource_family:Expected','Expected missing disk path rejection.');
 catch ME
-    assert(~strcmp(ME.identifier,'resource_wait:DiskPath')==false ||...
-        strcmp(ME.identifier,'resource_wait:DiskPath'));
+    assert(strcmp(ME.identifier,'resource_wait:DiskPath'));
 end
 disp('test_resource_family: PASS');
 end
