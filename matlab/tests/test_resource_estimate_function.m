@@ -28,22 +28,35 @@ end
 identity=fd;identity.kind='identity';
 z=estimate_resource('filter_do',1000,2,identity);
 assert(z.cpu_bytes==0&&z.gpu_bytes==0&&z.task_bytes==0);
-w=estimate_resource('storage_write',[1000 4],...
+w=storage_estimate('write',[1000 4],...
     'precision','int16','backend','binary');
 assert(w.payload_bytes==8000&&w.disk_bytes>=w.payload_bytes);
 assert(w.cpu_bytes>0&&w.gpu_bytes==0);
-rd=estimate_resource('storage_read',[1000 4],...
+rd=storage_estimate(@storage_read,[1000 4],...
     'precision','int16','backend','binary','range_rows',[10 109]);
 assert(rd.retained_output_bytes==800&&rd.disk_bytes==0);
-mat=estimate_resource('storage_read',[1000 4],...
+mat=storage_estimate('read',[1000 4],...
     'precision','int16','backend','mat','mat_version','-v7',...
     'range_rows',[10 109]);
 assert(mat.cpu_bytes>rd.cpu_bytes);
+assert(isequaln(w,estimate_resource('storage_write',[1000 4], ...
+    'precision','int16','backend','binary')));
+assert(isequaln(rd,resource_estimate_storage_io('read',[1000 4], ...
+    'precision','int16','backend','binary','range_rows',[10 109])));
+assert(isequaln(mat,estimate_resource('storage_read',[1000 4], ...
+    'precision','int16','backend','mat','mat_version','-v7', ...
+    'range_rows',[10 109])));
 try
-    estimate_resource('storage_read',[100 2],'range_rows',[101 110]);
+    storage_estimate('read',[100 2],'range_rows',[101 110]);
     error('test_resource_estimate_function:Expected','Expected invalid range.');
 catch ME
     assert(strcmp(ME.identifier,'resource_estimate_storage_io:Range'));
+end
+try
+    storage_estimate('remove',[100 2]);
+    error('test_resource_estimate_function:Expected','Expected invalid operation.');
+catch ME
+    assert(strcmp(ME.identifier,'storage_estimate:Operation'));
 end
 try
     resource_estimate_function('unknown_function',100);

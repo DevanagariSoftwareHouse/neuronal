@@ -290,3 +290,15 @@
 %   filter_wpt                      - Decimated terminal wavelet packet coefficients in frequency order.
 %   filter_write                    - Persist an immutable typed array as binary plus manifest.
 %   filter_zapline                  - Adapter to the original NoiseTools NT_ZAPLINE implementation.
+
+% RESOURCE AND STORAGE ESTIMATION (see RESOURCE_README.md)
+%   estimate_resource             - Generic or function-specific CPU/GPU working-memory estimate.
+%   storage_estimate              - Estimated RAM and disk for dense storage_read/storage_write.
+%   resource_snapshot             - Snapshot RAM, CPU load, disk capacity and optional GPU VRAM.
+%   resource_storage              - Inspect available filesystem space and Linux I/O pressure.
+%   resource_admit                - Advisory admission accounting for in-flight reservations.
+%   resource_batch_size           - Maximum admissible identical-task concurrency.
+%   resource_wait                 - Timeout-bounded cooperative resource polling.
+%   resource_gpu_sync             - Synchronize work submitted to the selected GPU.
+%   resource_estimate             - Legacy alias for estimate_resource(N,...).
+%   resource_estimate_function    - Compatibility function-specific estimator dispatcher.

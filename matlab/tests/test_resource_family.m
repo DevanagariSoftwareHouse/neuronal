@@ -4,9 +4,19 @@ root=fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(root,'path'));
 s=resource_snapshot('gpu',false,'disk_path',tempdir);
 assert(s.ram_available>0&&s.ram_total>=s.ram_available);
-e=resource_estimate(1000,'precision','single','workspace_factor',12);
+e=estimate_resource(1000,'precision','single','workspace_factor',12);
+legacy=resource_estimate(1000,'precision','single','workspace_factor',12);
+assert(isequaln(e,legacy),'Legacy resource_estimate changed its contract.');
 assert(e.cpu_bytes==48000&&e.gpu_bytes==0);
-g=resource_estimate(1000,'gpu',true);assert(g.gpu_bytes==g.cpu_bytes);
+g=estimate_resource(1000,'gpu',true);assert(g.gpu_bytes==g.cpu_bytes);
+assert(isequaln(g,resource_estimate(1000,'gpu',true)));
+% The generic estimate must refuse invalid sample counts and factors.
+try
+    estimate_resource(-1);
+    error('test_resource_family:Expected','Expected invalid sample count.');
+catch ME
+    assert(~strcmp(ME.identifier,'test_resource_family:Expected'));
+end
 fake=struct('ram_available',1000,'gpu_available',500,'disk_available',2000);
 r=struct('cpu_bytes',200,'gpu_bytes',100,'disk_bytes',300);
 a=resource_admit(fake,r,'ram_reserve',100,'gpu_reserve',100);
