@@ -2,20 +2,20 @@
   "repository": "ze-gois/neuronal",
   "branch": "main",
   "snapshot_date": "2026-10-27",
-  "count": 263,
+  "count": 262,
   "inventory": {
-    "record_count": 263,
-    "narrative_primary_count": 259,
+    "record_count": 262,
+    "narrative_primary_count": 258,
     "appendix_only_aliases": 4,
-    "third_party_count": 1,
-    "public_matlab_path_after_relocation": 262,
-    "contents_index_reported_missing": 69,
+    "third_party_count": 0,
+    "contents_index_reported_missing": 68,
     "contents_index_reported_breakdown": {
       "storage": 21,
       "resource": 11,
       "questionnaire": 7
     },
-    "note": "264 top-level .m files at baseline including Contents.m; the moved eegfilt is retained as third-party and four compatibility wrappers are appendix-only."
+    "note": "Original baseline was 264 top-level .m files including Contents.m; the experimental third-party function was removed; current public path has 262 callable .m files and four legacy compatibility wrappers retained appendix-only.",
+    "public_matlab_path_function_count": 262
   },
   "chapters": [
     {
@@ -959,19 +959,6 @@
         "books/electrophysiology/chapters/07d_robust_numerical_inference.tex"
       ],
       "status": "proposed-mapping-not-manuscript-integration"
-    },
-    {
-      "function": "eegfilt",
-      "path": "matlab/third_party/eegfilt.m",
-      "primary_chapter": "C05",
-      "primary_title": "Linear filters, design, state and boundaries",
-      "part": "II",
-      "secondary_chapters": [],
-      "source_tex": [
-        "books/electrophysiology/chapters/05a_filtering_sampling.tex",
-        "books/electrophysiology/chapters/05_harmonic_analysis.tex"
-      ],
-      "status": "third-party GPL-2.0-or-later; relocated unchanged"
     },
     {
       "function": "eigenspectrum_powerlaw",
@@ -3897,9 +3884,6 @@
       "matlab/tests/test_spectral_*"
     ],
     "build": "LaTeX integrated build and label/reference checks before migrating other Parts"
-  },
-  "licensing_notes": {
-    "eegfilt": "GPL-2.0-or-later explicitly in source; relocated unchanged to matlab/third_party/eegfilt.m, with local GPL-2.0 text. Outside default public MATLAB path."
   },
   "inference_notes": {
     "maxT": "Strong family-wise error control needs appropriate conditions such as subset pivotality, not exchangeability alone."
