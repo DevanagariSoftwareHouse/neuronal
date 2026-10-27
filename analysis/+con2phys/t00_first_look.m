@@ -1,5 +1,7 @@
 neuronal_path = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal';
 run(fullfile(neuronal_path,'analysis','a00_startup.m'))
+% Legacy EEGLAB eegfilt is explicitly opt-in (GPL-2.0-or-later).
+addpath(fullfile(neuronal_path,'matlab','third_party'))
 %%
 for d = 1 : 18
     data(d).duration = data(d).n_lfp_samples/500;
