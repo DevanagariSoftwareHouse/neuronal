@@ -11,17 +11,20 @@
 % Read later: m=matfile(file); x=m.mean_amplitude(1:100,2);
 assert(exist('data','var') == 1, 'Run analysis/a00_startup.m first.');
 if ~exist('cfg','var'), cfg = struct(); end
+cfg.root = neuronal_dir;
+cfg.output_dir = fullfile(neuronal_dir,'/data/derived/session_window_filter_v2')
 cfg = swf_defaults(cfg);
 swf_run(data, cfg);
 
 function cfg = swf_defaults(cfg)
-root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
-defaults = struct('sessions',1, 'areas',{{'lfp_1','lfp_2','lfp_3'}}, ...
+%%
+%fileparts(fileparts(fileparts(mfilename('fullpath'))));
+defaults = struct('root','.','sessions',1, 'areas',{{'lfp_1','lfp_2','lfp_3'}}, ...
     'channels',[], 'methods',{{'butterworth'}}, 'orders',4, ...
     'time_levels',0:15, 'time_overlap',0.5, ...
     'frequency_levels',0:7, 'frequency_overlap',0.5, ...
     'transition_fraction',0.2, 'phase','causal', ...
-    'output_dir',fullfile(root,'data','derived','session_window_filter_v2'));
+    'output_dir',fullfile(cfg.root,'data','derived','session_window_filter_v2'));
 assert(isstruct(cfg) && isscalar(cfg), 'cfg must be a scalar struct.');
 names = fieldnames(cfg);
 assert(all(ismember(names,fieldnames(defaults))), ...
