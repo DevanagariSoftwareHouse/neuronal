@@ -4,7 +4,7 @@ Source: `ze-gois/neuronal` `main` snapshot, 2026-10-27 (previous audit at `84183
 
 ## Files
 
-- [functions.json](functions.json): all **263** recorded MATLAB functions (the original public path inventory, before relocating `eegfilt`). Includes **50** proposed chapters and **six** appendices.
+- [functions.json](functions.json): all **262** public MATLAB functions (following removal of an experimental third-party filter). Includes **50** proposed chapters and **six** appendices.
 - `primary_chapter`: where the mathematics or implementation is introduced in the narrative.
 - `secondary_chapters`: additional relevant chapters, not additional definitions of the method.
 - `source_tex` / `existing_tex`: source files supplying existing derivations, discussions and exercises.
@@ -34,16 +34,16 @@ Some aliases preserve output metadata or default transformations; `alias_of` ide
 
 Appendices A–F are restored in `functions.json`; the current compiled `main.tex` is intentionally **not** rewritten in this PR. Current `ARS-*` theorem identifiers and the existing exercises must survive later migration.
 
-### Third-party license boundary
+### Source licensing
 
-`eegfilt.m` belongs to the filtering theory chapter **C05**, but is third-party EEGLAB code (GPL-2.0-or-later by its embedded notice). Its unchanged source and license are in [`matlab/third_party/`](../../../matlab/third_party/). Do not infer that the repository's MIT license applies to this file. Legacy scripts must add the third-party directory explicitly when they intentionally use `eegfilt`.
+Experimental third-party filtering code was removed from the public MATLAB path rather than bundled under this MIT repository. The main toolbox's native filter design and application functions remain available.
 
 ### Existing and missing computational material
 
 - C42 is supported by test and identity-check scripts in `matlab/tests/` including `check_arsenal_identities.m`, `check_biophysical_derivations.m` and `run_scientific_suite.m`. These are not public method functions.
 - C14–C15 have substantial existing theory but no mapped MATLAB simulation functions. Rust generators for Ornstein–Uhlenbeck, stochastic LIF, Hopf and Kuramoto processes are **proposals**, not existing implementations.
 - C49 references existing CON²PHYS questionnaire helpers currently in `matlab/path`. Their relocation to `analysis/+con2phys` is **proposed**, not performed.
-- `Contents.m` is reported to omit **69** public methods; the index is not an authoritative inventory until regenerated and reconciled.
+- `Contents.m` is reported to omit **68** remaining public methods; the index is not an authoritative inventory until regenerated and reconciled.
 - Strong max-T FWER claims require conditions such as **subset pivotality**, not exchangeability alone.
 
 ## Next pilot
