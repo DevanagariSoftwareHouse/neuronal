@@ -60,7 +60,7 @@ for dd = 1 : numel(data)
         for cc = 1 : size(d.lfp_1.Data.x,2)
             sample = d.lfp_1.Data.x(time.id,cc);
             for b = 1 : numel(band)
-                d.time(t).band(b).sample = eegfilt(sample',time.srate,band(b).lo,band(b).hi);
+                d.time(t).band(b).sample = bandpass_lfp(sample',time.srate,[band(b).lo band(b).hi]);
             end
         end
         data(dd).time = d.time;
