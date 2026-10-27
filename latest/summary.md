@@ -1,26 +1,22 @@
-# neuronal run 20261027T024456Z-22c723519b7f
+# neuronal run 20261027T042106Z-8418371a24af
 
 - overall: FAIL
-- commit: `22c723519b7f` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40437497855
+- commit: `8418371a24af` on `main`
+- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40447187351
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
-| registry | FAIL(2) | 0 |
-| rust | pass | 60 |
-| python | pass | 28 |
-| matlab | FAIL(1) | 47 |
-| lean | pass | 265 |
+| registry | FAIL(2) | 1 |
+| rust | pass | 179 |
+| python | pass | 82 |
+| matlab | FAIL(1) | 148 |
+| lean | pass | 452 |
 
 ## registry — last 40 lines
 
 ```
-$ make -C books check
-make: Entering directory '~/actions-runner/_work/neuronal/neuronal/books'
-python3 tools/check_sources.py
-Validated 87 LaTeX files in two books and 48 mathematical bridges.
 python3 tools/check_language_boundaries.py
 Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
 python3 tools/arsenal_registry.py --check
@@ -28,6 +24,10 @@ matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_admit.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_batch_size.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_estimate.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_filter_do.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_function.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_spike_interval_features.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_spike_interval_plan.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_gpu_sync.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_snapshot.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_storage.m has no \methodentry in 12_method_specifications.tex

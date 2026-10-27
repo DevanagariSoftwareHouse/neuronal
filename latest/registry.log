@@ -9,6 +9,10 @@ matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_admit.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_batch_size.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_estimate.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_filter_do.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_function.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_spike_interval_features.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_spike_interval_plan.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_gpu_sync.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_snapshot.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_storage.m has no \methodentry in 12_method_specifications.tex
