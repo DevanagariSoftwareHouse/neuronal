@@ -1,7 +1,5 @@
 neuronal_path = '/home/gois/Insync/jhenriquetdg@gmail.com/Google Drive/matlab/neuronal';
 run(fullfile(neuronal_path,'analysis','a00_startup.m'))
-% Legacy EEGLAB eegfilt is explicitly opt-in (GPL-2.0-or-later).
-addpath(fullfile(neuronal_path,'matlab','third_party'))
 %%
 for d = 1 : 18
     data(d).duration = data(d).n_lfp_samples/500;
@@ -62,7 +60,7 @@ for dd = 1 : numel(data)
         for cc = 1 : size(d.lfp_1.Data.x,2)
             sample = d.lfp_1.Data.x(time.id,cc);
             for b = 1 : numel(band)
-                d.time(t).band(b).sample = eegfilt(sample',time.srate,band(b).lo,band(b).hi);
+                d.time(t).band(b).sample = bandpass_lfp(sample',time.srate,[band(b).lo band(b).hi]);
             end
         end
         data(dd).time = d.time;
