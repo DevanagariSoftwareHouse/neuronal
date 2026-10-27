@@ -1,12 +1,14 @@
 function e = resource_estimate_function(name,varargin)
-%RESOURCE_ESTIMATE_FUNCTION Estimate additional peak working memory for a function.
-% e = resource_estimate_function('filter_do',N,C,fd,'precision','double',...)
-% e = resource_estimate_function('spike_interval_plan',S,U,W,...)
-% e = resource_estimate_function('spike_interval_features',N,S,U,W,...)
-% Memory estimates are planning heuristics, NOT measurements/reservations.
-% The input arrays are assumed resident on the chosen device already.
-% Outputs use resource_admit-compatible cpu_bytes/gpu_bytes fields.
-if isa(name,'function_handle'), name=func2str(name); end
+%RESOURCE_ESTIMATE_FUNCTION Dispatch function-specific resource estimates.
+% E=RESOURCE_ESTIMATE_FUNCTION(@filter_do,N,C,FD,...)
+% E=RESOURCE_ESTIMATE_FUNCTION('spike_interval_plan',S,U,W,...)
+% E=RESOURCE_ESTIMATE_FUNCTION('spike_interval_features',N,S,U,W,...)
+% E=RESOURCE_ESTIMATE_FUNCTION('storage_write',[N C],...)
+% E=RESOURCE_ESTIMATE_FUNCTION('storage_read',[N C],...)
+% Results are heuristics; no memory or disk space is reserved.
+if isa(name,'function_handle'),name=func2str(name);end
+assert((ischar(name)||isstring(name))&&isscalar(string(name)),...
+    'resource_estimate_function:Name','Expected a function name.');
 switch lower(char(name))
     case 'filter_do'
         e=resource_estimate_filter_do(varargin{:});
@@ -14,8 +16,12 @@ switch lower(char(name))
         e=resource_estimate_spike_interval_plan(varargin{:});
     case 'spike_interval_features'
         e=resource_estimate_spike_interval_features(varargin{:});
+    case 'storage_write'
+        e=resource_estimate_storage_io('write',varargin{:});
+    case 'storage_read'
+        e=resource_estimate_storage_io('read',varargin{:});
     otherwise
-        error('resource_estimate_function:Unknown', ...
-            'No calibrated estimator for %s. Add a resource_estimate_<function>.m.',char(name));
+        error('resource_estimate_function:Unknown',...
+            'No estimator for %s. Add resource_estimate_<function>.m.',char(name));
 end
 end
