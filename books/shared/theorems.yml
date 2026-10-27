@@ -212,7 +212,6 @@ theorems:
     status: proved-in-text
     matlab:
       - matlab/path/bandpass_lfp.m
-      - matlab/path/eegfilt.m
       - matlab/path/filter_bank_lfp.m
       - matlab/path/filter_response.m
       - matlab/path/fir_bandpass_lfp.m
