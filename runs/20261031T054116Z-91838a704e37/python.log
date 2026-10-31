@@ -1,0 +1,10 @@
+$ python3 --version
+Python 3.14.8
+$ python3 -m venv .ci-venv
+$ .ci-venv/bin/python -m pip install --quiet .[dev]
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: ~/actions-runner/_work/neuronal/neuronal/.ci-venv/bin/python -m pip install --upgrade pip
+$ .ci-venv/bin/python -m pytest -q
+.............                                                            [100%]
+13 passed, 1 skipped in 0.08s

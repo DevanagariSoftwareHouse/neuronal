@@ -7,4 +7,4 @@ $ .ci-venv/bin/python -m pip install --quiet .[dev]
 [notice] To update, run: ~/actions-runner/_work/neuronal/neuronal/.ci-venv/bin/python -m pip install --upgrade pip
 $ .ci-venv/bin/python -m pytest -q
 .............                                                            [100%]
-13 passed, 1 skipped in 0.42s
+13 passed, 1 skipped in 0.08s

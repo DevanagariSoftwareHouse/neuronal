@@ -1,25 +1,22 @@
-# neuronal run 20261027T042106Z-8418371a24af
+# neuronal run 20261031T054116Z-91838a704e37
 
 - overall: FAIL
-- commit: `8418371a24af` on `main`
-- origin: actions https://github.com/ze-gois/neuronal/actions/runs/40447187351
+- commit: `91838a704e37` on `main`
+- origin: actions https://github.com/DevanagariSoftwareHouse/neuronal/actions/runs/41173516162
 - host: Linux 7.2.11-arch1-1 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
-| registry | FAIL(2) | 1 |
-| rust | pass | 179 |
-| python | pass | 82 |
-| matlab | FAIL(1) | 148 |
-| lean | pass | 452 |
+| registry | FAIL(2) | 0 |
+| rust | pass | 32 |
+| python | pass | 18 |
+| matlab | FAIL(1) | 35 |
+| lean | pass | 464 |
 
 ## registry — last 40 lines
 
 ```
-python3 tools/check_language_boundaries.py
-Language boundaries passed: electrophysiology=.m; formal_foundations=.lean
-python3 tools/arsenal_registry.py --check
 matlab/path/filter_do.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_admit.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_batch_size.m has no \methodentry in 12_method_specifications.tex
@@ -28,12 +25,14 @@ matlab/path/resource_estimate_filter_do.m has no \methodentry in 12_method_speci
 matlab/path/resource_estimate_function.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_estimate_spike_interval_features.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_estimate_spike_interval_plan.m has no \methodentry in 12_method_specifications.tex
+matlab/path/resource_estimate_storage_io.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_gpu_sync.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_snapshot.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_storage.m has no \methodentry in 12_method_specifications.tex
 matlab/path/resource_wait.m has no \methodentry in 12_method_specifications.tex
 matlab/path/spike_interval_features.m has no \methodentry in 12_method_specifications.tex
 matlab/path/spike_interval_plan.m has no \methodentry in 12_method_specifications.tex
+matlab/path/spike_lfp_summarize_band.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_append.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_benchmark.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_binary.m has no \methodentry in 12_method_specifications.tex
@@ -42,6 +41,7 @@ matlab/path/storage_close.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_create.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_defaults.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_delete.m has no \methodentry in 12_method_specifications.tex
+matlab/path/storage_estimate.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_exists.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_flush.m has no \methodentry in 12_method_specifications.tex
 matlab/path/storage_hdf5.m has no \methodentry in 12_method_specifications.tex
