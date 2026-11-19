@@ -1,9 +1,9 @@
 MATLAB 9.6.0.1472908 (R2019a) Update 9
-Commit under test: 91838a704e375838a204bffb694499138105e678
+Commit under test: 17c185e8bca1944b2ee8277e6bde9508d4f60aad
 -----------------------------------------------------------------------------------------------------
 MATLAB Version: 9.6.0.1472908 (R2019a) Update 9
 MATLAB License Number: STUDENT
-Operating System: Linux 7.2.11-arch1-1 #1 SMP PREEMPT_DYNAMIC Fri, 16 Oct 2026 00:28:58 +0000 x86_64
+Operating System: Linux 7.3.4-arch1-2 #1 SMP PREEMPT_DYNAMIC Thu, 12 Nov 2026 20:11:37 +0000 x86_64
 Java Version: Java 1.8.0_181-b13 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
 -----------------------------------------------------------------------------------------------------
 MATLAB                                                Version 9.6         (R2019a)
@@ -455,8 +455,8 @@ Use column vectors if you meant to specify a transfer function.]
   In run (line 91)
   In run_scientific_suite (line 19)
   In run (line 91)] 
-done in 0.0 min; outputs in /tmp/tp08e9ec00_f37a_4f97_a9c3_1e2465c23d08
-smoke_second_order_study: outputs written in 2.8 s
+done in 0.1 min; outputs in /tmp/tpd289d146_4432_4131_a43d_73ad63d9aca4
+smoke_second_order_study: outputs written in 8.1 s
 PASS smoke_second_order_study.m
 
 RUN test_con2phys_battle_regressions.m

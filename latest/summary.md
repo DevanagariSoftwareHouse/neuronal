@@ -1,18 +1,18 @@
-# neuronal run 20261031T054116Z-91838a704e37
+# neuronal run 20261119T014908Z-17c185e8bca1
 
 - overall: FAIL
-- commit: `91838a704e37` on `main`
-- origin: actions https://github.com/DevanagariSoftwareHouse/neuronal/actions/runs/41173516162
-- host: Linux 7.2.11-arch1-1 x86_64
+- commit: `17c185e8bca1` on `main`
+- origin: actions https://github.com/DevanagariSoftwareHouse/neuronal/actions/runs/44439447521
+- host: Linux 7.3.4-arch1-2 x86_64
 - matlab: ~/.local/bin/matlab-r2019a
 
 | suite | status | seconds |
 |---|---|---|
 | registry | FAIL(2) | 0 |
-| rust | pass | 32 |
-| python | pass | 18 |
-| matlab | FAIL(1) | 35 |
-| lean | pass | 464 |
+| rust | pass | 76 |
+| python | pass | 37 |
+| matlab | FAIL(1) | 1023 |
+| lean | pass | 325 |
 
 ## registry — last 40 lines
 
