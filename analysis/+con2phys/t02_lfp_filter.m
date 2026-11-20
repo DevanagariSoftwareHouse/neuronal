@@ -19,8 +19,8 @@ dd = 1
 lfp_areas = {'lfp_1','lfp_2','lfp_3'}
 
 
-for fb = 1 
-eegfilt(gpuArray(data(dd).(lfp_areas{1}).Data.x(:,:))
+% Filtering prototype was incomplete; use filter_design and filter_forward_backward
+% for CPU processing after selecting a recording channel and valid passband.
 
 %%
 sum(number)
